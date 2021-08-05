@@ -1,0 +1,21 @@
+accountLinking:
+  appClientId: "1232456"
+  authGrantType: IMPLICIT
+  authorizationUrl: https://opds-auth-test-server-aplqpqv3wa-ey.a.run.app//implicit/login/google
+  linkingType: OAUTH
+category: EDUCATION_AND_REFERENCE
+defaultLocale: fr
+localizedSettings:
+  developerEmail: dev.edrlab@gmail.com
+  developerName: edrlab
+  displayName: valentin 4
+  fullDescription: test
+  privacyPolicyUrl: https://www.edrlab.org/
+  pronunciation: valentin 4
+  sampleInvocations:
+  - Parler avec valentin
+  shortDescription: test
+  smallLogoImage: https://lh3.googleusercontent.com/IPE84cRJZSbgpkLCNMhJFkP_sbh5e18cYRvn30hVHE6nYNLfQ_9a-opqTKbQNThVPUzo8sfP1_cR
+  voice: female_1
+projectId: valentin-4
+testingInstructions: login

@@ -1,0 +1,21 @@
+conditionalEvents:
+- condition: scene.slots.status == "FINAL"
+  handler:
+    webhookHandler: i_want_to_listen
+intentEvents:
+- intent: reprendre_la_lecture_player
+  transitionToScene: search
+onEnter:
+  staticPrompt:
+    candidates:
+    - promptResponse:
+        firstSimple:
+          variants:
+          - speech: Que voulez-vous écouter ?
+slots:
+- commitBehavior:
+    writeSessionParam: query
+  name: query
+  required: true
+  type:
+    name: string

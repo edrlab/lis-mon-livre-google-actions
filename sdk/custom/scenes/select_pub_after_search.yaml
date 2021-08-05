@@ -1,0 +1,16 @@
+conditionalEvents:
+- condition: scene.slots.status == "FINAL"
+  handler:
+    webhookHandler: player
+intentEvents:
+- intent: reprendre_la_lecture_player
+  transitionToScene: select_pub_after_search
+onSlotUpdated:
+  webhookHandler: select_publication_number
+slots:
+- commitBehavior:
+    writeSessionParam: number
+  name: number
+  required: true
+  type:
+    name: actions.type.Number

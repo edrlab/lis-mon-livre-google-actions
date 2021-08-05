@@ -1,0 +1,13 @@
+handlers:
+- name: cancel
+- name: ecouter_livre_audio_lvl2
+- name: reprendre_mon_livre_lvl2
+- name: media_status
+- name: player
+- name: i_want_to_listen
+- name: select_publication_number
+- name: reprendre_la_lecture
+- name: remaining_time
+httpsEndpoint:
+  baseUrl: https://us-central1-valentin-4.cloudfunctions.net/ActionsOnGoogleFulfillment
+  endpointApiVersion: 2
