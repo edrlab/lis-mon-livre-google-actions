@@ -4,4 +4,4 @@ handler:
     - promptResponse:
         firstSimple:
           variants:
-          - speech: je n'ai pas compris
+          - speech: je n'ai pas compris. Que voulez-vous dire ?

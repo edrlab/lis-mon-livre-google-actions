@@ -4,4 +4,4 @@ handler:
     - promptResponse:
         firstSimple:
           variants:
-          - speech: je n'ai pas entendu
+          - speech: je n'ai pas entendu. Que voulez-vous dire ?
