@@ -1,9 +1,9 @@
 conditionalEvents:
 - condition: scene.slots.status == "FINAL"
   handler:
-    webhookHandler: i_want_to_listen
+    webhookHandler: search_livre_lvl2
 intentEvents:
-- intent: reprendre_la_lecture_player
+- intent: resume_listening_player
   transitionToScene: search
 onEnter:
   staticPrompt:
@@ -11,7 +11,7 @@ onEnter:
     - promptResponse:
         firstSimple:
           variants:
-          - speech: Que voulez-vous écouter ?
+          - speech: Que voulez-vous écouter ? Par exemple Zola
 slots:
 - commitBehavior:
     writeSessionParam: query

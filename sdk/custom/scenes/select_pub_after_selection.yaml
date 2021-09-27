@@ -4,7 +4,7 @@ conditionalEvents:
     webhookHandler: player
 intentEvents:
 - intent: resume_listening_player
-  transitionToScene: select_pub_after_search
+  transitionToScene: select_pub_after_selection
 - handler:
     staticPrompt:
       candidates:
@@ -27,16 +27,15 @@ intentEvents:
       - promptResponse:
           firstSimple:
             variants:
-            - speech: je n’ai pas compris le numéro.
+            - speech: je n’ai pas compris le numéro, dite un numéro
   intent: actions.intent.NO_MATCH_FINAL
-  transitionToScene: search
 - handler:
     staticPrompt:
       candidates:
       - promptResponse:
           firstSimple:
             variants:
-            - speech: je n’ai pas compris le numéro, merci de le répêter
+            - speech: je n’ai pas compris le numéro, dite un numéro
   intent: actions.intent.NO_INPUT_1
 - handler:
     staticPrompt:
@@ -44,7 +43,7 @@ intentEvents:
       - promptResponse:
           firstSimple:
             variants:
-            - speech: je n’ai pas compris le numéro, merci de le répêter
+            - speech: je n’ai pas compris le numéro, dite un numéro
   intent: actions.intent.NO_INPUT_2
 - handler:
     staticPrompt:
@@ -54,7 +53,6 @@ intentEvents:
             variants:
             - speech: je n’ai pas compris le numéro
   intent: actions.intent.NO_INPUT_FINAL
-  transitionToScene: search
 onEnter:
   staticPrompt:
     candidates:
@@ -63,7 +61,7 @@ onEnter:
           variants:
           - speech: Pour choisir une publication dite son numéro
 onSlotUpdated:
-  webhookHandler: select_publication_number_after_search
+  webhookHandler: select_publication_number_after_selection
 slots:
 - commitBehavior:
     writeSessionParam: number

@@ -6,21 +6,26 @@ intentEvents:
           firstSimple:
             variants:
             - speech: Voici les informations sur l'association
-  intent: obtenir_des_info_asso_lvl1
+  intent: get_info_association_lvl1
   transitionToScene: home
-- intent: entrer_espace_membres_lvl1
+- intent: enter_member_space_lvl1
   transitionToScene: home_AccountLinking
-- intent: reprendre_la_lecture_player
+- intent: resume_listening_player
   transitionToScene: home
-- intent: ecouter_un_livre_lvl1
-  transitionToScene: home_members
+- intent: listen_audiobook_lvl1
+  transitionToScene: home_AccountLinking
+- handler:
+    webhookHandler: test_webhook
+  intent: test_webhook
+  transitionToScene: home
 onEnter:
   staticPrompt:
     candidates:
     - promptResponse:
         firstSimple:
           variants:
-          - speech: Que voulez-vous faire ?
+          - speech: Que voulez-vous faire ? Vous pouvez dire informations ou espace
+              membres
         suggestions:
         - title: informations
         - title: espace membres

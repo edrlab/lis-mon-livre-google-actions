@@ -1,7 +1,7 @@
 intentEvents:
 - handler:
     webhookHandler: reprendre_la_lecture
-  intent: reprendre_la_lecture_player
+  intent: resume_listening_player
 - handler:
     webhookHandler: remaining_time
   intent: remaing_time_player
