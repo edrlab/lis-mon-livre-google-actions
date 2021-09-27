@@ -16,31 +16,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-const app = conversation();
-
-app.handle("cancel", (conv) => {
-  // Implement your code here
-  conv.add("cancel");
-});
-
-app.handle("reprendre_mon_livre_lvl2", (conv) => {
-
-  // void
-
-  // set the context storage
-  // then the scene start the player
-});
-
-app.handle("ecouter_livre_audio_lvl2", (conv) => {
-  // void
-
-  console.log("écouter_livre_audio_lvl2");
-});
-
-async function getPubsFromFeed(query) {
-  ok(typeof query === "string", "query not defined");
-  const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
-  console.log(url);
+async function getPubsFromFeed(url) {
 
   const opds = new OpdsFetcher();
   const feed = await opds.feedRequest(url);
@@ -64,32 +40,55 @@ async function getPubsFromFeed(query) {
   return list;
 }
 
+// ----------------
+//
+// CONVERSATION START
+//
+// ----------------
 
-const SEARCH_URL = "https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}";
-app.handle("i_want_to_listen", async (conv) => {
-  // void
+const app = conversation();
 
-  console.log("i_want_to_listen START");
+app.handle("cancel", (conv) => {
+  // Implement your code here
+  // conv.add("cancel");
+});
 
-  let query = null;
+app.handle("test_webhook", (conv) => {
 
-  try {
-    query = conv.intent.params.query.resolved;
-  } catch (_) {
-    // ignore
-  }
+  conv.add("Webook works : version debug 24 septembre");
+  console.log("TEST OK");
+});
 
-  conv.session.params.query = query;
-  const list = await getPubsFromFeed(query);
+// -----------
+// LVL2 MENU
+// SELECTION 
+// -----------
 
-  console.log("PUBs: ");
-  console.log(list);
+
+const WEBPUB_URL = "https://storage.googleapis.com/audiobook_edrlab/webpub/";
+
+const extract_name_from_url = (url) => {
+
+  const name = /\/(?:.(?!\/))+$/.exec(url)[0];
+
+  if (typeof name === "string")
+    return name.slice(1);
+
+  return "";
+};
+
+const SELECTION_URL = "https://storage.googleapis.com/audiobook_edrlab/groups/popular.json"
+app.handle("selection_livre_lvl2", async (conv) => {
+
+  const url = SELECTION_URL;
+  const list = await getPubsFromFeed(url);
+
+  console.log("PUBs: ", list);
 
   const length = list.length;
   if (length > 1) {
-    conv.scene.next.name = "select_pub_after_search";
-
-    conv.add(`Il y a ${length} publications :\nPour choisir une publication dite son numéro`);
+    conv.scene.next.name = "select_pub_after_selection";
+    conv.add(`Il y a ${length} publications :\n`);
 
     let text = "";
     list.map(({title, author}, i) => {
@@ -100,28 +99,29 @@ app.handle("i_want_to_listen", async (conv) => {
   } else if (length === 1) {
     conv.scene.next.name = "player";
 
-    conv.user.params.player_url = list[0].webpuburl;
+    conv.user.params.p_n = extract_name_from_url(list[0].webpuburl);
   } else {
-    conv.scene.next.name = "search";
+    conv.scene.next.name = "home_members";
+
+    conv.add("aucun résultat trouvé");
   }
 
-  console.log("i_want_to_listen STOP");
+  console.log("selection_livre_lvl2 EXIT");
 
-  // slot available for research
 });
 
-app.handle("select_publication_number", async (conv) => {
+app.handle("select_publication_number_after_selection", async (conv) => {
   console.log("select_publication_number START");
 
   const number = conv.intent.params.number.resolved;
 
-  console.log("NUMBER: ", number);
-  const list = await getPubsFromFeed(conv.session.params.query);
+  const url = SELECTION_URL;
+  const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (pub) {
     console.log("PUB: ", pub);
 
-    const url = pub.webpuburl;
+    const url = extract_name_from_url(pub.webpuburl);
 
     if (!conv.user.params.player) {
       conv.user.params.player = {};
@@ -129,24 +129,173 @@ app.handle("select_publication_number", async (conv) => {
 
     const history = conv.user.params.player[url];
     if (!history) {
-      conv.user.params.player_startIndex = 0;
-      conv.user.params.player_startTime = 0;
+      conv.user.params.p_i = 0;
+      conv.user.params.p_t = 0;
     } else {
-      conv.user.params.player_startIndex = history.i;
-      conv.user.params.player_startTime = history.t;
+      conv.user.params.p_i = history.i;
+      conv.user.params.p_t = history.t;
     }
-    conv.user.params.player_url = url;
+    conv.user.params.p_n = url;
+    conv.scene.next.name = "player";
   } else {
     console.log("NO PUBS found !!");
-    conv.scene.next.name = "search";
+    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+    conv.scene.next.name = "select_pub_after_selection";
   }
 
   console.log("select_publication_number END");
 });
 
 
+// -----------
+// LVL2 MENU
+// SELECTION 
+// -----------
+
+app.handle("reprendre_mon_livre_lvl2", (conv) => {
+
+  // void
+
+  try {
+    const name = conv.user.params.p_n;
+    ok(name, "titre non défini");
+ 
+  } catch (_) {
+
+    conv.scene.next.name = "home_members";
+    conv.add("aucune lecture en cours");
+  }
+});
+
+app.handle("ecouter_livre_audio_lvl2", (conv) => {
+  // void
+
+  console.log("écouter_livre_audio_lvl2");
+
+  // first entry point for search
+  //
+  // VOID
+  //
+  // search_livre_lvl2 is the main entry point
+});
+
+
+// ----------
+// LVL2 MENU
+// SEARCH
+// ----------
+
+const SEARCH_URL = "https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}";
+
+// if scene.slot.status == "FINAL" => call search_livre_lvl2
+app.handle("search_livre_lvl2", async (conv) => {
+  // void
+
+  console.log("search_livre_lvl2 START");
+
+  let query = null;
+
+  try {
+    query = conv.intent.params.query.resolved;
+  } catch (_) {
+    // ignore
+  }
+
+  ok(typeof query === "string", "aucune requete demandée");
+  conv.session.params.query = query;
+ 
+  const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
+  console.log("search URL: ", url);
+
+  const list = await getPubsFromFeed(url);
+
+  console.log("PUBs: ");
+  console.log(list);
+
+  const length = list.length;
+  if (length > 1) {
+    conv.scene.next.name = "select_pub_after_search";
+    conv.add(`Il y a ${length} publications :\n`);
+
+    let text = "";
+    list.map(({title, author}, i) => {
+      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ""}\n`;
+    });
+
+    conv.add(text);
+  } else if (length === 1) {
+    conv.scene.next.name = "player";
+
+    conv.user.params.p_n = extract_name_from_url(list[0].webpuburl);
+  } else {
+    conv.scene.next.name = "search";
+
+    conv.add("aucun résultat trouvé");
+  }
+
+  console.log("search_livre_lvl2 STOP");
+
+  // slot available for research
+});
+
+app.handle("select_publication_number_after_search", async (conv) => {
+  console.log("select_publication_number START");
+
+  const number = conv.intent.params.number.resolved;
+
+  console.log("NUMBER: ", number);
+  const query = conv.session.params.query;
+  ok(typeof query === "string", "aucune requete demandée");
+ 
+  const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
+  console.log("select_publication_number_after_search URL: ", url);
+
+  const list = await getPubsFromFeed(url);
+  const pub = list[number - 1];
+  if (pub) {
+    console.log("PUB: ", pub);
+
+    const url = extract_name_from_url(pub.webpuburl);
+
+    if (!conv.user.params.player) {
+      conv.user.params.player = {};
+    }
+
+    const history = conv.user.params.player[url];
+    if (!history) {
+      conv.user.params.p_i= 0;
+      conv.user.params.p_t = 0;
+    } else {
+      conv.user.params.p_i = history.i;
+      conv.user.params.p_t = history.t;
+    }
+    conv.user.params.p_n = url;
+    conv.scene.next.name = "player";
+  } else {
+    console.log("NO PUBS found !!");
+    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+    conv.scene.next.name = "select_pub_after_search";
+  }
+
+  console.log("select_publication_number END");
+});
+
+
+// ----------
+// LVL2 MENU
+// SEARCH
+// ----------
+
+
+// ----------
+// PLAYER
+// ----------
+
 app.handle("player", async (conv) => {
-  const url = conv.user.params.player_url;
+  const name = conv.user.params.p_n;
+
+  const url = WEBPUB_URL + name;
+  console.log("Player URL:", url);
   ok(url, "url not defined");
   ok(isValidHttpUrl(url), "url not valid " + url);
 
@@ -154,12 +303,12 @@ app.handle("player", async (conv) => {
   const webpub = await opds.webpubRequest(url);
   ok(webpub, "webpub not defined");
 
-  const startIndexRaw = conv.user.params.player_startIndex;
+  const startIndexRaw = conv.user.params.p_i;
   const startIndex =
     typeof startIndexRaw === "number" &&
       startIndexRaw <= webpub.readingOrders.length ? startIndexRaw : 0;
 
-  const startTimeRaw = conv.user.params.player_startTime;
+  const startTimeRaw = conv.user.params.p_t;
   const startTime =
     typeof startTimeRaw === "number" &&
       startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity) ? startTimeRaw : 0;
@@ -189,6 +338,10 @@ app.handle("player", async (conv) => {
   );
 });
 
+// ----------
+// PLAYER
+// ----------
+
 
 // ////////////////////////
 // Media PLAYET CONTEXT //
@@ -200,16 +353,16 @@ function persistMediaPlayer(conv) {
 
     const progress = parseInt(conv.request.context.media.progress, 10);
     const index = conv.request.context.media.index;
-    const url = conv.user.params.player_url;
+    const name = conv.user.params.p_n;
 
-    conv.user.params.player_startIndex = index;
-    conv.user.params.player_startTime = progress;
+    conv.user.params.p_i = index;
+    conv.user.params.p_t = progress;
 
     if (!conv.user.params.player) {
       conv.user.params.player = {};
     }
 
-    conv.user.params.player[url] = {
+    conv.user.params.player[name] = {
       i: index,
       t: progress,
       d: new Date().getTime(),
@@ -217,6 +370,9 @@ function persistMediaPlayer(conv) {
 
     console.log("player persistence :");
     console.log(conv.user.params.player);
+  } else {
+
+    console.log("NO conv.request.context !!");
   }
 }
 
@@ -234,8 +390,10 @@ app.handle("reprendre_la_lecture", (conv) => {
 app.handle("remaining_time", async (conv) => {
   persistMediaPlayer(conv);
 
-  const url = conv.user.params.player_url;
-  ok(url, "url not defined");
+  const name = conv.user.params.p_n;
+  ok(name, "titre non défini");
+
+  const url = WEBPUB_URL + name;
   ok(isValidHttpUrl(url), "url not valid " + url);
 
   const opds = new OpdsFetcher();
@@ -286,6 +444,8 @@ app.handle("media_status", (conv) => {
   console.log("MediaStatus : ", mediaStatus);
   switch (mediaStatus) {
     case "FINISHED":
+      persistMediaPlayer(conv);
+      conv.scene.next.name = "home_members";
 
       // void
       break;
@@ -321,6 +481,11 @@ app.catch((conv, error) => {
 // middleware<TConversationPlugin>(middleware: ConversationV3Middleware<TConversationPlugin>): ConversationV3App<TConversation>
 // ConversationV3Middleware(conv: ConversationV3, framework: BuiltinFrameworkMetadata): void | ConversationV3 & TConversationPlugin | Promise<ConversationV3 & TConversationPlugin> | Promise<void>
 app.middleware((conv) => {
+
+  console.log(conv.user.params);
+  console.log("==========");
+  console.log(conv);
+  console.log("----------");
 
   // void
 });
