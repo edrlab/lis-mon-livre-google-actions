@@ -25,4 +25,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd functions/functions && npm ci
     - run: cd functions/functions && npm test
-    - run: cd functions/functions && npm lint
+    - run: cd functions/functions && npm run lint
