@@ -14,19 +14,28 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+
     env:
       working-directory: './functions/functions'
     defaults:
       run:
         working-directory: './functions/functions'
 
-    steps:
+      steps:
       - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        run: npm ci --no-audit
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
         working-directory: ${{ env.working-directory }}
+        run: npm ci --no-audit
 
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
