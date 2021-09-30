@@ -14,9 +14,9 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      working-directory: './functions/functions'
     defaults:
-      env:
-        working-directory: './functions/functions'
       run:
         working-directory: './functions/functions'
 
