@@ -8,9 +8,6 @@ on:
       - 'functions/**'
       - '.github/workflows/functions.yml'
 
-env:
-  RESSOURCE_DIR: functions
-
 jobs:
   deploy:
     name: "Deploy Firebase functions"
