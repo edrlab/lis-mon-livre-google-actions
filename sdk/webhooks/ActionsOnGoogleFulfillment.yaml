@@ -11,6 +11,9 @@ handlers:
 - name: select_publication_number_after_selection
 - name: test_webhook
 - name: search_livre_lvl2
+- name: ask_to_resume_listening_at_last_offset
+- name: ask_to_resume_listening_at_last_offset__yes
+- name: ask_to_resume_listening_at_last_offset__no
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-4.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

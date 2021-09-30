@@ -1,7 +1,3 @@
-conditionalEvents:
-- condition: scene.slots.status == "FINAL"
-  handler:
-    webhookHandler: player
 intentEvents:
 - intent: resume_listening_player
   transitionToScene: select_pub_after_search

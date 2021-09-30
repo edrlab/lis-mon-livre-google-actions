@@ -7,18 +7,17 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log",
-    "test": "exit 0"
+    "logs": "firebase functions:log"
   },
   "engines": {
     "node": "14"
   },
   "main": "index.js",
   "dependencies": {
-    "firebase-admin": "^9.8.0",
+    "@assistant/conversation": "^3.0.0",
+    "firebase-admin": "^9.11.1",
     "firebase-functions": "^3.14.1",
-    "opds-fetcher-parser": "github:panaC/opds_fetcher_parser#bcb47e4585ff8163a365ec849599f080b2a49d81",
-    "@assistant/conversation": "^3.0.0"
+    "opds-fetcher-parser": "github:panaC/opds_fetcher_parser#bcb47e4585ff8163a365ec849599f080b2a49d81"
   },
   "devDependencies": {
     "eslint": "^7.6.0",
