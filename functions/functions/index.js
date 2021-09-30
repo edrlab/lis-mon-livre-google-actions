@@ -326,7 +326,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     console.log("ask to resume enabled , wait yes or no");
     // ask yes or no in the no-code scene
     const history = conv.user.params.player[name];
-    const date = history.d;;
+    const date = history.d;
     // TODO: use the date info
     
     conv.add("Voulez-vous continuez la lecture ?");
