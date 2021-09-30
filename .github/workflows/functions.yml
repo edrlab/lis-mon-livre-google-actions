@@ -9,7 +9,7 @@ on:
       - '.github/workflows/functions.yml'
 
 env:
-  RESSOURCE_DIR: functions
+  RESSOURCE_DIR: functions/functions
 
 jobs:
   deploy:
