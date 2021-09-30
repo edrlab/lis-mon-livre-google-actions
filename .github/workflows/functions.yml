@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+        
+      - run: echo $GITHUB_CONTEXT
 
       - name: Install node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
