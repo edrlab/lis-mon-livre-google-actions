@@ -10,15 +10,15 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "14",
-    "npm": "6.14"
+    "node": ">14",
+    "npm": ">6"
   },
   "main": "index.js",
   "dependencies": {
     "@assistant/conversation": "^3.0.0",
     "firebase-admin": "^9.11.1",
     "firebase-functions": "^3.14.1",
-    "opds-fetcher-parser": "github:panaC/opds_fetcher_parser#bcb47e4585ff8163a365ec849599f080b2a49d81"
+    "opds-fetcher-parser": "github:panaC/opds_fetcher_parser#efec695f50b386071ccf935396f0a8ea4750c9ae"
   },
   "devDependencies": {
     "eslint": "^7.6.0",
