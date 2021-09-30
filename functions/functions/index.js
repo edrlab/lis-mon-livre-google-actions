@@ -87,7 +87,7 @@ app.handle("cancel", (conv) => {
 
 app.handle("test_webhook", (conv) => {
 
-  conv.add("Webook works : version debug 24 septembre");
+  conv.add("Webook works :", functions.config().debug.message || "");
   console.log("TEST OK");
 });
 
