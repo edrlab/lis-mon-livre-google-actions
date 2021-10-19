@@ -87,7 +87,7 @@ app.handle("cancel", (conv) => {
 
 app.handle("test_webhook", (conv) => {
 
-  conv.add("Webook works : version debug 24 septembre");
+  conv.add("Webook works :", functions.config().debug.message || "");
   console.log("TEST OK");
 });
 
@@ -349,7 +349,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     const date = history.d;
     // TODO: use the date info
     
-    conv.add("Voulez-vous continuez la lecture ?");
+    conv.add("Voulez-vous reprendre la lecture là où c'était arrêtée ?");
   } else {
     console.log("no need to ask to resume");
     conv.scene.next.name = "player";
