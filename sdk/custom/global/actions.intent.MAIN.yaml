@@ -6,4 +6,4 @@ handler:
           variants:
           - speech: Bienvenue dans l'application d'écoute de livre audio valentin
               hauy
-transitionToScene: home
+transitionToScene: home_lvl1

@@ -14,6 +14,9 @@ handlers:
 - name: ask_to_resume_listening_at_last_offset
 - name: ask_to_resume_listening_at_last_offset__yes
 - name: ask_to_resume_listening_at_last_offset__no
+- name: selection_genre_lvl3
+- name: selection_thematic_list_lvl3
+- name: selection_my_list_lvl3
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-4.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
