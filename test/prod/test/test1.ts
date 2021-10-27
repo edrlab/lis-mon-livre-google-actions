@@ -2,8 +2,7 @@ import 'mocha';
 
 import {env} from 'process';
 import {ActionsOnGoogleTestManager} from '@assistant/conversation-testing';
-import {ok, rejects} from 'assert';
-import { inspect } from 'util';
+import {ok} from 'assert';
 
 const DEFAULT_LOCALE = 'fr-FR';
 const DEFAULT_SURFACE = 'PHONE';
@@ -30,20 +29,12 @@ describe('My Action Test Suite', function () {
     test.assertIntent('actions.intent.MAIN');
     test.assertScene('home_lvl1');
 
-    let se = await test.sendQuery("espace membres");
-    console.log(se);
-
-    // test.assertSpeech("Bienvenue dans l'espace membres. Les commandes possibles sont, sélection, lecture, recherche. Que voulez-vous faire ?");
-    let resp = test.getLatestResponse();
-    console.log(inspect(resp, {showHidden: false, depth: null, colors: true}));
-
+    await test.sendQuery("espace membres");
     test.assertText("Pour continuer d'utiliser valentin audio, je dois associer votre compte valentin audio à Google. Êtes-vous d'accord ?");
 
-    se = await test.sendQuery("oui");
-    console.log(se);
+    await test.sendQuery("oui");
+    test.assertText("");
 
-    resp = test.getLatestResponse();
-    console.dir(resp);
   }
 
   before('before all', async () => {
@@ -60,7 +51,6 @@ describe('My Action Test Suite', function () {
 
   it('trigger only', async () => {
     await startConversation();
-    await test.sendQuery("quitter");
     // test.assertConversationEnded();
   });
 });
