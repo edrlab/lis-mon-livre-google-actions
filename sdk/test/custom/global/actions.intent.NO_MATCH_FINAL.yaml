@@ -1,0 +1,8 @@
+handler:
+  staticPrompt:
+    candidates:
+    - promptResponse:
+        firstSimple:
+          variants:
+          - speech: malheureusement je m'en vais, je ne comprend pas
+transitionToScene: actions.scene.END_CONVERSATION

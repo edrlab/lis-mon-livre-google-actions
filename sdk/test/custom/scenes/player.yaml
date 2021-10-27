@@ -1,0 +1,21 @@
+intentEvents:
+- handler:
+    webhookHandler: reprendre_la_lecture
+  intent: resume_listening_player
+- handler:
+    webhookHandler: remaining_time
+  intent: remaing_time_player
+- handler:
+    webhookHandler: media_status
+  intent: actions.intent.MEDIA_STATUS_FINISHED
+- handler:
+    webhookHandler: media_status
+  intent: actions.intent.MEDIA_STATUS_PAUSED
+- handler:
+    webhookHandler: media_status
+  intent: actions.intent.MEDIA_STATUS_STOPPED
+- handler:
+    webhookHandler: media_status
+  intent: actions.intent.MEDIA_STATUS_FAILED
+onEnter:
+  webhookHandler: player
