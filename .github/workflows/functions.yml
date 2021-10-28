@@ -52,7 +52,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only \"functions:ActionsOnGoogleFulfillment\" --message \"${{ github.event.head_commit.message }}\"
+          args: deploy --only \"functions:ActionsOnGoogleFulfillment\" --project valentin-4 --message \"${{ github.event.head_commit.message }}\"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_PATH: './webhooks'
