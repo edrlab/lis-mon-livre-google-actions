@@ -18,10 +18,10 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     env:
-      working-directory: './functions/functions'
+      working-directory: './webhooks/functions'
     defaults:
       run:
-        working-directory: './functions/functions'
+        working-directory: './webhooks/functions'
 
     steps:
       - name: Checkout repo
@@ -47,7 +47,7 @@ jobs:
           args: functions:config:set debug.message=\"${{ github.event.head_commit.message }}\"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_PATH: './functions'
+          PROJECT_PATH: './webhooks'
 
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
@@ -55,4 +55,4 @@ jobs:
           args: deploy --only \"functions:ActionsOnGoogleFulfillment\" --message \"${{ github.event.head_commit.message }}\"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          PROJECT_PATH: './functions'
+          PROJECT_PATH: './webhooks'
