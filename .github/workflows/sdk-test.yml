@@ -19,9 +19,15 @@ jobs:
         working-directory: './test/prod'
 
     steps:
+
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
+
+      - name: save service_account
+        run: echo $SECRET >> service_account.json
+        env:
+          SECRET : ${{ secrets.SERVICE_ACCOUNT_VALENTIN4 }}
       - run: npm install
       - run: npm test
