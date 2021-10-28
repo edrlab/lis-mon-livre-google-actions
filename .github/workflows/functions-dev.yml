@@ -19,6 +19,7 @@ jobs:
 
     env:
       working-directory: './webhooks/functions'
+      project-id: 'valentin-5'
     defaults:
       run:
         working-directory: './webhooks/functions'
@@ -44,7 +45,7 @@ jobs:
       - name: set commit name to function config
         uses: w9jds/firebase-action@master
         with:
-          args: functions:config:set debug.message=\"${{ github.event.head_commit.message }}\"
+          args: functions:config:set debug.message=\"${{ github.event.head_commit.message }}\" --project ${{ env.project-id }}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_PATH: './webhooks'
@@ -52,7 +53,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only \"functions:ActionsOnGoogleFulfillment\" --project valentin-5 --message \"${{ github.event.head_commit.message }}\"
+          args: deploy --only \"functions:ActionsOnGoogleFulfillment\" --project ${{ env.project-id }} --message \"${{ github.event.head_commit.message }}\"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_PATH: './webhooks'
