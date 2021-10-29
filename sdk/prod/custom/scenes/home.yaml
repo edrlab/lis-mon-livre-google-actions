@@ -1,0 +1,31 @@
+intentEvents:
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: Voici les informations sur l'association
+  intent: get_info_association_lvl1
+  transitionToScene: home
+- intent: enter_member_space_lvl1
+  transitionToScene: home_AccountLinking
+- intent: resume_listening_player
+  transitionToScene: home
+- intent: listen_audiobook_lvl1
+  transitionToScene: home_AccountLinking
+- handler:
+    webhookHandler: test_webhook
+  intent: test_webhook
+  transitionToScene: home
+onEnter:
+  staticPrompt:
+    candidates:
+    - promptResponse:
+        firstSimple:
+          variants:
+          - speech: Que voulez-vous faire ? Vous pouvez dire informations ou espace
+              membres
+        suggestions:
+        - title: informations
+        - title: espace membres
