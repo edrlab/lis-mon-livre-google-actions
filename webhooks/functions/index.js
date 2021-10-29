@@ -109,23 +109,8 @@ const extract_name_from_url = (url) => {
   return "";
 };
 
-// -----------
-// LVL3 MENU
-// SELECTION
-// -----------
-
-app.handle("selection_genre_lvl3", async (conv) => {
-
-  conv.add("sélection par genre");
-});
-
-app.handle("selection_thematic_list_lvl3", async (conv) => {
-
-  conv.add("sélection par liste thématique");
-});
-
 const SELECTION_URL = "https://storage.googleapis.com/audiobook_edrlab/groups/popular.json"
-app.handle("selection_my_list_lvl3", async (conv) => {
+app.handle("selection_livre_lvl2", async (conv) => {
 
   const url = SELECTION_URL;
   const list = await getPubsFromFeed(url);
@@ -153,14 +138,9 @@ app.handle("selection_my_list_lvl3", async (conv) => {
     conv.add("aucun résultat trouvé");
   }
 
-  console.log("selection_my_list_lvl3 EXIT");
+  console.log("selection_livre_lvl2 EXIT");
 
 });
-
-// ---------
-// LVL3 MENU
-// SELECTION
-// ---------
 
 app.handle("select_publication_number_after_selection", async (conv) => {
   console.log("select_publication_number START");

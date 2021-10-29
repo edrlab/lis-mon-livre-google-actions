@@ -10,7 +10,7 @@ intentEvents:
 - handler:
     webhookHandler: selection_livre_lvl2
   intent: selection_audiobook_lvl2
-  transitionToScene: selection_lvl3
+  transitionToScene: selection
 onEnter:
   staticPrompt:
     candidates:

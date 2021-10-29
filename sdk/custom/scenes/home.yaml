@@ -7,17 +7,17 @@ intentEvents:
             variants:
             - speech: Voici les informations sur l'association
   intent: get_info_association_lvl1
-  transitionToScene: home_lvl1
+  transitionToScene: home
 - intent: enter_member_space_lvl1
-  transitionToScene: home_lvl1_AccountLinking
+  transitionToScene: home_AccountLinking
 - intent: resume_listening_player
-  transitionToScene: home_lvl1
+  transitionToScene: home
 - intent: listen_audiobook_lvl1
-  transitionToScene: home_lvl1_AccountLinking
+  transitionToScene: home_AccountLinking
 - handler:
     webhookHandler: test_webhook
   intent: test_webhook
-  transitionToScene: home_lvl1
+  transitionToScene: home
 onEnter:
   staticPrompt:
     candidates:
