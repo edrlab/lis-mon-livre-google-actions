@@ -27,7 +27,7 @@ describe('My Action Test Suite', function () {
     test.assertSpeech(CONTINUE_CONVO_PROMPT);
     test.assertText(CONTINUE_CONVO_PROMPT);
     test.assertIntent('actions.intent.MAIN');
-    test.assertScene('home_lvl1');
+    test.assertScene('home');
 
     await test.sendQuery("espace membres");
     test.assertText("Pour continuer d'utiliser valentin audio, je dois associer votre compte valentin audio à Google. Êtes-vous d'accord ?");
