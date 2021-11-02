@@ -74,6 +74,18 @@ async function getPubsFromFeed(url) {
   return list;
 }
 
+app.handle("setup_test_sdk", (conv) => {
+
+  const nb = conv.intent.params.number.resolved;
+
+  conv.user.params = {
+    bearerToken: `test-${nb}`;
+  }
+
+  conv.add(`setup test ${nb}`);
+
+});
+
 // ----------------
 //
 // CONVERSATION START
