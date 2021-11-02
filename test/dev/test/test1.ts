@@ -1,22 +1,11 @@
 import 'mocha';
 
-import {env} from 'process';
 import {ActionsOnGoogleTestManager} from '@assistant/conversation-testing';
-import {ok, rejects} from 'assert';
+import {ok} from 'assert';
 import { inspect } from 'util';
+import { DEFAULT_LOCALE, DEFAULT_SURFACE, HOME_PROMPT, MEMBER_PROMPT, PROJECT_ID, TRIGGER_PHRASE } from './constant';
 
-const DEFAULT_LOCALE = 'fr-FR';
-const DEFAULT_SURFACE = 'PHONE';
-const CONTINUE_CONVO_PROMPT = "Bienvenue dans l'application d'écoute de livre audio valentin hauy Que voulez-vous faire ? Vous pouvez dire informations ou espace membres";
-
-const PROJECT_ID = env['PROJECT_ID'] || '';
-const TRIGGER_PHRASE = 'Parler avec valentin audio';
-
-console.log(`PROJECT_ID=${PROJECT_ID}`);
-
-ok(PROJECT_ID, 'no PROJECT_ID');
-
-// tslint:disable:only-arrow-functions
+const TEST_NUM = 1;
 
 describe('My Action Test Suite', function () {
   // Set the timeout for each test run to 60s.
@@ -25,25 +14,17 @@ describe('My Action Test Suite', function () {
 
   async function startConversation() {
     await test.sendQuery(TRIGGER_PHRASE);
-    test.assertSpeech(CONTINUE_CONVO_PROMPT);
-    test.assertText(CONTINUE_CONVO_PROMPT);
+    test.assertSpeech(HOME_PROMPT + " " + MEMBER_PROMPT);
+    test.assertText(HOME_PROMPT + " " + MEMBER_PROMPT);
     test.assertIntent('actions.intent.MAIN');
-    test.assertScene('home_lvl1');
+    test.assertScene('home_members_lvl2');
 
-    let se = await test.sendQuery("espace membres");
-    console.log(se);
+    await test.sendQuery(`setup test ${TEST_NUM}`);
 
-    // test.assertSpeech("Bienvenue dans l'espace membres. Les commandes possibles sont, sélection, lecture, recherche. Que voulez-vous faire ?");
-    let resp = test.getLatestResponse();
-    console.log(inspect(resp, {showHidden: false, depth: null, colors: true}));
+    test.assertSpeech(`setup test ${TEST_NUM} ${MEMBER_PROMPT}`);
 
-    test.assertText("Pour continuer d'utiliser valentin audio, je dois associer votre compte valentin audio à Google. Êtes-vous d'accord ?");
-
-    se = await test.sendQuery("oui");
-    console.log(se);
-
-    resp = test.getLatestResponse();
-    console.dir(resp);
+    //
+    // resp = test.getLatestResponse();
   }
 
   before('before all', async () => {
