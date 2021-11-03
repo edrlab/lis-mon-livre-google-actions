@@ -5,7 +5,7 @@ import {ok} from 'assert';
 import { inspect } from 'util';
 import { DEFAULT_LOCALE, DEFAULT_SURFACE, HOME_PROMPT, MEMBER_PROMPT, PROJECT_ID, TRIGGER_PHRASE } from './constant';
 
-const TEST_NUM = 1;
+const TEST_NUM = 3;
 
 describe('My Action Test Suite', function () {
   // Set the timeout for each test run to 60s.
@@ -23,6 +23,22 @@ describe('My Action Test Suite', function () {
 
     test.assertSpeech(`setup test ${TEST_NUM} ${MEMBER_PROMPT}`);
 
+    // RECHERCHE
+
+    await test.sendQuery('recherche');
+
+    test.assertSpeech(`Que voulez-vous écouter ?`);
+
+    await test.sendQuery('zola');
+
+    await test.assertSpeech(`Il y a 2 publications :\n Pour choisir une publication dite son numéronumero 1 : Thérèse Raquin de Emile Zola\nnumero 2 : L'assommoir de Emile Zola\n`);
+
+    await test.sendQuery('0');
+
+    await test.assertSpeech(`Le numéro 0 est inconnu. Veuillez choisir un autre numéro. Pour choisir une publication dite son numéro`);
+
+    test.assertScene('select_pub_after_search');
+
     //
     // resp = test.getLatestResponse();
   }
@@ -39,7 +55,7 @@ describe('My Action Test Suite', function () {
     test.cleanUpAfterTest();
   });
 
-  it('trigger only', async () => {
+  it('search with bad query', async () => {
     await startConversation();
     await test.sendQuery("quitter");
     // test.assertConversationEnded();
