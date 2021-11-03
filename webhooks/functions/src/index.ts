@@ -4,12 +4,32 @@ import * as admin from "firebase-admin";
 import {OpdsFetcher} from "opds-fetcher-parser";
 import {ok} from "assert";
 import { MediaType, OptionalMediaControl } from "@assistant/conversation/dist/api/schema";
+import { User } from "@assistant/conversation/dist/conversation/handler";
 
 admin.initializeApp();
 
 const db = admin.firestore();
 
-const app = conversation();
+interface IUser extends User {
+  params: {
+    bearerToken: string;
+    p_i?: number;
+    p_t?: number;
+    p_n?: string;
+    player?: {
+      [name: string]: {
+        i: number;
+        t: number;
+        d: number;
+      };
+    };
+  };
+}
+interface IConvesationWithParams extends ConversationV3 {
+  user: IUser;
+}
+
+const app = conversation<IConvesationWithParams>();
 
 const appHandle: typeof app.handle = app.handle.bind(app);
 
@@ -96,9 +116,9 @@ app.handle("test_player_sdk", (conv) => {
         player: {
           ...conv.user.params.player || {},
           ["therese_raquin_emile_zola.json"]: {
-            p_i: 2,
-            p_n: "therese_raquin_emile_zola.json",
-            p_t: 123,
+            i: 2,
+            d: 0,
+            t: 123,
           },
         },
       };
@@ -554,8 +574,8 @@ app.handle("remaining_time", async (conv) => {
   const webpub = await opds.webpubRequest(url);
   ok(webpub, "webpub not defined");
 
-  const index = conv.user.params.player_startIndex || 0;
-  const time = conv.user.params.player_startTime || 0;
+  const index = conv.user.params.p_i || 0;
+  const time = conv.user.params.p_t || 0;
 
   let minutes = 0;
   if (Array.isArray(webpub.readingOrders)) {
