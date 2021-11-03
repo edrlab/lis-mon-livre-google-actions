@@ -9,7 +9,7 @@ import * as chai from 'chai';
 const TEST_NUM = 8;
 import * as fs from 'fs';
 
-describe('player resume listening | repprendre la lecture', function () {
+describe('My Action Test Suite', function () {
   // Set the timeout for each test run to 60s.
   this.timeout(60000);
   let test: ActionsOnGoogleTestManager;
@@ -424,7 +424,7 @@ describe('player resume listening | repprendre la lecture', function () {
     test.cleanUpAfterTest();
   });
 
-  it('search with bad query', async () => {
+  it('player resume listening | repprendre la lecture', async () => {
     await startConversation();
     await test.sendQuery("quitter");
     // test.assertConversationEnded();
