@@ -1,21 +1,21 @@
-const {conversation, Media} = require("@assistant/conversation");
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+import {conversation, ConversationV3, Media} from "@assistant/conversation";
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import {OpdsFetcher} from "opds-fetcher-parser";
+import {ok} from "assert";
+import { MediaType, OptionalMediaControl } from "@assistant/conversation/dist/api/schema";
 
 admin.initializeApp();
 
 const db = admin.firestore();
 
-const {OpdsFetcher} = require("opds-fetcher-parser");
-const {ok} = require("assert");
-
 const app = conversation();
 
-const appHandle = app.handle.bind(app);
+const appHandle: typeof app.handle = app.handle.bind(app);
 
 app.handle = (path, fn) => {
 
-  appHandle(path, async (conv) => {
+  const ret = appHandle(path, async (conv) => {
 
     let pass = false;
     try {
@@ -36,9 +36,11 @@ app.handle = (path, fn) => {
 
     }
   });
+
+  return ret;
 };
 
-function isValidHttpUrl(string) {
+function isValidHttpUrl(string: string) {
   let url;
 
   try {
@@ -50,7 +52,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-async function getPubsFromFeed(url) {
+async function getPubsFromFeed(url: string) {
 
   const opds = new OpdsFetcher();
   const feed = await opds.feedRequest(url);
@@ -158,7 +160,7 @@ app.handle("test_webhook", (conv) => {
 
 const WEBPUB_URL = "https://storage.googleapis.com/audiobook_edrlab/webpub/";
 
-const extract_name_from_url = (url) => {
+const extract_name_from_url = (url: string) => {
 
   const name = /\/(?:.(?!\/))+$/.exec(url)[0];
 
@@ -483,8 +485,8 @@ app.handle("player", async (conv) => {
   conv.add(
       new Media({
         mediaObjects: mediaObjects,
-        mediaType: "AUDIO",
-        optionalMediaControls: ["PAUSED", "STOPPED"],
+        mediaType: MediaType.Audio,
+        optionalMediaControls: [OptionalMediaControl.Paused, OptionalMediaControl.Stopped],
         startOffset: `${startTime}s`,
       }),
   );
@@ -499,7 +501,7 @@ app.handle("player", async (conv) => {
 // Media PLAYET CONTEXT //
 // ////////////////////////
 
-function persistMediaPlayer(conv) {
+function persistMediaPlayer(conv: ConversationV3) {
   if (conv.request.context) {
     // Persist the media progress value
 
@@ -610,7 +612,7 @@ app.handle("media_status", (conv) => {
       persistMediaPlayer(conv);
       // Acknowledge pause/stop
       conv.add(new Media({
-        mediaType: "MEDIA_STATUS_ACK",
+        mediaType: MediaType.MediaStatusACK,
       }));
       break;
     default:
