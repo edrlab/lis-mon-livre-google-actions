@@ -12,7 +12,6 @@
   "engines": {
     "node": "14"
   },
-  "type": "module",
   "main": "build/index.js",
   "dependencies": {
     "@assistant/conversation": "^3.0.0",
