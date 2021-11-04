@@ -1,14 +1,21 @@
-import {conversation, ConversationV3, ConversationV3Middleware, Media} from "@assistant/conversation";
+import {conversation, ConversationV3, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import {OpdsFetcher} from "opds-fetcher-parser";
 import {ok} from "assert";
-import { MediaType, OptionalMediaControl } from "@assistant/conversation/dist/api/schema";
 import { User } from "@assistant/conversation/dist/conversation/handler";
 
-admin.initializeApp();
+enum MediaType {
+  Audio = 'AUDIO',
+  MediaStatusACK = 'MEDIA_STATUS_ACK',
+  MediaTypeUnspecified = 'MEDIA_TYPE_UNSPECIFIED',
+}
 
-const db = admin.firestore();
+enum OptionalMediaControl {
+  OptionalMediaControlsUnspecified = 'OPTIONAL_MEDIA_CONTROLS_UNSPECIFIED',
+  Paused = 'PAUSED',
+  Stopped = 'STOPPED',
+}
 
 interface IUser extends User {
   params: {
@@ -32,6 +39,10 @@ interface IUser extends User {
 interface IConvesationWithParams extends ConversationV3 {
   user: IUser;
 }
+
+admin.initializeApp();
+
+const db = admin.firestore();
 
 const app = conversation<IConvesationWithParams>();
 
