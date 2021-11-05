@@ -19,7 +19,7 @@ enum OptionalMediaControl {
 
 interface IUser extends User {
   params: {
-    bearerToken: string;
+    bearerToken?: string;
     player?: {
       current: {
         index?: number;
@@ -245,7 +245,7 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
-    conv.scene.next.name = "home_members";
+    conv.scene.next.name = "home_members_lvl2";
 
     conv.add("aucun résultat trouvé");
   }
@@ -314,7 +314,7 @@ app.handle("reprendre_mon_livre_lvl2", (conv) => {
 
   const url = conv.user.params.player.current.url;
   if (!url) {
-    conv.scene.next.name = "home_members";
+    conv.scene.next.name = "home_members_lvl2";
     conv.add("aucune lecture en cours");
   }
 
@@ -447,6 +447,8 @@ app.handle("select_publication_number_after_search", async (conv) => {
 // ----------
 
 app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
+
+  console.log("start: ask_to_resume_last_offset");
 
   const { url, index, time } = conv.user.params.player.current;
   if (url && (index > 0 || time > 0)) {
@@ -646,7 +648,7 @@ app.handle("media_status", (conv) => {
   switch (mediaStatus) {
     case "FINISHED":
       persistMediaPlayer(conv);
-      conv.scene.next.name = "home_members";
+      conv.scene.next.name = "home_members_lvl2";
 
       // void
       break;
@@ -688,7 +690,31 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
   console.log(conv);
   console.log("----------");
 
-  if (!conv.user.params.player) {
+  let bearerToken: string;
+
+  try {
+    const btraw = conv.user.params.bearerToken;
+    if (typeof btraw === "string")
+      bearerToken = btraw;
+
+    ok(bearerToken, "bearerToken not defined");
+  } catch (e) {
+
+    console.error("middleware error BearerToken");
+    console.error(e);
+  }
+
+  if (!conv.user.params) {
+    conv.user.params = {};
+  }
+
+  if (
+    !(
+      conv.user.params.player &&
+      conv.user.params.player.history &&
+      conv.user.params.player.current
+    )
+  ) {
     conv.user.params.player = {
       history: {
       },
@@ -699,23 +725,36 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
 
   try {
 
-    const id = conv.user.params.bearerToken;
-    ok(id, "bearerToken not defined");
-    const docRef = db.collection("user-storage").doc(id);
+    const docRef = db.collection("user-storage").doc(bearerToken);
     const doc = await docRef.get();
     if (!doc.exists) {
       console.log("No such document!");
+      conv.user.params = {
+        bearerToken,
+        player: conv.user.params.player,
+      }
     } else {
       console.log("Document data:", doc.data());
-      conv.user.params = doc.data() as IConvesationWithParams["user"]["params"];
-      // @TODO: check doc.data() integrity
 
+      const data = doc.data();
+      if (
+        typeof data.bearerToken === "string" &&
+        typeof data.player === "object" &&
+        typeof data.player.history === "object" &&
+        typeof data.player.current === "object"
+      ) {
+
+        conv.user.params = data as IConvesationWithParams["user"]["params"];
+      }
     }
   } catch (e) {
 
     console.error("Middleware critical error firebase firestore");
     console.error(e);
   }
+
+  console.log("user-params:");
+  console.log(conv.user.params);
 
   // void
 });
