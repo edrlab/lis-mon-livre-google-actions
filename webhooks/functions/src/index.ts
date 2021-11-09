@@ -7,6 +7,8 @@ import { User } from "@assistant/conversation/dist/conversation/handler";
 // class-transformer
 import 'reflect-metadata';  
 import { pull, push } from "./database";
+import { IOpdsLinkView } from "opds-fetcher-parser/build/src/interface/opds";
+import { IStorage } from "./model/storage.interface";
 
 enum MediaType {
   Audio = 'AUDIO',
@@ -22,23 +24,7 @@ enum OptionalMediaControl {
 
 // move to dto
 interface IUser extends User {
-  params: {
-    bearerToken?: string;
-    player?: {
-      current: {
-        index?: number;
-        time?: number;
-        url?: string;
-      }
-      history: {
-        [url: string]: {
-          index: number;
-          time: number;
-          date: number;
-        };
-      }
-    };
-  };
+  params: IStorage; 
 }
 interface IConvesationWithParams extends ConversationV3 {
   user: IUser;
@@ -74,10 +60,11 @@ app.handle = (path, fn) => {
   return ret;
 };
 
-function isValidHttpUrl(string: string) {
+function isValidHttpUrl(string: string | undefined) {
   let url: URL;
 
   try {
+    if (!string) throw ""
     url = new URL(string);
   } catch (_) {
     return false;
@@ -96,15 +83,15 @@ async function getPubsFromFeed(url: string) {
       .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
         return (
           Array.isArray(l) &&
-        l[0] &&
-        isValidHttpUrl(l[0].url)
+          l[0] &&
+          isValidHttpUrl(l[0].url)
         );
       })
       .slice(0, 5)
       .map(({title, authors, openAccessLinks}) => ({
         title: title,
         author: Array.isArray(authors) ? authors[0].name : "",
-        webpuburl: openAccessLinks[0].url,
+        webpuburl: (openAccessLinks as IOpdsLinkView[])[0].url,
       }));
 
   return list;
@@ -116,7 +103,7 @@ async function getPubsFromFeed(url: string) {
 
 app.handle("test_player_sdk", (conv) => {
 
-  const nb = conv.intent.params.number.resolved;
+  const nb = conv.intent.params?.number.resolved;
 
   switch (nb) {
 
@@ -129,16 +116,17 @@ app.handle("test_player_sdk", (conv) => {
           current: {
             index: 2,
             url: "https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json",
-            time: 123, 
+            time: 123,
+            playing: true,
           },
-          history: {
-            ["https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json"]: {
+          history: new Map([
+            ["https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json", {
               index: 2,
-              date: 0,
+              date: new Date(),
               time: 123,
-            },
-          }
-        },
+            }]
+          ]),
+        }
       };
 
       break;
@@ -159,10 +147,16 @@ app.handle("test_player_sdk", (conv) => {
 
 app.handle("setup_test_sdk", (conv) => {
 
-  const nb = conv.intent.params.number.resolved;
+  const nb = conv.intent.params?.number.resolved;
 
   conv.user.params = {
     bearerToken: `test-${nb}`,
+    player: {
+      current: {
+        playing: false,
+      },
+      history: new Map(),
+    }
   }
 
   conv.add(`setup test ${nb}`);
@@ -199,9 +193,13 @@ app.handle("test_webhook", (conv) => {
 const WEBPUB_URL = "https://storage.googleapis.com/audiobook_edrlab/webpub/";
 
 // const extract_name_from_url = (url: string) => {
-//   const name = /\/(?:.(?!\/))+$/.exec(url)[0];
+
+//   const reg = /\/(?:.(?!\/))+$/.exec(url);
+//   const name = reg ? reg[0] : undefined;
+
 //   if (typeof name === "string")
 //     return name.slice(1);
+
 //   return "";
 // };
 
@@ -230,6 +228,7 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 
   const length = list.length;
   if (length > 1) {
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_selection";
     conv.add(`Il y a ${length} publications :\n`);
 
@@ -240,10 +239,12 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 
     conv.add(text);
   } else if (length === 1) {
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
+    // @ts-ignore
     conv.scene.next.name = "home_members_lvl2";
 
     conv.add("aucun résultat trouvé");
@@ -261,7 +262,7 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 app.handle("select_publication_number_after_selection", async (conv) => {
   console.log("select_publication_number START");
 
-  const number = conv.intent.params.number.resolved;
+  const number = conv.intent.params?.number.resolved;
 
   const url = SELECTION_URL;
   const list = await getPubsFromFeed(url);
@@ -274,9 +275,9 @@ app.handle("select_publication_number_after_selection", async (conv) => {
     if (!conv.user.params.player) {
       conv.user.params.player = {
         current: {
+          playing: false,
         },
-        history: {
-        },
+        history: new Map(),
       };
     }
 
@@ -291,10 +292,12 @@ app.handle("select_publication_number_after_selection", async (conv) => {
     conv.user.params.player.current.url = url;
 
     // should be specified
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
   } else {
     console.log("NO PUBS found !!");
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_selection";
   }
 
@@ -313,6 +316,7 @@ app.handle("reprendre_mon_livre_lvl2", (conv) => {
 
   const url = conv.user.params.player.current.url;
   if (!url) {
+    // @ts-ignore
     conv.scene.next.name = "home_members_lvl2";
     conv.add("aucune lecture en cours");
   }
@@ -348,12 +352,13 @@ app.handle("search_livre_lvl2", async (conv) => {
   let query = null;
 
   try {
-    query = conv.intent.params.query.resolved;
+    query = conv.intent.params?.query.resolved;
   } catch (_) {
     // ignore
   }
 
   ok(typeof query === "string", "aucune requete demandée");
+  // @ts-ignore
   conv.session.params.query = query;
  
   const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
@@ -366,6 +371,7 @@ app.handle("search_livre_lvl2", async (conv) => {
 
   const length = list.length;
   if (length > 1) {
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_search";
     conv.add(`Il y a ${length} publications :\n`);
 
@@ -376,10 +382,12 @@ app.handle("search_livre_lvl2", async (conv) => {
 
     conv.add(text);
   } else if (length === 1) {
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
+    // @ts-ignore
     conv.scene.next.name = "search";
 
     conv.add("aucun résultat trouvé");
@@ -393,9 +401,10 @@ app.handle("search_livre_lvl2", async (conv) => {
 app.handle("select_publication_number_after_search", async (conv) => {
   console.log("select_publication_number START");
 
-  const number = conv.intent.params.number.resolved;
+  const number = conv.intent.params?.number.resolved;
 
   console.log("NUMBER: ", number);
+  // @ts-ignore
   const query = conv.session.params.query;
   ok(typeof query === "string", "aucune requete demandée");
  
@@ -412,9 +421,9 @@ app.handle("select_publication_number_after_search", async (conv) => {
     if (!conv.user.params.player) {
       conv.user.params.player = {
         current: {
+          playing: false,
         },
-        history: {
-        }
+        history: new Map(),
       };
     }
 
@@ -429,10 +438,13 @@ app.handle("select_publication_number_after_search", async (conv) => {
     conv.user.params.player.current.url = url;
 
     // should be specified
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
   } else {
     console.log("NO PUBS found !!");
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_search";
   }
 
@@ -450,7 +462,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
   console.log("start: ask_to_resume_last_offset");
 
   const { url, index, time } = conv.user.params.player.current;
-  if (url && (index > 0 || time > 0)) {
+  if (url && ((index && index > 0) || (time && time > 0))) {
     console.log("ask to resume enabled , wait yes or no");
     // ask yes or no in the no-code scene
     const history = conv.user.params.player[url];
@@ -460,6 +472,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     conv.add("Voulez-vous reprendre la lecture là où elle s'était arrêtée ?");
   } else {
     console.log("no need to ask to resume");
+    // @ts-ignore
     conv.scene.next.name = "player";
   }
 
@@ -469,6 +482,7 @@ app.handle("ask_to_resume_listening_at_last_offset__yes", async (conv) => {
 
   // nothing
   // not used
+    // @ts-ignore
   conv.scene.next.name = "player";
   
 });
@@ -482,6 +496,7 @@ app.handle("ask_to_resume_listening_at_last_offset__no", async (conv) => {
     conv.user.params.player.current.index = 0;
     conv.user.params.player.current.time = 0;
   }
+    // @ts-ignore
   conv.scene.next.name = "player";
 
 });
@@ -551,9 +566,12 @@ function persistMediaPlayer(conv: IConvesationWithParams) {
   if (conv.request.context) {
     // Persist the media progress value
 
-    const progress = parseInt(conv.request.context.media.progress, 10);
-    const index = conv.request.context.media.index;
+    const _progress = conv.request.context.media?.progress || "0";
+    const progress = parseInt(_progress, 10);
+    const index = conv.request.context.media?.index;
     const url = conv.user.params.player.current.url
+
+    ok(url, "url not defined");
 
     conv.user.params.player.current.index = index;
     conv.user.params.player.current.time = progress;
@@ -561,9 +579,9 @@ function persistMediaPlayer(conv: IConvesationWithParams) {
     if (!conv.user.params.player) {
       conv.user.params.player = {
         current: {
+          playing: false,
         },
-        history: {
-        }
+        history: new Map(),
       };
     }
 
@@ -589,6 +607,7 @@ app.handle("reprendre_la_lecture", (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
+    // @ts-ignore
   conv.scene.next.name = "player";
 });
 
@@ -596,6 +615,7 @@ app.handle("remaining_time", async (conv) => {
   persistMediaPlayer(conv);
 
   const url = conv.user.params?.player?.current?.url;
+  ok(url, "url not defined")
   ok(isValidHttpUrl(url), "url not valid " + url);
 
   const opds = new OpdsFetcher();
@@ -632,6 +652,7 @@ app.handle("remaining_time", async (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
+    // @ts-ignore
   conv.scene.next.name = "player";
 });
 
@@ -642,11 +663,12 @@ app.handle("remaining_time", async (conv) => {
 // Media status
 app.handle("media_status", (conv) => {
   console.log("MediaStatus START");
-  const mediaStatus = conv.intent.params.MEDIA_STATUS.resolved;
+  const mediaStatus = conv.intent.params?.MEDIA_STATUS.resolved;
   console.log("MediaStatus : ", mediaStatus);
   switch (mediaStatus) {
     case "FINISHED":
       persistMediaPlayer(conv);
+      // @ts-ignore
       conv.scene.next.name = "home_members_lvl2";
 
       // void
@@ -689,7 +711,7 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
   console.log(conv);
   console.log("----------");
 
-  let bearerToken: string;
+  let bearerToken = "";
 
   try {
     const btraw = conv.user.params.bearerToken;
@@ -704,6 +726,7 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
   }
 
   if (!conv.user.params) {
+    //@ts-ignore
     conv.user.params = {};
   }
 
@@ -715,15 +738,16 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
     )
   ) {
     conv.user.params.player = {
-      history: {
-      },
+      history: new Map(),
       current: {
-      },
+        playing: false,
+      }
     }
   }
 
   try {
 
+    ok(bearerToken, "bearerToken not defined");
     const doc = await pull(bearerToken);
     if (!doc.exists) {
       console.log("No such document!");
@@ -733,17 +757,8 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
       }
     } else {
       console.log("Document data:", doc.data());
-
-      const data = doc.data();
-      if (
-        typeof data.bearerToken === "string" &&
-        typeof data.player === "object" &&
-        typeof data.player.history === "object" &&
-        typeof data.player.current === "object"
-      ) {
-
-        conv.user.params = data as IConvesationWithParams["user"]["params"];
-      }
+      // @ts-ignore
+      conv.user.params = doc.data();
     }
   } catch (e) {
 
