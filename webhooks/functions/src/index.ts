@@ -1,9 +1,12 @@
 import {conversation, ConversationV3, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
-import * as admin from "firebase-admin";
 import {OpdsFetcher} from "opds-fetcher-parser";
 import {ok} from "assert";
 import { User } from "@assistant/conversation/dist/conversation/handler";
+
+// class-transformer
+import 'reflect-metadata';  
+import { pull, push } from "./database";
 
 enum MediaType {
   Audio = 'AUDIO',
@@ -17,6 +20,7 @@ enum OptionalMediaControl {
   Stopped = 'STOPPED',
 }
 
+// move to dto
 interface IUser extends User {
   params: {
     bearerToken?: string;
@@ -40,10 +44,6 @@ interface IConvesationWithParams extends ConversationV3 {
   user: IUser;
 }
 
-admin.initializeApp();
-
-const db = admin.firestore();
-
 const app = conversation<IConvesationWithParams>();
 
 const appHandle: typeof app.handle = app.handle.bind(app);
@@ -59,10 +59,9 @@ app.handle = (path, fn) => {
 
       ok(id, "bearerToken not defined");
 
-      const docRef = db.collection("user-storage").doc(id);
       await Promise.resolve(fn(conv));
       pass = true;
-      await docRef.set(conv.user.params);
+      await push(id, conv.user.params);
 
     } catch (e) {
       console.error(e);
@@ -725,8 +724,7 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
 
   try {
 
-    const docRef = db.collection("user-storage").doc(bearerToken);
-    const doc = await docRef.get();
+    const doc = await pull(bearerToken);
     if (!doc.exists) {
       console.log("No such document!");
       conv.user.params = {
