@@ -14,6 +14,12 @@ class StoragePlayerHistoryDto implements IStoragePlayerHistory {
 
   @IsDate()
   date: Date;
+
+  // set(data: IStoragePlayerHistory) {
+  //   this.date = data.date;
+  //   this.index = data.index;
+  //   this.time = data.time;
+  // }
 }
 
 class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
@@ -35,6 +41,13 @@ class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
 
   @IsBoolean()
   playing: boolean;
+
+  // set(data: IStoragePlayerCurrent) {
+  //   this.index = data.index;
+  //   this.time = data.time;
+  //   this.url = data.url;
+  //   this.playing = data.playing;
+  // }
 
   constructor() {
     this.playing = false;
@@ -89,7 +102,7 @@ export class StorageDto implements IStorage {
   @Exclude()
   static create(data?: Record<string, any>, bearerToken?: string): StorageDto {
 
-    if (!data) {
+    if (!data && bearerToken) {
       return new StorageDto(bearerToken);
     }
 
@@ -98,7 +111,7 @@ export class StorageDto implements IStorage {
 
     if (errors.length) {
 
-      bearerToken = bearerToken || typeof data.bearerToken === "string" ? data.bearerToken : undefined;
+      bearerToken = bearerToken || typeof data?.bearerToken === "string" ? data?.bearerToken : undefined;
       if (!bearerToken) {
         throw new Error("bearerToken is empty");
       }

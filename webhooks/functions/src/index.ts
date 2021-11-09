@@ -9,6 +9,9 @@ import 'reflect-metadata';
 import { pull, push } from "./database";
 import { IOpdsLinkView } from "opds-fetcher-parser/build/src/interface/opds";
 import { IStorage } from "./model/storage.interface";
+import { StorageDto } from "./model/storage.dto";
+
+const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
 enum MediaType {
   Audio = 'AUDIO',
@@ -22,9 +25,8 @@ enum OptionalMediaControl {
   Stopped = 'STOPPED',
 }
 
-// move to dto
 interface IUser extends User {
-  params: IStorage; 
+  params: StorageDto; 
 }
 interface IConvesationWithParams extends ConversationV3 {
   user: IUser;
@@ -38,23 +40,22 @@ app.handle = (path, fn) => {
 
   const ret = appHandle(path, async (conv) => {
 
-    let pass = false;
+    await Promise.resolve(fn(conv));
+
     try {
 
-      const id = conv.user.params.bearerToken;
-
-      ok(id, "bearerToken not defined");
-
-      await Promise.resolve(fn(conv));
-      pass = true;
-      await push(id, conv.user.params);
-
+      const bearerToken = conv.user.params.bearerToken;
+      ok(bearerToken, "bearerToken not defined");
+      ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, "bearerToken not defined")
+  
+      const data = conv.user.params.extract();
+      await push(bearerToken, data);
     } catch (e) {
-      console.error(e);
-      if (!pass)
-        await Promise.resolve(fn(conv));
 
+      console.error("ERROR TO save user storage to the database");
+      console.error(e);
     }
+
   });
 
   return ret;
@@ -109,25 +110,15 @@ app.handle("test_player_sdk", (conv) => {
 
     case 123:
 
-      conv.user.params = {
-        ...conv.user.params,
-        player: {
-          ...conv.user.params.player || {},
-          current: {
-            index: 2,
-            url: "https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json",
-            time: 123,
-            playing: true,
-          },
-          history: new Map([
-            ["https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json", {
-              index: 2,
-              date: new Date(),
-              time: 123,
-            }]
-          ]),
-        }
-      };
+      conv.user.params.player.current.index = 2;
+      conv.user.params.player.current.playing = true;
+      conv.user.params.player.current.time = 123;
+      conv.user.params.player.current.url = "https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json";
+      conv.user.params.player.history.set("https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json", {
+        index: 2,
+        date: new Date(),
+        time: 123,
+      });
 
       break;
 
@@ -149,15 +140,7 @@ app.handle("setup_test_sdk", (conv) => {
 
   const nb = conv.intent.params?.number.resolved;
 
-  conv.user.params = {
-    bearerToken: `test-${nb}`,
-    player: {
-      current: {
-        playing: false,
-      },
-      history: new Map(),
-    }
-  }
+  conv.user.params.bearerToken =  `test-${nb}`;
 
   conv.add(`setup test ${nb}`);
 
@@ -725,45 +708,21 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
     console.error(e);
   }
 
-  if (!conv.user.params) {
-    //@ts-ignore
-    conv.user.params = {};
-  }
-
-  if (
-    !(
-      conv.user.params.player &&
-      conv.user.params.player.history &&
-      conv.user.params.player.current
-    )
-  ) {
-    conv.user.params.player = {
-      history: new Map(),
-      current: {
-        playing: false,
-      }
-    }
-  }
 
   try {
 
     ok(bearerToken, "bearerToken not defined");
     const doc = await pull(bearerToken);
-    if (!doc.exists) {
-      console.log("No such document!");
-      conv.user.params = {
-        bearerToken,
-        player: conv.user.params.player,
-      }
-    } else {
-      console.log("Document data:", doc.data());
-      // @ts-ignore
-      conv.user.params = doc.data();
-    }
+    const data = doc.exists ? doc.data() : undefined;
+    const instance = StorageDto.create(data, bearerToken);
+    conv.user.params = instance;
+
   } catch (e) {
 
     console.error("Middleware critical error firebase firestore");
     console.error(e);
+
+    conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);
   }
 
   console.log("user-params:");
