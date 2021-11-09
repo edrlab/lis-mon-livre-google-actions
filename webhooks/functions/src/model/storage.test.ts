@@ -1,12 +1,10 @@
-import 'reflect-metadata';  
-import { StorageDto } from "./storage.dto";
-import * as assert from "assert";
+import 'reflect-metadata';
+import {StorageDto} from './storage.dto';
+import * as assert from 'assert';
 
 
-describe("storage DTO", () => {
-
-  it("create storage object", () => {
-
+describe('storage DTO', () => {
+  it('create storage object', () => {
     const obj = {
       dbVersion: 1,
       bearerToken: undefined,
@@ -18,17 +16,16 @@ describe("storage DTO", () => {
         history: {
 
         },
-      }
-    }
+      },
+    };
 
     assert.throws(() => StorageDto.create(obj));
   });
 
-  it("create storage object failed dbversion", () => {
-
+  it('create storage object failed dbversion', () => {
     const obj = {
       dbVersion: 2,
-      bearerToken: "test",
+      bearerToken: 'test',
       player: {
         current: {
 
@@ -37,8 +34,8 @@ describe("storage DTO", () => {
         history: {
 
         },
-      }
-    }
+      },
+    };
 
     const instance = StorageDto.create(obj);
 
@@ -47,8 +44,7 @@ describe("storage DTO", () => {
     console.log(instance);
   });
 
-  it("create storage object failed dbversion and bearer", () => {
-
+  it('create storage object failed dbversion and bearer', () => {
     const obj = {
       dbVersion: 2,
       bearerToken: undefined,
@@ -60,22 +56,20 @@ describe("storage DTO", () => {
         history: {
 
         },
-      }
-    }
+      },
+    };
 
     assert.throws(() => StorageDto.create(obj));
-
   });
-  
-  it("undefined storage", () => {
 
-    const instance = StorageDto.create(undefined, "test");
+  it('undefined storage', () => {
+    const instance = StorageDto.create(undefined, 'test');
 
     const extr = instance.extract();
 
     assert.deepEqual({
       dbVersion: 1,
-      bearerToken: "test",
+      bearerToken: 'test',
       player: {
         current: {
 
@@ -84,14 +78,12 @@ describe("storage DTO", () => {
         history: {
 
         },
-      }
+      },
     }, extr);
-
   });
 
-  it("bad validation extract", () => {
-
-    const instance = StorageDto.create(undefined, "test");
+  it('bad validation extract', () => {
+    const instance = StorageDto.create(undefined, 'test');
 
     instance.player.current.index = -34;
 
@@ -99,7 +91,7 @@ describe("storage DTO", () => {
 
     assert.deepEqual({
       dbVersion: 1,
-      bearerToken: "test",
+      bearerToken: 'test',
       player: {
         current: {
 
@@ -108,9 +100,7 @@ describe("storage DTO", () => {
         history: {
 
         },
-      }
+      },
     }, extr);
-
-  })
-
+  });
 });

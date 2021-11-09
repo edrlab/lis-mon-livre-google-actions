@@ -37,7 +37,6 @@ const app = conversation<IConvesationWithParams>();
 const appHandle: typeof app.handle = app.handle.bind(app);
 
 app.handle = (path, fn) => {
-
   const ret = appHandle(path, async (conv) => {
 
     await Promise.resolve(fn(conv));
@@ -71,15 +70,14 @@ function isValidHttpUrl(string: string | undefined) {
     return false;
   }
 
-  return url.protocol === "http:" || url.protocol === "https:";
+  return url.protocol === 'http:' || url.protocol === 'https:';
 }
 
 async function getPubsFromFeed(url: string) {
-
   const opds = new OpdsFetcher();
   const feed = await opds.feedRequest(url);
 
-  ok(Array.isArray(feed.publications), "no publications");
+  ok(Array.isArray(feed.publications), 'no publications');
   const list = feed.publications
       .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
         return (
@@ -98,16 +96,14 @@ async function getPubsFromFeed(url: string) {
   return list;
 }
 
-//////////
+// ////////
 // TEST //
-//////////
+// ////////
 
-app.handle("test_player_sdk", (conv) => {
-
+app.handle('test_player_sdk', (conv) => {
   const nb = conv.intent.params?.number.resolved;
 
   switch (nb) {
-
     case 123:
 
       conv.user.params.player.current.index = 2;
@@ -130,25 +126,23 @@ app.handle("test_player_sdk", (conv) => {
       break;
   }
 
-  console.log("test_PLAYER");
+  console.log('test_PLAYER');
   console.log(conv.user.params);
 
   conv.add(`test player ${nb}`);
 });
 
-app.handle("setup_test_sdk", (conv) => {
-
+app.handle('setup_test_sdk', (conv) => {
   const nb = conv.intent.params?.number.resolved;
 
   conv.user.params.bearerToken =  `test-${nb}`;
 
   conv.add(`setup test ${nb}`);
-
 });
 
-//////////
+// ////////
 // TEST //
-//////////
+// ////////
 
 // ----------------
 //
@@ -156,24 +150,23 @@ app.handle("setup_test_sdk", (conv) => {
 //
 // ----------------
 
-app.handle("cancel", (conv) => {
+app.handle('cancel', (conv) => {
   // Implement your code here
   // conv.add("cancel");
 });
 
-app.handle("test_webhook", (conv) => {
-
-  conv.add("Webook works :", functions.config().debug.message || "");
-  console.log("TEST OK");
+app.handle('test_webhook', (conv) => {
+  conv.add('Webook works :', functions.config().debug.message || '');
+  console.log('TEST OK');
 });
 
 // -----------
 // LVL2 MENU
-// SELECTION 
+// SELECTION
 // -----------
 
 
-const WEBPUB_URL = "https://storage.googleapis.com/audiobook_edrlab/webpub/";
+const WEBPUB_URL = 'https://storage.googleapis.com/audiobook_edrlab/webpub/';
 
 // const extract_name_from_url = (url: string) => {
 
@@ -191,50 +184,46 @@ const WEBPUB_URL = "https://storage.googleapis.com/audiobook_edrlab/webpub/";
 // SELECTION
 // -----------
 
-app.handle("selection_genre_lvl3", async (conv) => {
-
-  conv.add("sélection par genre");
+app.handle('selection_genre_lvl3', async (conv) => {
+  conv.add('sélection par genre');
 });
 
-app.handle("selection_thematic_list_lvl3", async (conv) => {
-
-  conv.add("sélection par liste thématique");
+app.handle('selection_thematic_list_lvl3', async (conv) => {
+  conv.add('sélection par liste thématique');
 });
 
-const SELECTION_URL = "https://storage.googleapis.com/audiobook_edrlab/groups/popular.json"
-app.handle("selection_my_list_lvl3", async (conv) => {
-
+const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
+app.handle('selection_my_list_lvl3', async (conv) => {
   const url = SELECTION_URL;
   const list = await getPubsFromFeed(url);
 
-  console.log("PUBs: ", list);
+  console.log('PUBs: ', list);
 
   const length = list.length;
   if (length > 1) {
     // @ts-ignore
-    conv.scene.next.name = "select_pub_after_selection";
+    conv.scene.next.name = 'select_pub_after_selection';
     conv.add(`Il y a ${length} publications :\n`);
 
-    let text = "";
+    let text = '';
     list.map(({title, author}, i) => {
-      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ""}\n`;
+      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
     });
 
     conv.add(text);
   } else if (length === 1) {
     // @ts-ignore
-    conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
+    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
     // @ts-ignore
     conv.scene.next.name = "home_members_lvl2";
 
-    conv.add("aucun résultat trouvé");
+    conv.add('aucun résultat trouvé');
   }
 
-  console.log("selection_my_list_lvl3 EXIT");
-
+  console.log('selection_my_list_lvl3 EXIT');
 });
 
 // ---------
@@ -242,8 +231,8 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 // SELECTION
 // ---------
 
-app.handle("select_publication_number_after_selection", async (conv) => {
-  console.log("select_publication_number START");
+app.handle('select_publication_number_after_selection', async (conv) => {
+  console.log('select_publication_number START');
 
   const number = conv.intent.params?.number.resolved;
 
@@ -251,7 +240,7 @@ app.handle("select_publication_number_after_selection", async (conv) => {
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (pub) {
-    console.log("PUB: ", pub);
+    console.log('PUB: ', pub);
 
     const url = pub.webpuburl;
 
@@ -276,25 +265,24 @@ app.handle("select_publication_number_after_selection", async (conv) => {
 
     // should be specified
     // @ts-ignore
-    conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
+    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
   } else {
-    console.log("NO PUBS found !!");
+    console.log('NO PUBS found !!');
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
     // @ts-ignore
-    conv.scene.next.name = "select_pub_after_selection";
+    conv.scene.next.name = 'select_pub_after_selection';
   }
 
-  console.log("select_publication_number END");
+  console.log('select_publication_number END');
 });
 
 
 // -----------
 // LVL2 MENU
-// SELECTION 
+// SELECTION
 // -----------
 
-app.handle("reprendre_mon_livre_lvl2", (conv) => {
-
+app.handle('reprendre_mon_livre_lvl2', (conv) => {
   // void
 
   const url = conv.user.params.player.current.url;
@@ -303,13 +291,12 @@ app.handle("reprendre_mon_livre_lvl2", (conv) => {
     conv.scene.next.name = "home_members_lvl2";
     conv.add("aucune lecture en cours");
   }
-
 });
 
-app.handle("ecouter_livre_audio_lvl2", (conv) => {
+app.handle('ecouter_livre_audio_lvl2', (conv) => {
   // void
 
-  console.log("écouter_livre_audio_lvl2");
+  console.log('écouter_livre_audio_lvl2');
 
   // first entry point for search
   //
@@ -324,13 +311,13 @@ app.handle("ecouter_livre_audio_lvl2", (conv) => {
 // SEARCH
 // ----------
 
-const SEARCH_URL = "https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}";
+const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
 
 // if scene.slot.status == "FINAL" => call search_livre_lvl2
-app.handle("search_livre_lvl2", async (conv) => {
+app.handle('search_livre_lvl2', async (conv) => {
   // void
 
-  console.log("search_livre_lvl2 START");
+  console.log('search_livre_lvl2 START');
 
   let query = null;
 
@@ -340,64 +327,64 @@ app.handle("search_livre_lvl2", async (conv) => {
     // ignore
   }
 
-  ok(typeof query === "string", "aucune requete demandée");
+  ok(typeof query === 'string', 'aucune requete demandée');
   // @ts-ignore
   conv.session.params.query = query;
- 
-  const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
-  console.log("search URL: ", url);
+
+  const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
+  console.log('search URL: ', url);
 
   const list = await getPubsFromFeed(url);
 
-  console.log("PUBs: ");
+  console.log('PUBs: ');
   console.log(list);
 
   const length = list.length;
   if (length > 1) {
     // @ts-ignore
-    conv.scene.next.name = "select_pub_after_search";
+    conv.scene.next.name = 'select_pub_after_search';
     conv.add(`Il y a ${length} publications :\n`);
 
-    let text = "";
+    let text = '';
     list.map(({title, author}, i) => {
-      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ""}\n`;
+      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
     });
 
     conv.add(text);
   } else if (length === 1) {
     // @ts-ignore
-    conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
+    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
     // @ts-ignore
-    conv.scene.next.name = "search";
+    conv.scene.next.name = 'search';
 
-    conv.add("aucun résultat trouvé");
+    conv.add('aucun résultat trouvé');
   }
 
-  console.log("search_livre_lvl2 STOP");
+  console.log('search_livre_lvl2 STOP');
 
   // slot available for research
 });
 
-app.handle("select_publication_number_after_search", async (conv) => {
-  console.log("select_publication_number START");
+app.handle('select_publication_number_after_search', async (conv) => {
+  console.log('select_publication_number START');
 
   const number = conv.intent.params?.number.resolved;
 
-  console.log("NUMBER: ", number);
+  console.log('NUMBER: ', number);
   // @ts-ignore
   const query = conv.session.params.query;
-  ok(typeof query === "string", "aucune requete demandée");
- 
-  const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
-  console.log("select_publication_number_after_search URL: ", url);
+  ok(typeof query === 'string', 'aucune requete demandée');
+
+  const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
+  console.log('select_publication_number_after_search URL: ', url);
 
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (pub) {
-    console.log("PUB: ", pub);
+    console.log('PUB: ', pub);
 
     const url = pub.webpuburl;
 
@@ -422,16 +409,16 @@ app.handle("select_publication_number_after_search", async (conv) => {
 
     // should be specified
     // @ts-ignore
-    conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
+    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
   } else {
-    console.log("NO PUBS found !!");
+    console.log('NO PUBS found !!');
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
 
     // @ts-ignore
-    conv.scene.next.name = "select_pub_after_search";
+    conv.scene.next.name = 'select_pub_after_search';
   }
 
-  console.log("select_publication_number END");
+  console.log('select_publication_number END');
 });
 
 
@@ -448,26 +435,23 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
   if (url && ((index && index > 0) || (time && time > 0))) {
     console.log("ask to resume enabled , wait yes or no");
     // ask yes or no in the no-code scene
-    const history = conv.user.params.player[url];
-    const date = history.d;
+    // const history = conv.user.params.player[url];
+    // const date = history.d;
     // TODO: use the date info
-    
-    conv.add("Voulez-vous reprendre la lecture là où elle s'était arrêtée ?");
-  } else {
-    console.log("no need to ask to resume");
-    // @ts-ignore
-    conv.scene.next.name = "player";
-  }
 
+    conv.add('Voulez-vous reprendre la lecture là où elle s\'était arrêtée ?');
+  } else {
+    console.log('no need to ask to resume');
+    // @ts-ignore
+    conv.scene.next.name = 'player';
+  }
 });
 
-app.handle("ask_to_resume_listening_at_last_offset__yes", async (conv) => {
-
+app.handle('ask_to_resume_listening_at_last_offset__yes', async (conv) => {
   // nothing
   // not used
-    // @ts-ignore
-  conv.scene.next.name = "player";
-  
+  // @ts-ignore
+  conv.scene.next.name = 'player';
 });
 
 
@@ -479,9 +463,8 @@ app.handle("ask_to_resume_listening_at_last_offset__no", async (conv) => {
     conv.user.params.player.current.index = 0;
     conv.user.params.player.current.time = 0;
   }
-    // @ts-ignore
-  conv.scene.next.name = "player";
-
+  // @ts-ignore
+  conv.scene.next.name = 'player';
 });
 
 
@@ -498,33 +481,33 @@ app.handle("player", async (conv) => {
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
-  ok(webpub, "webpub not defined");
+  ok(webpub, 'webpub not defined');
 
   const startIndexRaw = conv.user.params.player.current.index;
   const startIndex =
-    typeof startIndexRaw === "number" &&
+    typeof startIndexRaw === 'number' &&
       startIndexRaw <= webpub.readingOrders.length ? startIndexRaw : 0;
 
   const startTimeRaw = conv.user.params.player.current.time;
   const startTime =
-    typeof startTimeRaw === "number" &&
+    typeof startTimeRaw === 'number' &&
       startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity) ? startTimeRaw : 0;
 
   const mediaObjects = webpub.readingOrders
       .map((v, i) => ({
-        name: `${webpub.title || ""} - ${i + 1}`,
+        name: `${webpub.title || ''} - ${i + 1}`,
         url: v.url,
         image: {
           large: {
             alt: webpub.title,
-            url: webpub.cover || "",
+            url: webpub.cover || '',
           },
         },
       })).slice(startIndex);
 
-  console.log("Media list");
+  console.log('Media list');
   console.log(mediaObjects);
-  console.log("Start Index = ", startIndex, " Start Time = ", startTime, " Start Time");
+  console.log('Start Index = ', startIndex, ' Start Time = ', startTime, ' Start Time');
 
   conv.add(
       new Media({
@@ -574,15 +557,14 @@ function persistMediaPlayer(conv: IConvesationWithParams) {
       date: new Date().getTime(),
     };
 
-    console.log("player persistence :");
+    console.log('player persistence :');
     console.log(conv.user.params.player);
   } else {
-
-    console.log("NO conv.request.context !!");
+    console.log('NO conv.request.context !!');
   }
 }
 
-app.handle("reprendre_la_lecture", (conv) => {
+app.handle('reprendre_la_lecture', (conv) => {
   persistMediaPlayer(conv);
 
   // // Acknowledge pause/stop
@@ -590,11 +572,11 @@ app.handle("reprendre_la_lecture", (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
-    // @ts-ignore
-  conv.scene.next.name = "player";
+  // @ts-ignore
+  conv.scene.next.name = 'player';
 });
 
-app.handle("remaining_time", async (conv) => {
+app.handle('remaining_time', async (conv) => {
   persistMediaPlayer(conv);
 
   const url = conv.user.params?.player?.current?.url;
@@ -603,7 +585,7 @@ app.handle("remaining_time", async (conv) => {
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
-  ok(webpub, "webpub not defined");
+  ok(webpub, 'webpub not defined');
 
   const index = conv.user.params.player.current.index|| 0;
   const time = conv.user.params.player.current.time || 0;
@@ -635,8 +617,8 @@ app.handle("remaining_time", async (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
-    // @ts-ignore
-  conv.scene.next.name = "player";
+  // @ts-ignore
+  conv.scene.next.name = 'player';
 });
 
 // ////////////////////////
@@ -644,24 +626,24 @@ app.handle("remaining_time", async (conv) => {
 // ////////////////////////
 
 // Media status
-app.handle("media_status", (conv) => {
-  console.log("MediaStatus START");
+app.handle('media_status', (conv) => {
+  console.log('MediaStatus START');
   const mediaStatus = conv.intent.params?.MEDIA_STATUS.resolved;
-  console.log("MediaStatus : ", mediaStatus);
+  console.log('MediaStatus : ', mediaStatus);
   switch (mediaStatus) {
-    case "FINISHED":
+    case 'FINISHED':
       persistMediaPlayer(conv);
       // @ts-ignore
       conv.scene.next.name = "home_members_lvl2";
 
       // void
       break;
-    case "FAILED":
+    case 'FAILED':
 
       // void
       break;
-    case "PAUSED":
-    case "STOPPED":
+    case 'PAUSED':
+    case 'STOPPED':
       persistMediaPlayer(conv);
       // Acknowledge pause/stop
       conv.add(new Media({
@@ -669,19 +651,19 @@ app.handle("media_status", (conv) => {
       }));
       break;
     default:
-      conv.add("media status incorrect");
+      conv.add('media status incorrect');
   }
 
-  console.log("MediaStatus END");
+  console.log('MediaStatus END');
 });
 
 
 // catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
 // ExceptionHandler(conv: TConversation, error: Error): any
 app.catch((conv, error) => {
-  conv.add("une erreur s'est produite");
+  conv.add('une erreur s\'est produite');
 
-  console.log("ERROR");
+  console.log('ERROR');
   console.log(error);
 });
 
@@ -690,9 +672,9 @@ app.catch((conv, error) => {
 app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
 
   console.log(conv.user.params);
-  console.log("==========");
+  console.log('==========');
   console.log(conv);
-  console.log("----------");
+  console.log('----------');
 
   try {
 
@@ -705,8 +687,7 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
     conv.user.params = instance;
 
   } catch (e) {
-
-    console.error("Middleware critical error firebase firestore");
+    console.error('Middleware critical error firebase firestore');
     console.error(e);
 
     conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);

@@ -1,19 +1,18 @@
-import { IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory } from "./storage.interface";
-import { classToPlain, Exclude, plainToClass, Type } from 'class-transformer';
-import { Equals, IsBoolean, IsDate, IsDefined, IsNotEmpty, IsNumber, IsObject, IsOptional, IsPositive, IsString, IsUrl, validate, ValidateNested, validateOrReject, validateSync } from "class-validator";
+import {IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory} from './storage.interface';
+import {classToPlain, Exclude, plainToClass, Type} from 'class-transformer';
+import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsPositive, IsString, IsUrl, ValidateNested, validateSync} from 'class-validator';
 
 const DB_VERSION = 1;
 
 class StoragePlayerHistoryDto implements IStoragePlayerHistory {
+  @IsNumber()
+    index: number;
 
   @IsNumber()
-  index: number;
-
-  @IsNumber()
-  time: number;
+    time: number;
 
   @IsDate()
-  date: Date;
+    date: Date;
 
   // set(data: IStoragePlayerHistory) {
   //   this.date = data.date;
@@ -23,24 +22,23 @@ class StoragePlayerHistoryDto implements IStoragePlayerHistory {
 }
 
 class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
+  @IsPositive()
+  @IsNumber()
+  @IsOptional()
+    index?: number;
 
   @IsPositive()
   @IsNumber()
   @IsOptional()
-  index?: number;
-
-  @IsPositive()
-  @IsNumber()
-  @IsOptional()
-  time?: number;
+    time?: number;
 
   @IsUrl()
   @IsString()
   @IsOptional()
-  url?: string;
+    url?: string;
 
   @IsBoolean()
-  playing: boolean;
+    playing: boolean;
 
   // set(data: IStoragePlayerCurrent) {
   //   this.index = data.index;
@@ -55,17 +53,16 @@ class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
 }
 
 class StoragePlayerDto implements IStoragePlayer {
-
   @IsObject()
   @IsNotEmpty()
   @Type(() => StoragePlayerCurrentDto)
   @ValidateNested()
-  current: StoragePlayerCurrentDto;
+    current: StoragePlayerCurrentDto;
 
   @IsNotEmpty()
   @Type(() => StoragePlayerHistoryDto)
   @ValidateNested()
-  history: Map<string, StoragePlayerHistoryDto>;
+    history: Map<string, StoragePlayerHistoryDto>;
 
   constructor() {
     this.current = new StoragePlayerCurrentDto();
@@ -74,25 +71,23 @@ class StoragePlayerDto implements IStoragePlayer {
 }
 
 export class StorageDto implements IStorage {
-  
   @IsNumber()
   @Equals(DB_VERSION)
-  dbVersion: number;
+    dbVersion: number;
 
   @IsNotEmpty()
-  bearerToken: string;
+    bearerToken: string;
 
   @IsObject()
   @IsNotEmpty()
   @Type(() => StoragePlayerDto)
   @ValidateNested()
-  player: StoragePlayerDto;
+    player: StoragePlayerDto;
 
   @Exclude()
-  snapshot: IStorage;
+    snapshot: IStorage;
 
   constructor(bearerToken: string) {
-  
     this.dbVersion = DB_VERSION;
     this.bearerToken = bearerToken;
     this.player = new StoragePlayerDto();
@@ -101,7 +96,6 @@ export class StorageDto implements IStorage {
 
   @Exclude()
   static create(data?: Record<string, any>, bearerToken?: string): StorageDto {
-
     if (!data && bearerToken) {
       return new StorageDto(bearerToken);
     }
@@ -110,14 +104,13 @@ export class StorageDto implements IStorage {
     const errors = validateSync(storage);
 
     if (errors.length) {
-
-      bearerToken = bearerToken || typeof data?.bearerToken === "string" ? data?.bearerToken : undefined;
+      bearerToken = bearerToken || typeof data?.bearerToken === 'string' ? data?.bearerToken : undefined;
       if (!bearerToken) {
-        throw new Error("bearerToken is empty");
+        throw new Error('bearerToken is empty');
       }
 
-      console.error("Storage DTO 'create' errors", errors);
-      console.error("new fresh storageDto created");
+      console.error('Storage DTO \'create\' errors', errors);
+      console.error('new fresh storageDto created');
 
       return new StorageDto(bearerToken);
     }
@@ -128,12 +121,11 @@ export class StorageDto implements IStorage {
 
   @Exclude()
   public extract(): Record<string, any> {
-
     const errors = validateSync(this);
 
     if (errors.length) {
-      console.error("storage DTO 'extract' errors", errors);
-      console.error("return the last snapshot", this.snapshot);
+      console.error('storage DTO \'extract\' errors', errors);
+      console.error('return the last snapshot', this.snapshot);
 
       return this.snapshot;
     }

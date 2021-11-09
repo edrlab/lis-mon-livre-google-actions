@@ -1,6 +1,6 @@
-import { push, pull } from "./firestore";
+import {push, pull} from './firestore';
 
 export {
   push,
   pull,
-}
+};
