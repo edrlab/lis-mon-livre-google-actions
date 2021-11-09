@@ -90,7 +90,7 @@ async function getPubsFromFeed(url: string) {
       .map(({title, authors, openAccessLinks}) => ({
         title: title,
         author: Array.isArray(authors) ? authors[0].name : "",
-        webpuburl: openAccessLinks[0].url,
+        webpuburl: Array.isArray(openAccessLinks) ? openAccessLinks[0].url : [],
       }));
 
   return list;
@@ -102,7 +102,7 @@ async function getPubsFromFeed(url: string) {
 
 app.handle("test_player_sdk", (conv) => {
 
-  const nb = conv.intent.params.number.resolved;
+  const nb = conv.intent.params?.number.resolved;
 
   switch (nb) {
 
@@ -141,7 +141,7 @@ app.handle("test_player_sdk", (conv) => {
 
 app.handle("setup_test_sdk", (conv) => {
 
-  const nb = conv.intent.params.number.resolved;
+  const nb = conv.intent.params?.number.resolved;
 
   conv.user.params = {
     bearerToken: `test-${nb}`,
@@ -182,7 +182,8 @@ const WEBPUB_URL = "https://storage.googleapis.com/audiobook_edrlab/webpub/";
 
 const extract_name_from_url = (url: string) => {
 
-  const name = /\/(?:.(?!\/))+$/.exec(url)[0];
+  const reg = /\/(?:.(?!\/))+$/.exec(url);
+  const name = reg ? reg[0] : undefined;
 
   if (typeof name === "string")
     return name.slice(1);
@@ -215,6 +216,7 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 
   const length = list.length;
   if (length > 1) {
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_selection";
     conv.add(`Il y a ${length} publications :\n`);
 
@@ -225,10 +227,13 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 
     conv.add(text);
   } else if (length === 1) {
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
 
+    // @ts-ignore
     conv.user.params.p_n = extract_name_from_url(list[0].webpuburl);
   } else {
+    // @ts-ignore
     conv.scene.next.name = "home_members";
 
     conv.add("aucun résultat trouvé");
@@ -246,7 +251,7 @@ app.handle("selection_my_list_lvl3", async (conv) => {
 app.handle("select_publication_number_after_selection", async (conv) => {
   console.log("select_publication_number START");
 
-  const number = conv.intent.params.number.resolved;
+  const number = conv.intent.params?.number.resolved;
 
   const url = SELECTION_URL;
   const list = await getPubsFromFeed(url);
@@ -254,6 +259,7 @@ app.handle("select_publication_number_after_selection", async (conv) => {
   if (pub) {
     console.log("PUB: ", pub);
 
+    // @ts-ignore
     const url = extract_name_from_url(pub.webpuburl);
 
     if (!conv.user.params.player) {
@@ -271,10 +277,12 @@ app.handle("select_publication_number_after_selection", async (conv) => {
     conv.user.params.p_n = url;
 
     // should be specified
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
   } else {
     console.log("NO PUBS found !!");
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_selection";
   }
 
@@ -293,6 +301,7 @@ app.handle("reprendre_mon_livre_lvl2", (conv) => {
 
   const name = conv.user.params.p_n;
   if (!name) {
+    // @ts-ignore
     conv.scene.next.name = "home_members";
     conv.add("aucune lecture en cours");
   }
@@ -328,12 +337,13 @@ app.handle("search_livre_lvl2", async (conv) => {
   let query = null;
 
   try {
-    query = conv.intent.params.query.resolved;
+    query = conv.intent.params?.query.resolved;
   } catch (_) {
     // ignore
   }
 
   ok(typeof query === "string", "aucune requete demandée");
+  // @ts-ignore
   conv.session.params.query = query;
  
   const url = SEARCH_URL.replace("{query}", encodeURIComponent(query));
@@ -346,6 +356,7 @@ app.handle("search_livre_lvl2", async (conv) => {
 
   const length = list.length;
   if (length > 1) {
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_search";
     conv.add(`Il y a ${length} publications :\n`);
 
@@ -356,10 +367,13 @@ app.handle("search_livre_lvl2", async (conv) => {
 
     conv.add(text);
   } else if (length === 1) {
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
 
+    // @ts-ignore
     conv.user.params.p_n = extract_name_from_url(list[0].webpuburl);
   } else {
+    // @ts-ignore
     conv.scene.next.name = "search";
 
     conv.add("aucun résultat trouvé");
@@ -373,9 +387,10 @@ app.handle("search_livre_lvl2", async (conv) => {
 app.handle("select_publication_number_after_search", async (conv) => {
   console.log("select_publication_number START");
 
-  const number = conv.intent.params.number.resolved;
+  const number = conv.intent.params?.number.resolved;
 
   console.log("NUMBER: ", number);
+  // @ts-ignore
   const query = conv.session.params.query;
   ok(typeof query === "string", "aucune requete demandée");
  
@@ -387,6 +402,7 @@ app.handle("select_publication_number_after_search", async (conv) => {
   if (pub) {
     console.log("PUB: ", pub);
 
+    // @ts-ignore
     const name = extract_name_from_url(pub.webpuburl);
 
     if (!conv.user.params.player) {
@@ -404,10 +420,13 @@ app.handle("select_publication_number_after_search", async (conv) => {
     conv.user.params.p_n = name;
 
     // should be specified
+    // @ts-ignore
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
   } else {
     console.log("NO PUBS found !!");
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+
+    // @ts-ignore
     conv.scene.next.name = "select_pub_after_search";
   }
 
@@ -423,9 +442,11 @@ app.handle("select_publication_number_after_search", async (conv) => {
 app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
 
   const { p_n: name, p_i, p_t } = conv.user.params;
+    // @ts-ignore
   if (name && (p_i > 0 || p_t > 0)) {
     console.log("ask to resume enabled , wait yes or no");
     // ask yes or no in the no-code scene
+    // @ts-ignore
     const history = conv.user.params.player[name];
     const date = history.d;
     // TODO: use the date info
@@ -433,6 +454,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     conv.add("Voulez-vous reprendre la lecture là où elle s'était arrêtée ?");
   } else {
     console.log("no need to ask to resume");
+    // @ts-ignore
     conv.scene.next.name = "player";
   }
 
@@ -442,6 +464,7 @@ app.handle("ask_to_resume_listening_at_last_offset__yes", async (conv) => {
 
   // nothing
   // not used
+    // @ts-ignore
   conv.scene.next.name = "player";
   
 });
@@ -455,6 +478,7 @@ app.handle("ask_to_resume_listening_at_last_offset__no", async (conv) => {
     conv.user.params.p_i = 0;
     conv.user.params.p_t = 0;
   }
+    // @ts-ignore
   conv.scene.next.name = "player";
 
 });
@@ -525,8 +549,10 @@ function persistMediaPlayer(conv: ConversationV3) {
   if (conv.request.context) {
     // Persist the media progress value
 
-    const progress = parseInt(conv.request.context.media.progress, 10);
-    const index = conv.request.context.media.index;
+    const prog = conv.request.context.media?.progress || "0";
+
+    const progress = parseInt(prog, 10);
+    const index = conv.request.context.media?.index;
     const name = conv.user.params.p_n;
 
     conv.user.params.p_i = index;
@@ -558,6 +584,7 @@ app.handle("reprendre_la_lecture", (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
+    // @ts-ignore
   conv.scene.next.name = "player";
 });
 
@@ -604,6 +631,7 @@ app.handle("remaining_time", async (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
+    // @ts-ignore
   conv.scene.next.name = "player";
 });
 
@@ -614,11 +642,12 @@ app.handle("remaining_time", async (conv) => {
 // Media status
 app.handle("media_status", (conv) => {
   console.log("MediaStatus START");
-  const mediaStatus = conv.intent.params.MEDIA_STATUS.resolved;
+  const mediaStatus = conv.intent.params?.MEDIA_STATUS.resolved;
   console.log("MediaStatus : ", mediaStatus);
   switch (mediaStatus) {
     case "FINISHED":
       persistMediaPlayer(conv);
+    // @ts-ignore
       conv.scene.next.name = "home_members";
 
       // void
@@ -671,6 +700,7 @@ app.middleware(async (conv) => {
       console.log("No such document!");
     } else {
       console.log("Document data:", doc.data());
+    // @ts-ignore
       conv.user.params = doc.data();
     }
   } catch (e) {
