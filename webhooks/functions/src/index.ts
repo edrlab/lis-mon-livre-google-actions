@@ -694,24 +694,11 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
   console.log(conv);
   console.log("----------");
 
-  let bearerToken = "";
-
-  try {
-    const btraw = conv.user.params.bearerToken;
-    if (typeof btraw === "string")
-      bearerToken = btraw;
-
-    ok(bearerToken, "bearerToken not defined");
-  } catch (e) {
-
-    console.error("middleware error BearerToken");
-    console.error(e);
-  }
-
-
   try {
 
+    const bearerToken = typeof conv.user.params.bearerToken === "string" ? conv.user.params.bearerToken : "";
     ok(bearerToken, "bearerToken not defined");
+
     const doc = await pull(bearerToken);
     const data = doc.exists ? doc.data() : undefined;
     const instance = StorageDto.create(data, bearerToken);
@@ -727,6 +714,7 @@ app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
 
   console.log("user-params:");
   console.log(conv.user.params);
+  ok(conv.user.params instanceof StorageDto);
 
   // void
 });
