@@ -1,29 +1,32 @@
-import {conversation, ConversationV3, Media} from '@assistant/conversation';
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
-import {OpdsFetcher} from 'opds-fetcher-parser';
-import {ok} from 'assert';
-import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
-import {User} from '@assistant/conversation/dist/conversation/handler';
+import {conversation, ConversationV3, Media } from "@assistant/conversation";
+import * as functions from "firebase-functions";
+import {OpdsFetcher} from "opds-fetcher-parser";
+import {ok} from "assert";
+import { User } from "@assistant/conversation/dist/conversation/handler";
 
-admin.initializeApp();
+// class-transformer
+import 'reflect-metadata';  
+import { pull, push } from "./database";
+import { IOpdsLinkView } from "opds-fetcher-parser/build/src/interface/opds";
+import { IStorage } from "./model/storage.interface";
+import { StorageDto } from "./model/storage.dto";
 
-const db = admin.firestore();
+const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
+
+enum MediaType {
+  Audio = 'AUDIO',
+  MediaStatusACK = 'MEDIA_STATUS_ACK',
+  MediaTypeUnspecified = 'MEDIA_TYPE_UNSPECIFIED',
+}
+
+enum OptionalMediaControl {
+  OptionalMediaControlsUnspecified = 'OPTIONAL_MEDIA_CONTROLS_UNSPECIFIED',
+  Paused = 'PAUSED',
+  Stopped = 'STOPPED',
+}
 
 interface IUser extends User {
-  params: {
-    bearerToken: string;
-    p_i?: number;
-    p_t?: number;
-    p_n?: string;
-    player?: {
-      [name: string]: {
-        i: number;
-        t: number;
-        d: number;
-      };
-    };
-  };
+  params: StorageDto; 
 }
 interface IConvesationWithParams extends ConversationV3 {
   user: IUser;
@@ -35,31 +38,33 @@ const appHandle: typeof app.handle = app.handle.bind(app);
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {
-    let pass = false;
+
+    await Promise.resolve(fn(conv));
+
     try {
-      const id = conv.user.params.bearerToken;
 
-      ok(id, 'bearerToken not defined');
-
-      const docRef = db.collection('user-storage').doc(id);
-      await Promise.resolve(fn(conv));
-      pass = true;
-      await docRef.set(conv.user.params);
+      const bearerToken = conv.user.params.bearerToken;
+      ok(bearerToken, "bearerToken not defined");
+      ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, "bearerToken not defined")
+  
+      const data = conv.user.params.extract();
+      await push(bearerToken, data);
     } catch (e) {
+
+      console.error("ERROR TO save user storage to the database");
       console.error(e);
-      if (!pass) {
-        await Promise.resolve(fn(conv));
-      }
     }
+
   });
 
   return ret;
 };
 
-function isValidHttpUrl(string: string) {
-  let url;
+function isValidHttpUrl(string: string | undefined) {
+  let url: URL;
 
   try {
+    if (!string) throw ""
     url = new URL(string);
   } catch (_) {
     return false;
@@ -77,15 +82,15 @@ async function getPubsFromFeed(url: string) {
       .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
         return (
           Array.isArray(l) &&
-        l[0] &&
-        isValidHttpUrl(l[0].url)
+          l[0] &&
+          isValidHttpUrl(l[0].url)
         );
       })
       .slice(0, 5)
       .map(({title, authors, openAccessLinks}) => ({
         title: title,
-        author: Array.isArray(authors) ? authors[0].name : '',
-        webpuburl: Array.isArray(openAccessLinks) ? openAccessLinks[0].url : [],
+        author: Array.isArray(authors) ? authors[0].name : "",
+        webpuburl: (openAccessLinks as IOpdsLinkView[])[0].url,
       }));
 
   return list;
@@ -101,20 +106,15 @@ app.handle('test_player_sdk', (conv) => {
   switch (nb) {
     case 123:
 
-      conv.user.params = {
-        ...conv.user.params,
-        p_i: 2,
-        p_n: 'therese_raquin_emile_zola.json',
-        p_t: 123,
-        player: {
-          ...conv.user.params.player || {},
-          ['therese_raquin_emile_zola.json']: {
-            i: 2,
-            d: 0,
-            t: 123,
-          },
-        },
-      };
+      conv.user.params.player.current.index = 2;
+      conv.user.params.player.current.playing = true;
+      conv.user.params.player.current.time = 123;
+      conv.user.params.player.current.url = "https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json";
+      conv.user.params.player.history.set("https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json", {
+        index: 2,
+        date: new Date(),
+        time: 123,
+      });
 
       break;
 
@@ -135,9 +135,7 @@ app.handle('test_player_sdk', (conv) => {
 app.handle('setup_test_sdk', (conv) => {
   const nb = conv.intent.params?.number.resolved;
 
-  conv.user.params = {
-    bearerToken: `test-${nb}`,
-  };
+  conv.user.params.bearerToken =  `test-${nb}`;
 
   conv.add(`setup test ${nb}`);
 });
@@ -170,16 +168,16 @@ app.handle('test_webhook', (conv) => {
 
 const WEBPUB_URL = 'https://storage.googleapis.com/audiobook_edrlab/webpub/';
 
-const extract_name_from_url = (url: string) => {
-  const reg = /\/(?:.(?!\/))+$/.exec(url);
-  const name = reg ? reg[0] : undefined;
+// const extract_name_from_url = (url: string) => {
 
-  if (typeof name === 'string') {
-    return name.slice(1);
-  }
+//   const reg = /\/(?:.(?!\/))+$/.exec(url);
+//   const name = reg ? reg[0] : undefined;
 
-  return '';
-};
+//   if (typeof name === "string")
+//     return name.slice(1);
+
+//   return "";
+// };
 
 // -----------
 // LVL3 MENU
@@ -217,11 +215,10 @@ app.handle('selection_my_list_lvl3', async (conv) => {
     // @ts-ignore
     conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 
-    // @ts-ignore
-    conv.user.params.p_n = extract_name_from_url(list[0].webpuburl);
+    conv.user.params.player.current.url = list[0].webpuburl;
   } else {
     // @ts-ignore
-    conv.scene.next.name = 'home_members';
+    conv.scene.next.name = "home_members_lvl2";
 
     conv.add('aucun résultat trouvé');
   }
@@ -245,22 +242,26 @@ app.handle('select_publication_number_after_selection', async (conv) => {
   if (pub) {
     console.log('PUB: ', pub);
 
-    // @ts-ignore
-    const url = extract_name_from_url(pub.webpuburl);
+    const url = pub.webpuburl;
 
     if (!conv.user.params.player) {
-      conv.user.params.player = {};
+      conv.user.params.player = {
+        current: {
+          playing: false,
+        },
+        history: new Map(),
+      };
     }
 
     const history = conv.user.params.player[url];
     if (!history) {
-      conv.user.params.p_i = 0;
-      conv.user.params.p_t = 0;
+      conv.user.params.player.current.index = 0;
+      conv.user.params.player.current.time = 0;
     } else {
-      conv.user.params.p_i = history.i;
-      conv.user.params.p_t = history.t;
+      conv.user.params.player.current.index = history.i;
+      conv.user.params.player.current.time = history.t;
     }
-    conv.user.params.p_n = url;
+    conv.user.params.player.current.url = url;
 
     // should be specified
     // @ts-ignore
@@ -284,11 +285,11 @@ app.handle('select_publication_number_after_selection', async (conv) => {
 app.handle('reprendre_mon_livre_lvl2', (conv) => {
   // void
 
-  const name = conv.user.params.p_n;
-  if (!name) {
+  const url = conv.user.params.player.current.url;
+  if (!url) {
     // @ts-ignore
-    conv.scene.next.name = 'home_members';
-    conv.add('aucune lecture en cours');
+    conv.scene.next.name = "home_members_lvl2";
+    conv.add("aucune lecture en cours");
   }
 });
 
@@ -354,8 +355,7 @@ app.handle('search_livre_lvl2', async (conv) => {
     // @ts-ignore
     conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 
-    // @ts-ignore
-    conv.user.params.p_n = extract_name_from_url(list[0].webpuburl);
+    conv.user.params.player.current.url = list[0].webpuburl;
   } else {
     // @ts-ignore
     conv.scene.next.name = 'search';
@@ -386,22 +386,26 @@ app.handle('select_publication_number_after_search', async (conv) => {
   if (pub) {
     console.log('PUB: ', pub);
 
-    // @ts-ignore
-    const name = extract_name_from_url(pub.webpuburl);
+    const url = pub.webpuburl;
 
     if (!conv.user.params.player) {
-      conv.user.params.player = {};
+      conv.user.params.player = {
+        current: {
+          playing: false,
+        },
+        history: new Map(),
+      };
     }
 
-    const history = conv.user.params.player[name];
+    const history = conv.user.params.player[url];
     if (!history) {
-      conv.user.params.p_i= 0;
-      conv.user.params.p_t = 0;
+      conv.user.params.player.current.index = 0;
+      conv.user.params.player.current.time = 0;
     } else {
-      conv.user.params.p_i = history.i;
-      conv.user.params.p_t = history.t;
+      conv.user.params.player.current.index = history.i;
+      conv.user.params.player.current.time = history.t;
     }
-    conv.user.params.p_n = name;
+    conv.user.params.player.current.url = url;
 
     // should be specified
     // @ts-ignore
@@ -423,13 +427,15 @@ app.handle('select_publication_number_after_search', async (conv) => {
 // SEARCH
 // ----------
 
-app.handle('ask_to_resume_listening_at_last_offset', async (conv) => {
-  const {p_n: name, p_i, p_t} = conv.user.params;
-  // @ts-ignore
-  if (name && (p_i > 0 || p_t > 0)) {
-    console.log('ask to resume enabled , wait yes or no');
+app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
+
+  console.log("start: ask_to_resume_last_offset");
+
+  const { url, index, time } = conv.user.params.player.current;
+  if (url && ((index && index > 0) || (time && time > 0))) {
+    console.log("ask to resume enabled , wait yes or no");
     // ask yes or no in the no-code scene
-    // const history = conv.user.params.player[name];
+    // const history = conv.user.params.player[url];
     // const date = history.d;
     // TODO: use the date info
 
@@ -449,12 +455,13 @@ app.handle('ask_to_resume_listening_at_last_offset__yes', async (conv) => {
 });
 
 
-app.handle('ask_to_resume_listening_at_last_offset__no', async (conv) => {
-  const name = conv.user.params.p_n;
-  if (name) {
-    console.log('erase ', name, ' resume listening NO');
-    conv.user.params.p_i = 0;
-    conv.user.params.p_t = 0;
+app.handle("ask_to_resume_listening_at_last_offset__no", async (conv) => {
+
+  const url = conv.user.params.player.current.url;
+  if (url) {
+    console.log("erase ", url, " resume listening NO");
+    conv.user.params.player.current.index = 0;
+    conv.user.params.player.current.time = 0;
   }
   // @ts-ignore
   conv.scene.next.name = 'player';
@@ -465,24 +472,23 @@ app.handle('ask_to_resume_listening_at_last_offset__no', async (conv) => {
 // PLAYER
 // ----------
 
-app.handle('player', async (conv) => {
-  const name = conv.user.params.p_n;
+app.handle("player", async (conv) => {
+  const url = conv.user.params.player.current.url;
 
-  const url = WEBPUB_URL + name;
-  console.log('Player URL:', url);
-  ok(url, 'url not defined');
-  ok(isValidHttpUrl(url), 'url not valid ' + url);
+  console.log("Player URL:", url);
+  ok(url, "url not defined");
+  ok(isValidHttpUrl(url), "url not valid " + url);
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
   ok(webpub, 'webpub not defined');
 
-  const startIndexRaw = conv.user.params.p_i;
+  const startIndexRaw = conv.user.params.player.current.index;
   const startIndex =
     typeof startIndexRaw === 'number' &&
       startIndexRaw <= webpub.readingOrders.length ? startIndexRaw : 0;
 
-  const startTimeRaw = conv.user.params.p_t;
+  const startTimeRaw = conv.user.params.player.current.time;
   const startTime =
     typeof startTimeRaw === 'number' &&
       startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity) ? startTimeRaw : 0;
@@ -522,27 +528,33 @@ app.handle('player', async (conv) => {
 // Media PLAYET CONTEXT //
 // ////////////////////////
 
-function persistMediaPlayer(conv: ConversationV3) {
+function persistMediaPlayer(conv: IConvesationWithParams) {
   if (conv.request.context) {
     // Persist the media progress value
 
-    const prog = conv.request.context.media?.progress || '0';
-
-    const progress = parseInt(prog, 10);
+    const _progress = conv.request.context.media?.progress || "0";
+    const progress = parseInt(_progress, 10);
     const index = conv.request.context.media?.index;
-    const name = conv.user.params.p_n;
+    const url = conv.user.params.player.current.url
 
-    conv.user.params.p_i = index;
-    conv.user.params.p_t = progress;
+    ok(url, "url not defined");
+
+    conv.user.params.player.current.index = index;
+    conv.user.params.player.current.time = progress;
 
     if (!conv.user.params.player) {
-      conv.user.params.player = {};
+      conv.user.params.player = {
+        current: {
+          playing: false,
+        },
+        history: new Map(),
+      };
     }
 
-    conv.user.params.player[name] = {
-      i: index,
-      t: progress,
-      d: new Date().getTime(),
+    conv.user.params.player.history[url] = {
+      index: index,
+      time: progress,
+      date: new Date().getTime(),
     };
 
     console.log('player persistence :');
@@ -567,18 +579,16 @@ app.handle('reprendre_la_lecture', (conv) => {
 app.handle('remaining_time', async (conv) => {
   persistMediaPlayer(conv);
 
-  const name = conv.user.params.p_n;
-  ok(name, 'titre non défini');
-
-  const url = WEBPUB_URL + name;
-  ok(isValidHttpUrl(url), 'url not valid ' + url);
+  const url = conv.user.params?.player?.current?.url;
+  ok(url, "url not defined")
+  ok(isValidHttpUrl(url), "url not valid " + url);
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
   ok(webpub, 'webpub not defined');
 
-  const index = conv.user.params.p_i || 0;
-  const time = conv.user.params.p_t || 0;
+  const index = conv.user.params.player.current.index|| 0;
+  const time = conv.user.params.player.current.time || 0;
 
   let minutes = 0;
   if (Array.isArray(webpub.readingOrders)) {
@@ -624,7 +634,7 @@ app.handle('media_status', (conv) => {
     case 'FINISHED':
       persistMediaPlayer(conv);
       // @ts-ignore
-      conv.scene.next.name = 'home_members';
+      conv.scene.next.name = "home_members_lvl2";
 
       // void
       break;
@@ -659,28 +669,33 @@ app.catch((conv, error) => {
 
 // middleware<TConversationPlugin>(middleware: ConversationV3Middleware<TConversationPlugin>): ConversationV3App<TConversation>
 // ConversationV3Middleware(conv: ConversationV3, framework: BuiltinFrameworkMetadata): void | ConversationV3 & TConversationPlugin | Promise<ConversationV3 & TConversationPlugin> | Promise<void>
-app.middleware(async (conv) => {
+app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
+
   console.log(conv.user.params);
   console.log('==========');
   console.log(conv);
   console.log('----------');
 
   try {
-    const id = conv.user.params.bearerToken;
-    ok(id, 'bearerToken not defined');
-    const docRef = db.collection('user-storage').doc(id);
-    const doc = await docRef.get();
-    if (!doc.exists) {
-      console.log('No such document!');
-    } else {
-      console.log('Document data:', doc.data());
-      // @ts-ignore
-      conv.user.params = doc.data();
-    }
+
+    const bearerToken = typeof conv.user.params.bearerToken === "string" ? conv.user.params.bearerToken : "";
+    ok(bearerToken, "bearerToken not defined");
+
+    const doc = await pull(bearerToken);
+    const data = doc.exists ? doc.data() : undefined;
+    const instance = StorageDto.create(data, bearerToken);
+    conv.user.params = instance;
+
   } catch (e) {
     console.error('Middleware critical error firebase firestore');
     console.error(e);
+
+    conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);
   }
+
+  console.log("user-params:");
+  console.log(conv.user.params);
+  ok(conv.user.params instanceof StorageDto);
 
   // void
 });
