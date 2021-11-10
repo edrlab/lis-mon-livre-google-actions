@@ -1,12 +1,12 @@
-import { OpdsFetcher } from "opds-fetcher-parser";
-import * as assert from "assert";
-import { IOpdsLinkView } from "opds-fetcher-parser/build/src/interface/opds";
+import {OpdsFetcher} from 'opds-fetcher-parser';
+import * as assert from 'assert';
+import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
 
 export function isValidHttpUrl(string: string | undefined) {
   let url: URL;
 
   try {
-    if (!string) throw ""
+    if (!string) throw new Error();
     url = new URL(string);
   } catch (_) {
     return false;
@@ -31,7 +31,7 @@ export async function getPubsFromFeed(url: string) {
       .slice(0, 5)
       .map(({title, authors, openAccessLinks}) => ({
         title: title,
-        author: Array.isArray(authors) ? authors[0].name : "",
+        author: Array.isArray(authors) ? authors[0].name : '',
         webpuburl: (openAccessLinks as IOpdsLinkView[])[0].url,
       }));
 

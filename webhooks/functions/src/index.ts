@@ -12,6 +12,9 @@ import { TSdkScene } from "./sdk";
 import { getPubsFromFeed, isValidHttpUrl } from "./utils";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
+const WEBPUB_URL = 'https://storage.googleapis.com/audiobook_edrlab/webpub/';
+const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
+const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
 
 enum MediaType {
   Audio = 'AUDIO',
@@ -168,45 +171,105 @@ app.handle('cancel', (conv) => {
   // conv.add("cancel");
 });
 
-app.handle('test_webhook', (conv) => {
+
+app.handle('main', (conv) => {
+
+  conv.add('Bienvenue dans l\'application d\'écoute de livre audio valentin hauy');
+
+  conv.scene.next.name = "home_members_lvl2";
+});
+
+app.handle('home_lvl1', (conv) => {
+
+  conv.add('Que voulez-vous faire ? Vous pouvez dire informations ou espace membres');
+
+  // wait intent
+  // conv.scene.next.name
+});
+
+app.handle('home_lvl1__intent__test_webhook', (conv) => {
   conv.add('Webook works :', functions.config().debug.message || '');
   console.log('TEST OK');
+
+  conv.scene.next.name = "home_lvl1";
 });
 
-// -----------
-// LVL2 MENU
-// SELECTION
-// -----------
+app.handle('home_lvl1__intent__get_info_association_lvl1', (conv) => {
 
+  conv.add('Voici les informations sur l\'association');
 
-const WEBPUB_URL = 'https://storage.googleapis.com/audiobook_edrlab/webpub/';
-
-// const extract_name_from_url = (url: string) => {
-
-//   const reg = /\/(?:.(?!\/))+$/.exec(url);
-//   const name = reg ? reg[0] : undefined;
-
-//   if (typeof name === "string")
-//     return name.slice(1);
-
-//   return "";
-// };
-
-// -----------
-// LVL3 MENU
-// SELECTION
-// -----------
-
-app.handle('selection_genre_lvl3', async (conv) => {
-  conv.add('sélection par genre');
+  conv.scene.next.name = "home_lvl1";
 });
 
-app.handle('selection_thematic_list_lvl3', async (conv) => {
+app.handle('home_lvl1__intent__enter_member_space_lvl1', (conv) => {
+
+  conv.scene.next.name = "home_lvl1_AccountLinking";
+});
+
+app.handle('home_lvl1__intent__resume_listening_player', (conv) => {
+
+  conv.scene.next.name = "home_lvl1";
+});
+
+app.handle('home_lvl1__intent__listen_audiobook_lvl1', (conv) => {
+
+  conv.scene.next.name = "home_lvl1_AccountLinking";
+});
+
+app.handle('home_members_lvl2', (conv) => {
+
+  conv.add("Bienvenue dans l'espace membres. Les commandes possibles sont: sélection, lecture, recherche. ");
+  conv.add("Que voulez-vous faire ?");
+});
+
+app.handle('home_members_lvl2__intent__listen_audiobook_lvl2', (conv) => {
+  // void
+
+  console.log('listen_audiobook_lvl2');
+
+  // first entry point for search
+  //
+  // VOID
+  //
+  // search_livre_lvl2 is the main entry point
+
+  conv.scene.next.name = "search";
+});
+
+app.handle('home_members_lvl2__intent__resume_audiobook_lvl2', (conv) => {
+
+  const url = conv.user.params.player.current.url;
+  if (!url) {
+    conv.scene.next.name = "home_members_lvl2";
+    conv.add("aucune lecture en cours");
+  }
+
+  conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
+});
+
+app.handle('home_members__intent__selection_audiobook_lvl2', (conv) => {
+
+  conv.scene.next.name = "selection_lvl3";
+});
+
+app.handle('selection_lvl3', (conv) => {
+
+  // wait intent
+  // conv.scene.next.name
+});
+
+app.handle('selection_lvl3__intent__selection_genre_lvl3', (conv) => {
+
+  conv.add("sélection par genre");
+});
+
+app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', (conv) => {
+
   conv.add('sélection par liste thématique');
 });
 
-const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
-app.handle('selection_my_list_lvl3', async (conv) => {
+app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
+
   const url = SELECTION_URL;
   const list = await getPubsFromFeed(url);
 
@@ -236,12 +299,14 @@ app.handle('selection_my_list_lvl3', async (conv) => {
   console.log('selection_my_list_lvl3 EXIT');
 });
 
-// ---------
-// LVL3 MENU
-// SELECTION
-// ---------
+app.handle('select_pub_after_selection', (conv) => {
 
-app.handle('select_publication_number_after_selection', async (conv) => {
+  conv.add("Pour choisir une publication dite son numéro");
+
+  // wait slot number or intent
+});
+
+app.handle('select_pub_after_selection__slot__number', async (conv) => {
   console.log('select_publication_number START');
 
   const number = conv.intent.params?.number.resolved;
@@ -284,44 +349,53 @@ app.handle('select_publication_number_after_selection', async (conv) => {
   console.log('select_publication_number END');
 });
 
+app.handle('select_pub_after_selection__intent__resume_listening_player', (conv) => {
 
-// -----------
-// LVL2 MENU
-// SELECTION
-// -----------
+  conv.scene.next.name = "select_pub_after_selection";
+});
 
-app.handle('reprendre_mon_livre_lvl2', (conv) => {
-  // void
+app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
 
-  const url = conv.user.params.player.current.url;
-  if (!url) {
-    conv.scene.next.name = "home_members_lvl2";
-    conv.add("aucune lecture en cours");
+  console.log("start: ask_to_resume_last_offset");
+
+  const { url, index, time } = conv.user.params.player.current;
+  if (url && ((index && index > 0) || (time && time > 0))) {
+    console.log("ask to resume enabled , wait yes or no");
+    // ask yes or no in the no-code scene
+    // const history = conv.user.params.player[url];
+    // const date = history.d;
+    // TODO: use the date info
+
+    conv.add('Voulez-vous reprendre la lecture là où elle s\'était arrêtée ?');
+  } else {
+    console.log('no need to ask to resume');
+    conv.scene.next.name = 'player';
   }
 });
 
-app.handle('ecouter_livre_audio_lvl2', (conv) => {
-  // void
+app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) => {
 
-  console.log('écouter_livre_audio_lvl2');
-
-  // first entry point for search
-  //
-  // VOID
-  //
-  // search_livre_lvl2 is the main entry point
+  conv.scene.next.name = 'player';
 });
 
 
-// ----------
-// LVL2 MENU
-// SEARCH
-// ----------
+app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) => {
 
-const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
+  const url = conv.user.params.player.current.url;
+  if (url) {
+    console.log("erase ", url, " resume listening NO");
+    conv.user.params.player.current.index = 0;
+    conv.user.params.player.current.time = 0;
+  }
+  conv.scene.next.name = 'player';
+});
 
-// if scene.slot.status == "FINAL" => call search_livre_lvl2
-app.handle('search_livre_lvl2', async (conv) => {
+app.handle('search', (conv) => {
+
+  conv.add('Que voulez-vous écouter ? Par exemple Zola');
+});
+
+app.handle('search__slot__query', async (conv) => {
   // void
 
   console.log('search_livre_lvl2 START');
@@ -372,7 +446,24 @@ app.handle('search_livre_lvl2', async (conv) => {
   // slot available for research
 });
 
-app.handle('select_publication_number_after_search', async (conv) => {
+app.handle('search__intent__resume_listening_player', (conv) => {
+
+  conv.scene.next.name = "search";
+});
+
+app.handle('select_pub_after_search', (conv) => {
+
+  conv.add("Pour choisir une publication dite son numéro");
+
+  // wait intent
+});
+
+app.handle('select_pub_after_search__intent__resume_listening_player', (conv) => {
+
+  conv.scene.next.name = "select_pub_after_search";
+});
+
+app.handle('select_pub_after_search__slot__number', async (conv) => {
   console.log('select_publication_number START');
 
   const number = conv.intent.params?.number.resolved;
@@ -383,7 +474,7 @@ app.handle('select_publication_number_after_search', async (conv) => {
   ok(typeof query === 'string', 'aucune requete demandée');
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
-  console.log('select_publication_number_after_search URL: ', url);
+  console.log('select_pub_after_search__slot__number URL: ', url);
 
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
@@ -417,60 +508,11 @@ app.handle('select_publication_number_after_search', async (conv) => {
     console.log('NO PUBS found !!');
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
 
-    // @ts-ignore
     conv.scene.next.name = 'select_pub_after_search';
   }
 
   console.log('select_publication_number END');
 });
-
-
-// ----------
-// LVL2 MENU
-// SEARCH
-// ----------
-
-app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
-
-  console.log("start: ask_to_resume_last_offset");
-
-  const { url, index, time } = conv.user.params.player.current;
-  if (url && ((index && index > 0) || (time && time > 0))) {
-    console.log("ask to resume enabled , wait yes or no");
-    // ask yes or no in the no-code scene
-    // const history = conv.user.params.player[url];
-    // const date = history.d;
-    // TODO: use the date info
-
-    conv.add('Voulez-vous reprendre la lecture là où elle s\'était arrêtée ?');
-  } else {
-    console.log('no need to ask to resume');
-    conv.scene.next.name = 'player';
-  }
-});
-
-app.handle('ask_to_resume_listening_at_last_offset__yes', async (conv) => {
-  // nothing
-  // not used
-  conv.scene.next.name = 'player';
-});
-
-
-app.handle("ask_to_resume_listening_at_last_offset__no", async (conv) => {
-
-  const url = conv.user.params.player.current.url;
-  if (url) {
-    console.log("erase ", url, " resume listening NO");
-    conv.user.params.player.current.index = 0;
-    conv.user.params.player.current.time = 0;
-  }
-  conv.scene.next.name = 'player';
-});
-
-
-// ----------
-// PLAYER
-// ----------
 
 app.handle("player", async (conv) => {
   const url = conv.user.params.player.current.url;
@@ -564,7 +606,7 @@ function persistMediaPlayer(conv: IConversationWithParams) {
   }
 }
 
-app.handle('reprendre_la_lecture', (conv) => {
+app.handle('player__intent__resume_listening_player ', (conv) => {
   persistMediaPlayer(conv);
 
   // // Acknowledge pause/stop
@@ -575,7 +617,7 @@ app.handle('reprendre_la_lecture', (conv) => {
   conv.scene.next.name = 'player';
 });
 
-app.handle('remaining_time', async (conv) => {
+app.handle('player__intent__remaining_time_player', async (conv) => {
   persistMediaPlayer(conv);
 
   const url = conv.user.params?.player?.current?.url;
