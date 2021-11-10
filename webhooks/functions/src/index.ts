@@ -34,11 +34,17 @@ interface IUser extends User {
 interface IScene extends Scene {
   next: {
     name: TSdkScene;
-  }
+  },
+  name: TSdkScene;
 }
 interface IConversationWithParams extends ConversationV3 {
   user: IUser;
   scene: IScene;
+  session: {
+    params: {
+      [key: string]: any;
+    }
+  }
 }
 
 const app = conversation<IConversationWithParams>();
@@ -86,6 +92,10 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   console.log('==========');
   console.log(conv);
   console.log('----------');
+
+  if (!conv.session.params) {
+    conv.session.params = {};
+  }
 
   try {
 
@@ -312,39 +322,7 @@ app.handle('select_pub_after_selection__slot__number', async (conv) => {
   const number = conv.intent.params?.number.resolved;
 
   const url = SELECTION_URL;
-  const list = await getPubsFromFeed(url);
-  const pub = list[number - 1];
-  if (pub) {
-    console.log('PUB: ', pub);
-
-    const url = pub.webpuburl;
-
-    if (!conv.user.params.player) {
-      conv.user.params.player = {
-        current: {
-          playing: false,
-        },
-        history: new Map(),
-      };
-    }
-
-    const history = conv.user.params.player[url];
-    if (!history) {
-      conv.user.params.player.current.index = 0;
-      conv.user.params.player.current.time = 0;
-    } else {
-      conv.user.params.player.current.index = history.i;
-      conv.user.params.player.current.time = history.t;
-    }
-    conv.user.params.player.current.url = url;
-
-    // should be specified
-    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-  } else {
-    console.log('NO PUBS found !!');
-    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
-    conv.scene.next.name = 'select_pub_after_selection';
-  }
+  selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
 });
@@ -409,7 +387,6 @@ app.handle('search__slot__query', async (conv) => {
   }
 
   ok(typeof query === 'string', 'aucune requete demandée');
-  // @ts-ignore
   conv.session.params.query = query;
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
@@ -469,47 +446,12 @@ app.handle('select_pub_after_search__slot__number', async (conv) => {
   const number = conv.intent.params?.number.resolved;
 
   console.log('NUMBER: ', number);
-  // @ts-ignore
   const query = conv.session.params.query;
   ok(typeof query === 'string', 'aucune requete demandée');
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
   console.log('select_pub_after_search__slot__number URL: ', url);
-
-  const list = await getPubsFromFeed(url);
-  const pub = list[number - 1];
-  if (pub) {
-    console.log('PUB: ', pub);
-
-    const url = pub.webpuburl;
-
-    if (!conv.user.params.player) {
-      conv.user.params.player = {
-        current: {
-          playing: false,
-        },
-        history: new Map(),
-      };
-    }
-
-    const history = conv.user.params.player[url];
-    if (!history) {
-      conv.user.params.player.current.index = 0;
-      conv.user.params.player.current.time = 0;
-    } else {
-      conv.user.params.player.current.index = history.i;
-      conv.user.params.player.current.time = history.t;
-    }
-    conv.user.params.player.current.url = url;
-
-    // should be specified
-    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-  } else {
-    console.log('NO PUBS found !!');
-    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
-
-    conv.scene.next.name = 'select_pub_after_search';
-  }
+  selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
 });
@@ -695,6 +637,44 @@ app.handle('media_status', (conv) => {
 
   console.log('MediaStatus END');
 });
+
+async function selectPublication(url: string, number: number, conv: IConversationWithParams) {
+
+  const list = await getPubsFromFeed(url);
+  const pub = list[number - 1];
+  if (pub) {
+    console.log('PUB: ', pub);
+
+    const url = pub.webpuburl;
+
+    if (!conv.user.params.player) {
+      conv.user.params.player = {
+        current: {
+          playing: false,
+        },
+        history: new Map(),
+      };
+    }
+
+    const history = conv.user.params.player[url];
+    if (!history) {
+      conv.user.params.player.current.index = 0;
+      conv.user.params.player.current.time = 0;
+    } else {
+      conv.user.params.player.current.index = history.i;
+      conv.user.params.player.current.time = history.t;
+    }
+    conv.user.params.player.current.url = url;
+
+    // should be specified
+    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
+  } else {
+    console.log('NO PUBS found !!');
+    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+
+    conv.scene.next.name = conv.scene.name;
+  }
+}
 
 
 
