@@ -2,7 +2,7 @@ import {conversation, ConversationV3, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
 import {OpdsFetcher} from "opds-fetcher-parser";
 import {ok} from "assert";
-import { User } from "@assistant/conversation/dist/conversation/handler";
+import { User, Scene } from "@assistant/conversation/dist/conversation/handler";
 
 // class-transformer
 import 'reflect-metadata';  
@@ -10,6 +10,7 @@ import { pull, push } from "./database";
 import { IOpdsLinkView } from "opds-fetcher-parser/build/src/interface/opds";
 import { IStorage } from "./model/storage.interface";
 import { StorageDto } from "./model/storage.dto";
+import { TSdkScene } from "./sdk";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
@@ -28,8 +29,14 @@ enum OptionalMediaControl {
 interface IUser extends User {
   params: StorageDto; 
 }
+interface IScene extends Scene {
+  next: {
+    name: TSdkScene;
+  }
+}
 interface IConvesationWithParams extends ConversationV3 {
   user: IUser;
+  scene: IScene;
 }
 
 const app = conversation<IConvesationWithParams>();
@@ -201,7 +208,6 @@ app.handle('selection_my_list_lvl3', async (conv) => {
 
   const length = list.length;
   if (length > 1) {
-    // @ts-ignore
     conv.scene.next.name = 'select_pub_after_selection';
     conv.add(`Il y a ${length} publications :\n`);
 
@@ -212,12 +218,10 @@ app.handle('selection_my_list_lvl3', async (conv) => {
 
     conv.add(text);
   } else if (length === 1) {
-    // @ts-ignore
     conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
-    // @ts-ignore
     conv.scene.next.name = "home_members_lvl2";
 
     conv.add('aucun résultat trouvé');
@@ -264,12 +268,10 @@ app.handle('select_publication_number_after_selection', async (conv) => {
     conv.user.params.player.current.url = url;
 
     // should be specified
-    // @ts-ignore
     conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
   } else {
     console.log('NO PUBS found !!');
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
-    // @ts-ignore
     conv.scene.next.name = 'select_pub_after_selection';
   }
 
@@ -287,7 +289,6 @@ app.handle('reprendre_mon_livre_lvl2', (conv) => {
 
   const url = conv.user.params.player.current.url;
   if (!url) {
-    // @ts-ignore
     conv.scene.next.name = "home_members_lvl2";
     conv.add("aucune lecture en cours");
   }
@@ -341,7 +342,6 @@ app.handle('search_livre_lvl2', async (conv) => {
 
   const length = list.length;
   if (length > 1) {
-    // @ts-ignore
     conv.scene.next.name = 'select_pub_after_search';
     conv.add(`Il y a ${length} publications :\n`);
 
@@ -352,12 +352,10 @@ app.handle('search_livre_lvl2', async (conv) => {
 
     conv.add(text);
   } else if (length === 1) {
-    // @ts-ignore
     conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
-    // @ts-ignore
     conv.scene.next.name = 'search';
 
     conv.add('aucun résultat trouvé');
@@ -408,7 +406,6 @@ app.handle('select_publication_number_after_search', async (conv) => {
     conv.user.params.player.current.url = url;
 
     // should be specified
-    // @ts-ignore
     conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
   } else {
     console.log('NO PUBS found !!');
@@ -442,7 +439,6 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     conv.add('Voulez-vous reprendre la lecture là où elle s\'était arrêtée ?');
   } else {
     console.log('no need to ask to resume');
-    // @ts-ignore
     conv.scene.next.name = 'player';
   }
 });
@@ -450,7 +446,6 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
 app.handle('ask_to_resume_listening_at_last_offset__yes', async (conv) => {
   // nothing
   // not used
-  // @ts-ignore
   conv.scene.next.name = 'player';
 });
 
@@ -463,7 +458,6 @@ app.handle("ask_to_resume_listening_at_last_offset__no", async (conv) => {
     conv.user.params.player.current.index = 0;
     conv.user.params.player.current.time = 0;
   }
-  // @ts-ignore
   conv.scene.next.name = 'player';
 });
 
@@ -572,7 +566,6 @@ app.handle('reprendre_la_lecture', (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
-  // @ts-ignore
   conv.scene.next.name = 'player';
 });
 
@@ -633,7 +626,6 @@ app.handle('media_status', (conv) => {
   switch (mediaStatus) {
     case 'FINISHED':
       persistMediaPlayer(conv);
-      // @ts-ignore
       conv.scene.next.name = "home_members_lvl2";
 
       // void
