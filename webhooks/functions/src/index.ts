@@ -7,10 +7,9 @@ import { User, Scene } from "@assistant/conversation/dist/conversation/handler";
 // class-transformer
 import 'reflect-metadata';  
 import { pull, push } from "./database";
-import { IOpdsLinkView } from "opds-fetcher-parser/build/src/interface/opds";
-import { IStorage } from "./model/storage.interface";
 import { StorageDto } from "./model/storage.dto";
 import { TSdkScene } from "./sdk";
+import { getPubsFromFeed, isValidHttpUrl } from "./utils";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
@@ -34,12 +33,12 @@ interface IScene extends Scene {
     name: TSdkScene;
   }
 }
-interface IConvesationWithParams extends ConversationV3 {
+interface IConversationWithParams extends ConversationV3 {
   user: IUser;
   scene: IScene;
 }
 
-const app = conversation<IConvesationWithParams>();
+const app = conversation<IConversationWithParams>();
 
 const appHandle: typeof app.handle = app.handle.bind(app);
 
@@ -67,41 +66,48 @@ app.handle = (path, fn) => {
   return ret;
 };
 
-function isValidHttpUrl(string: string | undefined) {
-  let url: URL;
+// catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
+// ExceptionHandler(conv: TConversation, error: Error): any
+app.catch((conv, error) => {
+  conv.add('une erreur s\'est produite');
+
+  console.log('ERROR');
+  console.log(error);
+});
+
+// middleware<TConversationPlugin>(middleware: ConversationV3Middleware<TConversationPlugin>): ConversationV3App<TConversation>
+// ConversationV3Middleware(conv: ConversationV3, framework: BuiltinFrameworkMetadata): void | ConversationV3 & TConversationPlugin | Promise<ConversationV3 & TConversationPlugin> | Promise<void>
+app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) => {
+
+  console.log(conv.user.params);
+  console.log('==========');
+  console.log(conv);
+  console.log('----------');
 
   try {
-    if (!string) throw ""
-    url = new URL(string);
-  } catch (_) {
-    return false;
+
+    const bearerToken = typeof conv.user.params.bearerToken === "string" ? conv.user.params.bearerToken : "";
+    ok(bearerToken, "bearerToken not defined");
+
+    const doc = await pull(bearerToken);
+    const data = doc.exists ? doc.data() : undefined;
+    const instance = StorageDto.create(data, bearerToken);
+    conv.user.params = instance;
+
+  } catch (e) {
+    console.error('Middleware critical error firebase firestore');
+    console.error(e);
+
+    conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);
   }
 
-  return url.protocol === 'http:' || url.protocol === 'https:';
-}
+  console.log("user-params:");
+  console.log(conv.user.params);
+  ok(conv.user.params instanceof StorageDto);
 
-async function getPubsFromFeed(url: string) {
-  const opds = new OpdsFetcher();
-  const feed = await opds.feedRequest(url);
+  // void
+});
 
-  ok(Array.isArray(feed.publications), 'no publications');
-  const list = feed.publications
-      .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
-        return (
-          Array.isArray(l) &&
-          l[0] &&
-          isValidHttpUrl(l[0].url)
-        );
-      })
-      .slice(0, 5)
-      .map(({title, authors, openAccessLinks}) => ({
-        title: title,
-        author: Array.isArray(authors) ? authors[0].name : "",
-        webpuburl: (openAccessLinks as IOpdsLinkView[])[0].url,
-      }));
-
-  return list;
-}
 
 // ////////
 // TEST //
@@ -522,7 +528,7 @@ app.handle("player", async (conv) => {
 // Media PLAYET CONTEXT //
 // ////////////////////////
 
-function persistMediaPlayer(conv: IConvesationWithParams) {
+function persistMediaPlayer(conv: IConversationWithParams) {
   if (conv.request.context) {
     // Persist the media progress value
 
@@ -610,7 +616,6 @@ app.handle('remaining_time', async (conv) => {
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
-  // @ts-ignore
   conv.scene.next.name = 'player';
 });
 
@@ -650,46 +655,5 @@ app.handle('media_status', (conv) => {
 });
 
 
-// catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
-// ExceptionHandler(conv: TConversation, error: Error): any
-app.catch((conv, error) => {
-  conv.add('une erreur s\'est produite');
-
-  console.log('ERROR');
-  console.log(error);
-});
-
-// middleware<TConversationPlugin>(middleware: ConversationV3Middleware<TConversationPlugin>): ConversationV3App<TConversation>
-// ConversationV3Middleware(conv: ConversationV3, framework: BuiltinFrameworkMetadata): void | ConversationV3 & TConversationPlugin | Promise<ConversationV3 & TConversationPlugin> | Promise<void>
-app.middleware<IConvesationWithParams>(async (conv: IConvesationWithParams) => {
-
-  console.log(conv.user.params);
-  console.log('==========');
-  console.log(conv);
-  console.log('----------');
-
-  try {
-
-    const bearerToken = typeof conv.user.params.bearerToken === "string" ? conv.user.params.bearerToken : "";
-    ok(bearerToken, "bearerToken not defined");
-
-    const doc = await pull(bearerToken);
-    const data = doc.exists ? doc.data() : undefined;
-    const instance = StorageDto.create(data, bearerToken);
-    conv.user.params = instance;
-
-  } catch (e) {
-    console.error('Middleware critical error firebase firestore');
-    console.error(e);
-
-    conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);
-  }
-
-  console.log("user-params:");
-  console.log(conv.user.params);
-  ok(conv.user.params instanceof StorageDto);
-
-  // void
-});
 
 exports.ActionsOnGoogleFulfillment = functions.https.onRequest(app);
