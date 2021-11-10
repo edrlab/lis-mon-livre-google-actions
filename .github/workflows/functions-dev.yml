@@ -41,6 +41,18 @@ jobs:
       - name: Install Dependencies
         run: npm ci --no-audit
         working-directory: ${{ env.working-directory }}
+
+      - name: test
+        run: npm test
+        working-directory: ${{ env.working-directory }}
+
+      - name: lint
+        run: npm run lint
+        working-directory: ${{ env.working-directory }}
+
+      - name: build
+        run: npm run build
+        working-directory: ${{ env.working-directory }}
       
       - name: set commit name to function config
         uses: w9jds/firebase-action@master
