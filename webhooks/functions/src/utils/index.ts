@@ -2,17 +2,17 @@ import {OpdsFetcher} from 'opds-fetcher-parser';
 import * as assert from 'assert';
 import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
 
-export function isValidHttpUrl(string: string | undefined) {
-  let url: URL;
+export function isValidHttpUrl(url: string | undefined): url is string {
+  let _url: URL;
 
   try {
-    if (!string) throw new Error();
-    url = new URL(string);
+    if (!url) return false;
+    _url = new URL(url);
   } catch (_) {
     return false;
   }
 
-  return url.protocol === 'http:' || url.protocol === 'https:';
+  return _url.protocol === 'http:' || _url.protocol === 'https:';
 }
 
 export async function getPubsFromFeed(url: string) {

@@ -1,53 +1,26 @@
-import {conversation, ConversationV3, Media } from "@assistant/conversation";
+import {conversation, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
 import {OpdsFetcher} from "opds-fetcher-parser";
 import {ok} from "assert";
-import { User, Scene } from "@assistant/conversation/dist/conversation/handler";
 
 // class-transformer
 import 'reflect-metadata';  
 import { pull, push } from "./database";
 import { StorageDto } from "./model/storage.dto";
-import { TSdkScene } from "./sdk";
-import { getPubsFromFeed, isValidHttpUrl } from "./utils";
+import { isValidHttpUrl } from "./utils";
+import { IConversationWithParams, MediaType, OptionalMediaControl } from "./type";
+import { persistMediaPlayer } from "./service/persist";
+import { listPublication } from "./service/listPublication";
+import { selectPublication } from "./service/selectPublication";
+import { testConversation } from "./conversation/test";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 const WEBPUB_URL = 'https://storage.googleapis.com/audiobook_edrlab/webpub/';
 const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
 const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
 
-enum MediaType {
-  Audio = 'AUDIO',
-  MediaStatusACK = 'MEDIA_STATUS_ACK',
-  MediaTypeUnspecified = 'MEDIA_TYPE_UNSPECIFIED',
-}
-
-enum OptionalMediaControl {
-  OptionalMediaControlsUnspecified = 'OPTIONAL_MEDIA_CONTROLS_UNSPECIFIED',
-  Paused = 'PAUSED',
-  Stopped = 'STOPPED',
-}
-
-interface IUser extends User {
-  params: StorageDto; 
-}
-interface IScene extends Scene {
-  next: {
-    name: TSdkScene;
-  },
-  name: TSdkScene;
-}
-interface IConversationWithParams extends ConversationV3 {
-  user: IUser;
-  scene: IScene;
-  session: {
-    params: {
-      [key: string]: any;
-    }
-  }
-}
-
 const app = conversation<IConversationWithParams>();
+export type TApp = typeof app;
 
 const appHandle: typeof app.handle = app.handle.bind(app);
 
@@ -75,6 +48,11 @@ app.handle = (path, fn) => {
   return ret;
 };
 
+// load test conversationnel
+// not used in prod MODE
+// @TODO Disable it in PROD-MODE
+testConversation(app);
+
 // catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
 // ExceptionHandler(conv: TConversation, error: Error): any
 app.catch((conv, error) => {
@@ -82,6 +60,10 @@ app.catch((conv, error) => {
 
   console.log('ERROR');
   console.log(error);
+
+  // conv.add(error.toString());
+
+  conv.scene.next.name = conv.scene.name; // loop
 });
 
 // middleware<TConversationPlugin>(middleware: ConversationV3Middleware<TConversationPlugin>): ConversationV3App<TConversation>
@@ -121,55 +103,6 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   // void
 });
 
-
-// ////////
-// TEST //
-// ////////
-
-app.handle('test_player_sdk', (conv) => {
-  const nb = conv.intent.params?.number.resolved;
-
-  switch (nb) {
-    case 123:
-
-      conv.user.params.player.current.index = 2;
-      conv.user.params.player.current.playing = true;
-      conv.user.params.player.current.time = 123;
-      conv.user.params.player.current.url = "https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json";
-      conv.user.params.player.history.set("https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json", {
-        index: 2,
-        date: new Date(),
-        time: 123,
-      });
-
-      break;
-
-    case 456:
-
-      break;
-    case 789:
-
-      break;
-  }
-
-  console.log('test_PLAYER');
-  console.log(conv.user.params);
-
-  conv.add(`test player ${nb}`);
-});
-
-app.handle('setup_test_sdk', (conv) => {
-  const nb = conv.intent.params?.number.resolved;
-
-  conv.user.params.bearerToken =  `test-${nb}`;
-
-  conv.add(`setup test ${nb}`);
-});
-
-// ////////
-// TEST //
-// ////////
-
 // ----------------
 //
 // CONVERSATION START
@@ -180,7 +113,6 @@ app.handle('cancel', (conv) => {
   // Implement your code here
   // conv.add("cancel");
 });
-
 
 app.handle('main', (conv) => {
 
@@ -314,7 +246,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
   console.log("start: ask_to_resume_last_offset");
 
   const { url, index, time } = conv.user.params.player.current;
-  if (url && ((index && index > 0) || (time && time > 0))) {
+  if (isValidHttpUrl(url) && ((index && index > 0) || (time && time > 0))) {
     console.log("ask to resume enabled , wait yes or no");
     // ask yes or no in the no-code scene
     // const history = conv.user.params.player[url];
@@ -322,6 +254,8 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     // TODO: use the date info
 
     conv.add('Voulez-vous reprendre la lecture là où elle s\'était arrêtée ?');
+
+    // wait intent
   } else {
     console.log('no need to ask to resume');
     conv.scene.next.name = 'player';
@@ -337,17 +271,19 @@ app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) =
 app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) => {
 
   const url = conv.user.params.player.current.url;
-  if (url) {
-    console.log("erase ", url, " resume listening NO");
-    conv.user.params.player.current.index = 0;
-    conv.user.params.player.current.time = 0;
-  }
+  ok(isValidHttpUrl(url), "url not defined/valid " + url);
+  console.log("erase ", url, " resume listening NO");
+
+  conv.user.params.player.current.index = 0;
+  conv.user.params.player.current.time = 0;
   conv.scene.next.name = 'player';
 });
 
 app.handle('search', (conv) => {
 
   conv.add('Que voulez-vous écouter ? Par exemple Zola');
+
+  // wait query intent
 });
 
 app.handle('search__slot__query', async (conv) => {
@@ -356,7 +292,6 @@ app.handle('search__slot__query', async (conv) => {
   console.log('search_livre_lvl2 START');
 
   let query = null;
-
   try {
     query = conv.intent.params?.query.resolved;
   } catch (_) {
@@ -412,7 +347,6 @@ app.handle("player", async (conv) => {
   const url = conv.user.params.player.current.url;
 
   console.log("Player URL:", url);
-  ok(url, "url not defined");
   ok(isValidHttpUrl(url), "url not valid " + url);
 
   const opds = new OpdsFetcher();
@@ -461,44 +395,9 @@ app.handle("player", async (conv) => {
 
 
 // ////////////////////////
-// Media PLAYET CONTEXT //
+// Media PLAYER CONTEXT //
 // ////////////////////////
 
-function persistMediaPlayer(conv: IConversationWithParams) {
-  if (conv.request.context) {
-    // Persist the media progress value
-
-    const _progress = conv.request.context.media?.progress || "0";
-    const progress = parseInt(_progress, 10);
-    const index = conv.request.context.media?.index;
-    const url = conv.user.params.player.current.url
-
-    ok(url, "url not defined");
-
-    conv.user.params.player.current.index = index;
-    conv.user.params.player.current.time = progress;
-
-    if (!conv.user.params.player) {
-      conv.user.params.player = {
-        current: {
-          playing: false,
-        },
-        history: new Map(),
-      };
-    }
-
-    conv.user.params.player.history[url] = {
-      index: index,
-      time: progress,
-      date: new Date().getTime(),
-    };
-
-    console.log('player persistence :');
-    console.log(conv.user.params.player);
-  } else {
-    console.log('NO conv.request.context !!');
-  }
-}
 
 app.handle('player__intent__resume_listening_player ', (conv) => {
   persistMediaPlayer(conv);
@@ -522,7 +421,7 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
   const webpub = await opds.webpubRequest(url);
   ok(webpub, 'webpub not defined');
 
-  const index = conv.user.params.player.current.index|| 0;
+  const index = conv.user.params.player.current.index || 0;
   const time = conv.user.params.player.current.time || 0;
 
   let minutes = 0;
@@ -589,58 +488,5 @@ app.handle('media_status', (conv) => {
 
   console.log('MediaStatus END');
 });
-
-async function selectPublication(url: string, number: number, conv: IConversationWithParams) {
-
-  const list = await getPubsFromFeed(url);
-  const pub = list[number - 1];
-  if (!pub) {
-    console.log('NO PUBS found !!');
-    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
-    conv.scene.next.name = conv.scene.name; // loop selection or search
-
-    return ;
-  }
-
-  console.log('PUB: ', pub);
-
-  const urlWebpub = pub.webpuburl;
-  const history = conv.user.params.player.history.get(urlWebpub);
-  conv.user.params.player.current.index = history ? history.index : 0;
-  conv.user.params.player.current.time = history ? history.time : 0;
-  conv.user.params.player.current.url = url;
-
-  conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-}
-
-async function listPublication(url: string, conv: IConversationWithParams, nextScene: TSdkScene, errorScene: TSdkScene = conv.scene.name) {
-
-  const list = await getPubsFromFeed(url);
-  console.log('PUBs: ', list);
-
-  const length = list.length;
-  if (length > 1) {
-
-    conv.scene.next.name = nextScene;
-    conv.add(`Il y a ${length} publications :\n`);
-
-    let text = '';
-    list.map(({title, author}, i) => {
-      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
-    });
-    conv.add(text);
-
-  } else if (length === 1) {
-
-    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-    conv.user.params.player.current.url = list[0].webpuburl;
-
-  } else {
-
-    conv.scene.next.name = errorScene;
-    conv.add('aucun résultat trouvé');
-
-  }
-}
 
 exports.ActionsOnGoogleFulfillment = functions.https.onRequest(app);
