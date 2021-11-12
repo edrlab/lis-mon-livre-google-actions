@@ -281,30 +281,7 @@ app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', (conv) => {
 app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
 
   const url = SELECTION_URL;
-  const list = await getPubsFromFeed(url);
-
-  console.log('PUBs: ', list);
-
-  const length = list.length;
-  if (length > 1) {
-    conv.scene.next.name = 'select_pub_after_selection';
-    conv.add(`Il y a ${length} publications :\n`);
-
-    let text = '';
-    list.map(({title, author}, i) => {
-      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
-    });
-
-    conv.add(text);
-  } else if (length === 1) {
-    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-
-    conv.user.params.player.current.url = list[0].webpuburl;
-  } else {
-    conv.scene.next.name = "home_members_lvl2";
-
-    conv.add('aucun résultat trouvé');
-  }
+  await listPublication(url, conv, 'select_pub_after_selection', 'home_members_lvl2');
 
   console.log('selection_my_list_lvl3 EXIT');
 });
@@ -322,7 +299,7 @@ app.handle('select_pub_after_selection__slot__number', async (conv) => {
   const number = conv.intent.params?.number.resolved;
 
   const url = SELECTION_URL;
-  selectPublication(url, number, conv);
+  await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
 });
@@ -391,32 +368,7 @@ app.handle('search__slot__query', async (conv) => {
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
   console.log('search URL: ', url);
-
-  const list = await getPubsFromFeed(url);
-
-  console.log('PUBs: ');
-  console.log(list);
-
-  const length = list.length;
-  if (length > 1) {
-    conv.scene.next.name = 'select_pub_after_search';
-    conv.add(`Il y a ${length} publications :\n`);
-
-    let text = '';
-    list.map(({title, author}, i) => {
-      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
-    });
-
-    conv.add(text);
-  } else if (length === 1) {
-    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-
-    conv.user.params.player.current.url = list[0].webpuburl;
-  } else {
-    conv.scene.next.name = 'search';
-
-    conv.add('aucun résultat trouvé');
-  }
+  await listPublication(url, conv, 'select_pub_after_search', 'search');
 
   console.log('search_livre_lvl2 STOP');
 
@@ -451,7 +403,7 @@ app.handle('select_pub_after_search__slot__number', async (conv) => {
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
   console.log('select_pub_after_search__slot__number URL: ', url);
-  selectPublication(url, number, conv);
+  await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
 });
@@ -642,40 +594,53 @@ async function selectPublication(url: string, number: number, conv: IConversatio
 
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
-  if (pub) {
-    console.log('PUB: ', pub);
-
-    const url = pub.webpuburl;
-
-    if (!conv.user.params.player) {
-      conv.user.params.player = {
-        current: {
-          playing: false,
-        },
-        history: new Map(),
-      };
-    }
-
-    const history = conv.user.params.player[url];
-    if (!history) {
-      conv.user.params.player.current.index = 0;
-      conv.user.params.player.current.time = 0;
-    } else {
-      conv.user.params.player.current.index = history.i;
-      conv.user.params.player.current.time = history.t;
-    }
-    conv.user.params.player.current.url = url;
-
-    // should be specified
-    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
-  } else {
+  if (!pub) {
     console.log('NO PUBS found !!');
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+    conv.scene.next.name = conv.scene.name; // loop selection or search
 
-    conv.scene.next.name = conv.scene.name;
+    return ;
   }
+
+  console.log('PUB: ', pub);
+
+  const urlWebpub = pub.webpuburl;
+  const history = conv.user.params.player.history.get(urlWebpub);
+  conv.user.params.player.current.index = history ? history.index : 0;
+  conv.user.params.player.current.time = history ? history.time : 0;
+  conv.user.params.player.current.url = url;
+
+  conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 }
 
+async function listPublication(url: string, conv: IConversationWithParams, nextScene: TSdkScene, errorScene: TSdkScene = conv.scene.name) {
 
+  const list = await getPubsFromFeed(url);
+  console.log('PUBs: ', list);
+
+  const length = list.length;
+  if (length > 1) {
+
+    conv.scene.next.name = nextScene;
+    conv.add(`Il y a ${length} publications :\n`);
+
+    let text = '';
+    list.map(({title, author}, i) => {
+      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
+    });
+    conv.add(text);
+
+  } else if (length === 1) {
+
+    conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
+    conv.user.params.player.current.url = list[0].webpuburl;
+
+  } else {
+
+    conv.scene.next.name = errorScene;
+    conv.add('aucun résultat trouvé');
+
+  }
+}
 
 exports.ActionsOnGoogleFulfillment = functions.https.onRequest(app);
