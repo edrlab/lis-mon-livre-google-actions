@@ -18,7 +18,7 @@ export async function selectPublication(url: string, number: number, conv: IConv
   const history = conv.user.params.player.history.get(urlWebpub);
   conv.user.params.player.current.index = history ? history.index : 0;
   conv.user.params.player.current.time = history ? history.time : 0;
-  conv.user.params.player.current.url = url;
+  conv.user.params.player.current.url = urlWebpub;
 
   conv.scene.next.name = 'ask_to_resume_listening_at_last_offset';
 }

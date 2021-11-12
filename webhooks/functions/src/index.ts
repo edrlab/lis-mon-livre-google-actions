@@ -43,6 +43,10 @@ app.handle = (path, fn) => {
       console.error(e);
     }
 
+    console.log("----------");
+    console.log(conv.user.params);
+    console.log("----------");
+
   });
 
   return ret;
@@ -70,11 +74,6 @@ app.catch((conv, error) => {
 // ConversationV3Middleware(conv: ConversationV3, framework: BuiltinFrameworkMetadata): void | ConversationV3 & TConversationPlugin | Promise<ConversationV3 & TConversationPlugin> | Promise<void>
 app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) => {
 
-  console.log(conv.user.params);
-  console.log('==========');
-  console.log(conv);
-  console.log('----------');
-
   if (!conv.session.params) {
     conv.session.params = {};
   }
@@ -96,8 +95,11 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
     conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);
   }
 
-  console.log("user-params:");
   console.log(conv.user.params);
+  console.log('==========');
+  console.log(conv.request);
+  console.log('----------');
+
   ok(conv.user.params instanceof StorageDto);
 
   // void
@@ -184,9 +186,8 @@ app.handle('home_members_lvl2__intent__resume_audiobook_lvl2', (conv) => {
   if (!url) {
     conv.scene.next.name = "home_members_lvl2";
     conv.add("aucune lecture en cours");
-  }
-
-  conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
+  } else
+    conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
 });
 
 app.handle('home_members__intent__selection_audiobook_lvl2', (conv) => {
@@ -196,6 +197,8 @@ app.handle('home_members__intent__selection_audiobook_lvl2', (conv) => {
 
 app.handle('selection_lvl3', (conv) => {
 
+  conv.add("Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?")
+
   // wait intent
   // conv.scene.next.name
 });
@@ -203,11 +206,15 @@ app.handle('selection_lvl3', (conv) => {
 app.handle('selection_lvl3__intent__selection_genre_lvl3', (conv) => {
 
   conv.add("sélection par genre");
+
+  conv.scene.next.name = "home_members_lvl2";
 });
 
 app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', (conv) => {
 
   conv.add('sélection par liste thématique');
+
+  conv.scene.next.name = "home_members_lvl2";
 });
 
 app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {

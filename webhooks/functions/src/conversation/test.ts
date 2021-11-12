@@ -33,10 +33,18 @@ export const testConversation = (app: TApp) => {
     conv.add(`test player ${nb}`);
   });
 
-  app.handle('setup_test_sdk', (conv) => {
+  app.handle('test_setup_sdk', (conv) => {
     const nb = conv.intent.params?.number.resolved;
 
+
+    console.log('HELLLO ');
+
+
+    console.log(conv.user.params.bearerToken);
     conv.user.params.bearerToken = `test-${nb}`;
+    console.log(conv.user.params.bearerToken);
+
+    console.log('HELLLO ');
 
     conv.add(`setup test ${nb}`);
   });

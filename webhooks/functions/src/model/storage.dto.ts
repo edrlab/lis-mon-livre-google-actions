@@ -1,13 +1,16 @@
+import * as util from 'util';
 import {IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory} from './storage.interface';
-import {classToPlain, Exclude, plainToClass, Type} from 'class-transformer';
-import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsPositive, IsString, IsUrl, ValidateNested, validateSync} from 'class-validator';
+import {classToPlain, Exclude, plainToClass, Transform, TransformationType, Type} from 'class-transformer';
+import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
 
 const DB_VERSION = 1;
 
 class StoragePlayerHistoryDto implements IStoragePlayerHistory {
+  @Min(0)
   @IsNumber()
     index: number;
 
+  @Min(0)
   @IsNumber()
     time: number;
 
@@ -22,13 +25,13 @@ class StoragePlayerHistoryDto implements IStoragePlayerHistory {
 }
 
 class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
-  @IsPositive()
   @IsNumber()
+  @Min(0)
   @IsOptional()
     index?: number;
 
-  @IsPositive()
   @IsNumber()
+  @Min(0)
   @IsOptional()
     time?: number;
 
@@ -61,7 +64,17 @@ class StoragePlayerDto implements IStoragePlayer {
 
   @IsNotEmpty()
   @Type(() => StoragePlayerHistoryDto)
-  @ValidateNested()
+  @Transform(({value, type}) => { // transform new Map() to plain and from plain
+    if (type === TransformationType.PLAIN_TO_CLASS) {
+      return new Map(typeof value === 'object' ? Object.entries(value) : []);
+    }
+    if (type === TransformationType.CLASS_TO_PLAIN && value.entries) {
+      return Array.from<Array<any>>(value.entries()).reduce((pv, [key, value]) => ({...pv, [key]: value}), {});
+    }
+  })
+  @ValidateNested({
+    each: true,
+  })
     history: Map<string, StoragePlayerHistoryDto>;
 
   constructor() {
@@ -109,7 +122,8 @@ export class StorageDto implements IStorage {
         throw new Error('bearerToken is empty');
       }
 
-      console.error('Storage DTO \'create\' errors', errors);
+      console.error('Storage DTO \'create\' errors', util.inspect(errors, {depth: 8}));
+
       console.error('new fresh storageDto created');
 
       return new StorageDto(bearerToken);
@@ -124,7 +138,7 @@ export class StorageDto implements IStorage {
     const errors = validateSync(this);
 
     if (errors.length) {
-      console.error('storage DTO \'extract\' errors', errors);
+      console.error('storage DTO \'extract\' errors', util.inspect(errors, {depth: 8}));
       console.error('return the last snapshot', this.snapshot);
 
       return this.snapshot;
