@@ -1,8 +1,7 @@
-import { IConversationWithParams } from "../type";
-import { getPubsFromFeed } from "../utils";
+import {IConversationWithParams} from '../type';
+import {getPubsFromFeed} from '../utils';
 
 export async function selectPublication(url: string, number: number, conv: IConversationWithParams) {
-
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (!pub) {
@@ -10,7 +9,7 @@ export async function selectPublication(url: string, number: number, conv: IConv
     conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
     conv.scene.next.name = conv.scene.name; // loop selection or search
 
-    return ;
+    return;
   }
 
   console.log('PUB: ', pub);

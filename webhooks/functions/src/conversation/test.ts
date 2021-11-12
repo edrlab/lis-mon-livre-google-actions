@@ -1,4 +1,4 @@
-import { TApp } from "..";
+import {TApp} from '..';
 
 export const testConversation = (app: TApp) => {
   app.handle('test_player_sdk', (conv) => {
@@ -10,8 +10,8 @@ export const testConversation = (app: TApp) => {
         conv.user.params.player.current.index = 2;
         conv.user.params.player.current.playing = true;
         conv.user.params.player.current.time = 123;
-        conv.user.params.player.current.url = "https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json";
-        conv.user.params.player.history.set("https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json", {
+        conv.user.params.player.current.url = 'https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json';
+        conv.user.params.player.history.set('https://storage.googleapis.com/audiobook_edrlab/webpub/therese_raquin_emile_zola.json', {
           index: 2,
           date: new Date(),
           time: 123,
@@ -40,5 +40,4 @@ export const testConversation = (app: TApp) => {
 
     conv.add(`setup test ${nb}`);
   });
-
-}
+};

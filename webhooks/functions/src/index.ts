@@ -344,24 +344,25 @@ app.handle('select_pub_after_search__slot__number', async (conv) => {
 });
 
 app.handle("player", async (conv) => {
-  const url = conv.user.params.player.current.url;
 
-  console.log("Player URL:", url);
+  const url = conv.user.params.player.current.url;
   ok(isValidHttpUrl(url), "url not valid " + url);
+  console.log("Player URL:", url);
+
+  const startIndexRaw = conv.user.params.player.current.index;
+  const startTimeRaw = conv.user.params.player.current.time;
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
   ok(webpub, 'webpub not defined');
 
-  const startIndexRaw = conv.user.params.player.current.index;
-  const startIndex =
-    typeof startIndexRaw === 'number' &&
-      startIndexRaw <= webpub.readingOrders.length ? startIndexRaw : 0;
+  const startIndex = (startIndexRaw && startIndexRaw <= webpub.readingOrders.length)
+    ? startIndexRaw
+    : 0;
 
-  const startTimeRaw = conv.user.params.player.current.time;
-  const startTime =
-    typeof startTimeRaw === 'number' &&
-      startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity) ? startTimeRaw : 0;
+  const startTime = (startTimeRaw && startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity))
+    ? startTimeRaw
+    : 0;
 
   const mediaObjects = webpub.readingOrders
       .map((v, i) => ({
