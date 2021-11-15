@@ -68,7 +68,7 @@ class StoragePlayerDto implements IStoragePlayer {
     if (type === TransformationType.PLAIN_TO_CLASS) {
       return new Map(typeof value === 'object' ? Object.entries(value) : []);
     }
-    if (type === TransformationType.CLASS_TO_PLAIN && typeof value === "object" && value.entries) {
+    if (type === TransformationType.CLASS_TO_PLAIN && typeof value === 'object' && value.entries) {
       return Array.from<Array<any>>(value.entries()).reduce((pv, [key, value]) => ({...pv, [key]: value}), {});
     }
   })
