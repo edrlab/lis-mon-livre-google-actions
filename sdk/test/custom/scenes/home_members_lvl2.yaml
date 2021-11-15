@@ -8,5 +8,13 @@ intentEvents:
 - handler:
     webhookHandler: home_members__intent__selection_audiobook_lvl2
   intent: selection_audiobook_lvl2
+- handler:
+    webhookHandler: test_setup_sdk
+  intent: test_setup_sdk
+  transitionToScene: home_members_lvl2
+- handler:
+    webhookHandler: test_player_sdk
+  intent: test_player_sdk
+  transitionToScene: home_members_lvl2
 onEnter:
   webhookHandler: home_members_lvl2

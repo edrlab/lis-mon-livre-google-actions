@@ -1,0 +1,7 @@
+parameters:
+- name: number
+  type:
+    name: actions.type.Number
+trainingPhrases:
+- test setup sdk ($number '123' auto=true)
+- setup test sdk ($number '123' auto=true)
