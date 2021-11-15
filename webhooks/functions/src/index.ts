@@ -131,11 +131,11 @@ app.handle('home_lvl1', (conv) => {
   // conv.scene.next.name
 });
 
-app.handle('home_lvl1__intent__test_webhook', (conv) => {
+app.handle('test_webhook', (conv) => {
   conv.add('Webook works :', functions.config().debug.message || '');
   console.log('TEST OK');
 
-  conv.scene.next.name = "home_lvl1";
+  conv.scene.next.name = conv.scene.name;
 });
 
 app.handle('home_lvl1__intent__get_info_association_lvl1', (conv) => {
