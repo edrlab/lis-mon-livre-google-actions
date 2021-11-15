@@ -1,9 +1,9 @@
 intentEvents:
 - handler:
-    webhookHandler: reprendre_la_lecture
+    webhookHandler: player__intent__resume_listening_player
   intent: resume_listening_player
 - handler:
-    webhookHandler: remaining_time
+    webhookHandler: player__intent__remaining_time_player
   intent: remaing_time_player
 - handler:
     webhookHandler: media_status

@@ -1,25 +1,20 @@
 intentEvents:
 - handler:
-    webhookHandler: ecouter_livre_audio_lvl2
+    webhookHandler: home_members_lvl2__intent__listen_audiobook_lvl2
   intent: listen_audiobook_lvl2
-  transitionToScene: search
 - handler:
-    webhookHandler: reprendre_mon_livre_lvl2
+    webhookHandler: home_members_lvl2__intent__resume_audiobook_lvl2
   intent: resume_audiobook_lvl2
-  transitionToScene: ask_to_resume_listening_at_last_offset
 - handler:
-    webhookHandler: selection_livre_lvl2
+    webhookHandler: home_members__intent__selection_audiobook_lvl2
   intent: selection_audiobook_lvl2
-  transitionToScene: selection_lvl3
+- handler:
+    webhookHandler: test_setup_sdk
+  intent: test_setup_sdk
+  transitionToScene: home_members_lvl2
+- handler:
+    webhookHandler: test_player_sdk
+  intent: test_player_sdk
+  transitionToScene: home_members_lvl2
 onEnter:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: Bienvenue dans l'espace membres. Les commandes possibles sont,
-              sélection, lecture, recherche. Que voulez-vous faire ?
-        suggestions:
-        - title: selection d'un livre
-        - title: lecture du dernier livre
-        - title: recherche d'un livre
+  webhookHandler: home_members_lvl2

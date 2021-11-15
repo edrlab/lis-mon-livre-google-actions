@@ -1,6 +1,7 @@
 intentEvents:
-- intent: resume_listening_player
-  transitionToScene: select_pub_after_search
+- handler:
+    webhookHandler: select_pub_after_search__intent__resume_listening_player
+  intent: resume_listening_player
 - handler:
     staticPrompt:
       candidates:
@@ -52,18 +53,11 @@ intentEvents:
   intent: actions.intent.NO_INPUT_FINAL
   transitionToScene: search
 onEnter:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: Pour choisir une publication dite son numéro
+  webhookHandler: select_pub_after_search
 onSlotUpdated:
-  webhookHandler: select_publication_number_after_search
+  webhookHandler: select_pub_after_search__slot__number
 slots:
-- commitBehavior:
-    writeSessionParam: number
-  name: number
+- name: number
   required: true
   type:
     name: actions.type.Number

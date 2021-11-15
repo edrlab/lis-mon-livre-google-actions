@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import {StorageDto} from './storage.dto';
 import * as assert from 'assert';
+import {classToPlain} from 'class-transformer';
 
 
 describe('storage DTO', () => {
@@ -102,5 +103,96 @@ describe('storage DTO', () => {
         },
       },
     }, extr);
+  });
+
+  it('good validation extract', () => {
+    const instance = StorageDto.create(undefined, 'test');
+
+    instance.player.current.index = 0;
+
+    const extr = instance.extract();
+
+    assert.deepEqual({
+      dbVersion: 1,
+      bearerToken: 'test',
+      player: {
+        current: {
+          index: 0,
+          playing: false,
+        },
+        history: {
+
+        },
+      },
+    }, extr);
+  });
+
+  it('create error', () => {
+    const date = new Date();
+
+    const obj = {
+      dbVersion: 1,
+      bearerToken: '123',
+      player: {
+        current: {
+
+          playing: false,
+        },
+        history: {
+          'test': {
+            index: 0,
+            time: 0,
+            date: date,
+          },
+        },
+      },
+    };
+    const instance = StorageDto.create(obj, 'test');
+
+    assert.deepEqual(instance.player.history.get('test'), {
+      index: 0,
+      time: 0,
+      date: date,
+    });
+
+    instance.player.history.set('test2', {
+      index: 0,
+      time: 0,
+      date: date,
+    });
+
+    const extr = classToPlain(instance);
+
+    assert.deepEqual({
+      dbVersion: 1,
+      bearerToken: '123',
+      player: {
+        current: {
+
+          playing: false,
+        },
+        history: {
+          test2: {
+            index: 0,
+            time: 0,
+            date: date,
+          },
+          test: {
+            index: 0,
+            time: 0,
+            date: date,
+          },
+        },
+      },
+    }, extr);
+
+
+    const instance2 = StorageDto.create(extr, 'test');
+
+    assert.deepEqual(instance2.player.history.get('test2'), {
+      index: 0,
+      time: 0,
+      date: date,
+    });
   });
 });

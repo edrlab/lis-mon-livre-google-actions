@@ -10,7 +10,7 @@
     "build": "tsc",
     "test": "mocha --recursive --require ts-node/register src/**/*.test.ts",
     "lint": "eslint src/**/*.ts",
-    "typed:scene": "echo \"export type TSdkScene = \" $(for I in `ls ../../sdk/test/custom/scenes | cut -d \".\" -f1`; do echo \"'$I' |\"; done) | sed  's/..$/;/' > src/sdk.d.ts"
+    "typed:scene": "echo \"// npm run typed:scene   \n\n\nexport type TSdkScene = \" $(for I in `ls ../../sdk/test/custom/scenes | cut -d \".\" -f1`; do echo \"'$I' |\"; done) | sed  's/..$/;/' > src/sdk.d.ts"
   },
   "engines": {
     "node": "14"
