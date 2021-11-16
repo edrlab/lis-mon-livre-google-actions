@@ -18,6 +18,7 @@ describe('storage DTO', () => {
 
         },
       },
+      selection: {}
     };
 
     assert.throws(() => StorageDto.create(obj));
@@ -36,6 +37,7 @@ describe('storage DTO', () => {
 
         },
       },
+      selection: {}
     };
 
     const instance = StorageDto.create(obj);
@@ -57,6 +59,7 @@ describe('storage DTO', () => {
         history: {
 
         },
+      selection: {}
       },
     };
 
@@ -80,6 +83,7 @@ describe('storage DTO', () => {
 
         },
       },
+      selection: {}
     }, extr);
   });
 
@@ -102,6 +106,7 @@ describe('storage DTO', () => {
 
         },
       },
+      // selection: {}
     }, extr);
   });
 
@@ -124,7 +129,13 @@ describe('storage DTO', () => {
 
         },
       },
+      selection: {}
     }, extr);
+
+    const instance2 = StorageDto.create(extr);
+
+    assert.deepEqual(instance2.selection, {});
+    assert.deepEqual(instance2.selection.url, undefined);
   });
 
   it('create error', () => {
@@ -146,6 +157,7 @@ describe('storage DTO', () => {
           },
         },
       },
+      selection: {}
     };
     const instance = StorageDto.create(obj, 'test');
 
@@ -184,6 +196,7 @@ describe('storage DTO', () => {
           },
         },
       },
+      selection: {}
     }, extr);
 
 

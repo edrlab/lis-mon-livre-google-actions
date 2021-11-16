@@ -121,6 +121,7 @@ export class StorageDto implements IStorage {
     this.bearerToken = bearerToken;
     this.player = new StoragePlayerDto();
     this.snapshot = classToPlain(this) as IStorage;
+    this.selection = new StorageSelectionDto();
   }
 
   @Exclude()
