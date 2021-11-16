@@ -1,10 +1,9 @@
 import {IConversationWithParams} from '../type';
 import {getGroupsFromFeed, isValidHttpUrl} from '../utils';
-import { ok } from 'assert';
+import {ok} from 'assert';
 
 export async function selectGroup(url: string, number: number, conv: IConversationWithParams) {
-
-  ok(isValidHttpUrl(url), "url not valid");
+  ok(isValidHttpUrl(url), 'url not valid');
   const list = await getGroupsFromFeed(url);
   const group = list[number - 1];
   if (!group) {

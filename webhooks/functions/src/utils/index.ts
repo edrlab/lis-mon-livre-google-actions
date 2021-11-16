@@ -45,10 +45,10 @@ export async function getGroupsFromFeed(url: string) {
   assert.ok(Array.isArray(feed.groups), 'no groups');
   const list = feed.groups
       .filter(({selfLink: l}) /* : l is IOpdsLinkView[]*/ => {
-        return l?.title && l?.url && isValidHttpUrl(l.url)
+        return l?.title && l?.url && isValidHttpUrl(l.url);
       })
       .slice(0, 5)
-      .map(({selfLink: { title, url }}) => ({
+      .map(({selfLink: {title, url}}) => ({
         title: title,
         groupUrl: url,
       }));

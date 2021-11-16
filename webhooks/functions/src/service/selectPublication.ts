@@ -1,10 +1,9 @@
 import {IConversationWithParams} from '../type';
 import {getPubsFromFeed, isValidHttpUrl} from '../utils';
-import { ok } from 'assert';
+import {ok} from 'assert';
 
 export async function selectPublication(url: string, number: number, conv: IConversationWithParams) {
-
-  ok(isValidHttpUrl(url), "url not valid");
+  ok(isValidHttpUrl(url), 'url not valid');
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (!pub) {

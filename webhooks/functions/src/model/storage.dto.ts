@@ -84,14 +84,13 @@ class StoragePlayerDto implements IStoragePlayer {
 }
 
 class StorageSelectionDto implements IStorageSelection {
+  @IsOptional()
+  @IsUrl()
+    topUrl?: string;
 
   @IsOptional()
   @IsUrl()
-  topUrl?: string;
-
-  @IsOptional()
-  @IsUrl()
-  url?: string;
+    url?: string;
 }
 
 export class StorageDto implements IStorage {

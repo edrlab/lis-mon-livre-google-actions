@@ -1,11 +1,10 @@
 import {TSdkScene} from '../sdk';
 import {IConversationWithParams} from '../type';
 import {getGroupsFromFeed, isValidHttpUrl} from '../utils';
-import { ok } from 'assert';
+import {ok} from 'assert';
 
 export async function listGroups(url: string, conv: IConversationWithParams, nextScene: TSdkScene, errorScene: TSdkScene = conv.scene.name) {
-
-  ok(isValidHttpUrl(url), "url not valid");
+  ok(isValidHttpUrl(url), 'url not valid');
   const list = await getGroupsFromFeed(url);
   console.log('SELECTIONS: ', list);
 
