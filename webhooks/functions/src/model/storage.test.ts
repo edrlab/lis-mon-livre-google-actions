@@ -18,7 +18,7 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {}
+      selection: {},
     };
 
     assert.throws(() => StorageDto.create(obj));
@@ -37,7 +37,7 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {}
+      selection: {},
     };
 
     const instance = StorageDto.create(obj);
@@ -59,7 +59,7 @@ describe('storage DTO', () => {
         history: {
 
         },
-      selection: {}
+        selection: {},
       },
     };
 
@@ -83,7 +83,7 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {}
+      selection: {},
     }, extr);
   });
 
@@ -108,6 +108,40 @@ describe('storage DTO', () => {
       },
       // selection: {}
     }, extr);
+
+    const instance2 = StorageDto.create(extr);
+
+    assert.deepEqual(instance2.selection, {});
+    assert.deepEqual(instance2.selection.url, undefined);
+  });
+
+  it('selection validation extract', () => {
+    const instance = StorageDto.create(undefined, 'test');
+
+    instance.selection.url = undefined;
+    // instance.selection.topUrl = "http://google.com";
+
+    const extr = instance.extract();
+
+    assert.deepEqual({
+      dbVersion: 1,
+      bearerToken: 'test',
+      player: {
+        current: {
+
+          playing: false,
+        },
+        history: {
+
+        },
+      },
+      selection: {},
+    }, extr);
+
+    const instance2 = StorageDto.create(extr);
+
+    assert.deepEqual(instance2.selection, {});
+    assert.deepEqual(instance2.selection.url, undefined);
   });
 
   it('good validation extract', () => {
@@ -129,13 +163,8 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {}
+      selection: {},
     }, extr);
-
-    const instance2 = StorageDto.create(extr);
-
-    assert.deepEqual(instance2.selection, {});
-    assert.deepEqual(instance2.selection.url, undefined);
   });
 
   it('create error', () => {
@@ -157,7 +186,7 @@ describe('storage DTO', () => {
           },
         },
       },
-      selection: {}
+      selection: {},
     };
     const instance = StorageDto.create(obj, 'test');
 
@@ -196,7 +225,7 @@ describe('storage DTO', () => {
           },
         },
       },
-      selection: {}
+      selection: {},
     }, extr);
 
 

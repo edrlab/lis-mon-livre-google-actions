@@ -161,7 +161,7 @@ export class StorageDto implements IStorage {
       return this.snapshot;
     }
 
-    const storage = classToPlain(this);
+    const storage = classToPlain(this, {exposeUnsetFields: false});
     return storage;
   }
 }

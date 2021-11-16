@@ -17,5 +17,5 @@ export async function selectGroup(url: string, number: number, conv: IConversati
   console.log('Groups: ', group);
 
   conv.user.params.selection.url = group.groupUrl;
-  conv.scene.next.name = 'select_pub_after_selection';
+  // conv.scene.next.name = 'select_pub_after_selection';
 }

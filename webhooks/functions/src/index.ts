@@ -223,7 +223,7 @@ app.handle('selection_lvl3__intent__selection_genre_lvl3', async (conv) => {
 
 app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', async (conv) => {
 
-  conv.add('sélection par liste thématique');
+  // conv.add('sélection par liste thématique');
 
   const url = THEMATIC_LIST_URL;
   conv.user.params.selection.topUrl = url;
@@ -262,10 +262,15 @@ app.handle('select_list_after_list_selection__slot__number', async (conv) => {
 
   const number = conv.intent.params?.number.resolved;
 
-  const url = conv.user.params.selection.topUrl;
+  const topUrl = conv.user.params.selection.topUrl;
 
-  ok(url, "selection list url not defined");
-  await selectGroup(url, number, conv);
+  ok(topUrl, "selection list url not defined");
+  await selectGroup(topUrl, number, conv);
+
+  const url = conv.user.params.selection.url;
+  
+  ok(url, 'selection url not defined');
+  await listPublication(url, conv, 'select_pub_after_selection');
 
   console.log('select_publication_number END');
 });
