@@ -9,7 +9,6 @@ handlers:
 - name: home_lvl1__intent__enter_member_space_lvl1
 - name: home_lvl1__intent__resume_listening_player
 - name: home_lvl1__intent__get_info_association_lvl1
-- name: home_lvl1__intent__test_webhook
 - name: home_lvl1__intent__listen_audiobook_lvl1
 - name: home_members_lvl2
 - name: home_members_lvl2__intent__listen_audiobook_lvl2
@@ -22,6 +21,8 @@ handlers:
 - name: select_pub_after_selection
 - name: select_pub_after_selection__slot__number
 - name: select_pub_after_selection__intent__resume_listening_player
+- name: select_list_after_list_selection
+- name: select_list_after_list_selection__slot__number
 - name: ask_to_resume_listening_at_last_offset__intent__yes
 - name: player__intent__resume_listening_player
 - name: player__intent__remaining_time_player
@@ -33,6 +34,7 @@ handlers:
 - name: select_pub_after_search
 - name: test_player_sdk
 - name: test_setup_sdk
+- name: test_webhook
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

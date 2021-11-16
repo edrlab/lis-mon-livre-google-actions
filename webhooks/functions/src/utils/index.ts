@@ -37,3 +37,22 @@ export async function getPubsFromFeed(url: string) {
 
   return list;
 }
+
+export async function getGroupsFromFeed(url: string) {
+  const opds = new OpdsFetcher();
+  const feed = await opds.feedRequest(url);
+
+  assert.ok(Array.isArray(feed.groups), 'no groups');
+  const list = feed.groups
+      .filter(({selfLink: l}) /* : l is IOpdsLinkView[]*/ => {
+        return l?.title && l?.url && isValidHttpUrl(l.url)
+      })
+      .slice(0, 5)
+      .map(({selfLink: { title, url }}) => ({
+        title: title,
+        groupUrl: url,
+      }));
+
+  return list;
+}
+

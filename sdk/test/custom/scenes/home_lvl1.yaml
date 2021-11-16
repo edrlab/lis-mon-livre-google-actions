@@ -12,7 +12,7 @@ intentEvents:
     webhookHandler: home_lvl1__intent__listen_audiobook_lvl1
   intent: listen_audiobook_lvl1
 - handler:
-    webhookHandler: home_lvl1__intent__test_webhook
+    webhookHandler: test_webhook
   intent: test_webhook
 onEnter:
   webhookHandler: home_lvl1
