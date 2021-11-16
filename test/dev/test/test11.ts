@@ -30,6 +30,9 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery(`selections par genre`);
 
+    test.assertSpeech(``);
+
+    await test.sendQuery(`numéro 2`);
 
     //
     // resp = test.getLatestResponse();

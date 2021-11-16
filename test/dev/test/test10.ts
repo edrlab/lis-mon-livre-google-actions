@@ -29,7 +29,10 @@ describe('My Action Test Suite', function () {
     test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?`);
 
     await test.sendQuery(`selections thématiques`);
+    test.assertSpeech(``);
 
+    await test.sendQuery(`numéro 2`);
+        
 
     //
     // resp = test.getLatestResponse();
