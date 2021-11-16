@@ -22,7 +22,7 @@
     "class-validator": "^0.13.1",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.16.0",
-    "opds-fetcher-parser": "github:panaC/opds_fetcher_parser#efec695f50b386071ccf935396f0a8ea4750c9ae",
+    "opds-fetcher-parser": "github:panaC/opds_fetcher_parser#46f59a92513c17a060d02dfceb82633bbbbc4be3",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {

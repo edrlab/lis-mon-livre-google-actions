@@ -16,5 +16,8 @@ intentEvents:
     webhookHandler: test_player_sdk
   intent: test_player_sdk
   transitionToScene: home_members_lvl2
+- handler:
+    webhookHandler: test_webhook
+  intent: test_webhook
 onEnter:
   webhookHandler: home_members_lvl2

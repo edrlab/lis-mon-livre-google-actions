@@ -13,11 +13,14 @@ import { persistMediaPlayer } from "./service/persist";
 import { listPublication } from "./service/listPublication";
 import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
+import { listGroups } from "./service/listGroups";
+import { selectGroup } from "./service/selectGroups";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
-const WEBPUB_URL = 'https://storage.googleapis.com/audiobook_edrlab/webpub/';
 const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
 const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
+const THEMATIC_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/thematic_list.json';
+const GENRE_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/genre_list.json';
 
 const app = conversation<IConversationWithParams>();
 export type TApp = typeof app;
@@ -199,27 +202,42 @@ app.handle('selection_lvl3', (conv) => {
 
   conv.add("Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?")
 
+  // reset selection context
+  conv.user.params.selection.url = undefined;
+  conv.user.params.selection.topUrl = undefined;
+
   // wait intent
   // conv.scene.next.name
 });
 
-app.handle('selection_lvl3__intent__selection_genre_lvl3', (conv) => {
+app.handle('selection_lvl3__intent__selection_genre_lvl3', async (conv) => {
 
-  conv.add("sélection par genre");
+  // conv.add("sélection par genre");
 
-  conv.scene.next.name = "home_members_lvl2";
+  const url = GENRE_LIST_URL; 
+  conv.user.params.selection.topUrl = url;
+  conv.user.params.selection.url = undefined;
+
+  await listGroups(url, conv, 'select_list_after_list_selection');
 });
 
-app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', (conv) => {
+app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', async (conv) => {
 
   conv.add('sélection par liste thématique');
 
-  conv.scene.next.name = "home_members_lvl2";
+  const url = THEMATIC_LIST_URL;
+  conv.user.params.selection.topUrl = url;
+  conv.user.params.selection.url = undefined;
+
+  await listGroups(url, conv, 'select_list_after_list_selection');
 });
 
 app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
 
   const url = SELECTION_URL;
+  conv.user.params.selection.topUrl = undefined;
+  conv.user.params.selection.url = url;
+
   await listPublication(url, conv, 'select_pub_after_selection', 'home_members_lvl2');
 
   console.log('selection_my_list_lvl3 EXIT');
@@ -232,12 +250,34 @@ app.handle('select_pub_after_selection', (conv) => {
   // wait slot number or intent
 });
 
+app.handle('select_list_after_list_selection', (conv) => {
+
+  conv.add("Pour choisir une sélection dite son numéro");
+
+  // wait slot number or intent
+});
+
+app.handle('select_list_after_list_selection__slot__number', async (conv) => {
+  console.log('select_publication_number START');
+
+  const number = conv.intent.params?.number.resolved;
+
+  const url = conv.user.params.selection.topUrl;
+
+  ok(url, "selection list url not defined");
+  await selectGroup(url, number, conv);
+
+  console.log('select_publication_number END');
+});
+
+
 app.handle('select_pub_after_selection__slot__number', async (conv) => {
   console.log('select_publication_number START');
 
   const number = conv.intent.params?.number.resolved;
 
-  const url = SELECTION_URL;
+  const url = conv.user.params.selection.url;
+  ok(url, "no selection url available");
   await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
@@ -298,13 +338,7 @@ app.handle('search__slot__query', async (conv) => {
 
   console.log('search_livre_lvl2 START');
 
-  let query = null;
-  try {
-    query = conv.intent.params?.query.resolved;
-  } catch (_) {
-    // ignore
-  }
-
+  const query = conv.intent.params?.query.resolved;
   ok(typeof query === 'string', 'aucune requete demandée');
   conv.session.params.query = query;
 

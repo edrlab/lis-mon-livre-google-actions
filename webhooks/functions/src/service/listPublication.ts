@@ -1,8 +1,10 @@
 import {TSdkScene} from '../sdk';
 import {IConversationWithParams} from '../type';
-import {getPubsFromFeed} from '../utils';
+import {getPubsFromFeed, isValidHttpUrl} from '../utils';
+import {ok} from 'assert';
 
 export async function listPublication(url: string, conv: IConversationWithParams, nextScene: TSdkScene, errorScene: TSdkScene = conv.scene.name) {
+  ok(isValidHttpUrl(url), 'url not valid');
   const list = await getPubsFromFeed(url);
   console.log('PUBs: ', list);
 

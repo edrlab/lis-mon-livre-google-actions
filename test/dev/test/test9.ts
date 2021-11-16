@@ -29,6 +29,196 @@ describe('My Action Test Suite', function () {
     test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?`);
 
     await test.sendQuery(`ma liste`);
+    test.assertSpeech(`J’ai trouvé 2 publications. Pour choisir une publication dites son numéro:`);
+
+    await test.sendQuery(`2`);
+
+    const media = test.getMedia();
+    //    fs.writeFileSync('/tmp/media.json', JSON.stringify(media));
+    chai.expect(media).to.deep.equal({
+      "optionalMediaControls": [
+        "PAUSED",
+        "STOPPED"
+      ],
+      "mediaObjects": [
+        {
+          "name": "Thérèse Raquin - 1",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap01-03.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 2",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap04-06.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 3",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap07-09.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 4",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap10-12.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 5",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap13-16.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 6",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap17-18.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 7",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap19-20.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 8",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap21-22.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 9",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap23-25.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 10",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap26-27.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 11",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap28-29.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        },
+        {
+          "name": "Thérèse Raquin - 12",
+          "description": "",
+          "url": "https://archive.org/download/Therese-Raquin/Therese-Raquin-Chap30-32.mp3",
+          "image": {
+            "large": {
+              "url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Raquin.jpg",
+              "alt": "Thérèse Raquin",
+              "height": 0,
+              "width": 0
+            },
+            "image": "large"
+          }
+        }
+      ],
+      "startOffset": {
+        "seconds": "0",
+        "nanos": 0
+      },
+      "mediaType": "AUDIO"
+    });
+
+
+
 
 
     //
@@ -37,7 +227,7 @@ describe('My Action Test Suite', function () {
 
   before('before all', async () => {
     // Load project settings to read project ID and trigger phrase.
-    test = new ActionsOnGoogleTestManager({projectId: PROJECT_ID});
+    test = new ActionsOnGoogleTestManager({ projectId: PROJECT_ID });
     await test.writePreviewFromDraft();
     test.setSuiteLocale(DEFAULT_LOCALE);
     test.setSuiteSurface(DEFAULT_SURFACE);
