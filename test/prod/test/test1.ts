@@ -6,7 +6,7 @@ import {ok} from 'assert';
 
 const DEFAULT_LOCALE = 'fr-FR';
 const DEFAULT_SURFACE = 'PHONE';
-const CONTINUE_CONVO_PROMPT = "Bienvenue dans l'application d'écoute de livre audio valentin hauy Que voulez-vous faire ? Vous pouvez dire informations ou espace membres";
+const CONTINUE_CONVO_PROMPT = "Bienvenue dans l'application de démonstration valentin audio. Que voulez-vous faire ? Vous pouvez dire informations ou espace membres.";
 
 const PROJECT_ID = env['PROJECT_ID'] || '';
 const TRIGGER_PHRASE = 'Parler avec valentin audio';
