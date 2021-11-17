@@ -4,6 +4,6 @@ handler:
     - promptResponse:
         firstSimple:
           variants:
-          - speech: Au revoir et a bientôt
+          - speech: Au revoir et à bientôt.
   webhookHandler: cancel
 transitionToScene: actions.scene.END_CONVERSATION

@@ -4,6 +4,5 @@ handler:
     - promptResponse:
         firstSimple:
           variants:
-          - speech: Bienvenue dans l'application d'écoute de livre audio valentin
-              hauy
-transitionToScene: home_members_lvl2
+          - speech: Bienvenue dans l'application de démonstration valentin audio.
+transitionToScene: home
