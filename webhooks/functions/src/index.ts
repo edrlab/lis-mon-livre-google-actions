@@ -32,9 +32,9 @@ app.handle = (path, fn) => {
 
     await Promise.resolve(fn(conv));
 
+    const bearerToken = conv.user.params.bearerToken;
     try {
 
-      const bearerToken = conv.user.params.bearerToken;
       ok(bearerToken, "bearerToken not defined");
       ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, "bearerToken not defined")
   
@@ -49,6 +49,14 @@ app.handle = (path, fn) => {
     console.log("----------");
     console.log(conv.user.params);
     console.log("----------");
+
+
+    // reset user storage
+    // @ts-ignore
+    conv.user.params = {
+      bearerToken,
+    };
+
 
   });
 
@@ -186,7 +194,7 @@ app.handle('home_members_lvl2__intent__listen_audiobook_lvl2', (conv) => {
 app.handle('home_members_lvl2__intent__resume_audiobook_lvl2', (conv) => {
 
   const url = conv.user.params.player.current.url;
-  if (!url) {
+  if (!isValidHttpUrl(url)) {
     conv.scene.next.name = "home_members_lvl2";
     conv.add("aucune lecture en cours");
   } else
