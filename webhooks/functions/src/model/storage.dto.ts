@@ -2,6 +2,7 @@ import * as util from 'util';
 import {IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory, IStorageSelection} from './storage.interface';
 import {classToPlain, Exclude, plainToClass, Transform, TransformationType, Type} from 'class-transformer';
 import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
+import { Timestamp } from "@google-cloud/firestore";
 
 const DB_VERSION = 1;
 
@@ -15,6 +16,15 @@ class StoragePlayerHistoryDto implements IStoragePlayerHistory {
     time: number;
 
   @IsDate()
+  @Transform(({value, type}) => {
+    if (type === TransformationType.PLAIN_TO_CLASS) {
+      if (value instanceof Timestamp) {
+        return value.toDate()
+      } else {
+        return value;
+      }
+    }
+  })
     date: Date;
 
   // set(data: IStoragePlayerHistory) {

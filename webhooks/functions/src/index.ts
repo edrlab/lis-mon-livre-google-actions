@@ -89,10 +89,9 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
     conv.session.params = {};
   }
 
+  const bearerTokenRaw = conv.user.params.bearerToken;
+  const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
   try {
-
-    const bearerToken = typeof conv.user.params.bearerToken === "string" ? conv.user.params.bearerToken : "";
-    ok(bearerToken, "bearerToken not defined");
 
     const doc = await pull(bearerToken);
     const data = doc.exists ? doc.data() : undefined;
@@ -103,7 +102,7 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
     console.error('Middleware critical error firebase firestore');
     console.error(e);
 
-    conv.user.params = StorageDto.create(undefined, BEARER_TOKEN_NOT_DEFINED);
+    conv.user.params = StorageDto.create(undefined, bearerToken);
   }
 
   console.log(conv.user.params);
