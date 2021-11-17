@@ -15,7 +15,7 @@ describe('My Action Test Suite', function () {
   async function startConversation() {
     await test.sendQuery(TRIGGER_PHRASE);
     test.assertSpeech(HOME_PROMPT + " " + MEMBER_PROMPT);
-    test.assertText(HOME_PROMPT + " " + MEMBER_PROMPT);
+    // test.assertText(HOME_PROMPT + " " + MEMBER_PROMPT);
     test.assertIntent('actions.intent.MAIN');
     test.assertScene('home_members_lvl2');
 

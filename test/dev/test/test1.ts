@@ -1,8 +1,6 @@
 import 'mocha';
 
 import {ActionsOnGoogleTestManager} from '@assistant/conversation-testing';
-import {ok} from 'assert';
-import { inspect } from 'util';
 import { DEFAULT_LOCALE, DEFAULT_SURFACE, HOME_PROMPT, MEMBER_PROMPT, PROJECT_ID, TRIGGER_PHRASE } from './constant';
 
 const TEST_NUM = 1;
@@ -15,7 +13,6 @@ describe('My Action Test Suite', function () {
   async function startConversation() {
     await test.sendQuery(TRIGGER_PHRASE);
     test.assertSpeech(HOME_PROMPT + " " + MEMBER_PROMPT);
-    test.assertText(HOME_PROMPT + " " + MEMBER_PROMPT);
     test.assertIntent('actions.intent.MAIN');
     test.assertScene('home_members_lvl2');
 

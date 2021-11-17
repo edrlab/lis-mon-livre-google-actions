@@ -15,7 +15,7 @@ describe('My Action Test Suite', function () {
   async function startConversation() {
     await test.sendQuery(TRIGGER_PHRASE);
     test.assertSpeech(HOME_PROMPT + " " + MEMBER_PROMPT);
-    test.assertText(HOME_PROMPT + " " + MEMBER_PROMPT);
+    // test.assertText(HOME_PROMPT + " " + MEMBER_PROMPT);
     test.assertIntent('actions.intent.MAIN');
     test.assertScene('home_members_lvl2');
 
@@ -29,7 +29,7 @@ describe('My Action Test Suite', function () {
 
     test.assertSpeech(`Que voulez-vous écouter ?`);
 
-    await test.sendQuery('test avec aucune publication renvoyés');
+    await test.sendQuery('test avec aucune publication renvoyées');
 
     await test.assertSpeech(`aucun résultat trouvé Que voulez-vous écouter ? Par exemple Zola`);
 
