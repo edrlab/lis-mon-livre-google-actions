@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import {StorageDto} from './storage.dto';
 import * as assert from 'assert';
 import {classToPlain} from 'class-transformer';
-import { inspect } from 'util';
+import {inspect} from 'util';
 
 
 describe('storage DTO', () => {
@@ -229,7 +229,7 @@ describe('storage DTO', () => {
       selection: {},
     }, extr);
 
-    console.log(inspect(extr, { depth: 7}));
+    console.log(inspect(extr, {depth: 7}));
     console.log(new Date());
 
     const instance2 = StorageDto.create(extr, 'test');
@@ -240,5 +240,4 @@ describe('storage DTO', () => {
       date: date,
     });
   });
-
 });
