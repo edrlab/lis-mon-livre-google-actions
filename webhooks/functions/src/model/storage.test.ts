@@ -4,7 +4,6 @@ import * as assert from 'assert';
 import {classToPlain} from 'class-transformer';
 import {inspect} from 'util';
 
-
 describe('storage DTO', () => {
   it('create storage object', () => {
     const obj = {

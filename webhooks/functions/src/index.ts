@@ -93,10 +93,14 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
   try {
 
-    const doc = await pull(bearerToken);
-    const data = doc.exists ? doc.data() : undefined;
+    const data = await pull(bearerToken);
+
+    // @ts-ignore
+    console.log(data.player.history);
     const instance = StorageDto.create(data, bearerToken);
     conv.user.params = instance;
+
+    
 
   } catch (e) {
     console.error('Middleware critical error firebase firestore');
