@@ -21,8 +21,8 @@ const _i18n = {
     'en': ({}) => `an error happen`,
   },
   'error.convadd': {
-    'fr': ({}) => `conv.add value incorrect`,
-    'en': ({}) => `conv.add value incorrect`,
+    'fr': ({error}) => `conv.add value incorrect: ${error}`,
+    'en': ({error}) => `conv.add value incorrect: ${error}`,
   },
   'main.welcome': {
     'fr': ({}) => `Bienvenue dans l\'application d\'écoute de livre audio valentin hauy`,

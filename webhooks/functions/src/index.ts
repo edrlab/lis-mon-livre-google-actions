@@ -15,7 +15,7 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { DEFAULT_LANGUAGE, GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL, TI18nKey } from "./constants";
+import { DEFAULT_LANGUAGE, GENRE_LIST_URL, i18n, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL, TI18nKey } from "./constants";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
@@ -69,7 +69,7 @@ testConversation(app);
 // catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
 // ExceptionHandler(conv: TConversation, error: Error): any
 app.catch((conv, error) => {
-  conv.add('error.catch');
+  // conv.add('error.catch', { error: error.toString() });
 
   console.log('ERROR');
   console.log(error);
@@ -111,14 +111,19 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
 
   ok(conv.user.params instanceof StorageDto);
 
-  const convAdd: IConversationWithParams["add"] = conv.add.bind(conv.add);
-  conv.add = (...promptItems) => {
+  console.log(conv.add);
+  
+  const convAdd: IConversationWithParams["add"] = conv.add.bind(conv);
+  conv.add = function (...promptItems) {
 
     const item: TPromptItem = promptItems[0] instanceof Media
       ? promptItems[0]
-      : typeof promptItems[0] === "object" && promptItems[0][DEFAULT_LANGUAGE]
-        ? promptItems[0][(conv.user.locale || DEFAULT_LANGUAGE).split("-")[0]](promptItems.length > 1 && typeof promptItems[1] === "object" ? promptItems[1] : {})
+      : typeof promptItems[0] === "string" && i18n[promptItems[0]] && i18n[promptItems[0]][DEFAULT_LANGUAGE]
+        ? (i18n[promptItems[0]][(conv.user.locale || DEFAULT_LANGUAGE).split("-")[0]] || i18n[promptItems[0]][DEFAULT_LANGUAGE])(promptItems.length > 1 && typeof promptItems[1] === "object" ? promptItems[1] : {})
         : undefined;
+
+    console.log(promptItems);
+    console.log(item);
 
     ok(item, 'error.convadd');
 
@@ -126,6 +131,9 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
 
     return ret;
   }
+
+  console.log(conv.add);
+  console.log(convAdd);
 
   // void
 });
@@ -143,6 +151,8 @@ app.handle('cancel', (conv) => {
 
 app.handle('main', (conv) => {
 
+  console.log(conv.add);
+  
   conv.add('main.welcome');
 
   conv.scene.next.name = "home_members_lvl2";
