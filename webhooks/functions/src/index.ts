@@ -1,31 +1,29 @@
 import {conversation, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
 import {OpdsFetcher} from "opds-fetcher-parser";
-import {ok} from "assert";
+import {ok as _ok} from "assert";
 
 // class-transformer
 import 'reflect-metadata';  
 import { pull, push } from "./database";
 import { StorageDto } from "./model/storage.dto";
 import { isValidHttpUrl } from "./utils";
-import { IConversationWithParams, MediaType, OptionalMediaControl } from "./type";
+import { IConversationWithParams, MediaType, OptionalMediaControl, TPromptItem } from "./type";
 import { persistMediaPlayer } from "./service/persist";
 import { listPublication } from "./service/listPublication";
 import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
+import { DEFAULT_LANGUAGE, TI18nKey } from "./constants";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
-const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
-const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
-const THEMATIC_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/thematic_list.json';
-const GENRE_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/genre_list.json';
 
 const app = conversation<IConversationWithParams>();
 export type TApp = typeof app;
 
 const appHandle: typeof app.handle = app.handle.bind(app);
+const ok:(value: unknown, message?: TI18nKey) => void = _ok.bind(_ok);
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {
@@ -35,8 +33,8 @@ app.handle = (path, fn) => {
     const bearerToken = conv.user.params.bearerToken;
     try {
 
-      ok(bearerToken, "bearerToken not defined");
-      ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, "bearerToken not defined")
+      ok(bearerToken, 'error.bearerTokenNotDefined');
+      ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, 'error.bearerTokenNotDefined')
   
       const data = conv.user.params.extract();
       await push(bearerToken, data);
@@ -71,7 +69,7 @@ testConversation(app);
 // catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
 // ExceptionHandler(conv: TConversation, error: Error): any
 app.catch((conv, error) => {
-  conv.add('une erreur s\'est produite');
+  conv.add('error.catch');
 
   console.log('ERROR');
   console.log(error);
@@ -92,15 +90,12 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   const bearerTokenRaw = conv.user.params.bearerToken;
   const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
   try {
-
     const data = await pull(bearerToken);
 
     // @ts-ignore
     console.log(data.player.history);
     const instance = StorageDto.create(data, bearerToken);
     conv.user.params = instance;
-
-    
 
   } catch (e) {
     console.error('Middleware critical error firebase firestore');
@@ -115,6 +110,22 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   console.log('----------');
 
   ok(conv.user.params instanceof StorageDto);
+
+  const convAdd: IConversationWithParams["add"] = conv.add.bind(conv.add);
+  conv.add = (...promptItems) => {
+
+    const item: TPromptItem = promptItems[0] instanceof Media
+      ? promptItems[0]
+      : typeof promptItems[0] === "object" && promptItems[0][DEFAULT_LANGUAGE]
+        ? promptItems[0][(conv.user.locale || DEFAULT_LANGUAGE).split("-")[0]](promptItems.length > 1 && typeof promptItems[1] === "object" ? promptItems[1] : {})
+        : undefined;
+
+    ok(item, 'error.convadd');
+
+    const ret = convAdd(item);
+
+    return ret;
+  }
 
   // void
 });
@@ -132,7 +143,7 @@ app.handle('cancel', (conv) => {
 
 app.handle('main', (conv) => {
 
-  conv.add('Bienvenue dans l\'application d\'écoute de livre audio valentin hauy');
+  conv.add('main.welcome');
 
   conv.scene.next.name = "home_members_lvl2";
 });
