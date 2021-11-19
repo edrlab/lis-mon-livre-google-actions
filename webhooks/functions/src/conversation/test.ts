@@ -30,7 +30,7 @@ export const testConversation = (app: TApp) => {
     console.log('test_PLAYER');
     console.log(conv.user.params);
 
-    conv.add(`test player ${nb}`);
+    conv.add('test.player', { nb });
   });
 
   app.handle('test_setup_sdk', (conv) => {
@@ -46,6 +46,6 @@ export const testConversation = (app: TApp) => {
 
     console.log('HELLLO ');
 
-    conv.add(`setup test ${nb}`);
+    conv.add('test.setupSdk', { nb });
   });
 };

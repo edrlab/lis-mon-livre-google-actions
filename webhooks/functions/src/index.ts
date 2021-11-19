@@ -23,7 +23,7 @@ const app = conversation<IConversationWithParams>();
 export type TApp = typeof app;
 
 const appHandle: typeof app.handle = app.handle.bind(app);
-const ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok);
+export const ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok);
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {

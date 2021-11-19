@@ -88,6 +88,24 @@ const _i18n = {
   },
   'player.remaining.minute': {
     'fr': ({minutes}) => `il reste ${minutes} minutes`,
+  },
+  'test.player': {
+    'fr': ({nb}) => `test player ${nb}`,
+  },
+  'test.setupSdk': {
+    'fr': ({nb}) => `setup test ${nb}`,
+  },
+  'noResult': {
+    'fr': ({}) => `aucun résultat trouvé`,
+  },
+  'wrongNumber': {
+    'fr': ({number}) => `Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`
+  },
+  'list.numberPublication': {
+    'fr': ({length}) => `Il y a ${length} publications :\n`,
+  },
+  'free': {
+    'fr': ({text}) => `${text}`,
   }
 }
 
