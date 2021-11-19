@@ -6,7 +6,7 @@ import { inspect } from 'util';
 import { DEFAULT_LOCALE, DEFAULT_SURFACE, HOME_PROMPT, MEMBER_PROMPT, PROJECT_ID, TRIGGER_PHRASE } from './constant';
 import * as chai from 'chai';
 
-const TEST_NUM = 9;
+const TEST_NUM = 10;
 import * as fs from 'fs';
 
 describe('My Action Test Suite', function () {

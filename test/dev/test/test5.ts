@@ -34,7 +34,13 @@ describe('My Action Test Suite', function () {
     test.assertSpeech(`Voulez-vous reprendre la lecture là où elle s'était arrêtée ?`);
 
     await test.sendQuery('oui');
+
+    // console.log(test.getLatestResponse());
+    
     const media = test.getMedia();
+
+    // console.log(media);
+    
     chai.expect(media).to.deep.equal({
         "optionalMediaControls": [
           "PAUSED",
@@ -207,7 +213,7 @@ describe('My Action Test Suite', function () {
     test.cleanUpAfterTest();
   });
 
-  it('search with bad query', async () => {
+  it('remaining playing', async () => {
     await startConversation();
     await test.sendQuery("quitter");
     // test.assertConversationEnded();

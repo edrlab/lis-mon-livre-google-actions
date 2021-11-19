@@ -246,7 +246,7 @@ describe('My Action Test Suite', function () {
     test.cleanUpAfterTest();
   });
 
-  it('search with bad query', async () => {
+  it('playing bad yes or no', async () => {
     await startConversation();
     await test.sendQuery("quitter");
     // test.assertConversationEnded();

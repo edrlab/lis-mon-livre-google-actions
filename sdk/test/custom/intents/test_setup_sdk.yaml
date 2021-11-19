@@ -3,5 +3,6 @@ parameters:
   type:
     name: actions.type.Number
 trainingPhrases:
+- setup test ($number '123' auto=false)
 - test setup sdk ($number '123' auto=true)
 - setup test sdk ($number '123' auto=true)

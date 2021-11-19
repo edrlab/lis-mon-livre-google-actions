@@ -55,7 +55,7 @@ describe('My Action Test Suite', function () {
     test.cleanUpAfterTest();
   });
 
-  it('search with bad query', async () => {
+  it('search with zola query', async () => {
     await startConversation();
     await test.sendQuery("quitter");
     // test.assertConversationEnded();

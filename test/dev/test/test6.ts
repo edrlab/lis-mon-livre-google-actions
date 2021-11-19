@@ -32,9 +32,13 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery('lecture');
     test.assertSpeech(`Voulez-vous reprendre la lecture là où elle s'était arrêtée ?`);
+    // console.log(test.getLatestResponse());
 
     await test.sendQuery('non');
     const media = test.getMedia();
+
+    // console.log(media);
+    
 //    fs.writeFileSync('/tmp/media.json', JSON.stringify(media));
     chai.expect(media).to.deep.equal({
       "optionalMediaControls": [
@@ -236,7 +240,7 @@ describe('My Action Test Suite', function () {
     test.cleanUpAfterTest();
   });
 
-  it('search with bad query', async () => {
+  it('playing from beginning', async () => {
     await startConversation();
     await test.sendQuery("quitter");
     // test.assertConversationEnded();
