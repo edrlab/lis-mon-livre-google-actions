@@ -1,14 +1,14 @@
+import {ok} from '..';
 import {IConversationWithParams} from '../type';
 import {getPubsFromFeed, isValidHttpUrl} from '../utils';
-import {ok} from 'assert';
 
 export async function selectPublication(url: string, number: number, conv: IConversationWithParams) {
-  ok(isValidHttpUrl(url), 'url not valid');
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
   const list = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (!pub) {
     console.log('NO PUBS found !!');
-    conv.add(`Le numéro ${number} est inconnu. Veuillez choisir un autre numéro.`);
+    conv.add('wrongNumber');
     conv.scene.next.name = conv.scene.name; // loop selection or search
 
     return;

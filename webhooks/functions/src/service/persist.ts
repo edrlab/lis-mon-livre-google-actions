@@ -1,6 +1,6 @@
 import {isValidHttpUrl} from '../utils';
-import {ok} from 'assert';
 import {IConversationWithParams} from '../type';
+import {ok} from '..';
 
 export function persistMediaPlayer(conv: IConversationWithParams) {
   if (!conv.request.context) {
@@ -14,7 +14,7 @@ export function persistMediaPlayer(conv: IConversationWithParams) {
   const progress = parseInt(_progress, 10);
   const index = conv.request.context?.media?.index || 0;
   const url = conv.user.params.player.current.url;
-  ok(isValidHttpUrl(url), 'url not defined/valid');
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
 
   conv.user.params.player.current.index = index;
   conv.user.params.player.current.time = progress;

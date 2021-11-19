@@ -1,31 +1,29 @@
 import {conversation, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
 import {OpdsFetcher} from "opds-fetcher-parser";
-import {ok} from "assert";
+import {ok as _ok} from "assert";
 
 // class-transformer
 import 'reflect-metadata';  
 import { pull, push } from "./database";
 import { StorageDto } from "./model/storage.dto";
 import { isValidHttpUrl } from "./utils";
-import { IConversationWithParams, MediaType, OptionalMediaControl } from "./type";
+import { IConversationWithParams, MediaType, OptionalMediaControl, TPromptItem } from "./type";
 import { persistMediaPlayer } from "./service/persist";
 import { listPublication } from "./service/listPublication";
 import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
+import { DEFAULT_LANGUAGE, GENRE_LIST_URL, i18n, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL, TI18nKey } from "./constants";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
-const SELECTION_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
-const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
-const THEMATIC_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/thematic_list.json';
-const GENRE_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/genre_list.json';
 
 const app = conversation<IConversationWithParams>();
 export type TApp = typeof app;
 
 const appHandle: typeof app.handle = app.handle.bind(app);
+export const ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok);
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {
@@ -35,8 +33,8 @@ app.handle = (path, fn) => {
     const bearerToken = conv.user.params.bearerToken;
     try {
 
-      ok(bearerToken, "bearerToken not defined");
-      ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, "bearerToken not defined")
+      ok(bearerToken, 'error.bearerTokenNotDefined');
+      ok(bearerToken !== BEARER_TOKEN_NOT_DEFINED, 'error.bearerTokenNotDefined')
   
       const data = conv.user.params.extract();
       await push(bearerToken, data);
@@ -71,7 +69,7 @@ testConversation(app);
 // catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
 // ExceptionHandler(conv: TConversation, error: Error): any
 app.catch((conv, error) => {
-  conv.add('une erreur s\'est produite');
+  // conv.add('error.catch', { error: error.toString() });
 
   console.log('ERROR');
   console.log(error);
@@ -92,15 +90,12 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   const bearerTokenRaw = conv.user.params.bearerToken;
   const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
   try {
-
     const data = await pull(bearerToken);
 
     // @ts-ignore
     console.log(data.player.history);
     const instance = StorageDto.create(data, bearerToken);
     conv.user.params = instance;
-
-    
 
   } catch (e) {
     console.error('Middleware critical error firebase firestore');
@@ -115,6 +110,30 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   console.log('----------');
 
   ok(conv.user.params instanceof StorageDto);
+
+  console.log(conv.add);
+  
+  const convAdd: IConversationWithParams["add"] = conv.add.bind(conv);
+  conv.add = function (...promptItems) {
+
+    const item: TPromptItem = promptItems[0] instanceof Media
+      ? promptItems[0]
+      : typeof promptItems[0] === "string" && i18n[promptItems[0]] && i18n[promptItems[0]][DEFAULT_LANGUAGE]
+        ? (i18n[promptItems[0]][(conv.user.locale || DEFAULT_LANGUAGE).split("-")[0]] || i18n[promptItems[0]][DEFAULT_LANGUAGE])(promptItems.length > 1 && typeof promptItems[1] === "object" ? promptItems[1] : {})
+        : undefined;
+
+    console.log(promptItems);
+    console.log(item);
+
+    ok(item, 'error.convadd');
+
+    const ret = convAdd(item);
+
+    return ret;
+  }
+
+  console.log(conv.add);
+  console.log(convAdd);
 
   // void
 });
@@ -132,21 +151,23 @@ app.handle('cancel', (conv) => {
 
 app.handle('main', (conv) => {
 
-  conv.add('Bienvenue dans l\'application d\'écoute de livre audio valentin hauy');
+  console.log(conv.add);
+  
+  conv.add('main.welcome');
 
   conv.scene.next.name = "home_members_lvl2";
 });
 
 app.handle('home_lvl1', (conv) => {
 
-  conv.add('Que voulez-vous faire ? Vous pouvez dire informations ou espace membres');
+  conv.add('home.welcome');
 
   // wait intent
   // conv.scene.next.name
 });
 
 app.handle('test_webhook', (conv) => {
-  conv.add('Webook works :', functions.config().debug.message || '');
+  conv.add('test.webhook', { message: functions.config().debug.message || '' });
   console.log('TEST OK');
 
   conv.scene.next.name = conv.scene.name;
@@ -154,7 +175,7 @@ app.handle('test_webhook', (conv) => {
 
 app.handle('home_lvl1__intent__get_info_association_lvl1', (conv) => {
 
-  conv.add('Voici les informations sur l\'association');
+  conv.add('home.information');
 
   conv.scene.next.name = "home_lvl1";
 });
@@ -176,8 +197,8 @@ app.handle('home_lvl1__intent__listen_audiobook_lvl1', (conv) => {
 
 app.handle('home_members_lvl2', (conv) => {
 
-  conv.add("Bienvenue dans l'espace membres. Les commandes possibles sont: sélection, lecture, recherche. ");
-  conv.add("Que voulez-vous faire ?");
+  conv.add('homeMembers.welcome.1');
+  conv.add('homeMembers.welcome.2');
 });
 
 app.handle('home_members_lvl2__intent__listen_audiobook_lvl2', (conv) => {
@@ -199,7 +220,7 @@ app.handle('home_members_lvl2__intent__resume_audiobook_lvl2', (conv) => {
   const url = conv.user.params.player.current.url;
   if (!isValidHttpUrl(url)) {
     conv.scene.next.name = "home_members_lvl2";
-    conv.add("aucune lecture en cours");
+    conv.add('homeMembers.resumeAudiobook.noCurrentListening');
   } else
     conv.scene.next.name = "ask_to_resume_listening_at_last_offset";
 });
@@ -211,7 +232,7 @@ app.handle('home_members__intent__selection_audiobook_lvl2', (conv) => {
 
 app.handle('selection_lvl3', (conv) => {
 
-  conv.add("Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?")
+  conv.add("homeMembers.selection.welcome");
 
   // reset selection context
   conv.user.params.selection.url = undefined;
@@ -256,14 +277,14 @@ app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
 
 app.handle('select_pub_after_selection', (conv) => {
 
-  conv.add("Pour choisir une publication dite son numéro");
+  conv.add('homeMembers.selection.publication');
 
   // wait slot number or intent
 });
 
 app.handle('select_list_after_list_selection', (conv) => {
 
-  conv.add("Pour choisir une sélection dite son numéro");
+  conv.add('homeMembers.selection.listAfterSelection');
 
   // wait slot number or intent
 });
@@ -275,12 +296,12 @@ app.handle('select_list_after_list_selection__slot__number', async (conv) => {
 
   const topUrl = conv.user.params.selection.topUrl;
 
-  ok(topUrl, "selection list url not defined");
+  ok(topUrl, 'error.selectionListNotDefined');
   await selectGroup(topUrl, number, conv);
 
   const url = conv.user.params.selection.url;
   
-  ok(url, 'selection url not defined');
+  ok(url, 'error.selectionPubNotDefined');
   await listPublication(url, conv, 'select_pub_after_selection');
 
   console.log('select_publication_number END');
@@ -293,7 +314,7 @@ app.handle('select_pub_after_selection__slot__number', async (conv) => {
   const number = conv.intent.params?.number.resolved;
 
   const url = conv.user.params.selection.url;
-  ok(url, "no selection url available");
+  ok(url, 'error.selectionNotAvailable');
   await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
@@ -316,7 +337,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     // const date = history.d;
     // TODO: use the date info
 
-    conv.add('Voulez-vous reprendre la lecture là où elle s\'était arrêtée ?');
+    conv.add('ask_resume_last_offset');
 
     // wait intent
   } else {
@@ -334,7 +355,7 @@ app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) =
 app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) => {
 
   const url = conv.user.params.player.current.url;
-  ok(isValidHttpUrl(url), "url not defined/valid " + url);
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
   console.log("erase ", url, " resume listening NO");
 
   conv.user.params.player.current.index = 0;
@@ -344,7 +365,7 @@ app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) =>
 
 app.handle('search', (conv) => {
 
-  conv.add('Que voulez-vous écouter ? Par exemple Zola');
+  conv.add('search');
 
   // wait query intent
 });
@@ -355,7 +376,7 @@ app.handle('search__slot__query', async (conv) => {
   console.log('search_livre_lvl2 START');
 
   const query = conv.intent.params?.query.resolved;
-  ok(typeof query === 'string', 'aucune requete demandée');
+  ok(typeof query === 'string', 'error.noQuery');
   conv.session.params.query = query;
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
@@ -374,7 +395,7 @@ app.handle('search__intent__resume_listening_player', (conv) => {
 
 app.handle('select_pub_after_search', (conv) => {
 
-  conv.add("Pour choisir une publication dite son numéro");
+  conv.add('homeMembers.selection.publication');
 
   // wait intent
 });
@@ -391,7 +412,7 @@ app.handle('select_pub_after_search__slot__number', async (conv) => {
 
   console.log('NUMBER: ', number);
   const query = conv.session.params.query;
-  ok(typeof query === 'string', 'aucune requete demandée');
+  ok(typeof query === 'string', 'error.noQuery');
 
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
   console.log('select_pub_after_search__slot__number URL: ', url);
@@ -403,7 +424,7 @@ app.handle('select_pub_after_search__slot__number', async (conv) => {
 app.handle("player", async (conv) => {
 
   const url = conv.user.params.player.current.url;
-  ok(isValidHttpUrl(url), "url not valid " + url);
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
   console.log("Player URL:", url);
 
   const startIndexRaw = conv.user.params.player.current.index;
@@ -411,7 +432,7 @@ app.handle("player", async (conv) => {
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
-  ok(webpub, 'webpub not defined');
+  ok(webpub, 'error.webpubNotDefined');
 
   const startIndex = (startIndexRaw && startIndexRaw <= webpub.readingOrders.length)
     ? startIndexRaw
@@ -472,12 +493,12 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
   persistMediaPlayer(conv);
 
   const url = conv.user.params?.player?.current?.url;
-  ok(url, "url not defined")
-  ok(isValidHttpUrl(url), "url not valid " + url);
+  ok(url, 'error.urlNotValid')
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
 
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
-  ok(webpub, 'webpub not defined');
+  ok(webpub, 'error.webpubNotDefined');
 
   const index = conv.user.params.player.current.index || 0;
   const time = conv.user.params.player.current.time || 0;
@@ -499,9 +520,9 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
   const hours = Math.floor(minutes / 60);
   if (hours) {
     minutes = minutes % 60;
-    conv.add(`il reste ${hours} heures et ${minutes} minutes`);
+    conv.add('player.remaining.hoursAndMinute', { hours, minutes });
   } else {
-    conv.add(`il reste ${minutes} minutes`);
+    conv.add('player.remaining.minute', { minutes });
   }
 
   // // Acknowledge pause/stop
@@ -541,7 +562,7 @@ app.handle('media_status', (conv) => {
       }));
       break;
     default:
-      conv.add('media status incorrect');
+      conv.add('mediaStatus.notCorrect');
   }
 
   console.log('MediaStatus END');
