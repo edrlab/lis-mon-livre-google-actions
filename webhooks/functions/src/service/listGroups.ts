@@ -11,13 +11,13 @@ export async function listGroups(url: string, conv: IConversationWithParams, nex
   const length = list.length;
   if (length > 1) {
     conv.scene.next.name = nextScene;
-    conv.add('list.numberPublication', { length });
+    conv.add('list.numberPublication', {length});
 
     let text = '';
     list.map(({title}, i) => {
       text += `numero ${i + 1} : ${title}\n`;
     });
-    conv.add('free', { text });
+    conv.add('free', {text});
   } else if (length === 1) {
     conv.scene.next.name = 'select_pub_after_selection';
     conv.user.params.selection.url = list[0].groupUrl;

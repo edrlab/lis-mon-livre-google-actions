@@ -1,6 +1,6 @@
 import {isValidHttpUrl} from '../utils';
 import {IConversationWithParams} from '../type';
-import { ok } from '..';
+import {ok} from '..';
 
 export function persistMediaPlayer(conv: IConversationWithParams) {
   if (!conv.request.context) {

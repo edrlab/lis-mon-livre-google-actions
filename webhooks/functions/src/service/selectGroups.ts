@@ -1,4 +1,4 @@
-import { ok } from '..';
+import {ok} from '..';
 import {IConversationWithParams} from '../type';
 import {getGroupsFromFeed, isValidHttpUrl} from '../utils';
 
