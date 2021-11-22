@@ -3,6 +3,9 @@ intentEvents:
     webhookHandler: select_pub_after_search__intent__resume_listening_player
   intent: resume_listening_player
 - handler:
+    webhookHandler: select_pub_after_search__intent__stop
+  intent: stop
+- handler:
     staticPrompt:
       candidates:
       - promptResponse:
