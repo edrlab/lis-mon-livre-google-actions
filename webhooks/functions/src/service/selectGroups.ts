@@ -8,7 +8,7 @@ export async function selectGroup(url: string, number: number, conv: IConversati
   const group = list[number - 1];
   if (!group) {
     console.log('NO GROUPS found !!');
-    conv.add('wrongNumber', { number });
+    conv.add('wrongNumber', {number});
     conv.scene.next.name = conv.scene.name; // loop selection or search
 
     return;

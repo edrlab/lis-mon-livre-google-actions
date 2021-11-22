@@ -8,7 +8,7 @@ export async function selectPublication(url: string, number: number, conv: IConv
   const pub = list[number - 1];
   if (!pub) {
     console.log('NO PUBS found !!');
-    conv.add('wrongNumber', { number });
+    conv.add('wrongNumber', {number});
     conv.scene.next.name = conv.scene.name; // loop selection or search
 
     return;
