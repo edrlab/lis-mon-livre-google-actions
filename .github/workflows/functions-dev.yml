@@ -72,6 +72,7 @@ jobs:
   
   sdk-test-dev:
     name: "Test sdk DEV"
+    needs: deploy
     runs-on: ubuntu-latest
     strategy:
       matrix:
