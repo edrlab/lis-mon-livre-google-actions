@@ -37,6 +37,7 @@ handlers:
 - name: ask_to_resume_listening_at_last_offset__intent__no
 - name: select_pub_after_search__intent__stop
 - name: select_pub_after_selection__intent__stop
+- name: select_list_after_list_selection__intent__stop
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

@@ -41,7 +41,7 @@ describe('My Action Test Suite', function () {
 
     test.assertScene('select_pub_after_search');
 
-    await test.sendQuery('stop');
+    await test.sendQuery('revenir au menu principal');
 
     test.assertSpeech(MEMBER_PROMPT);
 
