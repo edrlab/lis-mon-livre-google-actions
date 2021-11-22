@@ -111,8 +111,6 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
 
   ok(conv.user.params instanceof StorageDto);
 
-  console.log(conv.add);
-  
   const convAdd: IConversationWithParams["add"] = conv.add.bind(conv);
   conv.add = function (...promptItems) {
 
@@ -122,18 +120,12 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
         ? (i18n[promptItems[0]][(conv.user.locale || DEFAULT_LANGUAGE).split("-")[0]] || i18n[promptItems[0]][DEFAULT_LANGUAGE])(promptItems.length > 1 && typeof promptItems[1] === "object" ? promptItems[1] : {})
         : undefined;
 
-    console.log(promptItems);
-    console.log(item);
-
     ok(item, 'error.convadd');
 
     const ret = convAdd(item);
 
     return ret;
   }
-
-  console.log(conv.add);
-  console.log(convAdd);
 
   // void
 });
