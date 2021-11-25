@@ -2,6 +2,7 @@ import {TSdkScene} from '../sdk';
 import {IConversationWithParams} from '../type';
 import {getPubsFromFeed, isValidHttpUrl} from '../utils';
 import {ok} from 'assert';
+import {t} from '../translation';
 
 export async function listPublication(url: string, conv: IConversationWithParams, nextScene: TSdkScene, errorScene: TSdkScene = conv.scene.name) {
   ok(isValidHttpUrl(url), 'url not valid');
@@ -11,11 +12,12 @@ export async function listPublication(url: string, conv: IConversationWithParams
   const length = list.length;
   if (length > 1) {
     conv.scene.next.name = nextScene;
-    conv.add('list.numberPublication', {length});
+    conv.add('homeMembers.list.numberPublication', {length});
 
     let text = '';
     list.map(({title, author}, i) => {
-      text += `numero ${i + 1} : ${title} ${author ? `de ${author}` : ''}\n`;
+      text += t('homeMembers.list.numeroWithAuthor',
+          {i: i + 1, title, author: author ? t('homeMembers.list.numeroWithAuthorOf', {author}) : ''});
     });
     conv.add('free', {text});
   } else if (length === 1) {
@@ -23,6 +25,6 @@ export async function listPublication(url: string, conv: IConversationWithParams
     conv.user.params.player.current.url = list[0].webpuburl;
   } else {
     conv.scene.next.name = errorScene;
-    conv.add('noResult');
+    conv.add('homeMembers.list.noResult');
   }
 }

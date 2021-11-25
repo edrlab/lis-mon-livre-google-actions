@@ -1,0 +1,56 @@
+{
+  "error": {
+    "bearerTokenNotDefined": "Aucun identifiant défini",
+    "catch": "une erreur s'est produite",
+    "convadd": "conv.add value incorrect: {{error}}",
+    "urlNotValid": "url non définis ou invalide {{url}}",
+    "noQuery": "aucune requete demandée",
+    "webpubNotDefined": "webpub non définis",
+    "selectionListNotDefined": "selection list url non définis",
+    "selectionPubNotDefined": "selection url non définis",
+    "selectionNotAvailable": "selection non disponible"
+  },
+  "main": {
+    "welcome": "Que voulez-vous faire ? Vous pouvez dire informations ou espace membres"
+  },
+  "home": {
+    "information": "Voici les informations sur l'association"
+  },
+  "homeMembers": {
+    "welcome1": "Bienvenue dans l'espace membres. Les commandes possibles sont: sélection, lecture, recherche.",
+    "welcome2": "Que voulez-vous faire ?",
+    "resumeAudiobook": {
+      "noCurrentListening": "aucune lecture en cours"
+    },
+    "selection": {
+      "welcome": "Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?",
+      "publication": "Pour choisir une publication dite son numéro",
+      "listAfterSelection": "Pour choisir une sélection dite son numéro"
+    },
+    "list": {
+      "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
+      "numberPublication": "Il y a {{length}} publications :\n",
+      "numero": "numéro {{i}} : {{title}}\n",
+      "numeroWithAuthor": "numéro {{i}} : {{title}} {{author}}\n",
+      "numeroWithAuthorOf": "de {{author}}",
+      "noResult": "aucun résultat trouvé"
+    },
+    "search": "Que voulez-vous écouter ? Par exemple Zola"
+  },
+  "player": {
+    "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle s'était arrêtée ?",
+    "mediaStatus": {
+      "notCorrect": "media status incorrect"
+    },
+    "remaining": {
+      "hoursAndMinute": "il reste {{hours}} heures et {{minutes}} minutes",
+      "minute": "il reste {{minutes}} minutes"
+    }
+  },
+  "test": {
+    "player": "test player {{nb}}",
+    "setupSdk": "setup test {{nb}}",
+    "webhook": "webhook work: {{message}}"
+  },
+  "free": "{{text}}"
+}

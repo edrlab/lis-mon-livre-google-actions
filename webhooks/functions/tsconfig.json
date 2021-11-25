@@ -9,7 +9,8 @@
     "moduleResolution": "node",
     "outDir": "build",
     "experimentalDecorators": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src/**/*"

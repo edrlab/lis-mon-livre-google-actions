@@ -2,6 +2,7 @@ import {TSdkScene} from '../sdk';
 import {IConversationWithParams} from '../type';
 import {getGroupsFromFeed, isValidHttpUrl} from '../utils';
 import {ok} from 'assert';
+import {t} from '../translation';
 
 export async function listGroups(url: string, conv: IConversationWithParams, nextScene: TSdkScene, errorScene: TSdkScene = conv.scene.name) {
   ok(isValidHttpUrl(url), 'url not valid');
@@ -11,11 +12,11 @@ export async function listGroups(url: string, conv: IConversationWithParams, nex
   const length = list.length;
   if (length > 1) {
     conv.scene.next.name = nextScene;
-    conv.add('list.numberPublication', {length});
+    conv.add('homeMembers.list.numberPublication', {length});
 
     let text = '';
     list.map(({title}, i) => {
-      text += `numero ${i + 1} : ${title}\n`;
+      text += t('homeMembers.list.numero', {i: i + 1, title});
     });
     conv.add('free', {text});
   } else if (length === 1) {
@@ -23,6 +24,6 @@ export async function listGroups(url: string, conv: IConversationWithParams, nex
     conv.user.params.selection.url = list[0].groupUrl;
   } else {
     conv.scene.next.name = errorScene;
-    conv.add('noResult');
+    conv.add('homeMembers.list.noResult');
   }
 }
