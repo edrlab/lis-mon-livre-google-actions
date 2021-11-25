@@ -160,7 +160,7 @@ app.handle('main', (conv) => {
 
 app.handle('home_lvl1', (conv) => {
 
-  conv.add('main.welcome');
+  conv.add('home.welcome');
 
   // wait intent
   // conv.scene.next.name

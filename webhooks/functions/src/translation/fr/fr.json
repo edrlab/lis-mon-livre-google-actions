@@ -11,10 +11,11 @@
     "selectionNotAvailable": "selection non disponible"
   },
   "main": {
-    "welcome": "Que voulez-vous faire ? Vous pouvez dire informations ou espace membres"
+    "welcome": "Bienvenue dans l'application d'écoute de livre audio valentin audio"
   },
   "home": {
-    "information": "Voici les informations sur l'association"
+    "information": "Voici les informations sur l'association",
+    "welcome": "Que voulez-vous faire ? Vous pouvez dire informations ou espace membres"
   },
   "homeMembers": {
     "welcome1": "Bienvenue dans l'espace membres. Les commandes possibles sont: sélection, lecture, recherche.",
