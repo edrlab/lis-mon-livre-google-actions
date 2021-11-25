@@ -28,7 +28,6 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@kogai/typed_i18n": "^0.6.0",
     "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
