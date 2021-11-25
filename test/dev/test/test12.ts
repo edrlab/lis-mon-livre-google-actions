@@ -33,7 +33,7 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery('zola');
 
-    await test.assertSpeech(`Il y a 2 publications :\n Pour choisir une publication dite son numéronumero 1 : Thérèse Raquin de Emile Zola\nnumero 2 : L'assommoir de Emile Zola\n`);
+    await test.assertSpeech(`Il y a 2 publications :\n Pour choisir une publication dite son numéronuméro 1 : Thérèse Raquin de Emile Zola\nnuméro 2 : L'assommoir de Emile Zola\n`);
 
     await test.sendQuery('0');
 
