@@ -31,9 +31,9 @@
     "list": {
       "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
       "numberPublication": "Il y a {{length}} publications :\n",
-      "numero": "numéro {{i}} : {{title}}\n",
-      "numeroWithAuthor": "numéro {{i}} : {{title}} {{author}}\n",
-      "numeroWithAuthorOf": "de {{author}}",
+      "numero": "numéro {{i}} : {{- title}}\n",
+      "numeroWithAuthor": "numéro {{i}} : {{- title}} {{- author}}\n",
+      "numeroWithAuthorOf": "de {{- author}}",
       "noResult": "aucun résultat trouvé"
     },
     "search": "Que voulez-vous écouter ? Par exemple Zola"
@@ -51,7 +51,7 @@
   "test": {
     "player": "test player {{nb}}",
     "setupSdk": "setup test {{nb}}",
-    "webhook": "webhook work: {{message}}"
+    "webhook": "webhook work: {{- message}}"
   },
-  "free": "{{text}}"
+  "free": "{{- text}}"
 }
