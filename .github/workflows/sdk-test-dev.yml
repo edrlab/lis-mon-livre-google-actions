@@ -7,9 +7,12 @@ on:
     #    paths:
     #  pull_request:
     #   branches: [ develop ]
+    paths:
+      - 'sdk/test/**'
+      - '.github/workflows/sdk-test-dev.yml'
 
 jobs:
-  sdk-test-prod:
+  sdk-test-dev:
     name: "Test sdk DEV"
     runs-on: ubuntu-latest
     strategy:

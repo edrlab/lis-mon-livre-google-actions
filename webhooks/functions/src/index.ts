@@ -281,6 +281,11 @@ app.handle('select_list_after_list_selection', (conv) => {
   // wait slot number or intent
 });
 
+app.handle('select_list_after_list_selection__intent__stop', (conv) => {
+
+  conv.scene.next.name = 'home_members_lvl2';
+});
+
 app.handle('select_list_after_list_selection__slot__number', async (conv) => {
   console.log('select_publication_number START');
 
@@ -310,6 +315,11 @@ app.handle('select_pub_after_selection__slot__number', async (conv) => {
   await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
+});
+
+app.handle('select_pub_after_selection__intent__stop', (conv) => {
+
+  conv.scene.next.name = 'home_members_lvl2';
 });
 
 app.handle('select_pub_after_selection__intent__resume_listening_player', (conv) => {
@@ -390,6 +400,11 @@ app.handle('select_pub_after_search', (conv) => {
   conv.add('homeMembers.selection.publication');
 
   // wait intent
+});
+
+app.handle('select_pub_after_search__intent__stop', (conv) => {
+
+  conv.scene.next.name = 'home_members_lvl2';
 });
 
 app.handle('select_pub_after_search__intent__resume_listening_player', (conv) => {

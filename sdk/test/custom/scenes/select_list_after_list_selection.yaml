@@ -1,5 +1,8 @@
 intentEvents:
 - handler:
+    webhookHandler: select_list_after_list_selection__intent__stop
+  intent: stop
+- handler:
     staticPrompt:
       candidates:
       - promptResponse:
