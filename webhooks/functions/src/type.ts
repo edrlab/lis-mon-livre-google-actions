@@ -1,7 +1,7 @@
 import { ConversationV3 } from "@assistant/conversation";
 import { Media } from "@assistant/conversation/dist/api/schema";
 import { User, Scene } from "@assistant/conversation/dist/conversation/handler";  
-import { TI18nKey } from "./constants";
+import { TI18nKey } from "./translation";
 import { StorageDto } from "./model/storage.dto";
 import { TSdkScene } from "./sdk";
 

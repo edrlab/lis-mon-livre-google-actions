@@ -15,7 +15,8 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { DEFAULT_LANGUAGE, GENRE_LIST_URL, i18n, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL, TI18nKey } from "./constants";
+import { GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
+import { i18n, t, TI18nKey } from "./translation";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
@@ -23,7 +24,11 @@ const app = conversation<IConversationWithParams>();
 export type TApp = typeof app;
 
 const appHandle: typeof app.handle = app.handle.bind(app);
-export const ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok);
+const __ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok);
+export const ok: typeof __ok = (v, m) => {
+  return __ok(v, m ? t(m): undefined);
+}
+
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {
@@ -87,6 +92,9 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
     conv.session.params = {};
   }
 
+  const locale = conv.user.locale;
+  await i18n.changeLanguage(locale);
+
   const bearerTokenRaw = conv.user.params.bearerToken;
   const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
   try {
@@ -114,10 +122,10 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
   const convAdd: IConversationWithParams["add"] = conv.add.bind(conv);
   conv.add = function (...promptItems) {
 
-    const item: TPromptItem = promptItems[0] instanceof Media
+    const item: TPromptItem | undefined = promptItems[0] instanceof Media
       ? promptItems[0]
-      : typeof promptItems[0] === "string" && i18n[promptItems[0]] && i18n[promptItems[0]][DEFAULT_LANGUAGE]
-        ? (i18n[promptItems[0]][(conv.user.locale || DEFAULT_LANGUAGE).split("-")[0]] || i18n[promptItems[0]][DEFAULT_LANGUAGE])(promptItems.length > 1 && typeof promptItems[1] === "object" ? promptItems[1] : {})
+      : typeof promptItems[0] === "string"
+        ? t(promptItems[0], typeof promptItems[1] === "object" ? promptItems[1] : undefined)
         : undefined;
 
     ok(item, 'error.convadd');
@@ -152,7 +160,7 @@ app.handle('main', (conv) => {
 
 app.handle('home_lvl1', (conv) => {
 
-  conv.add('home.welcome');
+  conv.add('main.welcome');
 
   // wait intent
   // conv.scene.next.name
@@ -189,8 +197,8 @@ app.handle('home_lvl1__intent__listen_audiobook_lvl1', (conv) => {
 
 app.handle('home_members_lvl2', (conv) => {
 
-  conv.add('homeMembers.welcome.1');
-  conv.add('homeMembers.welcome.2');
+  conv.add('homeMembers.welcome1');
+  conv.add('homeMembers.welcome2');
 });
 
 app.handle('home_members_lvl2__intent__listen_audiobook_lvl2', (conv) => {
@@ -339,7 +347,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
     // const date = history.d;
     // TODO: use the date info
 
-    conv.add('ask_resume_last_offset');
+    conv.add('player.askResumeLastOffset');
 
     // wait intent
   } else {
@@ -367,7 +375,7 @@ app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) =>
 
 app.handle('search', (conv) => {
 
-  conv.add('search');
+  conv.add('homeMembers.search');
 
   // wait query intent
 });
@@ -485,7 +493,7 @@ app.handle("player", async (conv) => {
 // ////////////////////////
 
 
-app.handle('player__intent__resume_listening_player ', (conv) => {
+app.handle('player__intent__resume_listening_player', (conv) => {
   persistMediaPlayer(conv);
 
   // // Acknowledge pause/stop
@@ -569,7 +577,7 @@ app.handle('media_status', (conv) => {
       }));
       break;
     default:
-      conv.add('mediaStatus.notCorrect');
+      conv.add('player.mediaStatus.notCorrect');
   }
 
   console.log('MediaStatus END');
