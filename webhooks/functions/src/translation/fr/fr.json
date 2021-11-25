@@ -18,7 +18,7 @@
     "welcome": "Que voulez-vous faire ? Vous pouvez dire informations ou espace membres"
   },
   "homeMembers": {
-    "welcome1": "Bienvenue dans l'espace membres. Les commandes possibles sont: sélection, lecture, recherche.",
+    "welcome1": "Bienvenue dans l'espace membres. Les commandes possibles sont: sélection, lecture, recherche. ",
     "welcome2": "Que voulez-vous faire ?",
     "resumeAudiobook": {
       "noCurrentListening": "aucune lecture en cours"
