@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 import * as frTranslation from './fr/fr.json';
 import {Translations} from './../typings/i18n';
-import { DEFAULT_LANGUAGE } from '../constants';
+import {DEFAULT_LANGUAGE} from '../constants';
 
 i18next.init({
   resources: {
