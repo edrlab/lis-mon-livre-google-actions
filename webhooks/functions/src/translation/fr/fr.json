@@ -6,8 +6,8 @@
     "urlNotValid": "url non définis ou invalide {{url}}",
     "noQuery": "aucune requete demandée",
     "webpubNotDefined": "webpub non définis",
-    "selectionListNotDefined": "selection list url non définis",
-    "selectionPubNotDefined": "selection url non définis",
+    "selectionListNotDefined": "selection list url non définie",
+    "selectionPubNotDefined": "selection url non définie",
     "selectionNotAvailable": "selection non disponible"
   },
   "main": {
