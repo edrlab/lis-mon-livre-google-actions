@@ -449,12 +449,18 @@ app.handle("player", async (conv) => {
   const webpub = await opds.webpubRequest(url);
   ok(webpub, 'error.webpubNotDefined');
 
-  const startIndex = (startIndexRaw && startIndexRaw <= webpub.readingOrders.length)
+  let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length)
     ? startIndexRaw
     : 0;
 
-  const startTime = (startTimeRaw && startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity))
-    ? startTimeRaw
+  const startTime = (startTimeRaw  && startTimeRaw > -1)
+    ? startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity)
+      ? startTimeRaw
+      : (startIndex += 1, startTimeRaw)
+    : 0;
+
+  startIndex = startIndex <= webpub.readingOrders.length
+    ? startIndex
     : 0;
 
   const mediaObjects = webpub.readingOrders
@@ -500,6 +506,24 @@ app.handle('player__intent__resume_listening_player', (conv) => {
   // conv.add(new Media({
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
+
+  conv.scene.next.name = 'player';
+});
+
+app.handle('player__intent__repeat_player', (conv) => {
+  persistMediaPlayer(conv);
+
+  if (conv.user.params.player.current.time)
+    conv.user.params.player.current.time -= 30;
+
+  conv.scene.next.name = 'player';
+});
+
+app.handle('player__intent__jump_30sec_player', (conv) => {
+  persistMediaPlayer(conv);
+
+  if (conv.user.params.player.current.time)
+    conv.user.params.player.current.time += 30;
 
   conv.scene.next.name = 'player';
 });
