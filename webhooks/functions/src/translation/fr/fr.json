@@ -25,8 +25,8 @@
     },
     "selection": {
       "welcome": "Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?",
-      "publication": "Pour choisir une publication, dite son numéros.",
-      "listAfterSelection": "Pour choisir une sélection, dite son numéros."
+      "publication": "Pour choisir une publication, dites son numéro.",
+      "listAfterSelection": "Pour choisir une sélection, dites son numéro."
     },
     "list": {
       "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
