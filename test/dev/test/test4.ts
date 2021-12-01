@@ -33,11 +33,11 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery('zola');
 
-    await test.assertSpeech(`Il y a 2 publications :\n Pour choisir une publication dite son numéronuméro 1 : Thérèse Raquin de Emile Zola\nnuméro 2 : L'assommoir de Emile Zola\n`);
+    await test.assertSpeech(`J'ai trouvé 2 publications.\n Pour choisir une publication, dite son numéros.numéro 1 : Thérèse Raquin de Emile Zola.\nnuméro 2 : L'assommoir de Emile Zola.\n`);
 
     await test.sendQuery('0');
 
-    await test.assertSpeech(`Le numéro 0 est inconnu. Veuillez choisir un autre numéro. Pour choisir une publication dite son numéro`);
+    await test.assertSpeech(`Le numéro 0 est inconnu. Veuillez choisir un autre numéro. Pour choisir une publication, dite son numéros.`);
 
     test.assertScene('select_pub_after_search');
 

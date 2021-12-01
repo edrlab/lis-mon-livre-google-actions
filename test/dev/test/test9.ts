@@ -26,10 +26,10 @@ describe('My Action Test Suite', function () {
 
 
     await test.sendQuery(`sélections`);
-    test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?`);
+    test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?`);
 
     await test.sendQuery(`ma liste`);
-    test.assertSpeech(`Il y a 2 publications :\n Pour choisir une publication dite son numéronuméro 1 : L'assommoir de Emile Zola\nnuméro 2 : Du contrat social de Rousseau\n`);
+    test.assertSpeech(`J'ai trouvé 2 publications.\n Pour choisir une publication, dite son numéros.numéro 1 : L'assommoir de Emile Zola\nnuméro 2 : Du contrat social de Rousseau\n`);
 
     await test.sendQuery(`2`);
 
