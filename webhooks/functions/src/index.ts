@@ -533,6 +533,17 @@ app.handle('player__intent__resume_listening_player', (conv) => {
 //   conv.scene.next.name = 'player';
 // });
 
+app.handle('player__intent__menu', (conv) => {
+  persistMediaPlayer(conv);
+
+  // Acknowledge pause/stop
+  conv.add(new Media({
+    mediaType: MediaType.MediaStatusACK,
+  }));
+
+  conv.scene.next.name = "home_members_lvl2";
+});
+
 app.handle('player__intent__remaining_time_player', async (conv) => {
   persistMediaPlayer(conv);
 

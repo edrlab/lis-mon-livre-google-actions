@@ -9,6 +9,9 @@ intentEvents:
     webhookHandler: player__intent__listen_toc
   intent: listen_toc
 - handler:
+    webhookHandler: player__intent__menu
+  intent: menu
+- handler:
     webhookHandler: media_status
   intent: actions.intent.MEDIA_STATUS_FINISHED
 - handler:
