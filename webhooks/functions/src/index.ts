@@ -510,23 +510,28 @@ app.handle('player__intent__resume_listening_player', (conv) => {
   conv.scene.next.name = 'player';
 });
 
-app.handle('player__intent__repeat_player', (conv) => {
-  persistMediaPlayer(conv);
+// overhided by the google nest player
+// 'avance' : avance de x seconds
+// 'repete' : repete la track
+// 'avance de 30 secondes : ne fait rien
+//
+// app.handle('player__intent__repeat_player', (conv) => {
+//   persistMediaPlayer(conv);
 
-  if (conv.user.params.player.current.time)
-    conv.user.params.player.current.time -= 30;
+//   if (conv.user.params.player.current.time)
+//     conv.user.params.player.current.time -= 30;
 
-  conv.scene.next.name = 'player';
-});
+//   conv.scene.next.name = 'player';
+// });
 
-app.handle('player__intent__jump_30sec_player', (conv) => {
-  persistMediaPlayer(conv);
+// app.handle('player__intent__jump_30sec_player', (conv) => {
+//   persistMediaPlayer(conv);
 
-  if (conv.user.params.player.current.time)
-    conv.user.params.player.current.time += 30;
+//   if (conv.user.params.player.current.time)
+//     conv.user.params.player.current.time += 30;
 
-  conv.scene.next.name = 'player';
-});
+//   conv.scene.next.name = 'player';
+// });
 
 app.handle('player__intent__remaining_time_player', async (conv) => {
   persistMediaPlayer(conv);
@@ -593,12 +598,21 @@ app.handle('media_status', (conv) => {
       // void
       break;
     case 'PAUSED':
+      persistMediaPlayer(conv);
+      // Acknowledge pause/stop
+      conv.add(new Media({
+        mediaType: MediaType.MediaStatusACK,
+      }));
+
+      break;
     case 'STOPPED':
       persistMediaPlayer(conv);
       // Acknowledge pause/stop
       conv.add(new Media({
         mediaType: MediaType.MediaStatusACK,
       }));
+
+      conv.scene.next.name = "home_members_lvl2";
       break;
     default:
       conv.add('player.mediaStatus.notCorrect');
