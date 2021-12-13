@@ -26,7 +26,7 @@ describe('My Action Test Suite', function () {
 
 
     await test.sendQuery(`sélections`);
-    test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre, Que voulez-vous faire ?`);
+    test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?`);
 
     await test.sendQuery(`selections par genre`);
 
