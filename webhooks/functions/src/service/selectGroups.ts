@@ -11,11 +11,11 @@ export async function selectGroup(url: string, number: number, conv: IConversati
     conv.add('homeMembers.list.wrongNumber', {number});
     conv.scene.next.name = conv.scene.name; // loop selection or search
 
-    return;
+    return undefined;
   }
 
   console.log('Groups: ', group);
 
-  conv.user.params.selection.url = group.groupUrl;
+  return group.groupUrl;
   // conv.scene.next.name = 'select_pub_after_selection';
 }

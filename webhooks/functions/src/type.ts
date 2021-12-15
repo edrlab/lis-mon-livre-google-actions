@@ -34,7 +34,11 @@ export interface IConversationWithParams extends ConversationV3 {
   add: (...promptItems: TPromptItem[]) => this;
   session: {
     params: {
-      [key: string]: any;
+      pubListUrl: string;
+      groupListUrl: string;
+      query: string;
+      scene: TSdkScene;
+      nextUrlCounter: number;
     }
   }
 }

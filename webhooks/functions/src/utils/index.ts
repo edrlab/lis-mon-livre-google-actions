@@ -56,3 +56,28 @@ export async function getGroupsFromFeed(url: string) {
   return list;
 }
 
+export async function isPublicationAvailable(url: string): Promise<boolean> {
+  assert.ok(isValidHttpUrl(url));
+  const pubs = await getPubsFromFeed(url);
+
+  if (pubs.length) {
+    return true;
+  }
+  return false;
+}
+
+export async function getNextLinkFromPublicationsFeed(url: string): Promise<string | undefined> {
+  assert.ok(isValidHttpUrl(url));
+  const opds = new OpdsFetcher();
+  const feed = await opds.feedRequest(url);
+
+  try {
+    const nextLink = feed.links?.next[0].url;
+    if (nextLink && await isPublicationAvailable(nextLink)) {
+      return nextLink;
+    } else {
+    }
+  } catch {
+  }
+  return undefined;
+}

@@ -31,6 +31,7 @@
     "list": {
       "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
       "numberPublication": "Il y a {{length}} publications :\n",
+      "numberSelection": "Il y a {{length}} selections :\n",
       "numero": "numéro {{i}} : {{- title}}\n",
       "numeroWithAuthor": "numéro {{i}} : {{- title}} {{- author}}\n",
       "numeroWithAuthorOf": "de {{- author}}",

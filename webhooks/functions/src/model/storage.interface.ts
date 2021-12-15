@@ -17,14 +17,8 @@ export interface IStoragePlayer {
   history: Map<string, IStoragePlayerHistory>;
 }
 
-export interface IStorageSelection {
-  topUrl?: string;
-  url?: string;
-}
-
 export interface IStorage {
   bearerToken: string;
-  selection: IStorageSelection;
   player: IStoragePlayer;
 }
 

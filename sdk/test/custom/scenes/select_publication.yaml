@@ -1,10 +1,13 @@
 intentEvents:
 - handler:
-    webhookHandler: select_pub_after_selection__intent__resume_listening_player
+    webhookHandler: select_publication__intent__resume_listening_player
   intent: resume_listening_player
 - handler:
-    webhookHandler: select_pub_after_selection__intent__stop
+    webhookHandler: select_publication__intent__stop
   intent: stop
+- handler:
+    webhookHandler: select_publication__intent__next
+  intent: next
 - handler:
     staticPrompt:
       candidates:
@@ -27,15 +30,16 @@ intentEvents:
       - promptResponse:
           firstSimple:
             variants:
-            - speech: je n’ai pas compris le numéro, dite un numéro
+            - speech: je n’ai pas compris le numéro.
   intent: actions.intent.NO_MATCH_FINAL
+  transitionToScene: search
 - handler:
     staticPrompt:
       candidates:
       - promptResponse:
           firstSimple:
             variants:
-            - speech: je n’ai pas compris le numéro, dite un numéro
+            - speech: je n’ai pas compris le numéro, merci de le répêter
   intent: actions.intent.NO_INPUT_1
 - handler:
     staticPrompt:
@@ -43,7 +47,7 @@ intentEvents:
       - promptResponse:
           firstSimple:
             variants:
-            - speech: je n’ai pas compris le numéro, dite un numéro
+            - speech: je n’ai pas compris le numéro, merci de le répêter
   intent: actions.intent.NO_INPUT_2
 - handler:
     staticPrompt:
@@ -53,10 +57,11 @@ intentEvents:
             variants:
             - speech: je n’ai pas compris le numéro
   intent: actions.intent.NO_INPUT_FINAL
+  transitionToScene: search
 onEnter:
-  webhookHandler: select_pub_after_selection
+  webhookHandler: select_publication
 onSlotUpdated:
-  webhookHandler: select_pub_after_selection__slot__number
+  webhookHandler: select_publication__slot__number
 slots:
 - name: number
   required: true
