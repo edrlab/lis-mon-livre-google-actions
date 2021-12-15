@@ -275,13 +275,13 @@ app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
   console.log('selection_my_list_lvl3 EXIT');
 });
 
-app.handle('select_group', (conv) => {
+app.handle('select_group', async (conv) => {
 
   conv.add('homeMembers.selection.listAfterSelection');
 
   const url = conv.session.params.groupListUrl;
   ok(isValidHttpUrl(url));
-  listGroups(url, conv);
+  await listGroups(url, conv);
 
   // wait slot number or intent
 });
@@ -386,11 +386,11 @@ app.handle('search__intent__resume_listening_player', (conv) => {
   conv.scene.next.name = "search";
 });
 
-app.handle('select_publication', (conv) => {
+app.handle('select_publication', async (conv) => {
 
   const url = conv.session.params.pubListUrl;
   ok(isValidHttpUrl(url));
-  listPublication(url, conv);
+  await listPublication(url, conv);
 
   conv.session.params.nextUrlCounter = 0;
 
@@ -428,10 +428,8 @@ app.handle('select_publication__slot__number', async (conv) => {
   const number = conv.intent.params?.number.resolved;
 
   console.log('NUMBER: ', number);
-  const query = conv.session.params.query;
-  ok(typeof query === 'string', 'error.noQuery');
 
- const url = conv.session.params.pubListUrl;
+  const url = conv.session.params.pubListUrl;
   await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
