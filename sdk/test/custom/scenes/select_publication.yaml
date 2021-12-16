@@ -9,6 +9,9 @@ intentEvents:
     webhookHandler: select_publication__intent__next
   intent: next
 - handler:
+    webhookHandler: select_publication__intent__repeat
+  intent: repeat
+- handler:
     staticPrompt:
       candidates:
       - promptResponse:

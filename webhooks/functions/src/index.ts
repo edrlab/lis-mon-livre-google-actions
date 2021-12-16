@@ -15,7 +15,7 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
+import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
@@ -275,6 +275,12 @@ app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
   console.log('selection_my_list_lvl3 EXIT');
 });
 
+app.handle('selection_lvl3__intent__selection_all_publication_lvl3', async (conv) => {
+
+  conv.session.params.pubListUrl = ALL_PUBLICATION_LIST_URL;
+  conv.scene.next.name = 'select_publication';
+});
+
 app.handle('select_group', async (conv) => {
 
   conv.add('homeMembers.selection.listAfterSelection');
@@ -412,11 +418,11 @@ app.handle('select_publication__intent__next', async (conv) => {
   const url = conv.session.params.pubListUrl;
   ok(isValidHttpUrl(url));
   const nextUrl = await getNextLinkFromPublicationsFeed(url);
-  if (nextUrl) {
+  if (nextUrl && await isPublicationAvailable(nextUrl)) {
     conv.session.params.pubListUrl = nextUrl;
     conv.session.params.nextUrlCounter++;
   } else {
-    // TODO say no next link available
+    conv.add('homeMembers.selection.noNext');
   }
 
   conv.scene.next.name = "select_publication";
@@ -433,6 +439,11 @@ app.handle('select_publication__slot__number', async (conv) => {
   await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
+});
+
+app.handle('select_publication__intent__repeat', async (conv) => {
+
+  conv.scene.next.name = 'select_publication';
 });
 
 app.handle("player", async (conv) => {

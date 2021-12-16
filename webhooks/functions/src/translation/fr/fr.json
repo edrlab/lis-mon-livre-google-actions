@@ -25,7 +25,9 @@
     },
     "selection": {
       "welcome": "Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?",
-      "publication": "Pour choisir une publication, dites son numéro.",
+      "publication": "Pour choisir l'une des publications, dites son numéro.",
+      "next": "Pour obtenir la suite, dites suivant.",
+      "noNext": "Il n'y a pas de page suivante, dites répéter pour recommencer",
       "listAfterSelection": "Pour choisir une sélection, dites son numéro."
     },
     "list": {
@@ -35,7 +37,8 @@
       "numero": "numéro {{i}} : {{- title}}.\n",
       "numeroWithAuthor": "numéro {{i}} : {{- title}} {{- author}}.\n",
       "numeroWithAuthorOf": "de {{- author}}",
-      "noResult": "Aucun résultat trouvé."
+      "noResult": "Aucun résultat trouvé.",
+      "repeat": "dite répéter pour recommencer"
     },
     "search": "Que voulez-vous écouter ? Par exemple Zola."
   },
