@@ -18,7 +18,6 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {},
     };
 
     assert.throws(() => StorageDto.create(obj));
@@ -37,7 +36,6 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {},
     };
 
     const instance = StorageDto.create(obj);
@@ -59,7 +57,6 @@ describe('storage DTO', () => {
         history: {
 
         },
-        selection: {},
       },
     };
 
@@ -83,7 +80,6 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {},
     }, extr);
   });
 
@@ -106,43 +102,42 @@ describe('storage DTO', () => {
 
         },
       },
-      // selection: {}
     }, extr);
 
-    const instance2 = StorageDto.create(extr);
+    // const instance2 = StorageDto.create(extr);
 
-    assert.deepEqual(instance2.selection, {});
-    assert.deepEqual(instance2.selection.url, undefined);
+    // assert.deepEqual(instance2.selection, {});
+    // assert.deepEqual(instance2.selection.url, undefined);
   });
 
-  it('selection validation extract', () => {
-    const instance = StorageDto.create(undefined, 'test');
+  // it('selection validation extract', () => {
+  //   const instance = StorageDto.create(undefined, 'test');
 
-    instance.selection.url = undefined;
-    // instance.selection.topUrl = "http://google.com";
+  //   instance.selection.url = undefined;
+  //   // instance.selection.topUrl = "http://google.com";
 
-    const extr = instance.extract();
+  //   const extr = instance.extract();
 
-    assert.deepEqual({
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
+  //   assert.deepEqual({
+  //     dbVersion: 1,
+  //     bearerToken: 'test',
+  //     player: {
+  //       current: {
 
-          playing: false,
-        },
-        history: {
+  //         playing: false,
+  //       },
+  //       history: {
 
-        },
-      },
-      selection: {},
-    }, extr);
+  //       },
+  //     },
+  //     selection: {},
+  //   }, extr);
 
-    const instance2 = StorageDto.create(extr);
+  //   const instance2 = StorageDto.create(extr);
 
-    assert.deepEqual(instance2.selection, {});
-    assert.deepEqual(instance2.selection.url, undefined);
-  });
+  //   assert.deepEqual(instance2.selection, {});
+  //   assert.deepEqual(instance2.selection.url, undefined);
+  // });
 
   it('good validation extract', () => {
     const instance = StorageDto.create(undefined, 'test');
@@ -163,7 +158,6 @@ describe('storage DTO', () => {
 
         },
       },
-      selection: {},
     }, extr);
   });
 
@@ -186,7 +180,6 @@ describe('storage DTO', () => {
           },
         },
       },
-      selection: {},
     };
     const instance = StorageDto.create(obj, 'test');
 
@@ -225,7 +218,6 @@ describe('storage DTO', () => {
           },
         },
       },
-      selection: {},
     }, extr);
 
     console.log(inspect(extr, {depth: 7}));

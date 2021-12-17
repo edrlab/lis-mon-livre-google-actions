@@ -7,7 +7,7 @@ import {ok as _ok} from "assert";
 import 'reflect-metadata';  
 import { pull, push } from "./database";
 import { StorageDto } from "./model/storage.dto";
-import { isValidHttpUrl } from "./utils";
+import { getNextLinkFromPublicationsFeed, isPublicationAvailable, isValidHttpUrl } from "./utils";
 import { IConversationWithParams, MediaType, OptionalMediaControl, TPromptItem } from "./type";
 import { persistMediaPlayer } from "./service/persist";
 import { listPublication } from "./service/listPublication";
@@ -15,7 +15,7 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
+import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
@@ -89,7 +89,13 @@ app.catch((conv, error) => {
 app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) => {
 
   if (!conv.session.params) {
-    conv.session.params = {};
+    conv.session.params = {
+      groupListUrl: "",
+      pubListUrl: "",
+      query: "",
+      nextUrlCounter: 0,
+      scene: 'home_lvl1',
+    };
   }
 
   const locale = conv.user.locale;
@@ -235,8 +241,12 @@ app.handle('selection_lvl3', (conv) => {
   conv.add("homeMembers.selection.welcome");
 
   // reset selection context
-  conv.user.params.selection.url = undefined;
-  conv.user.params.selection.topUrl = undefined;
+  // conv.user.params.selection.url = undefined;
+  // conv.user.params.selection.topUrl = undefined;
+  conv.session.params.pubListUrl = "";
+  conv.session.params.groupListUrl = "";
+  
+  conv.session.params.scene = 'selection_lvl3';
 
   // wait intent
   // conv.scene.next.name
@@ -244,95 +254,69 @@ app.handle('selection_lvl3', (conv) => {
 
 app.handle('selection_lvl3__intent__selection_genre_lvl3', async (conv) => {
 
-  // conv.add("sélection par genre");
-
   const url = GENRE_LIST_URL; 
-  conv.user.params.selection.topUrl = url;
-  conv.user.params.selection.url = undefined;
+  conv.session.params.groupListUrl = url;
+  conv.scene.next.name = 'select_group';
 
-  await listGroups(url, conv, 'select_list_after_list_selection');
 });
 
 app.handle('selection_lvl3__intent__selection_thematic_list_lvl3', async (conv) => {
 
-  // conv.add('sélection par liste thématique');
-
   const url = THEMATIC_LIST_URL;
-  conv.user.params.selection.topUrl = url;
-  conv.user.params.selection.url = undefined;
-
-  await listGroups(url, conv, 'select_list_after_list_selection');
+  conv.session.params.groupListUrl = url;
+  conv.scene.next.name = 'select_group';
 });
 
 app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
 
-  const url = SELECTION_URL;
-  conv.user.params.selection.topUrl = undefined;
-  conv.user.params.selection.url = url;
-
-  await listPublication(url, conv, 'select_pub_after_selection', 'home_members_lvl2');
+  conv.session.params.pubListUrl = SELECTION_URL;
+  conv.scene.next.name = 'select_publication';
 
   console.log('selection_my_list_lvl3 EXIT');
 });
 
-app.handle('select_pub_after_selection', (conv) => {
+app.handle('selection_lvl3__intent__selection_all_publication_lvl3', async (conv) => {
 
-  conv.add('homeMembers.selection.publication');
-
-  // wait slot number or intent
+  conv.session.params.pubListUrl = ALL_PUBLICATION_LIST_URL;
+  conv.scene.next.name = 'select_publication';
 });
 
-app.handle('select_list_after_list_selection', (conv) => {
+app.handle('select_group', async (conv) => {
 
   conv.add('homeMembers.selection.listAfterSelection');
 
+  const url = conv.session.params.groupListUrl;
+  ok(isValidHttpUrl(url));
+  await listGroups(url, conv);
+
   // wait slot number or intent
 });
 
-app.handle('select_list_after_list_selection__intent__stop', (conv) => {
+app.handle('select_group__intent__stop', (conv) => {
 
   conv.scene.next.name = 'home_members_lvl2';
 });
 
-app.handle('select_list_after_list_selection__slot__number', async (conv) => {
-  console.log('select_publication_number START');
+app.handle('select_group__slot__number', async (conv) => {
+  console.log('select_group_number START');
 
   const number = conv.intent.params?.number.resolved;
 
-  const topUrl = conv.user.params.selection.topUrl;
+  const groupUrl = conv.session.params.groupListUrl;
+  ok(isValidHttpUrl(groupUrl), 'error.selectionListNotDefined');
+  const url = await selectGroup(groupUrl, number, conv);
 
-  ok(topUrl, 'error.selectionListNotDefined');
-  await selectGroup(topUrl, number, conv);
-
-  const url = conv.user.params.selection.url;
+  if (url) {
+    ok(isValidHttpUrl(url), 'error.selectionPubNotDefined');
   
-  ok(url, 'error.selectionPubNotDefined');
-  await listPublication(url, conv, 'select_pub_after_selection');
+    conv.session.params.pubListUrl = url;
+  conv.session.params.nextUrlCounter = 0;
+    conv.scene.next.name = 'select_publication';
+  } else {
+    // conv.scene.next.name = 'select_group';
+  }
 
-  console.log('select_publication_number END');
-});
-
-
-app.handle('select_pub_after_selection__slot__number', async (conv) => {
-  console.log('select_publication_number START');
-
-  const number = conv.intent.params?.number.resolved;
-
-  const url = conv.user.params.selection.url;
-  ok(url, 'error.selectionNotAvailable');
-  await selectPublication(url, number, conv);
-
-  console.log('select_publication_number END');
-});
-
-app.handle('select_pub_after_selection__intent__stop', (conv) => {
-
-  conv.scene.next.name = 'home_members_lvl2';
-});
-
-app.handle('select_pub_after_selection__intent__resume_listening_player', (conv) => {
-
-  conv.scene.next.name = "select_pub_after_selection";
+  console.log('select_group_number END');
 });
 
 app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
@@ -377,25 +361,32 @@ app.handle('search', (conv) => {
 
   conv.add('homeMembers.search');
 
+  conv.session.params.scene = 'search';
+
+  conv.session.params.pubListUrl = "";
+  conv.session.params.groupListUrl = "";
+
   // wait query intent
 });
 
 app.handle('search__slot__query', async (conv) => {
   // void
 
-  console.log('search_livre_lvl2 START');
-
   const query = conv.intent.params?.query.resolved;
+  console.log('search_slot_query', query);
+
   ok(typeof query === 'string', 'error.noQuery');
   conv.session.params.query = query;
 
+  // save url to session storage (next link)
   const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
   console.log('search URL: ', url);
-  await listPublication(url, conv, 'select_pub_after_search', 'search');
 
-  console.log('search_livre_lvl2 STOP');
+  ok(isValidHttpUrl(url));
+  conv.session.params.pubListUrl = url;
+  conv.session.params.nextUrlCounter = 0;
+  conv.scene.next.name = "select_publication";
 
-  // slot available for research
 });
 
 app.handle('search__intent__resume_listening_player', (conv) => {
@@ -403,37 +394,57 @@ app.handle('search__intent__resume_listening_player', (conv) => {
   conv.scene.next.name = "search";
 });
 
-app.handle('select_pub_after_search', (conv) => {
+app.handle('select_publication', async (conv) => {
 
-  conv.add('homeMembers.selection.publication');
+
+  const url = conv.session.params.pubListUrl;
+  ok(isValidHttpUrl(url));
+  await listPublication(url, conv);
 
   // wait intent
 });
 
-app.handle('select_pub_after_search__intent__stop', (conv) => {
+app.handle('select_publication__intent__stop', (conv) => {
 
   conv.scene.next.name = 'home_members_lvl2';
 });
 
-app.handle('select_pub_after_search__intent__resume_listening_player', (conv) => {
+app.handle('select_publication__intent__resume_listening_player', (conv) => {
 
-  conv.scene.next.name = "select_pub_after_search";
+  conv.scene.next.name = "select_publication";
 });
 
-app.handle('select_pub_after_search__slot__number', async (conv) => {
+app.handle('select_publication__intent__next', async (conv) => {
+
+  const url = conv.session.params.pubListUrl;
+  ok(isValidHttpUrl(url));
+  const nextUrl = await getNextLinkFromPublicationsFeed(url);
+  if (nextUrl && await isPublicationAvailable(nextUrl)) {
+    conv.session.params.pubListUrl = nextUrl;
+    conv.session.params.nextUrlCounter++;
+  } else {
+    conv.add('homeMembers.selection.noNext');
+  }
+
+  conv.scene.next.name = "select_publication";
+});
+
+app.handle('select_publication__slot__number', async (conv) => {
   console.log('select_publication_number START');
 
   const number = conv.intent.params?.number.resolved;
 
   console.log('NUMBER: ', number);
-  const query = conv.session.params.query;
-  ok(typeof query === 'string', 'error.noQuery');
 
-  const url = SEARCH_URL.replace('{query}', encodeURIComponent(query));
-  console.log('select_pub_after_search__slot__number URL: ', url);
+  const url = conv.session.params.pubListUrl;
   await selectPublication(url, number, conv);
 
   console.log('select_publication_number END');
+});
+
+app.handle('select_publication__intent__repeat', async (conv) => {
+
+  conv.scene.next.name = 'select_publication';
 });
 
 app.handle("player", async (conv) => {

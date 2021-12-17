@@ -1,5 +1,5 @@
 import * as util from 'util';
-import {IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory, IStorageSelection} from './storage.interface';
+import {IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory} from './storage.interface';
 import {classToPlain, Exclude, plainToClass, Transform, TransformationType, Type} from 'class-transformer';
 import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
 
@@ -83,16 +83,6 @@ class StoragePlayerDto implements IStoragePlayer {
   }
 }
 
-class StorageSelectionDto implements IStorageSelection {
-  @IsOptional()
-  @IsUrl()
-    topUrl?: string;
-
-  @IsOptional()
-  @IsUrl()
-    url?: string;
-}
-
 export class StorageDto implements IStorage {
   @IsNumber()
   @Equals(DB_VERSION)
@@ -107,12 +97,6 @@ export class StorageDto implements IStorage {
   @ValidateNested()
     player: StoragePlayerDto;
 
-  @IsObject()
-  @IsNotEmpty()
-  @Type(() => StorageSelectionDto)
-  @ValidateNested()
-    selection: StorageSelectionDto;
-
   @Exclude()
     snapshot: IStorage;
 
@@ -121,7 +105,6 @@ export class StorageDto implements IStorage {
     this.bearerToken = bearerToken;
     this.player = new StoragePlayerDto();
     this.snapshot = classToPlain(this) as IStorage;
-    this.selection = new StorageSelectionDto();
   }
 
   @Exclude()
