@@ -19,8 +19,9 @@ export async function listPublication(url: string, conv: IConversationWithParams
     if (page > 1 || nextAvailable) {
       text += t('homeMembers.list.pagePublication', {page}) + '\n';
     } else {
-      if (page === 1)
-        text += t('homeMembers.list.numberPublication', { length: totalLength }) + '\n';
+      if (page === 1) {
+        text += t('homeMembers.list.numberPublication', {length: totalLength}) + '\n';
+      }
     }
 
     list.map(({title, author}, i) => {
