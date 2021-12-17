@@ -310,6 +310,7 @@ app.handle('select_group__slot__number', async (conv) => {
     ok(isValidHttpUrl(url), 'error.selectionPubNotDefined');
   
     conv.session.params.pubListUrl = url;
+  conv.session.params.nextUrlCounter = 0;
     conv.scene.next.name = 'select_publication';
   } else {
     // conv.scene.next.name = 'select_group';
@@ -383,6 +384,7 @@ app.handle('search__slot__query', async (conv) => {
 
   ok(isValidHttpUrl(url));
   conv.session.params.pubListUrl = url;
+  conv.session.params.nextUrlCounter = 0;
   conv.scene.next.name = "select_publication";
 
 });
@@ -394,11 +396,10 @@ app.handle('search__intent__resume_listening_player', (conv) => {
 
 app.handle('select_publication', async (conv) => {
 
+
   const url = conv.session.params.pubListUrl;
   ok(isValidHttpUrl(url));
   await listPublication(url, conv);
-
-  conv.session.params.nextUrlCounter = 0;
 
   // wait intent
 });

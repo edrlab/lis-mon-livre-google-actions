@@ -28,7 +28,6 @@ export async function getPubsFromFeed(url: string) {
           isValidHttpUrl(l[0].url)
         );
       })
-      .slice(0, 5)
       .map(({title, authors, openAccessLinks}) => ({
         title: title,
         author: Array.isArray(authors) ? authors[0].name : '',

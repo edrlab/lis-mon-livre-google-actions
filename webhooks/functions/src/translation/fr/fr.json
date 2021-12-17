@@ -33,7 +33,8 @@
     "list": {
       "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
       "numberSelection": "J'ai trouvé {{length}} sélections.\n",
-      "numberPublication": "J'ai trouvé {{length}} publications.\n",
+      "numberPublication": "J'ai trouvé {{length}} publications.",
+      "pagePublication": "Vous êtes sur la page {{page}}.",
       "numero": "numéro {{i}} : {{- title}}.\n",
       "numeroWithAuthor": "numéro {{i}} : {{- title}} {{- author}}.\n",
       "numeroWithAuthorOf": "de {{- author}}",
