@@ -27,7 +27,7 @@
       "welcome": "Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?",
       "publication": "Pour choisir l'une des publications, dites son numéro.",
       "next": "Pour obtenir la suite, dites suivant.",
-      "noNext": "Il n'y a pas de page suivante, dites répéter pour recommencer",
+      "noNext": "Il n'y a pas de page suivante, je vais répéter la dernière page.",
       "listAfterSelection": "Pour choisir une sélection, dites son numéro."
     },
     "list": {

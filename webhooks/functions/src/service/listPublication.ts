@@ -14,9 +14,12 @@ export async function listPublication(url: string, conv: IConversationWithParams
   const length = list.length;
   if (length > 1 || conv.session.params.nextUrlCounter) {
     const page = conv.session.params.nextUrlCounter + 1;
-    let text = t('homeMembers.list.numberPublication', {length: totalLength}) + '\n';
-    if (page > 1 || nextUrl && await isPublicationAvailable(nextUrl)) {
+    const nextAvailable = !!nextUrl && await isPublicationAvailable(nextUrl);
+    let text = "";
+    if (page > 1 || nextAvailable) {
       text += t('homeMembers.list.pagePublication', {page}) + '\n';
+    } else {
+      text += t('homeMembers.list.numberPublication', {length: totalLength}) + '\n';
     }
 
     list.map(({title, author}, i) => {
@@ -25,7 +28,9 @@ export async function listPublication(url: string, conv: IConversationWithParams
     });
 
     text += '\n';
-    text += t('homeMembers.selection.publication');
+    text += t('homeMembers.selection.publication') + '\n';
+    if (nextAvailable)
+      text += t('homeMembers.selection.next');
 
     conv.add('free', {text});
   } else if (length === 1) {

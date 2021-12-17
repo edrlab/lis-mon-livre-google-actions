@@ -423,7 +423,7 @@ app.handle('select_publication__intent__next', async (conv) => {
     conv.session.params.pubListUrl = nextUrl;
     conv.session.params.nextUrlCounter++;
   } else {
-    conv.add('homeMembers.selection.noNext');
+    conv.add('homeMembers.selection.noNext') + '\n';
   }
 
   conv.scene.next.name = "select_publication";
