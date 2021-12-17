@@ -16,12 +16,11 @@ export async function listPublication(url: string, conv: IConversationWithParams
     const page = conv.session.params.nextUrlCounter + 1;
     const nextAvailable = !!nextUrl && await isPublicationAvailable(nextUrl);
     let text = '';
+    if (page === 1) {
+      text += t('homeMembers.list.numberPublication', {length: totalLength}) + '\n';
+    }
     if (page > 1 || nextAvailable) {
       text += t('homeMembers.list.pagePublication', {page}) + '\n';
-    } else {
-      if (page === 1) {
-        text += t('homeMembers.list.numberPublication', {length: totalLength}) + '\n';
-      }
     }
 
     list.map(({title, author}, i) => {
