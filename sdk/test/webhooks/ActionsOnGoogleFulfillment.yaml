@@ -39,6 +39,7 @@ handlers:
 - name: select_group__intent__stop
 - name: selection_lvl3__intent__selection_all_publication_lvl3
 - name: select_publication__intent__repeat
+- name: select_group__intent__menu
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

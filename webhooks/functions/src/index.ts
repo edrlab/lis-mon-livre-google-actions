@@ -297,6 +297,11 @@ app.handle('select_group__intent__stop', (conv) => {
   conv.scene.next.name = 'home_members_lvl2';
 });
 
+app.handle('select_group__intent__menu', (conv) => {
+
+  conv.scene.next.name = 'home_members_lvl2';
+});
+
 app.handle('select_group__slot__number', async (conv) => {
   console.log('select_group_number START');
 

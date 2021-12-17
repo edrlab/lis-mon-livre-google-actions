@@ -3,6 +3,9 @@ intentEvents:
     webhookHandler: select_group__intent__stop
   intent: stop
 - handler:
+    webhookHandler: select_group__intent__menu
+  intent: menu
+- handler:
     staticPrompt:
       candidates:
       - promptResponse:
