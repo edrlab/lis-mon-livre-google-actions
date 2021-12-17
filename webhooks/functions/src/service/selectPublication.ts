@@ -4,7 +4,7 @@ import {getPubsFromFeed, isValidHttpUrl} from '../utils';
 
 export async function selectPublication(url: string, number: number, conv: IConversationWithParams) {
   ok(isValidHttpUrl(url), 'error.urlNotValid');
-  const list = await getPubsFromFeed(url);
+  const [list] = await getPubsFromFeed(url);
   const pub = list[number - 1];
   if (!pub) {
     console.log('NO PUBS found !!');

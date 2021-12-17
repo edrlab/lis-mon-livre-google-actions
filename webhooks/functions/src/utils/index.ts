@@ -15,7 +15,11 @@ export function isValidHttpUrl(url: string | undefined): url is string {
   return _url.protocol === 'http:' || _url.protocol === 'https:';
 }
 
-export async function getPubsFromFeed(url: string) {
+export async function getPubsFromFeed(url: string): Promise<[{
+  title: string;
+  author: string;
+  webpuburl: string;
+}[], number]> {
   const opds = new OpdsFetcher();
   const feed = await opds.feedRequest(url);
 
@@ -28,13 +32,26 @@ export async function getPubsFromFeed(url: string) {
           isValidHttpUrl(l[0].url)
         );
       })
+      .slice(0, 5)
       .map(({title, authors, openAccessLinks}) => ({
         title: title,
         author: Array.isArray(authors) ? authors[0].name : '',
         webpuburl: (openAccessLinks as IOpdsLinkView[])[0].url,
       }));
 
-  return list;
+  console.log('%%%%%%%%%%%%%%');
+  console.log('%%%%%%%%%%%%%%');
+  console.log('%%%%%%%%%%%%%%');
+  console.log('%%%%%%%%%%%%%%');
+
+  console.log(feed.metadata?.numberOfItems);
+
+  console.log('%%%%%%%%%%%%%%');
+  console.log('%%%%%%%%%%%%%%');
+  console.log('%%%%%%%%%%%%%%');
+  console.log('%%%%%%%%%%%%%%');
+
+  return [list, feed.metadata?.numberOfItems || list.length];
 }
 
 export async function getGroupsFromFeed(url: string) {
@@ -57,7 +74,7 @@ export async function getGroupsFromFeed(url: string) {
 
 export async function isPublicationAvailable(url: string): Promise<boolean> {
   assert.ok(isValidHttpUrl(url));
-  const pubs = await getPubsFromFeed(url);
+  const [pubs] = await getPubsFromFeed(url);
 
   if (pubs.length) {
     return true;
