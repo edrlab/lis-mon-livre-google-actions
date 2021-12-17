@@ -31,7 +31,7 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery('test avec aucune publication renvoyées');
 
-    await test.assertSpeech(`aucun résultat trouvé Que voulez-vous écouter ? Par exemple Zola.`);
+    await test.assertSpeech(`Aucun résultat trouvé. Que voulez-vous écouter ? Par exemple Zola.`);
 
     //
     // resp = test.getLatestResponse();
