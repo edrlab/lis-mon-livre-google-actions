@@ -15,7 +15,7 @@ export async function listPublication(url: string, conv: IConversationWithParams
   if (length > 1 || conv.session.params.nextUrlCounter) {
     const page = conv.session.params.nextUrlCounter + 1;
     const nextAvailable = !!nextUrl && await isPublicationAvailable(nextUrl);
-    let text = "";
+    let text = '';
     if (page > 1 || nextAvailable) {
       text += t('homeMembers.list.pagePublication', {page}) + '\n';
     } else {
@@ -29,8 +29,9 @@ export async function listPublication(url: string, conv: IConversationWithParams
 
     text += '\n';
     text += t('homeMembers.selection.publication') + '\n';
-    if (nextAvailable)
+    if (nextAvailable) {
       text += t('homeMembers.selection.next');
+    }
 
     conv.add('free', {text});
   } else if (length === 1) {
