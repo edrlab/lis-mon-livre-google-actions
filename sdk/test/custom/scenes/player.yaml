@@ -5,9 +5,8 @@ intentEvents:
 - handler:
     webhookHandler: player__intent__remaining_time_player
   intent: remaing_time_player
-- handler:
-    webhookHandler: player__intent__listen_toc
-  intent: listen_toc
+- intent: listen_toc
+  transitionToScene: player_toc
 - handler:
     webhookHandler: player__intent__menu
   intent: menu

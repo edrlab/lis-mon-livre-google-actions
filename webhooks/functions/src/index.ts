@@ -604,6 +604,52 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
   conv.scene.next.name = 'player';
 });
 
+app.handle('player_toc', async (conv) => {
+  persistMediaPlayer(conv);
+
+  const url = conv.user.params.player.current.url;
+
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+
+  if (!webpub?.toc) {
+
+    conv.add('player.tocNotFound');
+    return ;
+  }
+
+  const toc = webpub.toc;
+  const title = toc.map(({title}) => title).filter((v) => v).slice(0, 5);
+  const text = title.join(".\n ");
+
+  conv.add('free', { text });
+
+  conv.scene.next.name = "player";
+});
+
+app.handle('player_toc__slot__number', (conv) => {
+
+
+  conv.scene.next.name = 'player';
+});
+
+app.handle('player_toc__intent__next', (conv) => {
+
+  conv.scene.next.name = 'player_toc';
+});
+
+app.handle('player_toc__intent__repeat', (conv) => {
+
+  conv.scene.next.name = 'player_toc';
+});
+
+app.handle('player_toc__intent__resume_listening_player', (conv) => {
+
+  conv.scene.next.name = 'player';
+});
+
 // ////////////////////////
 // Media PLAYET CONTEXT //
 // ////////////////////////

@@ -27,7 +27,6 @@ handlers:
 - name: test_setup_sdk
 - name: test_webhook
 - name: ask_to_resume_listening_at_last_offset__intent__no
-- name: player__intent__listen_toc
 - name: player__intent__menu
 - name: select_publication__slot__number
 - name: select_publication__intent__resume_listening_player
@@ -40,6 +39,11 @@ handlers:
 - name: selection_lvl3__intent__selection_all_publication_lvl3
 - name: select_publication__intent__repeat
 - name: select_group__intent__menu
+- name: player_toc
+- name: player_toc__intent__repeat
+- name: player_toc__intent__next
+- name: player_toc__intent__resume_listening_player
+- name: player_toc__slot__number
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
