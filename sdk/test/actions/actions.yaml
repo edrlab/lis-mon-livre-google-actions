@@ -1,2 +1,3 @@
 custom:
   actions.intent.MAIN: {}
+  actions.intent.MEDIA_STATUS_STOPPED: {}

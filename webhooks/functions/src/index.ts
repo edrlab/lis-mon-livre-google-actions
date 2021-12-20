@@ -554,6 +554,19 @@ app.handle('player__intent__resume_listening_player', (conv) => {
 //   conv.scene.next.name = 'player';
 // });
 
+app.handle('player__intent__listen_toc', (conv) => {
+  persistMediaPlayer(conv);
+
+  conv.add('player.notAvailable');
+
+  // // Acknowledge pause/stop
+  // conv.add(new Media({
+  //   mediaType: 'MEDIA_STATUS_ACK'
+  // }));
+
+  conv.scene.next.name = 'player';
+});
+
 app.handle('player__intent__menu', (conv) => {
   persistMediaPlayer(conv);
 

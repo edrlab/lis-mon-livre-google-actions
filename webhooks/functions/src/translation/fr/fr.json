@@ -51,7 +51,8 @@
     "remaining": {
       "hoursAndMinute": "Il reste {{hours}} heures et {{minutes}} minutes.",
       "minute": "Il reste {{minutes}} minutes."
-    }
+    },
+    "notAvailable": "Fonctionnalité non disponible."
   },
   "test": {
     "player": "test player {{nb}}",

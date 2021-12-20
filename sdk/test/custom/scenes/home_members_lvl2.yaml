@@ -19,5 +19,7 @@ intentEvents:
 - handler:
     webhookHandler: test_webhook
   intent: test_webhook
+- intent: menu
+  transitionToScene: home_members_lvl2
 onEnter:
   webhookHandler: home_members_lvl2
