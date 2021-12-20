@@ -245,6 +245,7 @@ app.handle('selection_lvl3', (conv) => {
   // conv.user.params.selection.topUrl = undefined;
   conv.session.params.pubListUrl = "";
   conv.session.params.groupListUrl = "";
+  conv.session.params.nextUrlCounter = 0;
   
   conv.session.params.scene = 'selection_lvl3';
 
@@ -272,6 +273,8 @@ app.handle('selection_lvl3__intent__selection_my_list_lvl3', async (conv) => {
   conv.session.params.pubListUrl = SELECTION_URL;
   conv.scene.next.name = 'select_publication';
 
+  conv.session.params.nextUrlCounter = 0;
+
   console.log('selection_my_list_lvl3 EXIT');
 });
 
@@ -279,6 +282,8 @@ app.handle('selection_lvl3__intent__selection_all_publication_lvl3', async (conv
 
   conv.session.params.pubListUrl = ALL_PUBLICATION_LIST_URL;
   conv.scene.next.name = 'select_publication';
+
+  conv.session.params.nextUrlCounter = 0;
 });
 
 app.handle('select_group', async (conv) => {
@@ -315,7 +320,7 @@ app.handle('select_group__slot__number', async (conv) => {
     ok(isValidHttpUrl(url), 'error.selectionPubNotDefined');
   
     conv.session.params.pubListUrl = url;
-  conv.session.params.nextUrlCounter = 0;
+    conv.session.params.nextUrlCounter = 0;
     conv.scene.next.name = 'select_publication';
   } else {
     // conv.scene.next.name = 'select_group';
