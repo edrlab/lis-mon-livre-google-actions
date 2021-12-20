@@ -6,4 +6,6 @@ export const THEMATIC_LIST_URL = 'https://storage.googleapis.com/audiobook_edrla
 export const GENRE_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/genre_list.json';
 export const DEFAULT_LANGUAGE: TLang = 'fr';
 
+export const PADDING = 5;
+
 type TLang = 'fr' | 'en';

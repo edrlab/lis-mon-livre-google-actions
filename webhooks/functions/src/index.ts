@@ -15,7 +15,7 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
+import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, PADDING, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
@@ -28,7 +28,6 @@ const __ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok)
 export const ok: typeof __ok = (v, m) => {
   return __ok(v, m ? t(m): undefined);
 }
-
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {
@@ -355,7 +354,6 @@ app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) =
   conv.scene.next.name = 'player';
 });
 
-
 app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) => {
 
   const url = conv.user.params.player.current.url;
@@ -508,6 +506,8 @@ app.handle("player", async (conv) => {
         startOffset: `${startTime}s`,
       }),
   );
+
+  conv.session.params.tocStart = 0; // reset toc
 });
 
 // ----------
@@ -619,29 +619,65 @@ app.handle('player_toc', async (conv) => {
   const opds = new OpdsFetcher();
   const webpub = await opds.webpubRequest(url);
 
-  if (!webpub?.toc) {
+  const tocSliceStart = conv.session.params.tocStart;
+
+  if (webpub?.toc) {
+
+    const toc = webpub.toc;
+
+    const textArray = toc
+      .map(({ title }, i) => t('homeMembers.list.numero', { title, i: i + 1 }))
+      .filter((v) => v)
+      .slice(tocSliceStart, tocSliceStart + PADDING);
+    const text = textArray.join(".\n ");
+
+    conv.add('free', { text });
+
+  } else {
 
     conv.add('player.tocNotFound');
-    return ;
   }
-
-  const toc = webpub.toc;
-  const title = toc.map(({title}) => title).filter((v) => v).slice(0, 5);
-  const text = title.join(".\n ");
-
-  conv.add('free', { text });
 
   conv.scene.next.name = "player";
 });
 
-app.handle('player_toc__slot__number', (conv) => {
+app.handle('player_toc__slot__number', async (conv) => {
+  
+  const url = conv.user.params.player.current.url;
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
+  const number = conv.intent.params?.number.resolved;
+  ok(typeof number === "number");
 
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+
+  const toc = webpub.toc;
+  const tocSliceStart = conv.session.params.tocStart;
+
+  if (toc) {
+    const tocs = toc.slice(tocSliceStart, tocSliceStart + PADDING);
+    const item = toc[number];
+
+    if (item) {
+      const itemUrl = new URL(item.url);
+      const time = parseInt(itemUrl.hash.split("#t=")[1], 10);
+
+      const readingOrders = webpub.readingOrders;
+      const index = readingOrders.findIndex(({url}) => url.startsWith(itemUrl.origin + itemUrl.pathname));
+
+      if (index > -1 && time > -1) {
+        conv.user.params.player.current.time = time;
+        conv.user.params.player.current.index = index;
+      }
+    }
+  }
 
   conv.scene.next.name = 'player';
 });
 
 app.handle('player_toc__intent__next', (conv) => {
 
+  conv.session.params.tocStart += PADDING;
   conv.scene.next.name = 'player_toc';
 });
 

@@ -39,6 +39,7 @@ export interface IConversationWithParams extends ConversationV3 {
       query: string;
       scene: TSdkScene;
       nextUrlCounter: number;
+      tocStart: number;
     }
   }
 }
