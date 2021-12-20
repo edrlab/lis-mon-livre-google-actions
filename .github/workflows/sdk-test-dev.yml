@@ -9,6 +9,7 @@ on:
     #   branches: [ develop ]
     paths:
       - 'sdk/test/**'
+      - 'test/dev/**'
       - '.github/workflows/sdk-test-dev.yml'
 
 jobs:
