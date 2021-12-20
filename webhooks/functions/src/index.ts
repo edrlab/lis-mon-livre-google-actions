@@ -94,6 +94,7 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
       query: "",
       nextUrlCounter: 0,
       scene: 'home_lvl1',
+      tocStart: 0,
     };
   }
 
@@ -612,6 +613,11 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
 app.handle('player_toc', async (conv) => {
   persistMediaPlayer(conv);
 
+  // Acknowledge pause/stop
+  conv.add(new Media({
+    mediaType: MediaType.MediaStatusACK
+  }));
+
   const url = conv.user.params.player.current.url;
 
   ok(isValidHttpUrl(url), 'error.urlNotValid');
@@ -629,7 +635,7 @@ app.handle('player_toc', async (conv) => {
       .map(({ title }, i) => t('homeMembers.list.numero', { title, i: i + 1 }))
       .filter((v) => v)
       .slice(tocSliceStart, tocSliceStart + PADDING);
-    const text = textArray.join(".\n ");
+    const text = textArray.join("");
 
     conv.add('free', { text });
 
