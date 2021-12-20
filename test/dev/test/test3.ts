@@ -35,7 +35,7 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery('0');
 
-    await test.assertSpeech(`Le numéro 0 est inconnu. Veuillez choisir un autre numéro. Pour choisir une publication, dites son numéro.`);
+    await test.assertSpeech(`Le numéro 0 est inconnu. Veuillez choisir un autre numéro. J'ai trouvé 2 publications.\nnuméro 1 : Thérèse Raquin de Emile Zola.\nnuméro 2 : L'assommoir de Emile Zola.\n\nPour choisir l'une des publications, dites son numéro.\n`);
 
     test.assertScene('select_publication');
 
