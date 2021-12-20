@@ -283,7 +283,7 @@ app.handle('selection_lvl3__intent__selection_all_publication_lvl3', async (conv
 
 app.handle('select_group', async (conv) => {
 
-  conv.add('homeMembers.selection.listAfterSelection');
+  // conv.add('homeMembers.selection.listAfterSelection');
 
   const url = conv.session.params.groupListUrl;
   ok(isValidHttpUrl(url));

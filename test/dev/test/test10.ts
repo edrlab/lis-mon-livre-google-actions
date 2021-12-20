@@ -29,7 +29,7 @@ describe('My Action Test Suite', function () {
     test.assertSpeech(`Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?`);
 
     await test.sendQuery(`selections thématiques`);
-    test.assertSpeech(``);
+    test.assertSpeech(`J'ai trouvé 2 sélections.\nnuméro 1 : liste d'essai de Philosophie.\nnuméro 2 : liste de l'auteur Emile Zola.\n\nPour choisir une sélection, dites son numéro.`);
 
     await test.sendQuery(`numéro 2`);
         

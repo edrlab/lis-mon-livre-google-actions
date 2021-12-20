@@ -30,7 +30,7 @@ describe('My Action Test Suite', function () {
 
     await test.sendQuery(`selections par genre`);
 
-    test.assertSpeech(``);
+    test.assertSpeech(`J'ai trouvé 2 sélections.\nnuméro 1 : liste d'essai de Philosophie.\nnuméro 2 : roman.\n\nPour choisir une sélection, dites son numéro.`);
 
     await test.sendQuery(`numéro 2`);
 
