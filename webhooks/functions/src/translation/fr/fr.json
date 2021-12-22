@@ -44,6 +44,7 @@
     "search": "Que voulez-vous écouter ? Par exemple Zola."
   },
   "player": {
+    "start": "Je lance la lecture de {{- title}}",
     "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle s'était arrêtée ?",
     "mediaStatus": {
       "notCorrect": "état de lecture incorrect."

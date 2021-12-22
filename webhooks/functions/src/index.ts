@@ -350,7 +350,22 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
   }
 });
 
+const sayAudiobookTitle = async (conv: IConversationWithParams, url: string) => {
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+  const title = webpub.title;
+
+  if (title) {
+    conv.add('player.start', {title});
+  }
+};
+
 app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) => {
+
+  const url = conv.user.params.player.current.url;
+  ok(isValidHttpUrl(url));
+  await sayAudiobookTitle(conv, url);
 
   conv.scene.next.name = 'player';
 });
@@ -361,6 +376,7 @@ app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) =>
   const url = conv.user.params.player.current.url;
   ok(isValidHttpUrl(url), 'error.urlNotValid');
   console.log("erase ", url, " resume listening NO");
+  await sayAudiobookTitle(conv, url);
 
   conv.user.params.player.current.index = 0;
   conv.user.params.player.current.time = 0;
