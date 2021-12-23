@@ -1,6 +1,10 @@
 intentEvents:
-- intent: resume_listening_player
-  transitionToScene: select_pub_after_selection
+- handler:
+    webhookHandler: select_group__intent__stop
+  intent: stop
+- handler:
+    webhookHandler: select_group__intent__menu
+  intent: menu
 - handler:
     staticPrompt:
       candidates:
@@ -50,18 +54,11 @@ intentEvents:
             - speech: je n’ai pas compris le numéro
   intent: actions.intent.NO_INPUT_FINAL
 onEnter:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: Pour choisir une publication dite son numéro
+  webhookHandler: select_group
 onSlotUpdated:
-  webhookHandler: select_publication_number_after_selection
+  webhookHandler: select_group__slot__number
 slots:
-- commitBehavior:
-    writeSessionParam: number
-  name: number
+- name: number
   required: true
   type:
     name: actions.type.Number

@@ -1,31 +1,18 @@
 intentEvents:
 - handler:
-    staticPrompt:
-      candidates:
-      - promptResponse:
-          firstSimple:
-            variants:
-            - speech: Voici les informations sur l'association
+    webhookHandler: home_lvl1__intent__get_info_association_lvl1
   intent: get_info_association_lvl1
-  transitionToScene: home_lvl1
-- intent: enter_member_space_lvl1
-  transitionToScene: home_lvl1_AccountLinking
-- intent: resume_listening_player
-  transitionToScene: home_lvl1
-- intent: listen_audiobook_lvl1
-  transitionToScene: home_lvl1_AccountLinking
+- handler:
+    webhookHandler: home_lvl1__intent__enter_member_space_lvl1
+  intent: enter_member_space_lvl1
+- handler:
+    webhookHandler: home_lvl1__intent__resume_listening_player
+  intent: resume_listening_player
+- handler:
+    webhookHandler: home_lvl1__intent__listen_audiobook_lvl1
+  intent: listen_audiobook_lvl1
 - handler:
     webhookHandler: test_webhook
   intent: test_webhook
-  transitionToScene: home_lvl1
 onEnter:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: Que voulez-vous faire ? Vous pouvez dire informations ou espace
-              membres
-        suggestions:
-        - title: informations
-        - title: espace membres
+  webhookHandler: home_lvl1

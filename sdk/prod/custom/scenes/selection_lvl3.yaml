@@ -1,10 +1,15 @@
 intentEvents:
 - handler:
-    webhookHandler: selection_genre_lvl3
+    webhookHandler: selection_lvl3__intent__selection_genre_lvl3
   intent: selection_genre_lvl3
 - handler:
-    webhookHandler: selection_thematic_list_lvl3
+    webhookHandler: selection_lvl3__intent__selection_thematic_list_lvl3
   intent: selection_thematic_list_lvl3
 - handler:
-    webhookHandler: selection_my_list_lvl3
+    webhookHandler: selection_lvl3__intent__selection_my_list_lvl3
   intent: selection_my_list_lvl3
+- handler:
+    webhookHandler: selection_lvl3__intent__selection_all_publication_lvl3
+  intent: selection_all_publication_lvl3
+onEnter:
+  webhookHandler: selection_lvl3
