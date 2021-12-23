@@ -206,6 +206,8 @@ app.handle('home_members_lvl2', (conv) => {
 
   conv.add('homeMembers.welcome1');
   conv.add('homeMembers.welcome2');
+
+  conv.session.params.tocStart = 0;
 });
 
 app.handle('home_members_lvl2__intent__listen_audiobook_lvl2', (conv) => {
@@ -575,14 +577,15 @@ app.handle('player__intent__resume_listening_player', (conv) => {
 app.handle('player__intent__listen_toc', (conv) => {
   persistMediaPlayer(conv);
 
-  conv.add('player.notAvailable');
+  // conv.add('player.notAvailable');
 
   // // Acknowledge pause/stop
   // conv.add(new Media({
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
-  conv.scene.next.name = 'player';
+  // conv.scene.next.name = 'player';
+  conv.scene.next.name = 'player_toc';
 });
 
 app.handle('player__intent__menu', (conv) => {
@@ -641,14 +644,14 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
 });
 
 app.handle('player_toc', async (conv) => {
-  persistMediaPlayer(conv);
 
-  // Acknowledge pause/stop
-  conv.add(new Media({
-    mediaType: MediaType.MediaStatusACK
-  }));
+  const url = conv.user.params.player?.current?.url;
 
-  const url = conv.user.params.player.current.url;
+  if (!url) {
+    conv.add('homeMembers.resumeAudiobook.noCurrentListening');
+    conv.scene.next.name = 'home_members_lvl2';
+    return ;
+  }
 
   ok(isValidHttpUrl(url), 'error.urlNotValid');
 
@@ -656,25 +659,24 @@ app.handle('player_toc', async (conv) => {
   const webpub = await opds.webpubRequest(url);
 
   const tocSliceStart = conv.session.params.tocStart;
+  const toc = webpub.toc;
 
-  if (webpub?.toc) {
-
-    const toc = webpub.toc;
+  if (toc) {
 
     const textArray = toc
       .map(({ title }, i) => t('homeMembers.list.numero', { title, i: i + 1 }))
       .filter((v) => v)
       .slice(tocSliceStart, tocSliceStart + PADDING);
-    const text = textArray.join("");
+    const text = textArray.join("") + '\n' + t('player.toc.numero');
 
     conv.add('free', { text });
 
   } else {
 
-    conv.add('player.tocNotFound');
+    conv.add('player.toc.notFound');
   }
 
-  conv.scene.next.name = "player";
+  // conv.scene.next.name = "player";
 });
 
 app.handle('player_toc__slot__number', async (conv) => {
@@ -691,8 +693,8 @@ app.handle('player_toc__slot__number', async (conv) => {
   const tocSliceStart = conv.session.params.tocStart;
 
   if (toc) {
-    const tocs = toc.slice(tocSliceStart, tocSliceStart + PADDING);
-    const item = toc[number];
+    // const tocs = toc.slice(tocSliceStart, tocSliceStart + PADDING);
+    const item = toc[number - 1];
 
     if (item) {
       const itemUrl = new URL(item.url);
@@ -711,9 +713,22 @@ app.handle('player_toc__slot__number', async (conv) => {
   conv.scene.next.name = 'player';
 });
 
-app.handle('player_toc__intent__next', (conv) => {
+app.handle('player_toc__intent__next', async (conv) => {
 
-  conv.session.params.tocStart += PADDING;
+  const url = conv.user.params.player.current.url;
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+
+  const toc = webpub.toc;
+  const len = toc?.length || Infinity;
+
+  if (conv.session.params.tocStart < len - PADDING) {
+    conv.session.params.tocStart += PADDING;
+  } else {
+    conv.add('player.toc.noNext');
+  }
   conv.scene.next.name = 'player_toc';
 });
 

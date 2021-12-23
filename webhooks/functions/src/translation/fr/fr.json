@@ -53,7 +53,11 @@
       "hoursAndMinute": "Il reste {{hours}} heures et {{minutes}} minutes.",
       "minute": "Il reste {{minutes}} minutes."
     },
-    "tocNotFound": "Aucune table des matières disponible.",
+    "toc": {
+      "notFound": "Aucune table des matières disponible.",
+      "numero": "Choisir un numéro.",
+      "noNext": "Il n'y a pas de page suivante, je vais répéter la dernière page."
+    },
     "notAvailable": "Fonctionnalité non disponible."
   },
   "test": {
