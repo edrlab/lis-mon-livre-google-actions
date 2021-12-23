@@ -44,6 +44,7 @@
     "search": "Que voulez-vous écouter ? Par exemple Zola."
   },
   "player": {
+    "start": "Je lance la lecture de {{- title}}",
     "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle s'était arrêtée ?",
     "mediaStatus": {
       "notCorrect": "état de lecture incorrect."
@@ -52,7 +53,8 @@
       "hoursAndMinute": "Il reste {{hours}} heures et {{minutes}} minutes.",
       "minute": "Il reste {{minutes}} minutes."
     },
-    "tocNotFound": "Aucune table des matières disponible."
+    "tocNotFound": "Aucune table des matières disponible.",
+    "notAvailable": "Fonctionnalité non disponible."
   },
   "test": {
     "player": "test player {{nb}}",

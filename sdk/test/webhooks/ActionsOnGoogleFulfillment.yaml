@@ -44,6 +44,7 @@ handlers:
 - name: player_toc__intent__next
 - name: player_toc__intent__resume_listening_player
 - name: player_toc__slot__number
+- name: player__intent__listen_toc
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

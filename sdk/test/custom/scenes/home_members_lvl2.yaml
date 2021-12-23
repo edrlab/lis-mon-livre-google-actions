@@ -19,5 +19,10 @@ intentEvents:
 - handler:
     webhookHandler: test_webhook
   intent: test_webhook
+- intent: menu
+  transitionToScene: home_members_lvl2
+- handler:
+    webhookHandler: selection_lvl3__intent__selection_my_list_lvl3
+  intent: selection_my_list_lvl3
 onEnter:
   webhookHandler: home_members_lvl2

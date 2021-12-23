@@ -17,6 +17,7 @@ import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
 import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, PADDING, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
+import { DefaultScenes } from "@assistant/conversation/dist/conversation/handler";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
@@ -350,7 +351,22 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
   }
 });
 
+const sayAudiobookTitle = async (conv: IConversationWithParams, url: string) => {
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+  const title = webpub.title;
+
+  if (title) {
+    conv.add('player.start', {title});
+  }
+};
+
 app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) => {
+
+  const url = conv.user.params.player.current.url;
+  ok(isValidHttpUrl(url));
+  await sayAudiobookTitle(conv, url);
 
   conv.scene.next.name = 'player';
 });
@@ -360,6 +376,7 @@ app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) =>
   const url = conv.user.params.player.current.url;
   ok(isValidHttpUrl(url), 'error.urlNotValid');
   console.log("erase ", url, " resume listening NO");
+  await sayAudiobookTitle(conv, url);
 
   conv.user.params.player.current.index = 0;
   conv.user.params.player.current.time = 0;
@@ -555,6 +572,19 @@ app.handle('player__intent__resume_listening_player', (conv) => {
 //   conv.scene.next.name = 'player';
 // });
 
+app.handle('player__intent__listen_toc', (conv) => {
+  persistMediaPlayer(conv);
+
+  conv.add('player.notAvailable');
+
+  // // Acknowledge pause/stop
+  // conv.add(new Media({
+  //   mediaType: 'MEDIA_STATUS_ACK'
+  // }));
+
+  conv.scene.next.name = 'player';
+});
+
 app.handle('player__intent__menu', (conv) => {
   persistMediaPlayer(conv);
 
@@ -732,7 +762,9 @@ app.handle('media_status', (conv) => {
         mediaType: MediaType.MediaStatusACK,
       }));
 
-      conv.scene.next.name = "home_members_lvl2";
+      // disable because need to exit the app instead
+      // @ts-ignore
+      conv.scene.next.name = 'actions.scene.END_CONVERSATION';
       break;
     default:
       conv.add('player.mediaStatus.notCorrect');
