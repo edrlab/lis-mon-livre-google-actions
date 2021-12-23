@@ -8,6 +8,7 @@ intentEvents:
 - handler:
     webhookHandler: home_members__intent__selection_audiobook_lvl2
   intent: selection_audiobook_lvl2
+<<<<<<< HEAD:sdk/test/custom/scenes/home_members_lvl2.yaml
 - handler:
     webhookHandler: test_setup_sdk
   intent: test_setup_sdk
@@ -24,5 +25,8 @@ intentEvents:
 - handler:
     webhookHandler: selection_lvl3__intent__selection_my_list_lvl3
   intent: selection_my_list_lvl3
+=======
+  transitionToScene: selection
+>>>>>>> main:sdk/test/custom/scenes/home_members.yaml
 onEnter:
   webhookHandler: home_members_lvl2

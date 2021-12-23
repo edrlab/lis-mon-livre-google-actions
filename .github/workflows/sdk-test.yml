@@ -1,0 +1,33 @@
+
+name: sdk test prod
+
+on:
+  push:
+    branches: [ main ]
+    #    paths:
+
+jobs:
+  sdk-test-prod:
+    name: "Test sdk PROD"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    defaults:
+      run:
+        working-directory: './test/prod'
+
+    steps:
+
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: save service_account
+        run: echo $SECRET >> service_account.json
+        env:
+          SECRET : ${{ secrets.SERVICE_ACCOUNT_VALENTIN4 }}
+      - run: npm install
+      - run: npm test

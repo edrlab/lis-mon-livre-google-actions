@@ -1,10 +1,10 @@
 conditionalEvents:
 - condition: session.params.AccountLinkingSlot == "LINKED"
-  transitionToScene: home_members_lvl2
+  transitionToScene: home_members
 - condition: session.params.AccountLinkingSlot == "ERROR"
-  transitionToScene: home_lvl1
+  transitionToScene: home
 - condition: session.params.AccountLinkingSlot == "REJECTED"
-  transitionToScene: home_lvl1
+  transitionToScene: home
 slots:
 - commitBehavior:
     writeSessionParam: AccountLinkingSlot

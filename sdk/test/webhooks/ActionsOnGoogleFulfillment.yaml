@@ -3,6 +3,7 @@ handlers:
 - name: media_status
 - name: player
 - name: ask_to_resume_listening_at_last_offset
+<<<<<<< HEAD
 - name: main
 - name: home_lvl1
 - name: home_lvl1__intent__enter_member_space_lvl1
@@ -45,6 +46,10 @@ handlers:
 - name: player_toc__intent__resume_listening_player
 - name: player_toc__slot__number
 - name: player__intent__listen_toc
+=======
+- name: ask_to_resume_listening_at_last_offset__yes
+- name: ask_to_resume_listening_at_last_offset__no
+>>>>>>> main
 httpsEndpoint:
   baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
