@@ -1,0 +1,19 @@
+conditionalEvents:
+- condition: session.params.AccountLinkingSlot == "LINKED"
+  transitionToScene: home_members_lvl2
+- condition: session.params.AccountLinkingSlot == "ERROR"
+  transitionToScene: home_lvl1
+- condition: session.params.AccountLinkingSlot == "REJECTED"
+  transitionToScene: home_lvl1
+slots:
+- commitBehavior:
+    writeSessionParam: AccountLinkingSlot
+  config:
+    '@type': type.googleapis.com/google.actions.conversation.v3.SignInSpec
+    opt_context: ""
+  defaultValue:
+    sessionParam: AccountLinkingSlot
+  name: AccountLinkingSlot
+  required: true
+  type:
+    name: actions.type.AccountLinking
