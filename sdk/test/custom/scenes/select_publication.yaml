@@ -11,6 +11,8 @@ intentEvents:
 - handler:
     webhookHandler: select_publication__intent__repeat
   intent: repeat
+- intent: menu
+  transitionToScene: home_members_lvl2
 - handler:
     staticPrompt:
       candidates:

@@ -1,1 +1,1 @@
-transitionToScene: home_members_lvl2
+transitionToScene: actions.scene.END_CONVERSATION
