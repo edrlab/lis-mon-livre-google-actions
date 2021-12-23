@@ -17,6 +17,7 @@ import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
 import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
+import { DefaultScenes } from "@assistant/conversation/dist/conversation/handler";
 
 const BEARER_TOKEN_NOT_DEFINED = "bearer token not defined";
 
@@ -673,7 +674,8 @@ app.handle('media_status', (conv) => {
         mediaType: MediaType.MediaStatusACK,
       }));
 
-      conv.scene.next.name = "home_members_lvl2";
+      // disable because need to exit the app instead
+      // conv.scene.next.name = DefaultScenes.End;
       break;
     default:
       conv.add('player.mediaStatus.notCorrect');
