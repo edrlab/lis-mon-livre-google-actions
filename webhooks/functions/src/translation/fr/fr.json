@@ -1,0 +1,64 @@
+{
+  "error": {
+    "bearerTokenNotDefined": "Aucun identifiant défini",
+    "catch": "une erreur s'est produite",
+    "convadd": "conv.add value incorrect: {{error}}",
+    "urlNotValid": "url non définis ou invalide {{url}}",
+    "noQuery": "aucune requete demandée",
+    "webpubNotDefined": "webpub non définis",
+    "selectionListNotDefined": "selection list url non définie",
+    "selectionPubNotDefined": "selection url non définie",
+    "selectionNotAvailable": "selection non disponible"
+  },
+  "main": {
+    "welcome": "Bienvenue dans Valentin Audio."
+  },
+  "home": {
+    "information": "Vous accédez à la plateforme de démonstration du projet Lis mon Livre du laboratoire européen de lecture numérique (éderlab). Le service est actuellement réservé aux testeurs de l’application. Ce texte sera à terme remplacé par des informations génériques sur la manière d’accéder à l’espace membre.",
+    "welcome": "Que voulez-vous faire ? Vous pouvez dire informations ou espace membres."
+  },
+  "homeMembers": {
+    "welcome1": "Les commandes possibles sont: sélection, lecture, recherche. ",
+    "welcome2": "Que voulez-vous faire ?",
+    "resumeAudiobook": {
+      "noCurrentListening": "Aucune lecture en cours."
+    },
+    "selection": {
+      "welcome": "Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?",
+      "publication": "Pour choisir l'une des publications, dites son numéro.",
+      "next": "Pour obtenir la suite, dites suivant.",
+      "noNext": "Il n'y a pas de page suivante, je vais répéter la dernière page.",
+      "listAfterSelection": "Pour choisir une sélection, dites son numéro."
+    },
+    "list": {
+      "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
+      "numberSelection": "J'ai trouvé {{length}} sélections.\n",
+      "numberPublication": "J'ai trouvé {{length}} publications.",
+      "pagePublication": "Vous êtes sur la page {{page}}.",
+      "numero": "numéro {{i}} : {{- title}}.\n",
+      "numeroWithAuthor": "numéro {{i}} : {{- title}} {{- author}}.\n",
+      "numeroWithAuthorOf": "de {{- author}}",
+      "noResult": "Aucun résultat trouvé.",
+      "repeat": "dite répéter pour recommencer"
+    },
+    "search": "Que voulez-vous écouter ? Par exemple Zola."
+  },
+  "player": {
+    "start": "Je lance la lecture de {{- title}}",
+    "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle s'était arrêtée ?",
+    "mediaStatus": {
+      "notCorrect": "état de lecture incorrect."
+    },
+    "remaining": {
+      "hoursAndMinute": "Il reste {{hours}} heures et {{minutes}} minutes.",
+      "minute": "Il reste {{minutes}} minutes."
+    },
+    "notAvailable": "Fonctionnalité non disponible."
+  },
+  "test": {
+    "player": "test player {{nb}}",
+    "setupSdk": "setup test {{nb}}",
+    "webhook": "webhook work: {{- message}}"
+  },
+  "free": "{{- text}}"
+}

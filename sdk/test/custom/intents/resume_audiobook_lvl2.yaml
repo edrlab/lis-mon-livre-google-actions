@@ -1,7 +1,3 @@
-parameters:
-- name: number1
-  type:
-    name: actions.type.Number
 trainingPhrases:
 - lecture d'($number1 'un' auto=true) livre
 - lecture de mon livre

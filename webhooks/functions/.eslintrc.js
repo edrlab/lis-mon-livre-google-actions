@@ -1,18 +1,21 @@
 module.exports = {
-  root: true,
-  env: {
-    es6: true,
-    node: true,
-  },
-  "parserOptions": {
-    "ecmaVersion": 2017
-  },
-  extends: [
-    "eslint:recommended",
-    // "google",
-  ],
-  rules: {
-    quotes: ["error", "double"],
-    "no-unused-vars": "off"
-  },
+    "env": {
+    },
+    "extends": [
+        "google"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 13,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+      "max-len": 0,
+      "require-jsdoc": 0,
+      "camelcase": 0,
+      "new-cap": 0,
+    }
 };

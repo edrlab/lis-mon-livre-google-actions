@@ -1,4 +1,7 @@
 handler:
+<<<<<<< HEAD
+  webhookHandler: main
+=======
   staticPrompt:
     candidates:
     - promptResponse:
@@ -6,3 +9,4 @@ handler:
           variants:
           - speech: Bienvenue dans l'application de démonstration valentin audio.
 transitionToScene: home
+>>>>>>> main

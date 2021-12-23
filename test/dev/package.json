@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint \"test/*.ts\"",
     "enable-activity-controls": "env GOOGLE_APPLICATION_CREDENTIALS=$PWD/service_account.json web-and-app-activity-controls",
-    "test": "npm run lint && env GOOGLE_APPLICATION_CREDENTIALS=$PWD/service_account.json PROJECT_ID=$(cat $PWD/service_account.json| jq -r '.project_id') mocha --recursive --require ts-node/register test/*.ts"
+    "test": "npm run lint && env GOOGLE_APPLICATION_CREDENTIALS=$PWD/service_account.json PROJECT_ID=$(cat $PWD/service_account.json| jq -r '.project_id') mocha --recursive --require ts-node/register test/*.ts",
+    "test:file": "npm run lint && env GOOGLE_APPLICATION_CREDENTIALS=$PWD/service_account.json PROJECT_ID=$(cat $PWD/service_account.json| jq -r '.project_id') mocha --recursive --require ts-node/register"
   },
   "author": "",
   "license": "ISC",

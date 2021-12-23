@@ -1,5 +1,23 @@
 intentEvents:
 - handler:
+<<<<<<< HEAD:sdk/prod/custom/scenes/home_lvl1.yaml
+    webhookHandler: home_lvl1__intent__get_info_association_lvl1
+  intent: get_info_association_lvl1
+- handler:
+    webhookHandler: home_lvl1__intent__enter_member_space_lvl1
+  intent: enter_member_space_lvl1
+- handler:
+    webhookHandler: home_lvl1__intent__resume_listening_player
+  intent: resume_listening_player
+- handler:
+    webhookHandler: home_lvl1__intent__listen_audiobook_lvl1
+  intent: listen_audiobook_lvl1
+- handler:
+    webhookHandler: test_webhook
+  intent: test_webhook
+onEnter:
+  webhookHandler: home_lvl1
+=======
     staticPrompt:
       candidates:
       - promptResponse:
@@ -33,3 +51,4 @@ onEnter:
         suggestions:
         - title: informations
         - title: espace membres
+>>>>>>> main:sdk/test/custom/scenes/home.yaml
