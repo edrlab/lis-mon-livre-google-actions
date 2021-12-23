@@ -675,7 +675,8 @@ app.handle('media_status', (conv) => {
       }));
 
       // disable because need to exit the app instead
-      // conv.scene.next.name = DefaultScenes.End;
+      // @ts-ignore
+      conv.scene.next.name = 'actions.scene.END_CONVERSATION';
       break;
     default:
       conv.add('player.mediaStatus.notCorrect');
