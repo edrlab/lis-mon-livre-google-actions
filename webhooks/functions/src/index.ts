@@ -70,7 +70,7 @@ app.handle = (path, fn) => {
 // load test conversationnel
 // not used in prod MODE
 // @TODO Disable it in PROD-MODE
-testConversation(app);
+// testConversation(app);
 
 // catch(catcher: ExceptionHandler<TConversation>): ConversationV3App<TConversation>
 // ExceptionHandler(conv: TConversation, error: Error): any
@@ -158,11 +158,11 @@ app.handle('cancel', (conv) => {
 
 app.handle('main', (conv) => {
 
-  console.log(conv.add);
+  // console.log(conv.add);
   
   conv.add('main.welcome');
 
-  conv.scene.next.name = "home_members_lvl2";
+  conv.scene.next.name = "home_lvl1";
 });
 
 app.handle('home_lvl1', (conv) => {
