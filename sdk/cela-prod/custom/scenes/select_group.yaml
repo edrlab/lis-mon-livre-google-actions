@@ -1,0 +1,64 @@
+intentEvents:
+- handler:
+    webhookHandler: select_group__intent__stop
+  intent: stop
+- handler:
+    webhookHandler: select_group__intent__menu
+  intent: menu
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: je n’ai pas compris le numéro, merci de le répêter
+  intent: actions.intent.NO_MATCH_1
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: je n’ai pas compris le numéro, dite un numéro
+  intent: actions.intent.NO_MATCH_2
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: je n’ai pas compris le numéro, dite un numéro
+  intent: actions.intent.NO_MATCH_FINAL
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: je n’ai pas compris le numéro, dite un numéro
+  intent: actions.intent.NO_INPUT_1
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: je n’ai pas compris le numéro, dite un numéro
+  intent: actions.intent.NO_INPUT_2
+- handler:
+    staticPrompt:
+      candidates:
+      - promptResponse:
+          firstSimple:
+            variants:
+            - speech: je n’ai pas compris le numéro
+  intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: select_group
+onSlotUpdated:
+  webhookHandler: select_group__slot__number
+slots:
+- name: number
+  required: true
+  type:
+    name: actions.type.Number

@@ -1,0 +1,24 @@
+accountLinking:
+  appClientId: "1232456"
+  authGrantType: IMPLICIT
+  authorizationUrl: https://opds-auth-test-server-aplqpqv3wa-ey.a.run.app/implicit/login?lang=fr
+  linkingType: OAUTH
+category: EDUCATION_AND_REFERENCE
+defaultLocale: fr
+localizedSettings:
+  developerEmail: dev.edrlab@gmail.com
+  developerName: edrlab
+  displayName: Bibliothèque CAÉB
+  fullDescription: Bibliothèque CAÉB
+  privacyPolicyUrl: https://www.edrlab.org/lml-privacy-policy/
+  pronunciation: Bibliothèque CAÉB
+  sampleInvocations:
+  - Parler avec Bibliothèque CAÉB
+  - Connecter avec Bibliothèque CAÉB
+  - Discuter avec Bibliothèque CAÉB
+  shortDescription: Bibliothèque CAÉB
+  smallLogoImage: https://lh3.googleusercontent.com/IPE84cRJZSbgpkLCNMhJFkP_sbh5e18cYRvn30hVHE6nYNLfQ_9a-opqTKbQNThVPUzo8sfP1_cR
+  voice: female_1
+projectId: cela-1
+testingInstructions: "login: \n\nadmin\nadmin\n\nyou can test with the query \"zola\"
+  or \"la guerre des boutons\""
