@@ -39,18 +39,6 @@ export async function getPubsFromFeed(url: string): Promise<[{
         webpuburl: (openAccessLinks as IOpdsLinkView[])[0].url,
       }));
 
-  console.log('%%%%%%%%%%%%%%');
-  console.log('%%%%%%%%%%%%%%');
-  console.log('%%%%%%%%%%%%%%');
-  console.log('%%%%%%%%%%%%%%');
-
-  console.log(feed.metadata?.numberOfItems);
-
-  console.log('%%%%%%%%%%%%%%');
-  console.log('%%%%%%%%%%%%%%');
-  console.log('%%%%%%%%%%%%%%');
-  console.log('%%%%%%%%%%%%%%');
-
   return [list, feed.metadata?.numberOfItems || list.length];
 }
 
