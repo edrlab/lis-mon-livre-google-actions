@@ -15,7 +15,7 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
+import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, PADDING, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
 import { DefaultScenes } from "@assistant/conversation/dist/conversation/handler";
 
@@ -29,7 +29,6 @@ const __ok:(value: unknown, message?: TI18nKey) => asserts value = _ok.bind(_ok)
 export const ok: typeof __ok = (v, m) => {
   return __ok(v, m ? t(m): undefined);
 }
-
 
 app.handle = (path, fn) => {
   const ret = appHandle(path, async (conv) => {
@@ -96,6 +95,7 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
       query: "",
       nextUrlCounter: 0,
       scene: 'home_lvl1',
+      tocStart: 0,
     };
   }
 
@@ -206,6 +206,8 @@ app.handle('home_members_lvl2', (conv) => {
 
   conv.add('homeMembers.welcome1');
   conv.add('homeMembers.welcome2');
+
+  conv.session.params.tocStart = 0;
 });
 
 app.handle('home_members_lvl2__intent__listen_audiobook_lvl2', (conv) => {
@@ -371,7 +373,6 @@ app.handle('ask_to_resume_listening_at_last_offset__intent__yes', async (conv) =
   conv.scene.next.name = 'player';
 });
 
-
 app.handle("ask_to_resume_listening_at_last_offset__intent__no", async (conv) => {
 
   const url = conv.user.params.player.current.url;
@@ -525,6 +526,8 @@ app.handle("player", async (conv) => {
         startOffset: `${startTime}s`,
       }),
   );
+
+  conv.session.params.tocStart = 0; // reset toc
 });
 
 // ----------
@@ -574,14 +577,15 @@ app.handle('player__intent__resume_listening_player', (conv) => {
 app.handle('player__intent__listen_toc', (conv) => {
   persistMediaPlayer(conv);
 
-  conv.add('player.notAvailable');
+  // conv.add('player.notAvailable');
 
   // // Acknowledge pause/stop
   // conv.add(new Media({
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
 
-  conv.scene.next.name = 'player';
+  // conv.scene.next.name = 'player';
+  conv.scene.next.name = 'player_toc';
 });
 
 app.handle('player__intent__menu', (conv) => {
@@ -635,6 +639,105 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
   // conv.add(new Media({
   //   mediaType: 'MEDIA_STATUS_ACK'
   // }));
+
+  conv.scene.next.name = 'player';
+});
+
+app.handle('player_toc', async (conv) => {
+
+  const url = conv.user.params.player?.current?.url;
+
+  if (!url) {
+    conv.add('homeMembers.resumeAudiobook.noCurrentListening');
+    conv.scene.next.name = 'home_members_lvl2';
+    return ;
+  }
+
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+
+  const tocSliceStart = conv.session.params.tocStart;
+  const toc = webpub.toc;
+
+  if (toc) {
+
+    const textArray = toc
+      .map(({ title }, i) => t('homeMembers.list.numero', { title, i: i + 1 }))
+      .filter((v) => v)
+      .slice(tocSliceStart, tocSliceStart + PADDING);
+    const text = textArray.join("") + '\n' + t('player.toc.numero');
+
+    conv.add('free', { text });
+
+  } else {
+
+    conv.add('player.toc.notFound');
+  }
+
+  // conv.scene.next.name = "player";
+});
+
+app.handle('player_toc__slot__number', async (conv) => {
+  
+  const url = conv.user.params.player.current.url;
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
+  const number = conv.intent.params?.number.resolved;
+  ok(typeof number === "number");
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+
+  const toc = webpub.toc;
+  const tocSliceStart = conv.session.params.tocStart;
+
+  if (toc) {
+    // const tocs = toc.slice(tocSliceStart, tocSliceStart + PADDING);
+    const item = toc[number - 1];
+
+    if (item) {
+      const itemUrl = new URL(item.url);
+      const time = parseInt(itemUrl.hash.split("#t=")[1], 10);
+
+      const readingOrders = webpub.readingOrders;
+      const index = readingOrders.findIndex(({url}) => url.startsWith(itemUrl.origin + itemUrl.pathname));
+
+      if (index > -1 && time > -1) {
+        conv.user.params.player.current.time = time;
+        conv.user.params.player.current.index = index;
+      }
+    }
+  }
+
+  conv.scene.next.name = 'player';
+});
+
+app.handle('player_toc__intent__next', async (conv) => {
+
+  const url = conv.user.params.player.current.url;
+  ok(isValidHttpUrl(url), 'error.urlNotValid');
+
+  const opds = new OpdsFetcher();
+  const webpub = await opds.webpubRequest(url);
+
+  const toc = webpub.toc;
+  const len = toc?.length || Infinity;
+
+  if (conv.session.params.tocStart < len - PADDING) {
+    conv.session.params.tocStart += PADDING;
+  } else {
+    conv.add('player.toc.noNext');
+  }
+  conv.scene.next.name = 'player_toc';
+});
+
+app.handle('player_toc__intent__repeat', (conv) => {
+
+  conv.scene.next.name = 'player_toc';
+});
+
+app.handle('player_toc__intent__resume_listening_player', (conv) => {
 
   conv.scene.next.name = 'player';
 });

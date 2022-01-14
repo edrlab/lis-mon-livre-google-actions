@@ -24,5 +24,7 @@ intentEvents:
 - handler:
     webhookHandler: selection_lvl3__intent__selection_my_list_lvl3
   intent: selection_my_list_lvl3
+- intent: listen_toc
+  transitionToScene: player_toc
 onEnter:
   webhookHandler: home_members_lvl2
