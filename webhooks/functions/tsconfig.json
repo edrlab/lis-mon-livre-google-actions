@@ -14,9 +14,6 @@
   },
   "include": [
     "src/**/*"
-  ],
-  "types": [
-    "node-fetch/externals"
   ]
 }
 
