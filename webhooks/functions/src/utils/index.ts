@@ -15,12 +15,11 @@ export function isValidHttpUrl(url: string | undefined): url is string {
   return _url.protocol === 'http:' || _url.protocol === 'https:';
 }
 
-export async function getPubsFromFeed(url: string): Promise<[{
+export async function getPubsFromFeed(opds: OpdsFetcher, url: string): Promise<[{
   title: string;
   author: string;
   webpuburl: string;
 }[], number]> {
-  const opds = new OpdsFetcher();
   const feed = await opds.feedRequest(url);
 
   assert.ok(Array.isArray(feed.publications), 'no publications');
@@ -42,8 +41,7 @@ export async function getPubsFromFeed(url: string): Promise<[{
   return [list, feed.metadata?.numberOfItems || list.length];
 }
 
-export async function getGroupsFromFeed(url: string) {
-  const opds = new OpdsFetcher();
+export async function getGroupsFromFeed(opds: OpdsFetcher, url: string) {
   const feed = await opds.feedRequest(url);
 
   assert.ok(Array.isArray(feed.groups), 'no groups');
@@ -60,9 +58,9 @@ export async function getGroupsFromFeed(url: string) {
   return list;
 }
 
-export async function isPublicationAvailable(url: string): Promise<boolean> {
+export async function isPublicationAvailable(opds: OpdsFetcher, url: string): Promise<boolean> {
   assert.ok(isValidHttpUrl(url));
-  const [pubs] = await getPubsFromFeed(url);
+  const [pubs] = await getPubsFromFeed(opds, url);
 
   if (pubs.length) {
     return true;
@@ -70,14 +68,13 @@ export async function isPublicationAvailable(url: string): Promise<boolean> {
   return false;
 }
 
-export async function getNextLinkFromPublicationsFeed(url: string): Promise<string | undefined> {
+export async function getNextLinkFromPublicationsFeed(opds: OpdsFetcher, url: string): Promise<string | undefined> {
   assert.ok(isValidHttpUrl(url));
-  const opds = new OpdsFetcher();
   const feed = await opds.feedRequest(url);
 
   try {
     const nextLink = feed.links?.next[0].url;
-    if (nextLink && await isPublicationAvailable(nextLink)) {
+    if (nextLink && await isPublicationAvailable(opds, nextLink)) {
       return nextLink;
     } else {
     }

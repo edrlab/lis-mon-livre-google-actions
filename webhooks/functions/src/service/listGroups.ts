@@ -6,7 +6,7 @@ import {t} from '../translation';
 
 export async function listGroups(url: string, conv: IConversationWithParams, errorScene: TSdkScene = conv.scene.name) {
   ok(isValidHttpUrl(url), 'url not valid');
-  const list = await getGroupsFromFeed(url);
+  const list = await getGroupsFromFeed(conv.di.opds, url);
   console.log('SELECTIONS: ', list);
 
   const length = list.length;

@@ -7,14 +7,14 @@ import {t} from '../translation';
 export async function listPublication(url: string, conv: IConversationWithParams,
     errorScene: TSdkScene = conv.session?.params?.scene) {
   ok(isValidHttpUrl(url), 'url not valid');
-  const [list, totalLength] = await getPubsFromFeed(url);
-  const nextUrl = await getNextLinkFromPublicationsFeed(url);
+  const [list, totalLength] = await getPubsFromFeed(conv.di.opds, url);
+  const nextUrl = await getNextLinkFromPublicationsFeed(conv.di.opds, url);
   console.log('PUBs: ', list);
 
   const length = list.length;
   if (length > 1 || conv.session.params.nextUrlCounter) {
     const page = conv.session.params.nextUrlCounter + 1;
-    const nextAvailable = !!nextUrl && await isPublicationAvailable(nextUrl);
+    const nextAvailable = !!nextUrl && await isPublicationAvailable(conv.di.opds, nextUrl);
     let text = '';
     if (page === 1) {
       text += t('homeMembers.list.numberPublication', {length: totalLength}) + '\n';

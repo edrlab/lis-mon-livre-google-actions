@@ -4,6 +4,7 @@ import { User, Scene } from "@assistant/conversation/dist/conversation/handler";
 import { TI18nKey } from "./translation";
 import { StorageDto } from "./model/storage.dto";
 import { TSdkScene } from "./sdk";
+import { OpdsFetcher } from "opds-fetcher-parser";
 
 export enum MediaType {
   Audio = 'AUDIO',
@@ -29,6 +30,9 @@ interface IScene extends Scene {
   name: TSdkScene;
 }
 export interface IConversationWithParams extends ConversationV3 {
+  di: {
+    opds: OpdsFetcher;
+  };
   user: IUser;
   scene: IScene;
   add: (...promptItems: TPromptItem[]) => this;
