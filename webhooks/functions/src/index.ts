@@ -1,6 +1,6 @@
 import {conversation, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
-import {OpdsFetcher} from "opds-fetcher-parser";
+import {http as Http, AuthenticationStorage, OpdsFetcher} from "opds-fetcher-parser";
 import {ok as _ok} from "assert";
 
 // class-transformer
@@ -15,7 +15,7 @@ import { selectPublication } from "./service/selectPublication";
 import { testConversation } from "./conversation/test";
 import { listGroups } from "./service/listGroups";
 import { selectGroup } from "./service/selectGroups";
-import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, PADDING, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL } from "./constants";
+import { ALL_PUBLICATION_LIST_URL, GENRE_LIST_URL, PADDING, SEARCH_URL, SELECTION_URL, THEMATIC_LIST_URL, API_BASE_URL } from "./constants";
 import { i18n, t, TI18nKey } from "./translation";
 import { DefaultScenes } from "@assistant/conversation/dist/conversation/handler";
 
@@ -99,11 +99,23 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
     };
   }
 
+  const bearerTokenRaw = conv.user.params.bearerToken;
+  const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
+
+  const authenticationStorage = new AuthenticationStorage();
+  authenticationStorage.setAuthenticationToken({
+    accessToken: bearerToken,
+    authenticationUrl: API_BASE_URL,
+  });
+  const http = new Http(undefined, authenticationStorage);
+
+  conv.di = {
+    opds: new OpdsFetcher(http),
+  };
+
   const locale = conv.user.locale;
   await i18n.changeLanguage(locale);
 
-  const bearerTokenRaw = conv.user.params.bearerToken;
-  const bearerToken = typeof bearerTokenRaw === "string" && bearerTokenRaw ? conv.user.params.bearerToken : BEARER_TOKEN_NOT_DEFINED;
   try {
     const data = await pull(bearerToken);
 
@@ -132,8 +144,8 @@ app.middleware<IConversationWithParams>(async (conv: IConversationWithParams) =>
     const item: TPromptItem | undefined = promptItems[0] instanceof Media
       ? promptItems[0]
       : typeof promptItems[0] === "string"
-        ? t(promptItems[0], typeof promptItems[1] === "object" ? promptItems[1] : undefined)
-        : undefined;
+      ? t(promptItems[0], typeof promptItems[1] === "object" ? promptItems[1] : undefined)
+      : undefined;
 
     ok(item, 'error.convadd');
 
@@ -159,7 +171,7 @@ app.handle('cancel', (conv) => {
 app.handle('main', (conv) => {
 
   console.log(conv.add);
-  
+
   conv.add('main.welcome');
 
   conv.scene.next.name = "home_members_lvl2";
@@ -355,8 +367,7 @@ app.handle("ask_to_resume_listening_at_last_offset", async (conv) => {
 
 const sayAudiobookTitle = async (conv: IConversationWithParams, url: string) => {
 
-  const opds = new OpdsFetcher();
-  const webpub = await opds.webpubRequest(url);
+  const webpub = await conv.di.opds.webpubRequest(url);
   const title = webpub.title;
 
   if (title) {
@@ -446,8 +457,8 @@ app.handle('select_publication__intent__next', async (conv) => {
 
   const url = conv.session.params.pubListUrl;
   ok(isValidHttpUrl(url));
-  const nextUrl = await getNextLinkFromPublicationsFeed(url);
-  if (nextUrl && await isPublicationAvailable(nextUrl)) {
+  const nextUrl = await getNextLinkFromPublicationsFeed(conv.di.opds, url);
+  if (nextUrl && await isPublicationAvailable(conv.di.opds, nextUrl)) {
     conv.session.params.pubListUrl = nextUrl;
     conv.session.params.nextUrlCounter++;
   } else {
@@ -484,8 +495,7 @@ app.handle("player", async (conv) => {
   const startIndexRaw = conv.user.params.player.current.index;
   const startTimeRaw = conv.user.params.player.current.time;
 
-  const opds = new OpdsFetcher();
-  const webpub = await opds.webpubRequest(url);
+  const webpub = await conv.di.opds.webpubRequest(url);
   ok(webpub, 'error.webpubNotDefined');
 
   let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length)
@@ -606,8 +616,7 @@ app.handle('player__intent__remaining_time_player', async (conv) => {
   ok(url, 'error.urlNotValid')
   ok(isValidHttpUrl(url), 'error.urlNotValid');
 
-  const opds = new OpdsFetcher();
-  const webpub = await opds.webpubRequest(url);
+  const webpub = await conv.di.opds.webpubRequest(url);
   ok(webpub, 'error.webpubNotDefined');
 
   const index = conv.user.params.player.current.index || 0;
@@ -655,8 +664,7 @@ app.handle('player_toc', async (conv) => {
 
   ok(isValidHttpUrl(url), 'error.urlNotValid');
 
-  const opds = new OpdsFetcher();
-  const webpub = await opds.webpubRequest(url);
+  const webpub = await conv.di.opds.webpubRequest(url);
 
   const tocSliceStart = conv.session.params.tocStart;
   const toc = webpub.toc;
@@ -686,8 +694,7 @@ app.handle('player_toc__slot__number', async (conv) => {
   const number = conv.intent.params?.number.resolved;
   ok(typeof number === "number");
 
-  const opds = new OpdsFetcher();
-  const webpub = await opds.webpubRequest(url);
+  const webpub = await conv.di.opds.webpubRequest(url);
 
   const toc = webpub.toc;
   const tocSliceStart = conv.session.params.tocStart;
@@ -718,8 +725,7 @@ app.handle('player_toc__intent__next', async (conv) => {
   const url = conv.user.params.player.current.url;
   ok(isValidHttpUrl(url), 'error.urlNotValid');
 
-  const opds = new OpdsFetcher();
-  const webpub = await opds.webpubRequest(url);
+  const webpub = await conv.di.opds.webpubRequest(url);
 
   const toc = webpub.toc;
   const len = toc?.length || Infinity;

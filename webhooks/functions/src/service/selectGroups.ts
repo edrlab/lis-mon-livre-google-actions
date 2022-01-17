@@ -4,7 +4,7 @@ import {getGroupsFromFeed, isValidHttpUrl} from '../utils';
 
 export async function selectGroup(url: string, number: number, conv: IConversationWithParams) {
   ok(isValidHttpUrl(url), 'error.urlNotValid');
-  const list = await getGroupsFromFeed(url);
+  const list = await getGroupsFromFeed(conv.di.opds, url);
   const group = list[number - 1];
   if (!group) {
     console.log('NO GROUPS found !!');
