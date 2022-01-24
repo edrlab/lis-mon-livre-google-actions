@@ -24,7 +24,7 @@
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.16.0",
     "i18next": "^21.5.3",
-    "opds-fetcher-parser": "github:edrlab/opds_fetcher_parser#eea41a1d50955f39d93670090e480834c26715b4",
+    "opds-fetcher-parser": "github:edrlab/opds_fetcher_parser#03a9eb705e05f4ebf02ea2815c47707aec8705c7",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
