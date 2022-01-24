@@ -1,6 +1,7 @@
 import {OpdsFetcher} from 'opds-fetcher-parser';
 import * as assert from 'assert';
 import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
+import {URL} from 'url';
 
 export function isValidHttpUrl(url: string | undefined): url is string {
   let _url: URL;

@@ -2,6 +2,7 @@ import {conversation, Media } from "@assistant/conversation";
 import * as functions from "firebase-functions";
 import {http as Http, AuthenticationStorage, OpdsFetcher} from "opds-fetcher-parser";
 import {ok as _ok} from "assert";
+import {URL} from "url";
 
 // class-transformer
 import 'reflect-metadata';  
