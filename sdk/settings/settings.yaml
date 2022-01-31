@@ -19,6 +19,6 @@ localizedSettings:
   shortDescription: Bibliothèque CAÉB
   smallLogoImage: https://lh3.googleusercontent.com/IPE84cRJZSbgpkLCNMhJFkP_sbh5e18cYRvn30hVHE6nYNLfQ_9a-opqTKbQNThVPUzo8sfP1_cR
   voice: female_1
-projectId: cela-1
+projectId: cela-2
 testingInstructions: "login: \n\nadmin\nadmin\n\nyou can test with the query \"zola\"
   or \"la guerre des boutons\""
