@@ -6,7 +6,7 @@ on:
     branches: [ develop ]
     paths:
       - 'webhooks/**'
-      - '.github/workflows/functions-dev.yml'
+      - '.github/workflows/functions-edrlab-dev.yml'
 
 jobs:
   deploy:
@@ -19,7 +19,7 @@ jobs:
 
     env:
       working-directory: './webhooks/functions'
-      project-id: 'valentin-5'
+      project-id: 'edrlab-1'
     defaults:
       run:
         working-directory: './webhooks/functions'
