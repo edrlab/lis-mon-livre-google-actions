@@ -1,17 +1,17 @@
 accountLinking:
-  appClientId: "1232456"
+  appClientId: 264993278233-00c74eidtg83u9srrjrkkv1hrd465p6s.apps.googleusercontent.com
   authGrantType: IMPLICIT
-  authorizationUrl: https://opds-auth-test-server-aplqpqv3wa-ey.a.run.app/implicit/login?lang=fr
+  authorizationUrl: https://training1.celalibrary.ca/auth
   linkingType: OAUTH
 category: EDUCATION_AND_REFERENCE
 defaultLocale: fr
 localizedSettings:
   developerEmail: dev.edrlab@gmail.com
   developerName: edrlab
-  displayName: Bibliothèque CAÉB
+  displayName: biblio accessible canada
   fullDescription: Bibliothèque CAÉB
   privacyPolicyUrl: https://www.edrlab.org/lml-privacy-policy/
-  pronunciation: Bibliothèque CAÉB
+  pronunciation: biblio accessible canada
   sampleInvocations:
   - Parler avec Bibliothèque CAÉB
   - Connecter avec Bibliothèque CAÉB
@@ -20,5 +20,4 @@ localizedSettings:
   smallLogoImage: https://lh3.googleusercontent.com/IPE84cRJZSbgpkLCNMhJFkP_sbh5e18cYRvn30hVHE6nYNLfQ_9a-opqTKbQNThVPUzo8sfP1_cR
   voice: female_1
 projectId: cela-2
-testingInstructions: "login: \n\nadmin\nadmin\n\nyou can test with the query \"zola\"
-  or \"la guerre des boutons\""
+testingInstructions: "login: \n\nPierre\nPierre@123"
