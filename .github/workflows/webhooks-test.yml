@@ -3,10 +3,10 @@ name: webhooks unitary tests
 
 on:
   push:
-    branches: [ develop, mainp ]
+    branches: [ develop, cela-dev ]
     #    paths:
   pull_request:
-    branches: [ develop, main ]
+    branches: [ develop, cela-dev ]
 
 jobs:
   sdk-test-prod:
