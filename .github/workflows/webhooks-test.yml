@@ -3,10 +3,13 @@ name: webhooks unitary tests
 
 on:
   push:
-    branches: [ develop, mainp ]
-    #    paths:
+    branches: [ develop, avh-dev ]
+    paths:
+      - 'webhooks/**'
   pull_request:
-    branches: [ develop, main ]
+    branches: [ develop, avh-dev ]
+    paths:
+      - 'webhooks/**'
 
 jobs:
   sdk-test-prod:
