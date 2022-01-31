@@ -3,10 +3,10 @@ name: functions deploy
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ avh-dev ]
     paths:
       - 'webhooks/**'
-      - '.github/workflows/functions-dev.yml'
+      - '.github/workflows/functions-avh-dev.yml'
 
 jobs:
   deploy:
