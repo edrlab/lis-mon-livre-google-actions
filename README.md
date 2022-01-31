@@ -16,11 +16,11 @@
   - https://console.actions.google.com/u/1/project/valentin-5/overview
   - https://console.cloud.google.com/logs/query?referrer=search&authuser=1&project=valentin-5
 - `cela-1` : CELA production (cela-prod branch)
-  - https://console.firebase.google.com/u/1/project/valentin-4/firestore/data
-  - https://console.actions.google.com/u/1/project/valentin-4/overview
-  - https://console.cloud.google.com/logs/query?referrer=search&authuser=1&project=valentin-4
+  - https://console.firebase.google.com/u/1/project/cela-1/firestore/data
+  - https://console.actions.google.com/u/1/project/cela-1/overview
+  - https://console.cloud.google.com/logs/query?referrer=search&authuser=1&project=cela-1
 - `cela-2` : CELA development (cela-dev branch)
-  - https://console.firebase.google.com/u/1/project/valentin-5/firestore/data
-  - https://console.actions.google.com/u/1/project/valentin-5/overview
-  - https://console.cloud.google.com/logs/query?referrer=search&authuser=1&project=valentin-5
+  - https://console.firebase.google.com/u/1/project/cela-2/firestore/data
+  - https://console.actions.google.com/u/1/project/cela-2/overview
+  - https://console.cloud.google.com/logs/query?referrer=search&authuser=1&project=cela-2
 
