@@ -8,10 +8,10 @@ defaultLocale: fr
 localizedSettings:
   developerEmail: dev.edrlab@gmail.com
   developerName: edrlab
-  displayName: biblio accessible canada
+  displayName: biblio canada dev
   fullDescription: Bibliothèque CAÉB
   privacyPolicyUrl: https://www.edrlab.org/lml-privacy-policy/
-  pronunciation: biblio accessible canada
+  pronunciation: biblio canada dev
   sampleInvocations:
   - Parler avec Bibliothèque CAÉB
   - Connecter avec Bibliothèque CAÉB
