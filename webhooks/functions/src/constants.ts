@@ -10,4 +10,6 @@ export const DEFAULT_LANGUAGE: TLang = 'fr';
 
 export const PADDING = 5;
 
+export const PROJECT_ID = 'edrlab-1';
+
 type TLang = 'fr' | 'en';

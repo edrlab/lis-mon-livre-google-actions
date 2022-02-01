@@ -3,6 +3,9 @@ import {StorageDto} from './storage.dto';
 import * as assert from 'assert';
 import {classToPlain} from 'class-transformer';
 import {inspect} from 'util';
+import * as chai from 'chai';
+
+chai.should();
 
 describe('storage DTO', () => {
   it('create storage object', () => {
@@ -231,4 +234,13 @@ describe('storage DTO', () => {
       date: date,
     });
   });
+});
+
+
+describe('storage Model', () => {
+    done();
+
+  it('create a storeModel', async (done) => {
+  })
+
 });

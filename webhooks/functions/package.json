@@ -8,9 +8,10 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "build": "tsc",
-    "test": "mocha --recursive --require ts-node/register src/**/*.test.ts",
+    "test:run": "mocha --recursive --require ts-node/register",
+    "test": "npm run test:run2 -- src/**/*.test.ts",
     "lint": "eslint src/**/*.ts",
-    "scene-typed": "echo \"// npm run scene-typed   \n\n\nexport type TSdkScene = \" $(for I in `ls ../../sdk/test/custom/scenes | cut -d \".\" -f1`; do echo \"'$I' |\"; done) | sed  's/..$/;/' > src/sdk.d.ts",
+    "scene-typed": "echo \"// npm run scene-typed   \n\n\nexport type TSdkScene = \" $(for I in `ls ../../sdk/custom/scenes | cut -d \".\" -f1`; do echo \"'$I' |\"; done) | sed  's/..$/;/' > src/sdk.d.ts",
     "i18n-typed": "typed-i18next -i src/translation -o src/typings/i18n.d.ts"
   },
   "engines": {
@@ -28,9 +29,11 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.0",
     "@types/mocha": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
+    "chai": "^4.3.6",
     "eslint": "^8.2.0",
     "eslint-config-google": "^0.14.0",
     "firebase-functions-test": "^0.2.0",
