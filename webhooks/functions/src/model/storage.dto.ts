@@ -117,7 +117,8 @@ export class StorageDto implements IStorage {
     const errors = validateSync(storage);
 
     if (errors.length) {
-      bearerToken = bearerToken || typeof data?.bearerToken === 'string' ? data?.bearerToken : undefined;
+
+      bearerToken = typeof data?.bearerToken === 'string' ? data?.bearerToken : bearerToken;
       if (!bearerToken) {
         throw new Error('bearerToken is empty');
       }

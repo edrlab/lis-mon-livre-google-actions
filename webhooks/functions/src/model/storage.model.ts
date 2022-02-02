@@ -25,14 +25,13 @@ export class StorageModel {
 
   public static async create(bearerToken: string) {
 
-    ok("");
-
     let store: StorageDto;
     try {
       const data = await pull(bearerToken);
+
       store = StorageDto.create(data, bearerToken);
     } catch (e) {
-      console.error("StorageModel Create Error", e);
+      console.error("StorageModel Create", e);
       store = StorageDto.create(undefined, bearerToken);
     }
     return new StorageModel(bearerToken, store);
