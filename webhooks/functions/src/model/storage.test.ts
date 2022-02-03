@@ -8,7 +8,7 @@ import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as proxyquire from 'proxyquire';
 
-import { StorageModel } from './storage.model';
+import {StorageModel} from './storage.model';
 
 chai.should();
 
@@ -243,38 +243,35 @@ describe('storage DTO', () => {
 
 
 describe('storage Model', () => {
-
   const freshData = {
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
-          playing: false,
-        },
-        history: {
-
-        },
+    dbVersion: 1,
+    bearerToken: 'test',
+    player: {
+      current: {
+        playing: false,
       },
-    };
+      history: {
+
+      },
+    },
+  };
 
   let data: StorageModel;
   const pull = sinon.stub().resolves({});
   const push = sinon.stub();
 
-  beforeEach(async() => {
-
-    const { StorageModel: _storageModel } = proxyquire("./storage.model", {
+  beforeEach(async () => {
+    const {StorageModel: _storageModel} = proxyquire('./storage.model', {
       './database': {
         pull,
         push,
-      }
+      },
     }) as { StorageModel: StorageModel & { create: typeof StorageModel.create } };
 
-    data = await _storageModel.create("test");
-  })
+    data = await _storageModel.create('test');
+  });
 
   it('create a storeModel', async () => {
-
     console.log(JSON.stringify(data.store.extract(), null, 4));
 
     assert.deepEqual(data.store.extract(), freshData);
@@ -282,16 +279,12 @@ describe('storage Model', () => {
     data.store.should.instanceOf(StorageDto);
     data.store.extract().should.to.deep.eq(freshData);
     pull.calledOnce.should.eq(true);
-
-  })
+  });
 
   it('push store', async () => {
-    
     data.save();
 
     push.calledOnce.should.eq(true);
     push.args.should.to.deep.equal([['test', freshData]]);
-
   });
-
 });
