@@ -12,7 +12,7 @@ i18next.init({
   fallbackLng: DEFAULT_LANGUAGE,
 });
 
-export type TI18nKey = Translations['keys']['fr'];
+export type TI18nKey = Translations['keys'][typeof DEFAULT_LANGUAGE];
 
 export type TI18n = typeof i18next & {t: (key: TI18nKey, options? : object) => any};
 export const i18n: TI18n = i18next;

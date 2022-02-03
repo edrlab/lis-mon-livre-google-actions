@@ -46,6 +46,6 @@ export class Machine {
   }
 
   public async say(key: TI18nKey, options?: object) {
-    this._sayAcc += this._i18n.t(key, options);
+    this._sayAcc += this._i18n.t(key, options) + "\n";
   }
 }

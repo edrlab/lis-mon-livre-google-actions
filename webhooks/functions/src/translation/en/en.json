@@ -1,0 +1,9 @@
+{
+  "main": {
+    "welcome": {
+      "1": "Welcome to {{- name}} Library!",
+      "2": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
+      "3": "Would you like to do so now ?"
+    }
+  }
+}

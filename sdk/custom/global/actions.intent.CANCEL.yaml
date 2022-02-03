@@ -1,0 +1,9 @@
+handler:
+  staticPrompt:
+    candidates:
+    - promptResponse:
+        firstSimple:
+          variants:
+          - speech: Au revoir et a bientôt
+  webhookHandler: cancel
+transitionToScene: actions.scene.END_CONVERSATION
