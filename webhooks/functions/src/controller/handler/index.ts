@@ -1,4 +1,7 @@
-import { handle } from "../assistant";
+import { Assistant } from "../Assistant";
 import { main } from "./main";
 
-handle('main', main);
+export const handler = (app = new Assistant({})) => {
+
+  app.handle('main', main);
+}

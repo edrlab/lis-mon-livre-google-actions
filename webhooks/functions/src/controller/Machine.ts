@@ -21,14 +21,20 @@ export class Machine {
   }
 
   public async begin({
-    bearerToken,
+    storageModel,
+    bearerToken
   }: {
-    bearerToken?: string
+    storageModel?: StorageModel,
+    bearerToken?: string,
   }) {
     console.info('Machine BEGIN');
 
-    if (typeof bearerToken === 'string') {
-      this._model = await StorageModel.create(bearerToken);
+    if (storageModel) {
+      this._model = storageModel;
+    } else {
+      if (typeof bearerToken === "string") {
+        this._model = await StorageModel.create(bearerToken);
+      }
     }
   }
 

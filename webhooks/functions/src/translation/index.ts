@@ -1,5 +1,6 @@
 import * as i18next from 'i18next';
 import * as frTranslation from './fr/fr.json';
+import * as enTranslation from './en/en.json';
 import {Translations} from './../typings/i18n';
 import {DEFAULT_LANGUAGE} from '../constants';
 
@@ -8,6 +9,9 @@ i18next.init({
     'fr': {
       translation: frTranslation,
     },
+    'en': {
+      translation: enTranslation,
+    }
   },
   fallbackLng: DEFAULT_LANGUAGE,
 });
