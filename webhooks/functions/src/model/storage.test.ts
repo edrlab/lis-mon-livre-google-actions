@@ -6,9 +6,9 @@ import {inspect} from 'util';
 import * as chai from 'chai';
 // import { StorageModel } from './storage.model';
 import * as sinon from 'sinon';
-import * as proxyquire from 'proxyquire';
 
 import {StorageModel} from './storage.model';
+import {storageModelMocked} from '../test/utils.test';
 
 chai.should();
 
@@ -256,19 +256,16 @@ describe('storage Model', () => {
     },
   };
 
-  let data: StorageModel;
-  const pull = sinon.stub().resolves({});
-  const push = sinon.stub();
+
+  // @ts-ignore
+  let {data, push, pull}: {
+    data: StorageModel;
+    pull: sinon.SinonStub<any[], any>;
+    push: sinon.SinonStub<any[], any>;
+  } = {};
 
   beforeEach(async () => {
-    const {StorageModel: _storageModel} = proxyquire('./storage.model', {
-      './database': {
-        pull,
-        push,
-      },
-    }) as { StorageModel: StorageModel & { create: typeof StorageModel.create } };
-
-    data = await _storageModel.create('test');
+    ({data, push, pull} = await storageModelMocked());
   });
 
   it('create a storeModel', async () => {

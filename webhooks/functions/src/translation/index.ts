@@ -11,7 +11,7 @@ i18next.init({
     },
     'en': {
       translation: enTranslation,
-    }
+    },
   },
   fallbackLng: DEFAULT_LANGUAGE,
 });

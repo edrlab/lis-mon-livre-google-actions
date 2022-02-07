@@ -22,7 +22,7 @@ export class Machine {
 
   public async begin({
     storageModel,
-    bearerToken
+    bearerToken,
   }: {
     storageModel?: StorageModel,
     bearerToken?: string,
@@ -32,7 +32,7 @@ export class Machine {
     if (storageModel) {
       this._model = storageModel;
     } else {
-      if (typeof bearerToken === "string") {
+      if (typeof bearerToken === 'string') {
         this._model = await StorageModel.create(bearerToken);
       }
     }
@@ -52,6 +52,6 @@ export class Machine {
   }
 
   public async say(key: TI18nKey, options?: object) {
-    this._sayAcc += this._i18n.t(key, options) + "\n";
+    this._sayAcc += this._i18n.t(key, options) + '\n';
   }
 }
