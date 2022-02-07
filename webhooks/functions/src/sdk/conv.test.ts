@@ -19,7 +19,7 @@ export let body: ReturnType<typeof bodyCopy>;
 // thanks you mocha
 beforeEach(() => {
   body = bodyCopy();
-})
+});
 
 const bodyCopy = () => Object.assign({}, {
   'handler': {
