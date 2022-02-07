@@ -12,7 +12,16 @@ export const headers = {
   'connection': 'close',
 };
 
-export const body = {
+export let body: ReturnType<typeof bodyCopy>;
+
+
+// beforeEach save my life !
+// thanks you mocha
+beforeEach(() => {
+  body = bodyCopy();
+})
+
+const bodyCopy = () => Object.assign({}, {
   'handler': {
     'name': 'main',
   },
@@ -58,7 +67,7 @@ export const body = {
       'version': '',
     },
   },
-};
+});
 
 export const convRequestInHandle = {
   'overwrite': true,

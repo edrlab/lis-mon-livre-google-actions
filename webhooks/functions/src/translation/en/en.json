@@ -9,8 +9,23 @@
       "user": {
         "1": "Welcome back to your {{- name}} Library!",
         "2": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-        "3": "Would you like to search for a specific book or author,  get a recommendation or would you prefer starting a book from your selection?"
+        "3": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection?"
       }
     }
-  }
+  },
+  "home_new_user": {
+    "no": {
+      "1": "In order to read books using the {{- name}} Library via Google, you need to be a registered {{- name}} member and link your account.",
+      "2": "Would you like to learn more about {{- name}}?"
+    },
+    "help": {
+      "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your CELA account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your CELA account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
+      "2": "Would you like to link your account right now?"
+    },
+    "maybeLater": {
+      "1": "Of course! you can learn more about {{- name}} or quit for now.",
+      "2": "What would you like to do?"
+    }
+  },
+  "void": "need to replace this message"
 }

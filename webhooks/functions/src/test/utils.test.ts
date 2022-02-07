@@ -64,10 +64,15 @@ export const expressMocked = async (body: JsonObject, headers: JsonObject) => {
     eventEmitter: require('events').EventEmitter,
   });
 
-  const promise = new Promise<JsonObject>((resolve) => res.on('end', () => {
+  const promise = new Promise<JsonObject>((resolve, reject) => res.on('end', () => {
     const data = res._getData();
 
     info('DATA RETURNED TO GOOGLE ASSISTANT: ', data);
+
+    if (data.error) {
+      reject(data.error);
+    }
+
     resolve(data);
   }));
 

@@ -16,7 +16,7 @@ export class Assistant {
   }) {
     this._app = conversation({
       verification: process.env['NODE_ENV'] === 'PRODUCTION' ? PROJECT_ID : undefined,
-      debug: true,
+      debug: false,
     });
 
     this._app.catch((conv, error) => {
