@@ -1,9 +1,16 @@
 {
   "main": {
     "welcome": {
-      "1": "Welcome to {{- name}} Library!",
-      "2": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
-      "3": "Would you like to do so now ?"
+      "newUser": {
+        "1": "Welcome to {{- name}} Library!",
+        "2": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
+        "3": "Would you like to do so now ?"
+      },
+      "user": {
+        "1": "Welcome back to your {{- name}} Library!",
+        "2": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
+        "3": "Would you like to search for a specific book or author,  get a recommendation or would you prefer starting a book from your selection?"
+      }
     }
   }
 }

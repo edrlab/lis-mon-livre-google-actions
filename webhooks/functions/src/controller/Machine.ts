@@ -2,6 +2,7 @@ import {ok} from 'assert';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
 import {IConversationV3} from '../type';
+import {TSdkScene} from '../typings/sdkScene';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -53,5 +54,18 @@ export class Machine {
 
   public async say(key: TI18nKey, options?: object) {
     this._sayAcc += this._i18n.t(key, options) + '\n';
+  }
+
+  public get isLinked() {
+    return this._conv.user.accountLinkingStatus;
+  }
+
+  public set nextScene(scene: TSdkScene) {
+    const obj = this._conv.scene;
+
+    if (!obj.next) {
+      obj.next = {};
+    }
+    obj.next.name = scene;
   }
 }

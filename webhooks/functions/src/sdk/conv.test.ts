@@ -12,7 +12,7 @@ export const headers = {
   'connection': 'close',
 };
 
-export const request = {
+export const body = {
   'handler': {
     'name': 'main',
   },
