@@ -26,6 +26,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: node -v
       - run: npm -v
+      - run: ls -la **
       - run: npm ci
       - run: npm test
       - run: npm run lint
