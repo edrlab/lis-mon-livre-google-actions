@@ -10,7 +10,6 @@ on:
 
 jobs:
   sdk-test-prod:
-    name: "webhooks unitary tests"
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -19,14 +18,12 @@ jobs:
     defaults:
       run:
         working-directory: './webhooks/functions'
-
+    name: Node ${{ matrix.node }} webhooks unitary tests
     steps:
-
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-
       - run: node -v
       - run: npm -v
       - run: npm ci
