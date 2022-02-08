@@ -14,7 +14,8 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "scene-typed": "echo \"// npm run scene-typed   \n\n\nexport type TSdkScene = \"$(for I in `ls ../../sdk/custom/scenes | cut -d \".\" -f1`; do echo \"'$I' |\"; done) | sed  's/..$/;/' > src/typings/sdkScene.d.ts",
     "handler-typed": "echo \"// npm run handler-typed   \n\n\nexport type TSdkHandler = \"$(for I in `cat ../../sdk/webhooks/ActionsOnGoogleFulfillment.yaml | grep \"name:\" | cut -d' ' -s -f3`; do echo \"'$I' |\"; done) | sed  's/..$/;/' > src/typings/sdkHandler.d.ts",
-    "i18n-typed": "typed-i18next -i src/translation -o src/typings/i18n.d.ts"
+    "i18n-typed": "typed-i18next -i src/translation -o src/typings/i18n.d.ts",
+    "typed": "npm run i18n-typed && npm run handler-typed && npm run scene-typed"
   },
   "engines": {
     "node": "14"

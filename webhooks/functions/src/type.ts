@@ -2,6 +2,7 @@ import { ConversationV3, ConversationV3App } from "@assistant/conversation";
 import { Media } from "@assistant/conversation/dist/api/schema";
 import { Machine } from "./controller/Machine";
 import { TI18nKey } from "./translation";
+import { TSdkScene } from "./typings/sdkScene";
 
 export enum MediaType {
   Audio = 'AUDIO',
@@ -29,3 +30,5 @@ export interface IConversationV3App extends ConversationV3App<IConversationWithP
 export type TMachine = Machine;
 
 export type THandlerFn = (machine: TMachine) => TMachine | undefined | void;
+
+export type TSdkScene2 = TSdkScene | "actions.scene.END_CONVERSATION";

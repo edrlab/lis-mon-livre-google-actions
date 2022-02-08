@@ -19,6 +19,13 @@ handlers:
 - name: home_new_user_maybe_later__intent__fallback_end
 - name: home_new_user_maybe_later__intent__silence
 - name: home_new_user_maybe_later__intent__silence_end
+- name: info__intent__yes
+- name: info__intent__help
+- name: info__intent__repeat
+- name: info__intent__fallback
+- name: info__intent__fallback_end
+- name: info__intent__silence
+- name: info__intent__silence_end
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

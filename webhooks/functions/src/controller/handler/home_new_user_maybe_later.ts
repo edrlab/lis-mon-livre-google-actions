@@ -38,8 +38,7 @@ const repeat: THandlerFn = (m) => {
 
 const learnMore: THandlerFn = (m) => {
 
-  m.say("home_new_user.no.1", { name: NAME });
-  m.say("home_new_user.no.2", { name: NAME });
+  m.say("info.about.1", { name: NAME });
 
-  m.nextScene = "home_new_user_info";
+  m.nextScene = "info";
 }

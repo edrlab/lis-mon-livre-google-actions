@@ -101,7 +101,7 @@ describe('home_new_user handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_maybe_later');
     });
 
-    const help = `To fully experience EDRLAB Library, and enjoy your favorite audiobooks via Google, you'll need to connect your CELA account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your CELA account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of EDRLAB books for hours on end!\nWould you like to link your account right now?\n`;
+    const help = `To fully experience EDRLAB Library, and enjoy your favorite audiobooks via Google, you'll need to connect your CELA account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your EDRLAB account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of EDRLAB books for hours on end!\nWould you like to link your account right now?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user__intent__help';

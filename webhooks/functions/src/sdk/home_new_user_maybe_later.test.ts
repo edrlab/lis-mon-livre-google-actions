@@ -59,16 +59,17 @@ describe('home_new_user_maybe_later handler', () => {
 
       data.scene.next.name.should.to.be.eq('home_new_user_AccountLinking');
     });
-    it('no', async () => {
+
+    it('learn more', async () => {
       body.handler.name = 'home_new_user_maybe_later__intent__learn_more';
       body.scene.name = scene;
 
       const data = await expressMocked(body, headers);
 
-      const message = `In order to read books using the EDRLAB Library via Google, you need to be a registered EDRLAB member and link your account.\nWould you like to learn more about EDRLAB?\n`;
+      const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
-      data.scene.next.name.should.to.be.eq('home_new_user_info');
+      data.scene.next.name.should.to.be.eq('info');
     });
 
     it('repeat', async () => {
