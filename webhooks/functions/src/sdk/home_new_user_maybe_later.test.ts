@@ -62,7 +62,6 @@ describe('home_new_user_maybe_later handler', () => {
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-
     });
     it('link account', async () => {
       body.handler.name = 'home_new_user_maybe_later__intent__link_account';

@@ -55,7 +55,6 @@ describe(scene + ' handler', () => {
   });
 
   describe('app', () => {
-
     it('on enter', async () => {
       body.handler.name = 'info__on_enter';
       body.scene.name = scene;
@@ -65,7 +64,6 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-
     });
     it('yes or membership', async () => {
       body.handler.name = 'info__intent__yes';

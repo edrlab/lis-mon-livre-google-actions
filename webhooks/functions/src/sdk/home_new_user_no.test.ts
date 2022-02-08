@@ -61,7 +61,6 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-
     });
     it('yes', async () => {
       body.handler.name = 'home_new_user_no__intent__yes';
