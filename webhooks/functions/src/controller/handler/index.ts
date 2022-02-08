@@ -9,6 +9,8 @@ export const handler = (app = new Assistant({})) => {
 
   app.handle('main', main);
 
+  app.handle('cancel', () => {});
+
   home_new_user(app);
   home_new_user_no(app);
   home_new_user_maybe_later(app);
