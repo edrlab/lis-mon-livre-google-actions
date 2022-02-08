@@ -34,6 +34,7 @@ handlers:
 - name: home_new_user_no__intent__silence
 - name: home_new_user_no__intent__silence_end
 - name: cancel
+- name: home_new_user__on_enter
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
