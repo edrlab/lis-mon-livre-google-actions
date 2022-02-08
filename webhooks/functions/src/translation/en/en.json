@@ -27,5 +27,10 @@
       "2": "What would you like to do?"
     }
   },
+  "home_new_user_maybe_later": {
+    "help": {
+      "1": "You can ask me to link your account, or to learn more about {{- name}}. You can also exit this skill, by simply saying 'stop'. What would you like to do?"
+    }
+  },
   "void": "need to replace this message"
 }
