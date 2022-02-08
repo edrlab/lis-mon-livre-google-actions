@@ -29,3 +29,5 @@ intentEvents:
 - handler:
     webhookHandler: home_new_user_no__intent__silence_end
   intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: home_new_user_no__on_enter

@@ -5,6 +5,7 @@ import { missing } from "./void";
 
 export const home_new_user_no = (app: Assistant) => {
 
+  app.handle("home_new_user_no__on_enter", enter);
   app.handle("home_new_user_no__intent__fallback", help);
   app.handle("home_new_user_no__intent__fallback_end", missing);
   app.handle("home_new_user_no__intent__help", help);
@@ -14,6 +15,11 @@ export const home_new_user_no = (app: Assistant) => {
   app.handle("home_new_user_no__intent__silence_end", missing);
   app.handle("home_new_user_no__intent__yes", yes);
 
+}
+
+const enter: THandlerFn = (m) => {
+  m.say('home_new_user.no.1', {name: NAME});
+  m.say('home_new_user.no.2', {name: NAME});
 }
 
 const help: THandlerFn = (m) => {
@@ -36,9 +42,6 @@ const no: THandlerFn = (m) => {
 }
 
 const repeat: THandlerFn = (m) => {
-
-  m.say('home_new_user.no.1', {name: NAME});
-  m.say('home_new_user.no.2', {name: NAME});
 
   m.nextScene = "home_new_user_no";
 }

@@ -39,6 +39,8 @@ const yaml = `intentEvents:
 - handler:
     webhookHandler: home_new_user_no__intent__silence_end
   intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: home_new_user_no__on_enter
 `;
 
 describe(scene + ' handler', () => {
@@ -51,6 +53,16 @@ describe(scene + ' handler', () => {
   });
 
   describe('app', () => {
+    it('on enter', async () => {
+      body.handler.name = 'home_new_user_no__on_enter';
+      body.scene.name = scene;
+
+      const message = `In order to read books using the EDRLAB Library via Google, you need to be a registered EDRLAB member and link your account.\nWould you like to learn more about EDRLAB?\n`;
+      const data = await expressMocked(body, headers);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+    });
     it('yes', async () => {
       body.handler.name = 'home_new_user_no__intent__yes';
       body.scene.name = scene;
@@ -76,10 +88,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'home_new_user_no__intent__repeat';
       body.scene.name = scene;
 
-      const message = `In order to read books using the EDRLAB Library via Google, you need to be a registered EDRLAB member and link your account.\nWould you like to learn more about EDRLAB?\n`;
       const data = await expressMocked(body, headers);
-
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('home_new_user_no');
     });

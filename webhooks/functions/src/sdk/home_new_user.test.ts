@@ -64,6 +64,14 @@ describe('home_new_user handler', () => {
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
     });
+    it('repeat', async () => {
+      body.handler.name = 'home_new_user__intent__repeat';
+      body.scene.name = scene;
+
+      const data = await expressMocked(body, headers);
+
+      data.scene.next.name.should.to.be.eq('home_new_user');
+    });
     it('yes', async () => {
       body.handler.name = 'home_new_user__intent__yes';
       body.scene.name = scene;
