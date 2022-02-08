@@ -5,7 +5,7 @@ import { missing } from "./void";
 
 export const info = (app: Assistant) => {
 
-
+  app.handle("info__on_enter", enter);
   app.handle("info__intent__yes", membership);
   app.handle("info__intent__fallback", help);
   app.handle("info__intent__fallback_end", missing);
@@ -14,6 +14,10 @@ export const info = (app: Assistant) => {
   app.handle("info__intent__silence", help);
   app.handle("info__intent__silence_end", missing);
 
+}
+
+const enter: THandlerFn = (m) => {
+  m.say('info.about.1', {name: NAME});
 }
 
 const membership: THandlerFn = (m) => {
@@ -31,8 +35,5 @@ const help: THandlerFn = (m) => {
 }
 
 const repeat: THandlerFn = (m) => {
-
-  m.say('info.about.1', {name: NAME});
-
   m.nextScene = 'info';
 };

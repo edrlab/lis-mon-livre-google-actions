@@ -39,6 +39,8 @@ const yaml = `intentEvents:
 - handler:
     webhookHandler: home_new_user_maybe_later__intent__silence_end
   intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: home_new_user_maybe_later__on_enter
 `;
 
 describe('home_new_user_maybe_later handler', () => {
@@ -51,6 +53,17 @@ describe('home_new_user_maybe_later handler', () => {
   });
 
   describe('app', () => {
+    it('on enter', async () => {
+      body.handler.name = 'home_new_user_maybe_later__on_enter';
+      body.scene.name = scene;
+
+      const message = `Of course! you can learn more about EDRLAB or quit for now.\nWhat would you like to do?\n`;
+
+      const data = await expressMocked(body, headers);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+    });
     it('link account', async () => {
       body.handler.name = 'home_new_user_maybe_later__intent__link_account';
       body.scene.name = scene;
@@ -76,11 +89,7 @@ describe('home_new_user_maybe_later handler', () => {
       body.handler.name = 'home_new_user_maybe_later__intent__repeat';
       body.scene.name = scene;
 
-      const message = `Of course! you can learn more about EDRLAB or quit for now.\nWhat would you like to do?\n`;
-
       const data = await expressMocked(body, headers);
-
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('home_new_user_maybe_later');
     });

@@ -36,6 +36,8 @@ handlers:
 - name: cancel
 - name: home_new_user__on_enter
 - name: home_new_user_no__on_enter
+- name: home_new_user_maybe_later__on_enter
+- name: info__on_enter
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

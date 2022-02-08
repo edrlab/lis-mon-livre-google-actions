@@ -41,6 +41,8 @@ const yaml = `intentEvents:
 - handler:
     webhookHandler: info__intent__silence_end
   intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: info__on_enter
 `;
 
 describe(scene + ' handler', () => {
@@ -53,6 +55,18 @@ describe(scene + ' handler', () => {
   });
 
   describe('app', () => {
+
+    it('on enter', async () => {
+      body.handler.name = 'info__on_enter';
+      body.scene.name = scene;
+
+      const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
+
+      const data = await expressMocked(body, headers);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+    });
     it('yes or membership', async () => {
       body.handler.name = 'info__intent__yes';
       body.scene.name = scene;
@@ -69,11 +83,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'info__intent__repeat';
       body.scene.name = scene;
 
-      const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
-
       const data = await expressMocked(body, headers);
-
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('info');
     });
