@@ -48,5 +48,21 @@
       "1": "Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Alexa, by saying 'Hey Google, launch {{- name}}'"
     }
   },
+  "home_user": {
+    "enter": {
+      "1": "Welcome back to your {{- name}} Library!",
+      "2": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
+      "3": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+    },
+    "help": {
+      "1": "You can search for a specific book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.",
+      "2": "What would you like to do?"
+    }
+  },
+  "search": {
+    "enter": {
+      "1": "Sure thing! What book or author are you looking for ?"
+    }
+  },
   "void": "need to replace this message"
 }

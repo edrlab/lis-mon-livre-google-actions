@@ -38,6 +38,16 @@ handlers:
 - name: home_new_user_no__on_enter
 - name: home_new_user_maybe_later__on_enter
 - name: info__on_enter
+- name: home_user__on_enter
+- name: home_user__intent__help
+- name: home_user__intent__repeat
+- name: home_user__intent__bookshelf
+- name: home_user__intent__collections
+- name: home_user__intent__search
+- name: home_user__intent__fallback
+- name: home_user__intent__fallback_end
+- name: home_user__intent__silence
+- name: home_user__intent__silence_end
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
