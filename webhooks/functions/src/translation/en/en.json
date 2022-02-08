@@ -32,6 +32,11 @@
       "1": "You can ask me to link your account, or to learn more about {{- name}}. You can also exit this skill, by simply saying 'stop'. What would you like to do?"
     }
   },
+  "home_new_user_no": {
+    "help": {
+      "1": "If you'd like to learn more about {{- name}}. You can ask me by saying 'what is {{- name}}', or simply say 'stop' to exit this app. If you have any other questions, we recommend reaching out to your local library for support. Do you want to learn more about {{- name}} or exit this app?"
+    }
+  },
   "info": {
     "about": {
       "1": "{{- name}} about text. Would you like to find out more about {{- name}} membership, or would you prefer to exit this skill?"

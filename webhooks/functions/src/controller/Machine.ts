@@ -1,8 +1,7 @@
 import {ok} from 'assert';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
-import {IConversationV3} from '../type';
-import {TSdkScene} from '../typings/sdkScene';
+import {IConversationV3, TSdkScene2} from '../type';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -60,7 +59,7 @@ export class Machine {
     return this._conv.user.accountLinkingStatus;
   }
 
-  public set nextScene(scene: TSdkScene) {
+  public set nextScene(scene: TSdkScene2) {
     const obj = this._conv.scene;
 
     if (!obj.next) {

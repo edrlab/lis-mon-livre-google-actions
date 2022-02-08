@@ -20,7 +20,6 @@ const membership: THandlerFn = (m) => {
 
   m.say('info.yesOrMembership.1', {name: NAME});
 
-  // @ts-ignore
   m.nextScene = "actions.scene.END_CONVERSATION";
 };
 
