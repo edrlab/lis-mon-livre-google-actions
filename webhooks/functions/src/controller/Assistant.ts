@@ -25,6 +25,11 @@ export class Assistant {
       if (conv.scene.next) {
         conv.scene.next.name = conv.scene.name;
       } // loop
+
+      // @TODO
+      // the catch handle must exit (go to END SCENE)
+      // Inform the user of the unexpected error and exit the app
+      // usefull with a db corruption .. let's the user delete his google personnal storage to trigger a new BearerToken
     });
 
     if (storageModel) {

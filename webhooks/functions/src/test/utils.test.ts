@@ -27,7 +27,7 @@ export const shell = (s: string, fn: (s: string) => void, done: (...a: any[]) =>
 };
 
 export const storageModelMocked = async () => {
-  const pull = sinon.stub().resolves({});
+  const pull = sinon.stub().resolves(undefined);
   const push = sinon.stub();
 
   const {StorageModel: _storageModel} = proxyquire('../model/storage.model', {

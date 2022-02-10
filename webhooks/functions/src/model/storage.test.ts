@@ -10,10 +10,56 @@ import * as sinon from 'sinon';
 import {StorageModel} from './storage.model';
 import {storageModelMocked} from '../test/utils.test';
 
-chai.should();
+let freshData = {
+  dbVersion: 1,
+  bearerToken: 'test',
+  player: {
+    current: {
+      playing: false,
+    },
+    history: {
+
+    },
+  },
+  session: {
+    scene: {
+      home_user: {
+        state: 'DEFAULT',
+      },
+    },
+  },
+  user: {
+    authentication: 'NO_LINKED',
+  },
+};
 
 describe('storage DTO', () => {
-  it('create storage object', () => {
+  beforeEach(() => {
+    freshData = {
+      dbVersion: 1,
+      bearerToken: 'test',
+      player: {
+        current: {
+          playing: false,
+        },
+        history: {
+
+        },
+      },
+      session: {
+        scene: {
+          home_user: {
+            state: 'DEFAULT',
+          },
+        },
+      },
+      user: {
+        authentication: 'NO_LINKED',
+      },
+    };
+  });
+
+  it('create storage object without bearerToken', () => {
     const obj = {
       dbVersion: 1,
       bearerToken: undefined,
@@ -28,7 +74,7 @@ describe('storage DTO', () => {
       },
     };
 
-    assert.throws(() => StorageDto.create(obj));
+    chai.expect(() => StorageDto.create('', obj)).to.throw();
   });
 
   it('create storage object failed dbversion', () => {
@@ -46,11 +92,7 @@ describe('storage DTO', () => {
       },
     };
 
-    const instance = StorageDto.create(obj);
-
-    assert.ok(instance instanceof StorageDto);
-    assert.equal(instance.dbVersion, 1);
-    console.log(instance);
+    chai.expect(() => StorageDto.create('test', obj)).to.throw();
   });
 
   it('create storage object failed dbversion and bearer', () => {
@@ -68,128 +110,38 @@ describe('storage DTO', () => {
       },
     };
 
-    assert.throws(() => StorageDto.create(obj));
+    chai.expect(() => StorageDto.create('test', obj)).to.throw();
   });
 
   it('undefined storage', () => {
-    const instance = StorageDto.create(undefined, 'test');
+    const instance = StorageDto.create('test', undefined);
 
-    const extr = instance.extract();
-
-    assert.deepEqual({
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
-
-          playing: false,
-        },
-        history: {
-
-        },
-      },
-    }, extr);
+    chai.expect(instance.bearerToken).to.be.eq('test');
   });
 
   it('bad validation extract', () => {
-    const instance = StorageDto.create(undefined, 'test');
+    const instance = StorageDto.create('test');
 
     instance.player.current.index = -34;
 
     const extr = instance.extract();
 
-    assert.deepEqual({
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
+    const instance2 = StorageDto.create('test', extr);
 
-          playing: false,
-        },
-        history: {
-
-        },
-      },
-    }, extr);
-
-    // const instance2 = StorageDto.create(extr);
-
-    // assert.deepEqual(instance2.selection, {});
-    // assert.deepEqual(instance2.selection.url, undefined);
-  });
-
-  // it('selection validation extract', () => {
-  //   const instance = StorageDto.create(undefined, 'test');
-
-  //   instance.selection.url = undefined;
-  //   // instance.selection.topUrl = "http://google.com";
-
-  //   const extr = instance.extract();
-
-  //   assert.deepEqual({
-  //     dbVersion: 1,
-  //     bearerToken: 'test',
-  //     player: {
-  //       current: {
-
-  //         playing: false,
-  //       },
-  //       history: {
-
-  //       },
-  //     },
-  //     selection: {},
-  //   }, extr);
-
-  //   const instance2 = StorageDto.create(extr);
-
-  //   assert.deepEqual(instance2.selection, {});
-  //   assert.deepEqual(instance2.selection.url, undefined);
-  // });
-
-  it('good validation extract', () => {
-    const instance = StorageDto.create(undefined, 'test');
-
-    instance.player.current.index = 0;
-
-    const extr = instance.extract();
-
-    assert.deepEqual({
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
-          index: 0,
-          playing: false,
-        },
-        history: {
-
-        },
-      },
-    }, extr);
+    chai.expect(instance2.player.current.index).to.be.undefined;
   });
 
   it('create error', () => {
     const date = new Date();
 
-    const obj = {
-      dbVersion: 1,
-      bearerToken: '123',
-      player: {
-        current: {
-
-          playing: false,
-        },
-        history: {
-          'test': {
-            index: 0,
-            time: 0,
-            date: date,
-          },
-        },
-      },
+    const obj = freshData;
+    // @ts-ignore
+    obj.player.history.test = {
+      index: 0,
+      time: 0,
+      date: date,
     };
-    const instance = StorageDto.create(obj, 'test');
+    const instance = StorageDto.create('test', obj);
 
     assert.deepEqual(instance.player.history.get('test'), {
       index: 0,
@@ -206,32 +158,22 @@ describe('storage DTO', () => {
     const extr = classToPlain(instance);
 
     assert.deepEqual({
-      dbVersion: 1,
-      bearerToken: '123',
-      player: {
-        current: {
-
-          playing: false,
-        },
-        history: {
-          test2: {
-            index: 0,
-            time: 0,
-            date: date,
-          },
-          test: {
-            index: 0,
-            time: 0,
-            date: date,
-          },
-        },
+      test2: {
+        index: 0,
+        time: 0,
+        date: date,
       },
-    }, extr);
+      test: {
+        index: 0,
+        time: 0,
+        date: date,
+      },
+    }, extr.player.history);
 
     console.log(inspect(extr, {depth: 7}));
     console.log(new Date());
 
-    const instance2 = StorageDto.create(extr, 'test');
+    const instance2 = StorageDto.create('test', extr);
 
     assert.deepEqual(instance2.player.history.get('test2'), {
       index: 0,
@@ -243,19 +185,32 @@ describe('storage DTO', () => {
 
 
 describe('storage Model', () => {
-  const freshData = {
-    dbVersion: 1,
-    bearerToken: 'test',
-    player: {
-      current: {
-        playing: false,
-      },
-      history: {
+  chai.should();
 
-      },
-    },
-  };
+  beforeEach(() => {
+    freshData = {
+      dbVersion: 1,
+      bearerToken: 'test',
+      player: {
+        current: {
+          playing: false,
+        },
+        history: {
 
+        },
+      },
+      session: {
+        scene: {
+          home_user: {
+            state: 'DEFAULT',
+          },
+        },
+      },
+      user: {
+        authentication: 'NO_LINKED',
+      },
+    };
+  });
 
   // @ts-ignore
   let {data, push, pull}: {

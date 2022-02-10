@@ -22,15 +22,11 @@ export class StorageModel {
   }
 
   public static async create(bearerToken: string) {
-    let store: StorageDto;
-    try {
-      const data = await pull(bearerToken);
+    const data = await pull(bearerToken);
 
-      store = StorageDto.create(data, bearerToken);
-    } catch (e) {
-      console.error('StorageModel Create', e);
-      store = StorageDto.create(undefined, bearerToken);
-    }
+    const store = StorageDto.create(bearerToken, data);
+
+    // let's to cascading the storage errors accross storage -> storageModel -> Machine -> Assistant
     return new StorageModel(bearerToken, store);
   }
 

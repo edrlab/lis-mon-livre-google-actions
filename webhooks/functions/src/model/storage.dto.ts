@@ -1,5 +1,5 @@
 import * as util from 'util';
-import {IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory} from './storage.interface';
+import {ISessionScene, IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory, IStorageSession, IStorageUser, TStateAuthentication} from './storage.interface';
 import {classToPlain, Exclude, plainToClass, Transform, TransformationType, Type} from 'class-transformer';
 import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
 
@@ -83,6 +83,29 @@ class StoragePlayerDto implements IStoragePlayer {
   }
 }
 
+class StorageSessionDto implements IStorageSession {
+  @IsObject()
+  @IsNotEmpty()
+    scene: ISessionScene;
+
+  constructor() {
+    this.scene = {
+      'home_user': {
+        state: 'DEFAULT',
+      },
+    };
+  }
+}
+
+class StorageUserDto implements IStorageUser {
+  @IsNotEmpty()
+    authentication: TStateAuthentication;
+
+  constructor() {
+    this.authentication = 'NO_LINKED';
+  }
+}
+
 export class StorageDto implements IStorage {
   @IsNumber()
   @Equals(DB_VERSION)
@@ -97,6 +120,18 @@ export class StorageDto implements IStorage {
   @ValidateNested()
     player: StoragePlayerDto;
 
+  @IsObject()
+  @IsNotEmpty()
+  @Type(() => StorageSessionDto)
+  @ValidateNested()
+    session: StorageSessionDto;
+
+  @IsObject()
+  @IsNotEmpty()
+  @Type(() => StorageUserDto)
+  @ValidateNested()
+    user: StorageUserDto;
+
   @Exclude()
     snapshot: IStorage;
 
@@ -105,10 +140,12 @@ export class StorageDto implements IStorage {
     this.bearerToken = bearerToken;
     this.player = new StoragePlayerDto();
     this.snapshot = classToPlain(this) as IStorage;
+    this.session = new StorageSessionDto();
+    this.user = new StorageUserDto();
   }
 
   @Exclude()
-  static create(data?: Record<string, any>, bearerToken?: string): StorageDto {
+  static create(bearerToken: string, data?: Record<string, any>): StorageDto {
     if (!data && bearerToken) {
       return new StorageDto(bearerToken);
     }
@@ -116,17 +153,11 @@ export class StorageDto implements IStorage {
     const storage = plainToClass(StorageDto, data);
     const errors = validateSync(storage);
 
-    if (errors.length) {
-      bearerToken = typeof data?.bearerToken === 'string' ? data?.bearerToken : bearerToken;
-      if (!bearerToken) {
-        throw new Error('bearerToken is empty');
-      }
-
-      console.error('Storage DTO \'create\' errors', util.inspect(errors, {depth: 8}));
-
-      console.error('new fresh storageDto created');
-
-      return new StorageDto(bearerToken);
+    if (errors.length > 0) {
+      throw new Error(JSON.stringify(errors, null, 4));
+    }
+    if (storage.bearerToken !== bearerToken) {
+      throw new Error('the bearerToken doesn\'t match beetween the key and value');
     }
 
     storage.snapshot = classToPlain(this) as IStorage;
