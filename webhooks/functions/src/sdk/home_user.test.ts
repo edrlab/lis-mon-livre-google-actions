@@ -60,7 +60,7 @@ describe('home_user handler', () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
 
-      const message = `Welcome back to your EDRLAB Library!\nCongratulations! You have succesfully linked your account and can now access all of your favorite books!\nWould you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
+      const message = `Congratulations! You have succesfully linked your account and can now access all of your favorite books!\nWould you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);

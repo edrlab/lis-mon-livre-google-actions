@@ -1,19 +1,21 @@
 {
   "main": {
     "welcome": {
-      "newUser": {
-        "1": "Welcome to {{- name}} Library!",
-        "2": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
-        "3": "Would you like to do so now ?"
+      "noLinked": {
+        "1": "Welcome to {{- name}} Library!"
       },
-      "user": {
-        "1": "Welcome back to your {{- name}} Library!",
-        "2": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-        "3": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection?"
+      "linked": {
+        "1": "Welcome back to your {{- name}} Library!"
       }
     }
   },
   "home_new_user": {
+    "enter": {
+      "first": {
+        "1": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
+        "2": "Would you like to do so now ?"
+      }
+    },
     "no": {
       "1": "In order to read books using the {{- name}} Library via Google, you need to be a registered {{- name}} member and link your account.",
       "2": "Would you like to learn more about {{- name}}?"
@@ -50,9 +52,10 @@
   },
   "home_user": {
     "enter": {
-      "1": "Welcome back to your {{- name}} Library!",
-      "2": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-      "3": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+      "first": {
+        "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
+        "2": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+      }
     },
     "help": {
       "1": "You can search for a specific book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.",

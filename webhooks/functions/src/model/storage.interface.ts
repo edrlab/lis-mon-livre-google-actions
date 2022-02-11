@@ -26,6 +26,7 @@ export interface ISessionScene {
     state: TStateHomeUser,
   }
 }
+export type TKeySessionScene = keyof ISessionScene;
 
 export interface IStorageSession {
   scene: ISessionScene;

@@ -19,9 +19,8 @@ export const home_new_user = (app: Assistant) => {
 }
 
 const enter: THandlerFn = (m) => {
-  m.say("main.welcome.newUser.1", { name: NAME });
-  m.say("main.welcome.newUser.2", { name: NAME });
-  m.say("main.welcome.newUser.3");
+  m.say("home_new_user.enter.first.1", { name: NAME });
+  m.say("home_new_user.enter.first.2", { name: NAME });
 }
 
 const help: THandlerFn = (m) => {

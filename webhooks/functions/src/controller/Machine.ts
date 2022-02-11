@@ -1,4 +1,5 @@
 import {ok} from 'assert';
+import {TKeySessionScene} from '../model/storage.interface';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
 import {IConversationV3, TSdkScene2} from '../type';
@@ -66,5 +67,15 @@ export class Machine {
       obj.next = {};
     }
     obj.next.name = scene;
+  }
+
+  public getSessionState(scene: TKeySessionScene) {
+    ok(this._model);
+    return this._model.store.session.scene[scene].state;
+  }
+
+  public get authenticationState() {
+    ok(this._model);
+    return this._model.store.user.authentication;
   }
 }
