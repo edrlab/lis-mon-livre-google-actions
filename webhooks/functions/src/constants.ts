@@ -13,7 +13,9 @@ export const DEFAULT_LANGUAGE: TDefaultLanguage = 'en';
 export type TDefaultLanguage = Extract<TLang, 'en'>;
 
 export const PADDING = 5;
+export const LAST_SEEN_THRESHOLD = 72;
 
 export const PROJECT_ID = 'edrlab-1';
+
 
 type TLang = 'fr' | 'en';

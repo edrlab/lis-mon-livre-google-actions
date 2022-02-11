@@ -29,6 +29,6 @@ export interface IConversationV3App extends ConversationV3App<IConversationWithP
 
 export type TMachine = Machine;
 
-export type THandlerFn = (machine: TMachine) => TMachine | undefined | void;
+export type THandlerFn = (machine: TMachine) => TMachine | undefined | void | Promise<void>;
 
 export type TSdkScene2 = TSdkScene | "actions.scene.END_CONVERSATION";

@@ -18,9 +18,42 @@ export const home_user = (app: Assistant) => {
 
 }
 
-const enter: THandlerFn = (m) => {
-  m.say("home_user.enter.first.1", { name: NAME });
-  m.say("home_user.enter.first.2", { name: NAME });
+const enter: THandlerFn = async (m) => {
+
+  const newlyLinked = m.authenticationState === "NEWLY_LINKED";
+
+  if (newlyLinked) {
+    m.say("home_user.enter.newlyUser.1", { name: NAME });
+    m.say("home_user.enter.newlyUser.2", { name: NAME });
+  }
+
+  const regularUser = m.isARegularUser;
+  if (regularUser) {
+    // regularUser
+  } else {
+    // occasionalUser
+  }
+
+  const playing = m.playingInProgress;
+  if (playing) {
+
+    const {title, chapter, author} = await m.getCurrentPlayingTitleAndChapter();
+    const readingNumber = m.playingNumber;
+
+    m.say("home_user.enter.playing.1", {chapterNumber: chapter, titleAndAuthor: `${title}${author ? `, ${author}` : ''}`});
+    if (readingNumber) {
+      m.say("home_user.enter.playing.2", {readingNumber: readingNumber});
+    }
+    m.say("home_user.enter.playing.3");
+  } else {
+    m.say("home_user.enter.newlyUser.2");
+  }
+
+  const state = m.getSessionState("home_user")
+  if (state === "REGULAR") {
+    // aka there are a session : the user discovered the app
+    m.say("home_user.enter.regular.1");
+  }
 }
 
 const search: THandlerFn = (m) => {

@@ -52,9 +52,17 @@
   },
   "home_user": {
     "enter": {
-      "first": {
+      "newlyUser": {
         "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
         "2": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+      },
+      "playing": {
+        "1": "Last time, you read Chapter {{- chapterNumber}} of {{- titleAndAuthor}}, which you can resume where you left off.",
+        "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
+        "3": "You can search for a new one alltogether."
+      },
+      "regular": {
+        "1": "What would you like to do?"
       }
     },
     "help": {
