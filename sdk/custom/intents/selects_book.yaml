@@ -1,0 +1,12 @@
+parameters:
+- name: letter
+  type:
+    name: letters
+trainingPhrases:
+- ($letter 'c' auto=false)
+- ($letter 'b' auto=false)
+- ($letter 'C' auto=false)
+- ($letter 'B' auto=false)
+- ($letter 'ah' auto=false)
+- ($letter 'A' auto=false)
+- ($letter 'a' auto=false)

@@ -1,0 +1,12 @@
+synonym:
+  entities:
+    A:
+      synonyms:
+      - A
+    B:
+      synonyms:
+      - B
+    C:
+      synonyms:
+      - C
+  matchType: EXACT_MATCH
