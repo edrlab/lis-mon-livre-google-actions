@@ -92,5 +92,16 @@
       "2": "What would you like to do?"
     }
   },
-  "void": "need to replace this message"
+  "void": "need to replace this message",
+  "bye": {
+    "1": "Thank you for trying the app. To pick up your reading again, come back any time"
+  },
+  "fallback": {
+    "1": "I did not understand",
+    "2": "I really did not understand"
+  },
+  "silence": {
+    "1": "I did not hear",
+    "2": "I really did not hear"
+  }
 }

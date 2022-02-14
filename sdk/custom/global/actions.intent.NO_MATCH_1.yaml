@@ -1,1 +1,2 @@
-{}
+handler:
+  webhookHandler: fallback_1

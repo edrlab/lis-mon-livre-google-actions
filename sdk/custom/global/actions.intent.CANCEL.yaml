@@ -1,4 +1,4 @@
 handler:
-  staticPromptName: static_prompt_2
+  staticPromptName: static_prompt_1
   webhookHandler: cancel
 transitionToScene: actions.scene.END_CONVERSATION

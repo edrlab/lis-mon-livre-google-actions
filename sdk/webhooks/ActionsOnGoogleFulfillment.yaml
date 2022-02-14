@@ -58,6 +58,12 @@ handlers:
 - name: selection__intent__fallback_end
 - name: selection__intent__silence
 - name: selection__intent__silence_end
+- name: fallback_1
+- name: fallback_2
+- name: fallback_end
+- name: silence_1
+- name: silence_2
+- name: silence_end
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

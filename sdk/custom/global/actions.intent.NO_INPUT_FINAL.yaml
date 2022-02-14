@@ -1,1 +1,3 @@
+handler:
+  webhookHandler: silence_end
 transitionToScene: actions.scene.END_CONVERSATION

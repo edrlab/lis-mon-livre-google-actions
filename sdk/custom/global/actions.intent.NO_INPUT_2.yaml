@@ -1,1 +1,2 @@
-{}
+handler:
+  webhookHandler: silence_2
