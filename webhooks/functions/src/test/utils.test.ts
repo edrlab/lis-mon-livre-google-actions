@@ -11,7 +11,6 @@ import {handler} from '../controller/handler';
 export const SDK_PATH = '../../sdk';
 
 import * as httpMocks from 'node-mocks-http';
-import {info} from 'firebase-functions/logger';
 import {IStorage} from '../model/storage.interface';
 
 export const defaults = {
@@ -68,7 +67,7 @@ export const expressMocked = async (body: JsonObject, headers: JsonObject, pullD
   const promise = new Promise<JsonObject>((resolve, reject) => res.on('end', () => {
     const data = res._getData();
 
-    info('DATA RETURNED TO GOOGLE ASSISTANT: ', data);
+    console.info('DATA RETURNED TO GOOGLE ASSISTANT: ', data);
 
     if (data.error) {
       reject(data.error);
