@@ -1,7 +1,7 @@
 parameters:
-- name: letter
+- name: number
   type:
-    name: letters
+    name: actions.type.Number
 trainingPhrases:
 - ($letter 'c' auto=false)
 - ($letter 'b' auto=false)

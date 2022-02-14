@@ -1,0 +1,11 @@
+trainingPhrases:
+- the ($number 'first' auto=false)
+- the ($number 'second' auto=false)
+- the ($number 'third' auto=false)
+- the number ($number 'one' auto=false)
+- the number ($number 'three' auto=true)
+- ($number 'three' auto=true)
+- ($number 'two' auto=true)
+- ($number 'one' auto=false)
+- the ($number 'two' auto=true)
+- the ($number 'one' auto=false)
