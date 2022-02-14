@@ -75,5 +75,22 @@
       "1": "Sure thing! What book or author are you looking for ?"
     }
   },
+  "selection": {
+    "enter": {
+      "bookshelf": "Here are the first {{- number}} titles on your bookshelf:",
+      "common": {
+        "1": "Pick one of these books by saying their letter, or ask for their summary by saying 'Summary of A', for example.",
+        "2": "{{- letter}}. {{- title}}",
+        "3": "Which one would you like to start reading? Or perhaps you'd like to explore the other titles on your bookshelf?"
+      },
+      "empty": {
+        "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
+      }
+    },
+    "help": {
+      "1": "Pick one out of 3 titles by mentioning their letter, A - B or C, or ask for their summary by saying 'Summary of A'. You can also ask for 'another one' or directly search by genre, author or book title.",
+      "2": "What would you like to do?"
+    }
+  },
   "void": "need to replace this message"
 }

@@ -1,1 +1,2 @@
-{}
+onEnter:
+  webhookHandler: bookshelf__on_enter

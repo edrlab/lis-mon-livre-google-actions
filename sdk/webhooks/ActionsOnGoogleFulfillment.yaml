@@ -48,6 +48,16 @@ handlers:
 - name: home_user__intent__fallback_end
 - name: home_user__intent__silence
 - name: home_user__intent__silence_end
+- name: bookshelf__on_enter
+- name: selection__on_enter
+- name: selection__intent__selects_book
+- name: selection__intent__repeat
+- name: selection__intent__another_one
+- name: selection__intent__help
+- name: selection__intent__fallback
+- name: selection__intent__fallback_end
+- name: selection__intent__silence
+- name: selection__intent__silence_end
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
