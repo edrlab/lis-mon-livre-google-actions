@@ -12,6 +12,8 @@ export const SDK_PATH = '../../sdk';
 
 import * as httpMocks from 'node-mocks-http';
 import {info} from 'firebase-functions/logger';
+import { IStorage } from '../model/storage.interface';
+import { parsedDataClone } from '../model/data.model.test';
 
 export const defaults = {
   cwd: process.env.PWD + '/' + SDK_PATH,
@@ -26,8 +28,8 @@ export const shell = (s: string, fn: (s: string) => void, done: (...a: any[]) =>
   });
 };
 
-export const storageModelMocked = async () => {
-  const pull = sinon.stub().resolves(undefined);
+export const storageModelMocked = async (pullData: IStorage | undefined = undefined) => {
+  const pull = sinon.stub().resolves(pullData);
   const push = sinon.stub();
 
   const {StorageModel: _storageModel} = proxyquire('../model/storage.model', {
@@ -47,8 +49,8 @@ export const storageModelMocked = async () => {
   };
 };
 
-export const expressMocked = async (body: JsonObject, headers: JsonObject) => {
-  const {data /* , push, pull*/} = await storageModelMocked();
+export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined) => {
+  const {data /* , push, pull*/} = await storageModelMocked(pullData);
 
   const assistant = new Assistant({storageModel: data});
 

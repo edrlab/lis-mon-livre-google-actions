@@ -19,7 +19,7 @@ export interface IStoragePlayer {
 
 export type TStateDefault = 'DEFAULT'
 export type TStateAuthentication = 'NO_LINKED' | 'NEWLY_LINKED' | 'LINKED' | TStateDefault;
-export type TStateHomeUser = 'REGULAR' | TStateDefault;
+export type TStateHomeUser = 'SESSION' | TStateDefault;
 
 export interface ISessionScene {
   'home_user': {
@@ -40,5 +40,6 @@ export interface IStorage {
   bearerToken: string;
   player: IStoragePlayer;
   session: IStorageSession;
+  user: IStorageUser;
 }
 

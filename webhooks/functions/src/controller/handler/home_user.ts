@@ -20,20 +20,21 @@ export const home_user = (app: Assistant) => {
 
 const enter: THandlerFn = async (m) => {
 
-  const newlyLinked = m.authenticationState === "NEWLY_LINKED";
+  const state = m.getSessionState("home_user")
+  if (state === "SESSION") {
+    // aka there is a session : the user discovered the app
+    m.say("home_user.enter.regular.1");
 
+    return;
+  }
+
+  const newlyLinked = m.authenticationState === "NEWLY_LINKED";
   if (newlyLinked) {
     m.say("home_user.enter.newlyUser.1", { name: NAME });
     m.say("home_user.enter.newlyUser.2", { name: NAME });
-  }
 
-  const regularUser = m.isARegularUser;
-  if (regularUser) {
-    // regularUser
-  } else {
-    // occasionalUser
+    return;
   }
-
   const playing = m.playingInProgress;
   if (playing) {
 
@@ -45,15 +46,20 @@ const enter: THandlerFn = async (m) => {
       m.say("home_user.enter.playing.2", {readingNumber: readingNumber});
     }
     m.say("home_user.enter.playing.3");
-  } else {
-    m.say("home_user.enter.newlyUser.2");
+
+    return ;
   }
 
-  const state = m.getSessionState("home_user")
-  if (state === "REGULAR") {
-    // aka there are a session : the user discovered the app
-    m.say("home_user.enter.regular.1");
+  const regularUser = m.isARegularUser;
+  if (regularUser) {
+    // regularUser
+    // what is the purpose of this information ? 
+    // @TODO ask to Maiike
+  } else {
+    // occasionalUser
   }
+  
+  m.say("home_user.enter.newlyUser.2");
 }
 
 const search: THandlerFn = (m) => {

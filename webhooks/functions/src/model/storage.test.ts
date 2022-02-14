@@ -9,54 +9,13 @@ import * as sinon from 'sinon';
 
 import {StorageModel} from './storage.model';
 import {storageModelMocked} from '../test/utils.test';
+import { freshDataClone } from './data.model.test';
 
-let freshData = {
-  dbVersion: 1,
-  bearerToken: 'test',
-  player: {
-    current: {
-      playing: false,
-    },
-    history: {
-
-    },
-  },
-  session: {
-    scene: {
-      home_user: {
-        state: 'DEFAULT',
-      },
-    },
-  },
-  user: {
-    authentication: 'NO_LINKED',
-  },
-};
+let freshData = freshDataClone();
 
 describe('storage DTO', () => {
   beforeEach(() => {
-    freshData = {
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
-          playing: false,
-        },
-        history: {
-
-        },
-      },
-      session: {
-        scene: {
-          home_user: {
-            state: 'DEFAULT',
-          },
-        },
-      },
-      user: {
-        authentication: 'NO_LINKED',
-      },
-    };
+    freshData = freshDataClone();
   });
 
   it('create storage object without bearerToken', () => {
