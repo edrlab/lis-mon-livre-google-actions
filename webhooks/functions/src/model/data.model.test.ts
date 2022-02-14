@@ -40,5 +40,6 @@ export const parsedDataClone = (): IStorage => ({
   },
   user: {
     authentication: 'NO_LINKED',
+    sessionId: "",
   },
 });

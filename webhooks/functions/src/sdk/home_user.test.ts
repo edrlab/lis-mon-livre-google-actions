@@ -66,13 +66,42 @@ describe('home_user handler', () => {
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
+    it('on enter with session state but new session', async () => {
+      body.handler.name = 'home_user__on_enter';
+      body.scene.name = scene;
+      body.session.id = 'newSession'; // new session
+
+      const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
+      const pullData = parsedDataClone();
+      pullData.session.scene.home_user.state = "SESSION";
+      pullData.user.sessionId = "id";
+
+      const data = await expressMocked(body, headers, pullData);
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+    });
+    it('on enter with session state but new session undefined so the session data is not removed', async () => {
+      body.handler.name = 'home_user__on_enter';
+      body.scene.name = scene;
+      body.session.id = 'newSession'; // new session
+
+      const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
+      const pullData = parsedDataClone();
+      pullData.session.scene.home_user.state = "SESSION";
+      pullData.user.sessionId = "id";
+
+      const data = await expressMocked(body, headers, pullData);
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+    });
     it('on enter with session state', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
+      body.session.id = "id";
 
       const message = `What would you like to do?\n`;
       const pullData = parsedDataClone();
       pullData.session.scene.home_user.state = "SESSION";
+      pullData.user.sessionId = "id";
+
       const data = await expressMocked(body, headers, pullData);
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });

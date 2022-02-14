@@ -62,6 +62,10 @@ export class Machine {
     if (this._http) {
       this._fetcher = new OpdsFetcher(this._http);
     }
+
+    // check new Session and keep or remove the data session
+    this.removeSessionDataWhenNewUserSession();
+
   }
 
   public async end() {
@@ -157,5 +161,30 @@ export class Machine {
     // @TODO checks if url is valid
     const webpub = await this._fetcher?.webpubRequest(url);
     return webpub;
+  }
+
+  private removeSessionDataWhenNewUserSession() {
+    if (!this._model) {
+      return ;
+    }
+    const id = this._conv.session.id;
+    if (!id) {
+      return ;
+    }
+    const sameSession = id === this._model.store.user.sessionId;
+    if (sameSession) {
+
+      console.info("MIDDLEWARE :: Session in progress");
+    } else {
+      console.info("MIDDLEWARE :: new SESSION");
+      this._model.store.session = {
+        scene: {
+          "home_user": {
+            state: "DEFAULT",
+          },
+        }
+      };
+      this._model.store.user.sessionId = id;
+    }
   }
 }

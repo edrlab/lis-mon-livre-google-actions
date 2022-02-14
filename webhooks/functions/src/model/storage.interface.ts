@@ -34,6 +34,7 @@ export interface IStorageSession {
 
 export interface IStorageUser {
   authentication: TStateAuthentication;
+  sessionId?: string;
 }
 
 export interface IStorage {

@@ -101,6 +101,10 @@ class StorageUserDto implements IStorageUser {
   @IsNotEmpty()
     authentication: TStateAuthentication;
 
+  @IsOptional()
+  @IsString()
+    sessionId: string;
+
   constructor() {
     this.authentication = 'NO_LINKED';
   }
