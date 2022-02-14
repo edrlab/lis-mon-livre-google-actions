@@ -46,6 +46,7 @@ const enter: THandlerFn = async (m) => {
       m.say("home_user.enter.playing.2", {readingNumber: readingNumber});
     }
     m.say("home_user.enter.playing.3");
+    m.say("home_user.enter.regular.1");
 
     return ;
   }

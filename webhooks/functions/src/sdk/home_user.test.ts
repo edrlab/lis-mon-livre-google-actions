@@ -3,6 +3,7 @@ import * as chai from 'chai';
 // import * as sinon from 'sinon';
 import {headers, body} from './conv.test';
 import {parsedDataClone} from '../model/data.model.test';
+import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
 
 
 chai.should();
@@ -105,6 +106,68 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData);
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
+    it('on enter with a current playing no history', async () => {
+      body.handler.name = 'home_user__on_enter';
+      body.scene.name = scene;
+
+      const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
+      const pullData = parsedDataClone();
+      pullData.player.current.index = 9;
+      pullData.player.current.url = 'https://my.url';
+      pullData.player.current.time = 0;
+      pullData.player.current.playing = true;
+
+
+      const webpub: Partial<IWebPubView> = {
+        title: 'my title',
+        authors: [
+          'hello',
+          'world',
+        ],
+      };
+
+      const data = await expressMocked(body, headers, pullData, undefined, webpub);
+      console.log(JSON.stringify(data, null, 4));
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+    });
+    it('on enter with a current playing and history', async () => {
+      body.handler.name = 'home_user__on_enter';
+      body.scene.name = scene;
+
+      const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou are also reading 4 other recent books, which you can choose from.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
+      const pullData = parsedDataClone();
+      pullData.player.current.index = 9;
+      pullData.player.current.url = 'https://my.url';
+      pullData.player.current.time = 0;
+      pullData.player.current.playing = true;
+
+      pullData.player.history = {
+        // @ts-ignore
+        1: {index: 0, time: 0, date: new Date()},
+        2: {index: 0, time: 0, date: new Date()},
+        3: {index: 0, time: 0, date: new Date()},
+        4: {index: 0, time: 0, date: new Date()},
+      };
+      // pullData.player.history.set("1", {index: 0, time: 0, date: new Date()});
+      // pullData.player.history.set("2", {index: 0, time: 0, date: new Date()});
+      // pullData.player.history.set("3", {index: 0, time: 0, date: new Date()});
+      // pullData.player.history.set("4", {index: 0, time: 0, date: new Date()});
+
+      const webpub: Partial<IWebPubView> = {
+        title: 'my title',
+        authors: [
+          'hello',
+          'world',
+        ],
+      };
+
+      const data = await expressMocked(body, headers, pullData, undefined, webpub);
+      console.log(JSON.stringify(data, null, 4));
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+    });
+
     it('repeat', async () => {
       body.handler.name = 'home_user__intent__repeat';
       body.scene.name = scene;

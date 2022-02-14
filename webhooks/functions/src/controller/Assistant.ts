@@ -1,4 +1,5 @@
 import {BaseApp, conversation, ConversationV3, ConversationV3App, OmniHandler} from '@assistant/conversation';
+import {OpdsFetcher} from 'opds-fetcher-parser';
 import {PROJECT_ID} from '../constants';
 import {StorageModel} from '../model/storage.model';
 import {THandlerFn} from '../type';
@@ -8,11 +9,14 @@ import {Machine} from './Machine';
 export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
   private _storageModel: StorageModel | undefined;
+  private _fetcher: OpdsFetcher | undefined;
 
   constructor({
     storageModel,
+    fetcher,
   }: {
     storageModel?: StorageModel,
+    fetcher?: OpdsFetcher,
   }) {
     this._app = conversation({
       verification: process.env['NODE_ENV'] === 'PRODUCTION' ? PROJECT_ID : undefined,
@@ -36,6 +40,10 @@ export class Assistant {
       this._storageModel = storageModel;
     }
 
+    if (fetcher) {
+      this._fetcher = fetcher;
+    }
+
     // app.middleware((_conv, _framework) => {});
   }
 
@@ -44,7 +52,7 @@ export class Assistant {
       const machine = new Machine(conv);
 
       const bearerToken = conv.user.params.bearerToken;
-      await machine.begin({bearerToken, storageModel: this._storageModel});
+      await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher});
 
       await Promise.resolve(fn(machine));
 

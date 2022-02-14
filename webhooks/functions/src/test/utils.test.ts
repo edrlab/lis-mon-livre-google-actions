@@ -12,6 +12,8 @@ export const SDK_PATH = '../../sdk';
 
 import * as httpMocks from 'node-mocks-http';
 import {IStorage} from '../model/storage.interface';
+import {OpdsFetcher} from 'opds-fetcher-parser';
+import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
 
 export const defaults = {
   cwd: process.env.PWD + '/' + SDK_PATH,
@@ -47,10 +49,22 @@ export const storageModelMocked = async (pullData: IStorage | undefined = undefi
   };
 };
 
-export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined) => {
-  const {data /* , push, pull*/} = await storageModelMocked(pullData);
+export const fetcherMocked = (feed?: any, webpub?: Partial<IWebPubView>) => {
+  const fetcher = sinon.createStubInstance(OpdsFetcher, {
+    // @ts-ignore
+    feedRequest: sinon.stub().returns(Promise.resolve(feed)),
+    // @ts-ignore
+    webpubRequest: sinon.stub().returns(Promise.resolve(webpub)),
+  });
 
-  const assistant = new Assistant({storageModel: data});
+  return fetcher;
+};
+
+export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: any | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined) => {
+  const {data /* , push, pull*/} = await storageModelMocked(pullData);
+  const fetcher = fetcherMocked(feed, webpub) as unknown as OpdsFetcher;
+
+  const assistant = new Assistant({storageModel: data, fetcher});
 
   handler(assistant);
 

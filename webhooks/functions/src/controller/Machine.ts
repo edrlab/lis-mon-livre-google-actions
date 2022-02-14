@@ -10,7 +10,6 @@ export class Machine {
   private _conv: IConversationV3;
   private _i18n: TI18n;
   private _model: StorageModel | undefined;
-  private _http: httpOpdsFetcherParser | undefined;
   private _fetcher: OpdsFetcher | undefined;
 
   private _sayAcc: string;
@@ -20,7 +19,6 @@ export class Machine {
 
     this._i18n = i18n;
     this._model = undefined;
-    this._http = undefined;
     this._fetcher = undefined;
     this._conv = conv;
 
@@ -30,11 +28,11 @@ export class Machine {
   public async begin({
     storageModel,
     bearerToken,
-    http,
+    fetcher,
   }: {
     storageModel?: StorageModel,
     bearerToken?: string,
-    http?: httpOpdsFetcherParser;
+    fetcher?: OpdsFetcher;
   }) {
     console.info('Machine BEGIN');
 
@@ -46,8 +44,8 @@ export class Machine {
       }
     }
 
-    if (http) {
-      this._http = http;
+    if (fetcher) {
+      this._fetcher = fetcher;
     } else {
       if (typeof bearerToken === 'string') {
         const authenticationStorage = new AuthenticationStorage();
@@ -55,12 +53,9 @@ export class Machine {
           accessToken: bearerToken,
           authenticationUrl: API_BASE_URL,
         });
-        this._http = new httpOpdsFetcherParser(undefined, authenticationStorage);
+        const http = new httpOpdsFetcherParser(undefined, authenticationStorage);
+        this._fetcher = new OpdsFetcher(http);
       }
-    }
-
-    if (this._http) {
-      this._fetcher = new OpdsFetcher(this._http);
     }
 
     // check new Session and keep or remove the data session
