@@ -12,8 +12,7 @@ export const SDK_PATH = '../../sdk';
 
 import * as httpMocks from 'node-mocks-http';
 import {info} from 'firebase-functions/logger';
-import { IStorage } from '../model/storage.interface';
-import { parsedDataClone } from '../model/data.model.test';
+import {IStorage} from '../model/storage.interface';
 
 export const defaults = {
   cwd: process.env.PWD + '/' + SDK_PATH,

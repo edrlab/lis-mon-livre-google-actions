@@ -2,7 +2,7 @@ import {expressMocked, shell} from '../test/utils.test';
 import * as chai from 'chai';
 // import * as sinon from 'sinon';
 import {headers, body} from './conv.test';
-import { parsedDataClone } from '../model/data.model.test';
+import {parsedDataClone} from '../model/data.model.test';
 
 
 chai.should();
@@ -73,8 +73,8 @@ describe('home_user handler', () => {
 
       const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const pullData = parsedDataClone();
-      pullData.session.scene.home_user.state = "SESSION";
-      pullData.user.sessionId = "id";
+      pullData.session.scene.home_user.state = 'SESSION';
+      pullData.user.sessionId = 'id';
 
       const data = await expressMocked(body, headers, pullData);
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -86,8 +86,8 @@ describe('home_user handler', () => {
 
       const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const pullData = parsedDataClone();
-      pullData.session.scene.home_user.state = "SESSION";
-      pullData.user.sessionId = "id";
+      pullData.session.scene.home_user.state = 'SESSION';
+      pullData.user.sessionId = 'id';
 
       const data = await expressMocked(body, headers, pullData);
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -95,12 +95,12 @@ describe('home_user handler', () => {
     it('on enter with session state', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
-      body.session.id = "id";
+      body.session.id = 'id';
 
       const message = `What would you like to do?\n`;
       const pullData = parsedDataClone();
-      pullData.session.scene.home_user.state = "SESSION";
-      pullData.user.sessionId = "id";
+      pullData.session.scene.home_user.state = 'SESSION';
+      pullData.user.sessionId = 'id';
 
       const data = await expressMocked(body, headers, pullData);
       data.prompt.firstSimple.speech.should.to.be.eq(message);

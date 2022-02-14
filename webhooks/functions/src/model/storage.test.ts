@@ -9,7 +9,7 @@ import * as sinon from 'sinon';
 
 import {StorageModel} from './storage.model';
 import {storageModelMocked} from '../test/utils.test';
-import { freshDataClone } from './data.model.test';
+import {freshDataClone} from './data.model.test';
 
 let freshData = freshDataClone();
 

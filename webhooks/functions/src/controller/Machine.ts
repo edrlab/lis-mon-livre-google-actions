@@ -1,10 +1,10 @@
-import { ok } from 'assert';
-import { AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher } from 'opds-fetcher-parser';
-import { API_BASE_URL, LAST_SEEN_THRESHOLD } from '../constants';
-import { TKeySessionScene, TStateAuthentication } from '../model/storage.interface';
-import { StorageModel } from '../model/storage.model';
-import { i18n, TI18n, TI18nKey } from '../translation';
-import { IConversationV3, TSdkScene2 } from '../type';
+import {ok} from 'assert';
+import {AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher} from 'opds-fetcher-parser';
+import {API_BASE_URL, LAST_SEEN_THRESHOLD} from '../constants';
+import {TKeySessionScene, TStateAuthentication} from '../model/storage.interface';
+import {StorageModel} from '../model/storage.model';
+import {i18n, TI18n, TI18nKey} from '../translation';
+import {IConversationV3, TSdkScene2} from '../type';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -49,7 +49,7 @@ export class Machine {
     if (http) {
       this._http = http;
     } else {
-      if (typeof bearerToken === "string") {
+      if (typeof bearerToken === 'string') {
         const authenticationStorage = new AuthenticationStorage();
         authenticationStorage.setAuthenticationToken({
           accessToken: bearerToken,
@@ -65,7 +65,6 @@ export class Machine {
 
     // check new Session and keep or remove the data session
     this.removeSessionDataWhenNewUserSession();
-
   }
 
   public async end() {
@@ -112,11 +111,10 @@ export class Machine {
     ok(this._model);
     return this._model.store.user.authentication;
   }
-  
+
   public get isARegularUser() {
     const lastSeenTime = this._conv.user.lastSeenTime;
     if (lastSeenTime) {
-
       const currentDate = new Date().getTime() / 1000 / 60;
       const lastSeenDate = Date.parse(lastSeenTime) / 1000 / 60;
 
@@ -152,8 +150,8 @@ export class Machine {
 
   public async getTitleAndAuthorFromWebpub(url) {
     const webpub = await this.wepubRequest(url);
-    const title = webpub?.title || "no title"; // @TODO i18n
-    const author = (webpub?.authors || [])[0] || "";
+    const title = webpub?.title || 'no title'; // @TODO i18n
+    const author = (webpub?.authors || [])[0] || '';
     return {title, author};
   }
 
@@ -165,24 +163,23 @@ export class Machine {
 
   private removeSessionDataWhenNewUserSession() {
     if (!this._model) {
-      return ;
+      return;
     }
     const id = this._conv.session.id;
     if (!id) {
-      return ;
+      return;
     }
     const sameSession = id === this._model.store.user.sessionId;
     if (sameSession) {
-
-      console.info("MIDDLEWARE :: Session in progress");
+      console.info('MIDDLEWARE :: Session in progress');
     } else {
-      console.info("MIDDLEWARE :: new SESSION");
+      console.info('MIDDLEWARE :: new SESSION');
       this._model.store.session = {
         scene: {
-          "home_user": {
-            state: "DEFAULT",
+          'home_user': {
+            state: 'DEFAULT',
           },
-        }
+        },
       };
       this._model.store.user.sessionId = id;
     }

@@ -1,4 +1,4 @@
-import { IStorage } from "./storage.interface";
+import {IStorage} from './storage.interface';
 
 export const freshDataClone = () => Object.assign({
   dbVersion: 1,
@@ -40,6 +40,6 @@ export const parsedDataClone = (): IStorage => ({
   },
   user: {
     authentication: 'NO_LINKED',
-    sessionId: "",
+    sessionId: '',
   },
 });
