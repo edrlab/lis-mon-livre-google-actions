@@ -6,6 +6,7 @@ import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
 import {IConversationV3, TSdkScene2} from '../type';
 import {resetSelection} from './handler/selection.helper';
+import validator from 'validator';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -137,22 +138,25 @@ export class Machine {
   public async getCurrentPlayingTitleAndChapter() {
     ok(this._model);
 
-    const cur = this._model.store.player.current;
+    const cur = this._model.store.player.current
+    const url = cur.url || "";
     const chapter = (cur.index || 0) + 1;
-    const {title, author} = await this.getTitleAndAuthorFromWebpub(cur.url);
+    const {title, author} = await this.getTitleAndAuthorFromWebpub(url);
 
     return {chapter, title, author};
   }
 
-  public async getTitleAndAuthorFromWebpub(url) {
-    const webpub = await this.wepubRequest(url);
+  public async getTitleAndAuthorFromWebpub(url: string) {
+    const webpub = await this.webpubRequest(url);
     const title = webpub?.title || 'no title'; // @TODO i18n
     const author = (webpub?.authors || [])[0] || '';
     return {title, author};
   }
 
-  private async wepubRequest(url: string) {
-    // @TODO checks if url is valid
+  private async webpubRequest(url: string) {
+    if (!validator.isURL(url)) {
+      throw new Error("url not valid : " + url);
+    }
     const webpub = await this._fetcher?.webpubRequest(url);
     return webpub;
   }
