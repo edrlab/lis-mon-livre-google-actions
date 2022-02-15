@@ -36,7 +36,7 @@ const bodyCopy = () => Object.assign({}, {
     'slots': {},
   },
   'session': {
-    'id': 'ABwppHGoBsXu3JLKx1PW4N40zjedGWXq2Ln6bsc9POLhC2rshmkstBG-u7EAq2UZ7tjBRmoMgGc',
+    'id': 'test', // remove id token but @todo need to test this part .. remove session when session id changed
     'params': {},
     'typeOverrides': [],
     'languageCode': '',

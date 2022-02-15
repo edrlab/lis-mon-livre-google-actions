@@ -28,6 +28,7 @@ export const freshDataClone = () => Object.assign({
   },
   user: {
     authentication: 'NO_LINKED',
+    sessionId: 'test',
   },
 }, {});
 
@@ -56,6 +57,6 @@ export const parsedDataClone = (): IStorage => Object.assign({
   },
   user: {
     authentication: 'NO_LINKED',
-    sessionId: '',
+    sessionId: 'test',
   },
 }, {}) as IStorage;

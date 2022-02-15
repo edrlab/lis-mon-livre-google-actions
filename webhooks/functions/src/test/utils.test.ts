@@ -50,7 +50,7 @@ export const storageModelMocked = async (pullData: IStorage | undefined = undefi
   };
 };
 
-export const fetcherMocked = (feed?: any, webpub?: Partial<IWebPubView>) => {
+export const fetcherMocked = (feed?: Partial<IOpdsResultView>, webpub?: Partial<IWebPubView>) => {
   const fetcher = sinon.createStubInstance(OpdsFetcher, {
     // @ts-ignore
     feedRequest: sinon.stub().returns(Promise.resolve(feed)),
@@ -63,7 +63,11 @@ export const fetcherMocked = (feed?: any, webpub?: Partial<IWebPubView>) => {
 
 export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: Partial<IOpdsResultView> | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined, data: StorageModel | undefined = undefined) => {
   if (!data) {
+    console.log("NO DATA MOCKED YET");
+    
     ({data /* , push, pull*/} = await storageModelMocked(pullData));
+  } else {
+    console.log("DATA MOCKED");
   }
   const fetcher = fetcherMocked(feed, webpub) as unknown as OpdsFetcher;
 

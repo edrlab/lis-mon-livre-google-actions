@@ -60,7 +60,7 @@ describe(scene + ' handler', () => {
     return a + b + c;
   };
 
-  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one' or directly search by genre, author or book title.\nWhat would you like to do?\n`;
+  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one' or directly search by genre, author or book title.\n`; // What would you like to do?\n`;
 
   describe('app', () => {
     it('on enter', async () => {
@@ -134,6 +134,51 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('home_user');
     });
 
+    const newFeed = (): Partial<IOpdsResultView> => ({
+        publications: [
+          {
+            title: 'first publication',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+          {
+            title: 'second publication',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+        ],
+        groups: [
+          {
+            selfLink: {
+              title: 'first group',
+              url: '',
+            }
+          },
+          {
+            selfLink: {
+              title: 'second group',
+              url: '',
+            }
+          },
+          // {
+          //   selfLink: {
+          //     title: 'third group',
+          //     url: '',
+          //   }
+          // },
+        ],
+        // @ts-ignore
+        links: {
+          next: [
+            {
+              url: "http://next.link"
+            }
+          ]
+        }
+      });
+
     const testStateRunningPublication = () => {
       const pullData = parsedDataClone();
       pullData.session.scene.selection.state = 'RUNNING';
@@ -177,24 +222,24 @@ describe(scene + ' handler', () => {
       pullData.session.scene.selection.kind = 'GROUP';
 
       const feed: Partial<IOpdsResultView> = {
-        publications: [
+        groups: [
           {
-            title: 'first group',
-            baseUrl: '',
-            authors: [],
-            numberOfPages: 0,
+            selfLink: {
+              title: 'first group',
+              url: '',
+            }
           },
           {
-            title: 'second group',
-            baseUrl: '',
-            authors: [],
-            numberOfPages: 0,
+            selfLink: {
+              title: 'second group',
+              url: '',
+            }
           },
           {
-            title: 'third group',
-            baseUrl: '',
-            authors: [],
-            numberOfPages: 0,
+            selfLink: {
+              title: 'third group',
+              url: '',
+            }
           },
         ],
       };
@@ -354,7 +399,6 @@ describe(scene + ' handler', () => {
     //   data.scene.next.name.should.to.be.eq('selection');
 
     // });
-
     it('select book - number 1', async () => {
       body.handler.name = 'selection__intent__selects_book';
       body.scene.name = scene;
@@ -367,14 +411,66 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+      model.data.store.session.scene.selection.kind = "PUBLICATION";
+      model.data.store.session.scene.selection.state = "RUNNING";
+      model.data.store.session.scene.selection.url = "http://my.url";
+      const feed = newFeed();
+      feed.publications?.length.should.to.be.eq(2);
+      
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(1);
-      // or
-      // say the fallback message if type is incorrect
-      // need to check with google data
+
+    });
+    it('select book - number 2 ', async () => {
+      body.handler.name = 'selection__intent__selects_book';
+      body.scene.name = scene;
+      body.intent.params = {
+        number: {
+          original: '2',
+          resolved: 2,
+        },
+      };
+
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      model.data.store.session.scene.selection.kind = "PUBLICATION";
+      model.data.store.session.scene.selection.state = "RUNNING";
+      model.data.store.session.scene.selection.url = "http://my.url";
+      const feed = newFeed();
+      feed.publications?.length.should.to.be.eq(2);
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('selection');
+      model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(2);
+
+    });
+
+    it('select book - number 3 with only 2 pub available', async () => {
+      body.handler.name = 'selection__intent__selects_book';
+      body.scene.name = scene;
+      body.intent.params = {
+        number: {
+          original: '3',
+          resolved: 3,
+        },
+      };
+
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      model.data.store.session.scene.selection.kind = "PUBLICATION";
+      model.data.store.session.scene.selection.url = "http://my.url";
+      const feed = newFeed();
+      feed.publications?.length.should.to.be.eq(2);
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('selection');
+      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+
     });
 
     it('select book - number 10', async () => {
@@ -389,11 +485,15 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+      model.data.store.session.scene.selection.url = "http://my.url";
+      model.data.store.session.scene.selection.state = 'RUNNING';
+      model.data.store.session.scene.selection.kind = "PUBLICATION";
+      const feed = newFeed();
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
       data.prompt.firstSimple.speech.should.to.be.eq(help);
-      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT'); // equals to original state
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
       // or
       // say the fallback message if type is incorrect

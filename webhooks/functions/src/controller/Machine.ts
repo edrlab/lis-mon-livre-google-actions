@@ -153,12 +153,49 @@ export class Machine {
     return {title, author};
   }
 
+  public get selectionSession() {
+    ok(this._model);
+    return this._model.store.session.scene.selection;
+  }
+
+  public get selectBookNumber() {
+    return this._conv.intent.params?.number.resolved as number | undefined;
+  }
+
+  public async getGroupSizeWithUrl(url: string) {
+
+    const feed = await this.feedRequest(url);
+    const size = feed.groups?.length;
+    return size;
+  }
+
+  public async getPublicationSizeWithUrl(url: string) {
+    
+    const feed = await this.feedRequest(url);
+    const size = feed.publications?.length;
+    return size;
+  }
+
   private async webpubRequest(url: string) {
     if (!validator.isURL(url)) {
       throw new Error("url not valid : " + url);
     }
-    const webpub = await this._fetcher?.webpubRequest(url);
+    if (!this._fetcher) {
+      throw new Error("no fetcher available !");
+    }
+    const webpub = await this._fetcher.webpubRequest(url);
     return webpub;
+  }
+
+  private async feedRequest(url: string) {
+    if (!validator.isURL(url)) {
+      throw new Error("url not valid : " + url);
+    }
+    if (!this._fetcher) {
+      throw new Error("no fetcher available !");
+    }
+    const feed = await this._fetcher.feedRequest(url);
+    return feed;
   }
 
   private removeSessionDataWhenNewUserSession() {
