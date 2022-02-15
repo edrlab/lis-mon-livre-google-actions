@@ -1,7 +1,9 @@
-import {expressMocked, shell} from '../test/utils.test';
+import {expressMocked, shell, storageModelMocked} from '../test/utils.test';
 import * as chai from 'chai';
 // import * as sinon from 'sinon';
 import {headers, body} from './conv.test';
+import {parsedDataClone} from '../model/data.model.test';
+import {IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 
 
 chai.should();
@@ -52,30 +54,320 @@ describe(scene + ' handler', () => {
     });
   });
 
+  const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
+    const a = 'Pick one of these by saying their numbers.\n';
+    const b = it.reduce((pv, [nb, title]) => `${nb}. ${title}\n`, '');
+    const c = 'Which one would you like to start reading? Or perhaps you\'d like to explore the other titles on your bookshelf?\n';
+    return a + b + c;
+  };
+
   describe('app', () => {
     it('on enter', async () => {
       body.handler.name = 'selection__on_enter';
       body.scene.name = scene;
 
-      const message = `Here are the first 3 titles on your bookshelf:\n`;
 
       // TODO
       // LOT of Code here because all messages will be in on-enter
 
-      const data = await expressMocked(body, headers);
+      // test si state === "running" sinon forward vers la bonne scene
+      // tant que state !=== 'finish' dire à l'utilisateur les resultats
+      // soit de groupes ou soit de publications puis demander le numéro
+      // lorsque le numéro est vérifier dans select book intent
+      // vérifier le numéro dans la state machine et afficher la proposition
+      // lorsque cela est la derniere page afficher la page en cours et dire un message
+      //
+      // ici ce trouve la machine a état de selection
+      // nécéssite surement d'étoffer les états .. au lieu de les morcelés
+
+      // state === running
+      // 1) check url
+      // 2) check page
+      // 3) if (last page) ->say
+      // 4) afficher resultat
+
+      // state === finish
+      // 1) check url
+      // 2) check page ((else an error happen (reset ? )))
+      // 3) routing table with from handler
+
+      // 1) state === running
+      // 2) vérifier url
+      // 3) vérifier page
+      // 4) afficher utilisateur
+      // 5) attendre numéro
+      // 6) checker ce numéro
+      // 7) afficher utilisateur
+      // 8) attendre num
+      // 9) check num
+      // 10) last page -> say user
+      // 11) afficher user
+      // 12) good choice user
+      // 13) machine finish
+      // 15) table de routage prochaine scene en fonction de sceneFrom
+
+      const message = `Oops, something went wrong. I will send you back to the home menu\n`;
+
+      const pullData = parsedDataClone();
+      const data = await expressMocked(body, headers, pullData);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+      // must redirect to home_user when the state machine not initialized
+      data.scene.next.name.should.to.be.eq('home_user');
     });
 
-    it('select book', async () => {
-      body.handler.name = 'selection__intent__selects_book';
+    it('on enter - state running - no url', async () => {
+      body.handler.name = 'selection__on_enter';
       body.scene.name = scene;
 
-      // TODO check type validation
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      const data = await expressMocked(body, headers, pullData);
 
-      const data = await expressMocked(body, headers);
+      const message = `Oops, something went wrong. I will send you back to the home menu\n`;
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.scene.next.name.should.to.be.eq('home_user');
+    });
+
+    const testStateRunningPublication = () => {
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.kind = 'PUBLICATION';
+
+      const feed: Partial<IOpdsResultView> = {
+        publications: [
+          {
+            title: 'first publication',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+          {
+            title: 'second publication',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+          {
+            title: 'third publication',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+        ],
+      };
+      const message = messageHelpers(3, [
+        [1, 'first publication'],
+        [2, 'second publication'],
+        [3, 'third publication'],
+      ]);
+
+      return {pullData, feed, message};
+    };
+    const testStateRunningGroup = () => {
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.kind = 'GROUP';
+
+      const feed: Partial<IOpdsResultView> = {
+        publications: [
+          {
+            title: 'first group',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+          {
+            title: 'second group',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+          {
+            title: 'third group',
+            baseUrl: '',
+            authors: [],
+            numberOfPages: 0,
+          },
+        ],
+      };
+      const message = messageHelpers(3, [
+        [1, 'first group'],
+        [2, 'second group'],
+        [3, 'third group'],
+      ]);
+
+      return {pullData, feed, message};
+    };
+
+    it('on enter - state running - publication list first page with no next link', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 0;
+
+      // @ts-ignore
+      feed.links = {};
+
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - group list first page with no next link', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningGroup();
+      const data = await expressMocked(body, headers, pullData, feed);
+      // @ts-ignore
+      feed.links = {};
+
+      // must say the first page
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - publication list last page', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      // @ts-ignore
+      feed.links = {};
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available books\n' + message);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - group list last page', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningGroup();
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      // @ts-ignore
+      feed.links = {};
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      // must say the first page
+      data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available groups\n' + message);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - publication list page > 0', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {
+            url: 'http://my.url',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - group list last page > 0', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningGroup();
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {
+            url: 'http://my.url',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      // must say the first page
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - publication list with next page - from bookshelf', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed, message} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 0;
+      pullData.session.scene.selection.from = 'home_user__intent__bookshelf',
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {
+            url: 'http://my.url',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      const message2 = 'Here are the first 3 titles on your bookshelf:\n' + message + 'Or perhaps you\'d like to explore the other titles on your bookshelf?\n';
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message2);
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    // @TODO
+    // complete the test from handler
+    // it('on enter - state running - group list last with next page - from collection', async () => {
+
+    //   body.handler.name = 'selection__on_enter';
+    //   body.scene.name = scene;
+
+    //   const {pullData, feed, message} = testStateRunningGroup();
+    //   pullData.session.scene.selection.nextUrlCounter = 3;
+    //   // @ts-ignore
+    //   feed.links = {
+    //     next: [
+    //       {
+    //         url: "http://my.url"
+    //       }
+    //     ]
+    //   };
+    //   const data = await expressMocked(body, headers, pullData, feed);
+
+    //   // must say the first page
+    //   data.prompt.firstSimple.speech.should.to.be.eq(message);
+    //   data.scene.next.name.should.to.be.eq('selection');
+
+    // });
+
+    it('select book - number 1', async () => {
+      body.handler.name = 'selection__intent__selects_book';
+      body.scene.name = scene;
+      body.intent.params = {
+        number: {
+          original: '1',
+          resolved: 1,
+        },
+      };
+
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model);
 
       data.scene.next.name.should.to.be.eq('selection');
+      model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(1);
       // or
       // say the fallback message if type is incorrect
       // need to check with google data
@@ -84,8 +376,6 @@ describe(scene + ' handler', () => {
     it('another one', async () => {
       body.handler.name = 'selection__intent__another_one';
       body.scene.name = scene;
-
-      // TODO check session data page incr
 
       const data = await expressMocked(body, headers);
 

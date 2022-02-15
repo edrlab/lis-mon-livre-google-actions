@@ -2,6 +2,7 @@ import * as util from 'util';
 import {ISessionScene, IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory, IStorageSession, IStorageUser, TStateAuthentication} from './storage.interface';
 import {classToPlain, Exclude, plainToClass, Transform, TransformationType, Type} from 'class-transformer';
 import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
+import {resetSelection} from '../controller/handler/selection.helper';
 
 const DB_VERSION = 1;
 
@@ -93,6 +94,7 @@ class StorageSessionDto implements IStorageSession {
       'home_user': {
         state: 'DEFAULT',
       },
+      'selection': resetSelection(),
     };
   }
 }

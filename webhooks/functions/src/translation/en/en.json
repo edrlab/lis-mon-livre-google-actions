@@ -77,11 +77,23 @@
   },
   "selection": {
     "enter": {
-      "bookshelf": "Here are the first {{- number}} titles on your bookshelf:",
+      "bookshelf": {
+        "first": "Here are the first {{- number}} titles on your bookshelf:",
+        "second": "Or perhaps you'd like to explore the other titles on your bookshelf?"
+      },
+      "search": "I found {{- number}} books with that title",
+      "collection": {
+        "publication": "I found {{- number}} books",
+        "group": "I found {{- number}} groups"
+      },
+      "lastPage": {
+        "publication": "Here's the last available books",
+        "group": "Here's the last available groups"
+      },
       "common": {
-        "1": "Pick one of these books by saying their letter, or ask for their summary by saying 'Summary of A', for example.",
-        "2": "{{- letter}}. {{- title}}",
-        "3": "Which one would you like to start reading? Or perhaps you'd like to explore the other titles on your bookshelf?"
+        "1": "Pick one of these by saying their numbers.",
+        "2": "{{- symbol}}. {{- title}}",
+        "3": "Which one would you like to start reading?"
       },
       "empty": {
         "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
@@ -103,5 +115,8 @@
   "silence": {
     "1": "I did not hear",
     "2": "I really did not hear"
+  },
+  "error": {
+    "1": "Oops, something went wrong. I will send you back to the home menu"
   }
 }

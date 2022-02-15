@@ -14,6 +14,7 @@ import * as httpMocks from 'node-mocks-http';
 import {IStorage} from '../model/storage.interface';
 import {OpdsFetcher} from 'opds-fetcher-parser';
 import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
+import {IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 
 export const defaults = {
   cwd: process.env.PWD + '/' + SDK_PATH,
@@ -60,8 +61,10 @@ export const fetcherMocked = (feed?: any, webpub?: Partial<IWebPubView>) => {
   return fetcher;
 };
 
-export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: any | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined) => {
-  const {data /* , push, pull*/} = await storageModelMocked(pullData);
+export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: Partial<IOpdsResultView> | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined, data: any = undefined) => {
+  if (!data) {
+    ({data /* , push, pull*/} = await storageModelMocked(pullData));
+  }
   const fetcher = fetcherMocked(feed, webpub) as unknown as OpdsFetcher;
 
   const assistant = new Assistant({storageModel: data, fetcher});

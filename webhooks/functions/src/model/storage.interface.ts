@@ -1,3 +1,4 @@
+import {TSdkHandler} from '../typings/sdkHandler';
 
 export interface IStoragePlayerHistory {
   index: number;
@@ -20,10 +21,20 @@ export interface IStoragePlayer {
 export type TStateDefault = 'DEFAULT'
 export type TStateAuthentication = 'NO_LINKED' | 'NEWLY_LINKED' | 'LINKED' | TStateDefault;
 export type TStateHomeUser = 'SESSION' | TStateDefault;
+export type TStateSelection = 'RUNNING' | 'FINISH' | TStateDefault;
+export type TKindSelection = 'PUBLICATION' | 'GROUP';
 
 export interface ISessionScene {
   'home_user': {
     state: TStateHomeUser,
+  },
+  'selection': {
+    state: TStateSelection,
+    kind: TKindSelection,
+    url: string,
+    nextUrlCounter: number,
+    from: TSdkHandler,
+    nbChoice: number,
   }
 }
 export type TKeySessionScene = keyof ISessionScene;

@@ -147,28 +147,7 @@ describe('storage Model', () => {
   chai.should();
 
   beforeEach(() => {
-    freshData = {
-      dbVersion: 1,
-      bearerToken: 'test',
-      player: {
-        current: {
-          playing: false,
-        },
-        history: {
-
-        },
-      },
-      session: {
-        scene: {
-          home_user: {
-            state: 'DEFAULT',
-          },
-        },
-      },
-      user: {
-        authentication: 'NO_LINKED',
-      },
-    };
+    freshData = freshDataClone();
   });
 
   // @ts-ignore

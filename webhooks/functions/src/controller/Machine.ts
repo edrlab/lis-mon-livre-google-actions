@@ -5,6 +5,7 @@ import {TKeySessionScene, TStateAuthentication} from '../model/storage.interface
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
 import {IConversationV3, TSdkScene2} from '../type';
+import {resetSelection} from './handler/selection.helper';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -174,6 +175,7 @@ export class Machine {
           'home_user': {
             state: 'DEFAULT',
           },
+          'selection': resetSelection(),
         },
       };
       this._model.store.user.sessionId = id;

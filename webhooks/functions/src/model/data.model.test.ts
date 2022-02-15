@@ -16,6 +16,13 @@ export const freshDataClone = () => Object.assign({
       home_user: {
         state: 'DEFAULT',
       },
+      selection: {
+        state: 'DEFAULT',
+        kind: 'GROUP',
+        url: '',
+        nextUrlCounter: 0,
+        from: 'main',
+      },
     },
   },
   user: {
@@ -35,6 +42,14 @@ export const parsedDataClone = (): IStorage => ({
     scene: {
       home_user: {
         state: 'DEFAULT',
+      },
+      selection: {
+        state: 'DEFAULT',
+        kind: 'GROUP',
+        url: '',
+        nextUrlCounter: 0,
+        from: 'main',
+        nbChoice: 0,
       },
     },
   },
