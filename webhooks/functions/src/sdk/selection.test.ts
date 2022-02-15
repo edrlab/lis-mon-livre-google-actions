@@ -5,7 +5,6 @@ import {headers, body} from './conv.test';
 import {parsedDataClone} from '../model/data.model.test';
 import {IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 
-
 chai.should();
 
 const scene = 'selection';
@@ -56,10 +55,12 @@ describe(scene + ' handler', () => {
 
   const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
     const a = 'Pick one of these by saying their numbers.\n';
-    const b = it.reduce((pv, [nb, title]) => `${nb}. ${title}\n`, '');
+    const b = it.reduce((pv, [nb, title]) => pv + `${nb}. ${title}\n`, '');
     const c = 'Which one would you like to start reading? Or perhaps you\'d like to explore the other titles on your bookshelf?\n';
     return a + b + c;
   };
+
+  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one' or directly search by genre, author or book title.\nWhat would you like to do?\n`;
 
   describe('app', () => {
     it('on enter', async () => {
@@ -109,6 +110,9 @@ describe(scene + ' handler', () => {
       const message = `Oops, something went wrong. I will send you back to the home menu\n`;
 
       const pullData = parsedDataClone();
+
+      // DEFAULT : trigger an error
+      // pullData.session.scene.selection.state = 'DEFAULT';
       const data = await expressMocked(body, headers, pullData);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -363,7 +367,7 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, undefined, model);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
@@ -373,11 +377,94 @@ describe(scene + ' handler', () => {
       // need to check with google data
     });
 
-    it('another one', async () => {
+    it('select book - number 10', async () => {
+      body.handler.name = 'selection__intent__selects_book';
+      body.scene.name = scene;
+      body.intent.params = {
+        number: {
+          original: '10',
+          resolved: 10,
+        },
+      };
+
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('selection');
+      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT'); // equals to original state
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
+      // or
+      // say the fallback message if type is incorrect
+      // need to check with google data
+    });
+
+    it('another one with machine not running', async () => {
       body.handler.name = 'selection__intent__another_one';
       body.scene.name = scene;
 
-      const data = await expressMocked(body, headers);
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT'); // equals to original state
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(0); // stay at 0
+      model.data.store.session.scene.selection.url.should.to.be.eq(''); // reset
+
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('another one with machine running', async () => {
+      body.handler.name = 'selection__intent__another_one';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      const model = await storageModelMocked(pullData);
+      const feed: Partial<IOpdsResultView> = {};
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {
+            url: 'http://my.url.next',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(4); // +1
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url.next'); // reset
+
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('another one with machine running and no next link available', async () => {
+      body.handler.name = 'selection__intent__another_one';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      const model = await storageModelMocked(pullData);
+      const feed: Partial<IOpdsResultView> = {};
+      // @ts-ignore
+      feed.links = {
+        next: [
+        ],
+      };
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // 3
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
+
+      const message = 'no another results available';
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('selection');
     });
@@ -391,12 +478,9 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
     });
 
-    const help = `Pick one out of 3 titles by mentioning their letter, A - B or C, or ask for their summary by saying 'Summary of A'. You can also ask for 'another one' or directly search by genre, author or book title.\nWhat would you like to do?\n`;
-
     it('help', async () => {
       body.handler.name = 'selection__intent__help';
       body.scene.name = scene;
-
 
       const data = await expressMocked(body, headers);
 

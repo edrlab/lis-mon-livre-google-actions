@@ -61,7 +61,7 @@ export const fetcherMocked = (feed?: any, webpub?: Partial<IWebPubView>) => {
   return fetcher;
 };
 
-export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: Partial<IOpdsResultView> | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined, data: any = undefined) => {
+export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: Partial<IOpdsResultView> | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined, data: StorageModel | undefined = undefined) => {
   if (!data) {
     ({data /* , push, pull*/} = await storageModelMocked(pullData));
   }

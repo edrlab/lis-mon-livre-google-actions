@@ -165,7 +165,11 @@ export class Machine {
     if (!id) {
       return;
     }
-    const sameSession = id === this._model.store.user.sessionId;
+    const idFromStore = this._model.store.user.sessionId;
+    if (!idFromStore) {
+      console.info('no user session id saved in database');
+    }
+    const sameSession = id === idFromStore;
     if (sameSession) {
       console.info('MIDDLEWARE :: Session in progress');
     } else {

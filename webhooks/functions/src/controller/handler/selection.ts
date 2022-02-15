@@ -19,8 +19,6 @@ export const selection = (app: Assistant) => {
 
 const enter: THandlerFn = async (m) => {
 
-  m.say("selection.enter.bookshelf", {number: 3});
-
 }
 
 const selectBook: THandlerFn = async (m) => {

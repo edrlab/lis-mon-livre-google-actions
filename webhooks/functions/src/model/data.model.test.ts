@@ -21,6 +21,7 @@ export const freshDataClone = () => Object.assign({
         kind: 'GROUP',
         url: '',
         nextUrlCounter: 0,
+        nbChoice: 0,
         from: 'main',
       },
     },
@@ -30,7 +31,7 @@ export const freshDataClone = () => Object.assign({
   },
 }, {});
 
-export const parsedDataClone = (): IStorage => ({
+export const parsedDataClone = (): IStorage => Object.assign({
   bearerToken: 'test',
   player: {
     current: {
@@ -57,4 +58,4 @@ export const parsedDataClone = (): IStorage => ({
     authentication: 'NO_LINKED',
     sessionId: '',
   },
-});
+}, {}) as IStorage;
