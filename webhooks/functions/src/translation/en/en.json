@@ -105,6 +105,9 @@
       "2": "What would you like to do?"
     }
   },
+  "player": {
+    "start": "I start reading {{- title}}"
+  },
   "void": "need to replace this message",
   "bye": {
     "1": "Thank you for trying the app. To pick up your reading again, come back any time"

@@ -27,13 +27,11 @@ export class Assistant {
       console.error('APP CATCH ERROR', error);
 
       if (conv.scene.next) {
-        conv.scene.next.name = conv.scene.name;
-      } // loop
+        conv.scene.next.name = 'actions.scene.END_CONVERSATION';
+      }
 
-      // @TODO
-      // the catch handle must exit (go to END SCENE)
-      // Inform the user of the unexpected error and exit the app
-      // usefull with a db corruption .. let's the user delete his google personnal storage to trigger a new BearerToken
+      // @TODO fix translation
+      conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
     });
 
     if (storageModel) {

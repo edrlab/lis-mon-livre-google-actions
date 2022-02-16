@@ -7,6 +7,8 @@ import {i18n, TI18n, TI18nKey} from '../translation';
 import {IConversationV3, TSdkScene2} from '../type';
 import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
+import {Media} from '@assistant/conversation';
+import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -138,8 +140,8 @@ export class Machine {
   public async getCurrentPlayingTitleAndChapter() {
     ok(this._model);
 
-    const cur = this._model.store.player.current
-    const url = cur.url || "";
+    const cur = this._model.store.player.current;
+    const url = cur.url || '';
     const chapter = (cur.index || 0) + 1;
     const {title, author} = await this.getTitleAndAuthorFromWebpub(url);
 
@@ -163,25 +165,118 @@ export class Machine {
   }
 
   public async getGroupSizeWithUrl(url: string) {
-
     const feed = await this.feedRequest(url);
     const size = feed.groups?.length;
     return size;
   }
 
   public async getPublicationSizeWithUrl(url: string) {
-    
     const feed = await this.feedRequest(url);
     const size = feed.publications?.length;
     return size;
   }
 
+  public persistMediaPlayer() {
+    ok(this._model);
+
+    const _progress = this._conv.context?.media?.progress || '0';
+    const progress = parseInt(_progress, 10);
+    const index = this._conv.request.context?.media?.index || 0;
+    const url = this._model.store.player.current.url;
+    if (!url) {
+      return;
+    }
+    if (!validator.isURL(url)) {
+      return;
+    }
+
+    this._model.store.player.current.index = index;
+    this._model.store.player.current.time = progress;
+    this._model.store.player.current.playing = true; // always true
+
+    this._model.store.player.history.set(url, {
+      index,
+      time: progress,
+      date: new Date(),
+    });
+  }
+
+  public mediaPlayerAck() {
+    this._conv.add(new Media({
+      mediaType: MediaType.MediaStatusACK,
+    }));
+  }
+
+  public get currentPlayingUrl() {
+    ok(this._model);
+    const url = this._model.store.player.current.url;
+    if (url && validator.isURL(url)) {
+      return url;
+    }
+    return undefined;
+  }
+
+  public async player() {
+    ok(this._model);
+    const url = this.currentPlayingUrl;
+    if (!url) {
+      throw new Error('no playing url');
+    }
+
+    const startIndexRaw = this._model.store.player.current.index;
+    const startTimeRaw = this._model.store.player.current.time;
+
+    const webpub = await this.webpubRequest(url);
+    if (!webpub) {
+      throw new Error('no webpub');
+    }
+
+    let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length) ?
+      startIndexRaw :
+      0;
+
+    const startTime = (startTimeRaw && startTimeRaw > -1) ?
+      startTimeRaw <= (webpub.readingOrders[startIndex].duration || Infinity) ?
+        startTimeRaw :
+        (startIndex += 1, startTimeRaw) :
+      0;
+
+    startIndex = startIndex <= webpub.readingOrders.length ?
+      startIndex :
+      0;
+
+    const mediaObjects = webpub.readingOrders
+        .map((v, i) => ({
+          name: `${webpub.title || ''} - ${i + 1}`,
+          url: v.url,
+          image: {
+            large: {
+              alt: webpub.title,
+              url: webpub.cover || '',
+            },
+          },
+        })).slice(startIndex);
+
+    console.log('Media list');
+    console.log(mediaObjects);
+    console.log('Start Index = ', startIndex, ' Start Time = ', startTime, ' Start Time');
+
+    this._conv.add(
+        new Media({
+          mediaObjects: mediaObjects,
+          mediaType: MediaType.Audio,
+          optionalMediaControls: [OptionalMediaControl.Paused, OptionalMediaControl.Stopped],
+          startOffset: `${startTime}s`,
+        }),
+    );
+  }
+
   private async webpubRequest(url: string) {
     if (!validator.isURL(url)) {
-      throw new Error("url not valid : " + url);
+      throw new Error('url not valid : ' + url);
     }
     if (!this._fetcher) {
-      throw new Error("no fetcher available !");
+      throw new Error('no fetcher available !');
     }
     const webpub = await this._fetcher.webpubRequest(url);
     return webpub;
@@ -189,10 +284,10 @@ export class Machine {
 
   private async feedRequest(url: string) {
     if (!validator.isURL(url)) {
-      throw new Error("url not valid : " + url);
+      throw new Error('url not valid : ' + url);
     }
     if (!this._fetcher) {
-      throw new Error("no fetcher available !");
+      throw new Error('no fetcher available !');
     }
     const feed = await this._fetcher.feedRequest(url);
     return feed;

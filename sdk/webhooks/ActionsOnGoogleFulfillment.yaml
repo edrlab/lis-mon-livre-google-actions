@@ -64,6 +64,11 @@ handlers:
 - name: silence_1
 - name: silence_2
 - name: silence_end
+- name: player__on_enter
+- name: player__intent__media_status_finished
+- name: player__intent__media_status_paused
+- name: player__intent__media_status_stopped
+- name: player__intent__media_status_failed
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

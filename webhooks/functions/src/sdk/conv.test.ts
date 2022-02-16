@@ -67,6 +67,12 @@ const bodyCopy = () => Object.assign({}, {
       'version': '',
     },
   },
+  'context': {
+    'media': {
+      progress: '0s',
+      index: 0,
+    },
+  },
 });
 
 export const convRequestInHandle = {

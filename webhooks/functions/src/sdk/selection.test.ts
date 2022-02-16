@@ -135,49 +135,49 @@ describe(scene + ' handler', () => {
     });
 
     const newFeed = (): Partial<IOpdsResultView> => ({
-        publications: [
-          {
-            title: 'first publication',
-            baseUrl: '',
-            authors: [],
-            numberOfPages: 0,
+      publications: [
+        {
+          title: 'first publication',
+          baseUrl: '',
+          authors: [],
+          numberOfPages: 0,
+        },
+        {
+          title: 'second publication',
+          baseUrl: '',
+          authors: [],
+          numberOfPages: 0,
+        },
+      ],
+      groups: [
+        {
+          selfLink: {
+            title: 'first group',
+            url: '',
           },
+        },
+        {
+          selfLink: {
+            title: 'second group',
+            url: '',
+          },
+        },
+        // {
+        //   selfLink: {
+        //     title: 'third group',
+        //     url: '',
+        //   }
+        // },
+      ],
+      // @ts-ignore
+      links: {
+        next: [
           {
-            title: 'second publication',
-            baseUrl: '',
-            authors: [],
-            numberOfPages: 0,
+            url: 'http://next.link',
           },
         ],
-        groups: [
-          {
-            selfLink: {
-              title: 'first group',
-              url: '',
-            }
-          },
-          {
-            selfLink: {
-              title: 'second group',
-              url: '',
-            }
-          },
-          // {
-          //   selfLink: {
-          //     title: 'third group',
-          //     url: '',
-          //   }
-          // },
-        ],
-        // @ts-ignore
-        links: {
-          next: [
-            {
-              url: "http://next.link"
-            }
-          ]
-        }
-      });
+      },
+    });
 
     const testStateRunningPublication = () => {
       const pullData = parsedDataClone();
@@ -227,19 +227,19 @@ describe(scene + ' handler', () => {
             selfLink: {
               title: 'first group',
               url: '',
-            }
+            },
           },
           {
             selfLink: {
               title: 'second group',
               url: '',
-            }
+            },
           },
           {
             selfLink: {
               title: 'third group',
               url: '',
-            }
+            },
           },
         ],
       };
@@ -411,18 +411,17 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      model.data.store.session.scene.selection.kind = "PUBLICATION";
-      model.data.store.session.scene.selection.state = "RUNNING";
-      model.data.store.session.scene.selection.url = "http://my.url";
+      model.data.store.session.scene.selection.kind = 'PUBLICATION';
+      model.data.store.session.scene.selection.state = 'RUNNING';
+      model.data.store.session.scene.selection.url = 'http://my.url';
       const feed = newFeed();
       feed.publications?.length.should.to.be.eq(2);
-      
+
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(1);
-
     });
     it('select book - number 2 ', async () => {
       body.handler.name = 'selection__intent__selects_book';
@@ -436,9 +435,9 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      model.data.store.session.scene.selection.kind = "PUBLICATION";
-      model.data.store.session.scene.selection.state = "RUNNING";
-      model.data.store.session.scene.selection.url = "http://my.url";
+      model.data.store.session.scene.selection.kind = 'PUBLICATION';
+      model.data.store.session.scene.selection.state = 'RUNNING';
+      model.data.store.session.scene.selection.url = 'http://my.url';
       const feed = newFeed();
       feed.publications?.length.should.to.be.eq(2);
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
@@ -446,7 +445,6 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(2);
-
     });
 
     it('select book - number 3 with only 2 pub available', async () => {
@@ -461,8 +459,8 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      model.data.store.session.scene.selection.kind = "PUBLICATION";
-      model.data.store.session.scene.selection.url = "http://my.url";
+      model.data.store.session.scene.selection.kind = 'PUBLICATION';
+      model.data.store.session.scene.selection.url = 'http://my.url';
       const feed = newFeed();
       feed.publications?.length.should.to.be.eq(2);
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
@@ -470,7 +468,6 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
-
     });
 
     it('select book - number 10', async () => {
@@ -485,9 +482,9 @@ describe(scene + ' handler', () => {
 
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
-      model.data.store.session.scene.selection.url = "http://my.url";
+      model.data.store.session.scene.selection.url = 'http://my.url';
       model.data.store.session.scene.selection.state = 'RUNNING';
-      model.data.store.session.scene.selection.kind = "PUBLICATION";
+      model.data.store.session.scene.selection.kind = 'PUBLICATION';
       const feed = newFeed();
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 

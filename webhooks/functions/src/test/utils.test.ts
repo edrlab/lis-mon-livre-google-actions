@@ -63,11 +63,11 @@ export const fetcherMocked = (feed?: Partial<IOpdsResultView>, webpub?: Partial<
 
 export const expressMocked = async (body: JsonObject, headers: JsonObject, pullData: IStorage | undefined = undefined, feed: Partial<IOpdsResultView> | undefined = undefined, webpub: Partial<IWebPubView> | undefined = undefined, data: StorageModel | undefined = undefined) => {
   if (!data) {
-    console.log("NO DATA MOCKED YET");
-    
+    console.log('NO DATA MOCKED YET');
+
     ({data /* , push, pull*/} = await storageModelMocked(pullData));
   } else {
-    console.log("DATA MOCKED");
+    console.log('DATA MOCKED');
   }
   const fetcher = fetcherMocked(feed, webpub) as unknown as OpdsFetcher;
 
