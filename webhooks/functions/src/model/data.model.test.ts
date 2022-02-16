@@ -28,7 +28,7 @@ export const freshDataClone = () => Object.assign({
   },
   user: {
     authentication: 'NO_LINKED',
-    sessionId: 'test',
+    // sessionId: 'test',
   },
 }, {});
 
