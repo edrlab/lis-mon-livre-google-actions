@@ -101,7 +101,7 @@
       }
     },
     "help": {
-      "1": "Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one' or directly search by genre, author or book title.",
+      "1": "Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.",
       "2": "What would you like to do?"
     }
   },

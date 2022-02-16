@@ -60,7 +60,7 @@ describe(scene + ' handler', () => {
     return a + b + c;
   };
 
-  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one' or directly search by genre, author or book title.\n`; // What would you like to do?\n`;
+  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.\n` // What would you like to do?\n`;
 
   describe('app', () => {
     it('on enter', async () => {

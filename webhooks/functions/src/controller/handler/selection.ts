@@ -88,7 +88,7 @@ const anotherOne: THandlerFn = async (m) => {
 const help: THandlerFn = (m) => {
 
   m.say("selection.help.1");
-  m.say("selection.help.2");
+  // m.say("selection.help.2");
 
   m.nextScene = "selection";
 }
