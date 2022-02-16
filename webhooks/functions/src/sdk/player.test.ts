@@ -37,12 +37,19 @@ describe(scene + ' handler', () => {
   });
 
   describe('app', () => {
-    it('on enter', async () => {
+    it('on enter with no playing url', async () => {
       body.handler.name = 'player__on_enter';
       body.scene.name = scene;
 
-      // NO TEST YET
       const data = await expressMocked(body, headers);
+
+      const message = 'Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.';
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+      // catch trap
+
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
     });
     it('media status finished', async () => {
       body.handler.name = 'player__intent__media_status_finished';
