@@ -198,18 +198,33 @@ describe(scene + ' handler', () => {
       const feed: Partial<IOpdsResultView> = {
         publications: [
           {
+          openAccessLinks: [
+            {
+              url: 'http://pub.url',
+            },
+          ],
             title: 'first publication',
             baseUrl: '',
             authors: [],
             numberOfPages: 0,
           },
           {
+          openAccessLinks: [
+            {
+              url: 'http://pub.url',
+            },
+          ],
             title: 'second publication',
             baseUrl: '',
             authors: [],
             numberOfPages: 0,
           },
           {
+          openAccessLinks: [
+            {
+              url: 'http://pub.url',
+            },
+          ],
             title: 'third publication',
             baseUrl: '',
             authors: [],

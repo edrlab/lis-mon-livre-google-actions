@@ -19,6 +19,79 @@ export const selection = (app: Assistant) => {
 
 const enter: THandlerFn = async (m) => {
 
+  const { state, url, nbChoice } = m.selectionSession;
+  const kind = m.selectionSession.kind;
+
+  if (state === "RUNNING") {
+
+    const isEmpty = kind === "GROUP" ? await m.isGroupAvailable(url) : await m.isPublicationAvailable(url);
+    if (isEmpty) {
+      m.say('selection.enter.empty.1');
+      m.nextScene = "home_user";
+      return ;
+    }
+
+    const handler = m.selectionSession.from;
+    // intro
+    if (handler === "home_user__intent__bookshelf") {
+      const {publication} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
+      m.say('selection.enter.bookshelf.first', {number: publication.length});
+    } else if (handler === "home_user__intent__search") {
+      const {length} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
+      m.say('selection.enter.search', {number: length});
+    }
+    // @TODO handle collection group or publication
+
+    // list groups or publication
+    m.say('selection.enter.common.1');
+    const list = kind === "GROUP" 
+      ? (await m.getGroupsFromFeed(url)).groups.map(({title}) => title)
+      : (await m.getPublicationFromFeed(url)).publication.map(({title}) => title);
+    list.forEach((title, i) => m.say('selection.enter.common.2', {symbol: i + 1, title}));
+    m.say('selection.enter.common.3');
+
+
+    // outro
+    if (handler === "home_user__intent__bookshelf") {
+      m.say('selection.enter.bookshelf.second');
+    }
+
+  } else if (state === "FINISH") {
+
+    const valid = kind === "GROUP" ? await m.selectGroup(url, nbChoice) : await m.selectPublication(url, nbChoice);
+
+    if (valid) {
+      // select OK
+
+      const { state } = m.selectionSession;
+      if (state === "RUNNING") {
+        // group requested
+        m.nextScene = "selection";
+      }
+
+      // const handler = m.selectionSession.from;
+      // is it usefull ?
+      // routing table
+      // all 'handler from' route to player ?
+
+      m.nextScene = "player";
+      // @TODO set the next-scene to player prequel
+      // lecture en cours ou annonciation du titre
+
+    } else {
+      // KO
+      // help message
+      m.say("selection.help.1");
+      m.nextScene = "selection";
+    }
+  } else {
+    throw new Error("undefined selection state");
+    // @TODO
+    // reset selection session
+    // move to home user
+  }
+  m.nextScene = "selection";
+
 }
 
 const selectBook: THandlerFn = async (m) => {

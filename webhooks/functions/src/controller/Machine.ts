@@ -161,6 +161,81 @@ export class Machine {
     return this._model.store.session.scene.selection;
   }
 
+  public get playerCurrent() {
+    ok(this._model);
+    return this._model.store.player.current;
+  }
+
+  public async selectGroup(url: string, number: number) {
+    ok(this._model);
+    if (!this.isValidHttpUrl(url)) {
+      throw new Error("url not valid");
+    }
+    
+    const group = await this.getGroupFromNumberInSelectionWithUrl(url, number);
+    if (group) {
+      const groupUrl = group.groupUrl;
+      if (!this.isValidHttpUrl(groupUrl)) {
+        throw new Error("group url not valid");
+      }
+      this.selectionSession.url = group.groupUrl;
+      this.selectionSession.kind = "PUBLICATION"; // set to publication mode
+      this.selectionSession.nextUrlCounter = 0; // reset
+      this.selectionSession.state = "RUNNING";
+
+      return true;
+    }
+    return false;
+  }
+
+  public async selectPublication(url: string, number: number) {
+    ok(this._model);
+    if (!this.isValidHttpUrl(url)) {
+      throw new Error("url not valid");
+    }
+    
+    const pub = await this.getPublicationFromNumberInSelectionWithUrl(url, number);
+    if (pub) {
+      const webpubUrl = pub.webpubUrl;
+      if (!this.isValidHttpUrl(webpubUrl)) {
+        throw new Error("webpub url not valid");
+      }
+      this.initPlayerCurrentWithWebpubUrl(pub.webpubUrl);
+
+      return true;
+    }
+    return false;
+  }
+
+  public initPlayerCurrentWithWebpubUrl(webpubUrl: string) {
+    ok(this._model);
+    const pubFromHistory = this._model.store.player.history.get(webpubUrl);
+    this.playerCurrent.index = pubFromHistory?.index ?? 0;
+    this.playerCurrent.playing = true;
+    this.playerCurrent.time = pubFromHistory?.time ?? 0;
+    this.playerCurrent.url = webpubUrl;
+  }
+
+  public async getPublicationFromNumberInSelectionWithUrl(url: string, number: number) {
+    const {publication} = await this.getPublicationFromFeed(url); 
+
+    const pub = publication[number - 1];
+    if (pub) {
+      return pub;
+    }
+    return undefined;
+  }
+
+  public async getGroupFromNumberInSelectionWithUrl(url: string, number: number) {
+    const {groups} = await this.getGroupsFromFeed(url); 
+
+    const group = groups[number - 1];
+    if (group) {
+      return group;
+    }
+    return undefined;
+  }
+
   public get selectBookNumber() {
     return this._conv.intent.params?.number.resolved as number | undefined;
   }
