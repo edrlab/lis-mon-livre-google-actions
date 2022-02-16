@@ -229,6 +229,7 @@ export class Machine {
     const webpub = await this.webpubRequest(url);
     if (!webpub) {
       throw new Error('no webpub');
+      // @TODO how to handle these errors : just tell it to the user that the webpub is not readable and must choice an another
     }
 
     let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length) ?
