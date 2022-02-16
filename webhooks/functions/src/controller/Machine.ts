@@ -1,6 +1,6 @@
 import {ok} from 'assert';
 import {AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher} from 'opds-fetcher-parser';
-import {API_BASE_URL, LAST_SEEN_THRESHOLD} from '../constants';
+import {API_BASE_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB} from '../constants';
 import {TKeySessionScene, TStateAuthentication} from '../model/storage.interface';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
@@ -9,6 +9,7 @@ import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
+import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -162,6 +163,76 @@ export class Machine {
 
   public get selectBookNumber() {
     return this._conv.intent.params?.number.resolved as number | undefined;
+  }
+
+  public async getNexLinkPublicationWithUrl(url: string) {
+    const feed = await this.feedRequest(url);
+    const nextUrl = feed.links?.next[0].url;
+
+    if (this.isValidHttpUrl(nextUrl) && await this.isPublicationAvailable(nextUrl)) {
+      return nextUrl;
+    }
+    return undefined;
+  }
+
+  public async getNexLinkGroupWithUrl(url: string) {
+    const feed = await this.feedRequest(url);
+    const nextUrl = feed.links?.next[0].url;
+    if (this.isValidHttpUrl(nextUrl) && await this.isGroupAvailable(nextUrl)) {
+      return nextUrl;
+    }
+    return undefined;
+  }
+
+  public async isPublicationAvailable(url: string) {
+    const {publication} = await this.getPublicationFromFeed(url);
+    if (publication.length) {
+      return true;
+    }
+    return false;
+  }
+
+  public async getPublicationFromFeed(url: string) {
+    const feed = await this.feedRequest(url);
+
+    const list = (feed.publications || [])
+        .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
+          return (
+            Array.isArray(l) &&
+        l[0] &&
+        this.isValidHttpUrl(l[0].url)
+          );
+        })
+        .slice(0, PADDING_PUB)
+        .map(({title, authors, openAccessLinks}) => ({
+          title: title,
+          author: Array.isArray(authors) && authors.length ? authors[0].name : '',
+          webpubUrl: (openAccessLinks as IOpdsLinkView[])[0].url,
+        }));
+    return {publication: list, length: feed.metadata?.numberOfItems || list.length};
+  }
+
+  public async isGroupAvailable(url: string) {
+    const {groups} = await this.getGroupsFromFeed(url);
+    if (groups.length) {
+      return true;
+    }
+    return false;
+  }
+
+  public async getGroupsFromFeed(url: string) {
+    const feed = await this.feedRequest(url);
+
+    const list = (feed.groups || [])
+        .filter(({selfLink: l}) /* : l is IOpdsLinkView[]*/ => {
+          return l?.title && l?.url && this.isValidHttpUrl(l.url);
+        })
+        .slice(0, PADDING_GROUP)
+        .map(({selfLink: {title, url}}) => ({
+          title: title,
+          groupUrl: url,
+        }));
+    return {groups: list, length: feed.metadata?.numberOfItems || list.length};
   }
 
   public async getGroupSizeWithUrl(url: string) {
@@ -321,5 +392,14 @@ export class Machine {
       };
       this._model.store.user.sessionId = id;
     }
+  }
+
+  private isValidHttpUrl(url: string | undefined): url is string {
+    if (url && validator.isURL(url, {
+      protocols: ['https', 'http'],
+    })) {
+      return true;
+    }
+    return false;
   }
 }

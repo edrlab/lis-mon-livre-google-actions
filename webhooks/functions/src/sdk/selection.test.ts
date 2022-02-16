@@ -137,14 +137,24 @@ describe(scene + ' handler', () => {
     const newFeed = (): Partial<IOpdsResultView> => ({
       publications: [
         {
+          openAccessLinks: [
+            {
+              url: 'http://pub.url',
+            },
+          ],
+          baseUrl: 'http://base.url',
           title: 'first publication',
-          baseUrl: '',
           authors: [],
           numberOfPages: 0,
         },
         {
+          openAccessLinks: [
+            {
+              url: 'http://pub.url',
+            },
+          ],
+          baseUrl: 'http://base.url',
           title: 'second publication',
-          baseUrl: '',
           authors: [],
           numberOfPages: 0,
         },
@@ -153,13 +163,13 @@ describe(scene + ' handler', () => {
         {
           selfLink: {
             title: 'first group',
-            url: '',
+            url: 'http://group.url',
           },
         },
         {
           selfLink: {
             title: 'second group',
-            url: '',
+            url: 'http://group.url',
           },
         },
         // {
@@ -509,10 +519,42 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(0); // stay at 0
       model.data.store.session.scene.selection.url.should.to.be.eq(''); // reset
 
+      // catch trap
+      const message = 'Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.';
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+    });
+
+    it('another one with machine running but next link url is good with no publication available', async () => {
+      body.handler.name = 'selection__intent__another_one';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      pullData.session.scene.selection.kind = 'PUBLICATION';
+      const model = await storageModelMocked(pullData);
+      const feed: Partial<IOpdsResultView> = {};
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {
+            url: 'http://my.url.next',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // +1
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
+
       data.scene.next.name.should.to.be.eq('selection');
     });
 
-    it('another one with machine running', async () => {
+    it('another one with machine running but next link url is good with no groups available', async () => {
       body.handler.name = 'selection__intent__another_one';
       body.scene.name = scene;
 
@@ -533,13 +575,13 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
-      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(4); // +1
-      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url.next'); // reset
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // +1
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
 
       data.scene.next.name.should.to.be.eq('selection');
     });
 
-    it('another one with machine running and no next link available', async () => {
+    it('another one with machine running - publication', async () => {
       body.handler.name = 'selection__intent__another_one';
       body.scene.name = scene;
 
@@ -547,11 +589,69 @@ describe(scene + ' handler', () => {
       pullData.session.scene.selection.state = 'RUNNING';
       pullData.session.scene.selection.url = 'http://my.url';
       pullData.session.scene.selection.nextUrlCounter = 3;
+      pullData.session.scene.selection.kind = 'PUBLICATION';
       const model = await storageModelMocked(pullData);
-      const feed: Partial<IOpdsResultView> = {};
+      const feed: Partial<IOpdsResultView> = newFeed();
       // @ts-ignore
       feed.links = {
         next: [
+          {
+            url: 'http://my.url.next',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url.next'); // reset
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(4); // +1
+
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('another one with machine running - group', async () => {
+      body.handler.name = 'selection__intent__another_one';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      pullData.session.scene.selection.kind = 'GROUP';
+      const model = await storageModelMocked(pullData);
+      const feed: Partial<IOpdsResultView> = newFeed();
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {
+            url: 'http://my.url.next',
+          },
+        ],
+      };
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url.next'); // reset
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(4); // +1
+
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('another one with machine running and no next link available - publication', async () => {
+      body.handler.name = 'selection__intent__another_one';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      pullData.session.scene.selection.kind = 'PUBLICATION';
+      const model = await storageModelMocked(pullData);
+      const feed: Partial<IOpdsResultView> = newFeed();
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {url: ''},
         ],
       };
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
@@ -560,7 +660,36 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // 3
       model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
 
-      const message = 'no another results available';
+      const message = 'no another results available\n';
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+      data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('another one with machine running and no next link available - group', async () => {
+      body.handler.name = 'selection__intent__another_one';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.url = 'http://my.url';
+      pullData.session.scene.selection.nextUrlCounter = 3;
+      pullData.session.scene.selection.kind = 'GROUP';
+      const model = await storageModelMocked(pullData);
+      const feed: Partial<IOpdsResultView> = newFeed();
+      // @ts-ignore
+      feed.links = {
+        next: [
+          {url: ''},
+        ],
+      };
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // 3
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
+
+      const message = 'no another results available\n';
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('selection');

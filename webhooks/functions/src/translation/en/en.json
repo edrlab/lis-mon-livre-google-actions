@@ -89,7 +89,7 @@
       "lastPage": {
         "publication": "Here's the last available books",
         "group": "Here's the last available groups",
-        "intent": "no another results available"
+        "notAvailable": "no another results available"
       },
       "common": {
         "1": "Pick one of these by saying their numbers.",

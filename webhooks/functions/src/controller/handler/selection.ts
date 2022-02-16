@@ -63,6 +63,25 @@ const selectBook: THandlerFn = async (m) => {
 
 const anotherOne: THandlerFn = async (m) => {
 
+  const { state, url } = m.selectionSession;
+
+  if (state === "DEFAULT") {
+    throw new Error("DEFAULT mode not allowed with another one intent");
+  }
+
+  if (state === "RUNNING") {
+
+    const kind = m.selectionSession.kind;
+    const nextUrl = kind === "GROUP" ? await m.getNexLinkGroupWithUrl(url) : await m.getNexLinkPublicationWithUrl(url);
+
+    if (nextUrl) {
+      m.selectionSession.url = nextUrl;
+      m.selectionSession.nextUrlCounter++;
+    } else {
+      m.say("selection.enter.lastPage.notAvailable");
+    }
+  }
+
   m.nextScene = 'selection';
 }
 
