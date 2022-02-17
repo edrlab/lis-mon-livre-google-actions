@@ -56,7 +56,7 @@ describe(scene + ' handler', () => {
   const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
     const a = 'Pick one of these by saying their numbers.\n';
     const b = it.reduce((pv, [nb, title]) => pv + `${nb}. ${title}\n`, '');
-    const c = 'Which one would you like to start reading? Or perhaps you\'d like to explore the other titles on your bookshelf?\n';
+    const c = 'Which one would you like to start reading?\n';
     return a + b + c;
   };
 
@@ -107,7 +107,7 @@ describe(scene + ' handler', () => {
       // 13) machine finish
       // 15) table de routage prochaine scene en fonction de sceneFrom
 
-      const message = `Oops, something went wrong. I will send you back to the home menu\n`;
+      const message = `Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.`;
 
       const pullData = parsedDataClone();
 
@@ -118,7 +118,7 @@ describe(scene + ' handler', () => {
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       // must redirect to home_user when the state machine not initialized
-      data.scene.next.name.should.to.be.eq('home_user');
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
     });
 
     it('on enter - state running - no url', async () => {
@@ -129,9 +129,9 @@ describe(scene + ' handler', () => {
       pullData.session.scene.selection.state = 'RUNNING';
       const data = await expressMocked(body, headers, pullData);
 
-      const message = `Oops, something went wrong. I will send you back to the home menu\n`;
+      const message = `Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-      data.scene.next.name.should.to.be.eq('home_user');
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
     });
 
     const newFeed = (): Partial<IOpdsResultView> => ({
@@ -251,19 +251,19 @@ describe(scene + ' handler', () => {
           {
             selfLink: {
               title: 'first group',
-              url: '',
+              url: 'http://my.url',
             },
           },
           {
             selfLink: {
               title: 'second group',
-              url: '',
+              url: 'http://my.url',
             },
           },
           {
             selfLink: {
               title: 'third group',
-              url: '',
+              url: 'http://my.url',
             },
           },
         ],
@@ -290,7 +290,7 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, pullData, feed);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     it('on enter - state running - group list first page with no next link', async () => {
@@ -304,7 +304,7 @@ describe(scene + ' handler', () => {
 
       // must say the first page
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     it('on enter - state running - publication list last page', async () => {
@@ -318,7 +318,7 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, pullData, feed);
 
       data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available books\n' + message);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     it('on enter - state running - group list last page', async () => {
@@ -333,7 +333,7 @@ describe(scene + ' handler', () => {
 
       // must say the first page
       data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available groups\n' + message);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     it('on enter - state running - publication list page > 0', async () => {
@@ -353,7 +353,7 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, pullData, feed);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     it('on enter - state running - group list last page > 0', async () => {
@@ -374,7 +374,7 @@ describe(scene + ' handler', () => {
 
       // must say the first page
       data.prompt.firstSimple.speech.should.to.be.eq(message);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     it('on enter - state running - publication list with next page - from bookshelf', async () => {
@@ -397,7 +397,7 @@ describe(scene + ' handler', () => {
       const message2 = 'Here are the first 3 titles on your bookshelf:\n' + message + 'Or perhaps you\'d like to explore the other titles on your bookshelf?\n';
 
       data.prompt.firstSimple.speech.should.to.be.eq(message2);
-      data.scene.next.name.should.to.be.eq('selection');
+      // data.scene.next.name.should.to.be.eq('selection');
     });
 
     // @TODO

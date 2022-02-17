@@ -286,7 +286,7 @@ export class Machine {
 
   public async getNexLinkPublicationWithUrl(url: string) {
     const feed = await this.feedRequest(url);
-    const nextUrl = feed.links?.next[0].url;
+    const nextUrl = (feed.links?.next || [])[0]?.url;
 
     if (this.isValidHttpUrl(nextUrl) && await this.isPublicationAvailable(nextUrl)) {
       return nextUrl;
@@ -296,7 +296,7 @@ export class Machine {
 
   public async getNexLinkGroupWithUrl(url: string) {
     const feed = await this.feedRequest(url);
-    const nextUrl = feed.links?.next[0].url;
+    const nextUrl = (feed.links?.next || [])[0]?.url;
     if (this.isValidHttpUrl(nextUrl) && await this.isGroupAvailable(nextUrl)) {
       return nextUrl;
     }

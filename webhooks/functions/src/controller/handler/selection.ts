@@ -24,7 +24,8 @@ const enter: THandlerFn = async (m) => {
 
   if (state === "RUNNING") {
 
-    const isEmpty = kind === "GROUP" ? await m.isGroupAvailable(url) : await m.isPublicationAvailable(url);
+    const isAvailable = kind === "GROUP" ? await m.isGroupAvailable(url) : await m.isPublicationAvailable(url);
+    const isEmpty = !isAvailable;
     if (isEmpty) {
       m.say('selection.enter.empty.1');
       m.nextScene = "home_user";
@@ -36,16 +37,31 @@ const enter: THandlerFn = async (m) => {
     // redirect to nextScene 'selection' for group 
     // or 'player-prequel' for a publication
 
-    const handler = m.selectionSession.from;
-    // intro
-    if (handler === "home_user__intent__bookshelf") {
-      const {publication} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
-      m.say('selection.enter.bookshelf.first', {number: publication.length});
-    } else if (handler === "home_user__intent__search") {
-      const {length} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
-      m.say('selection.enter.search', {number: length});
+    if (m.selectionSession.nextUrlCounter) {
+      const nextLink = kind === "GROUP" ? await m.getNexLinkGroupWithUrl(url) : await m.getNexLinkPublicationWithUrl(url);
+      if (nextLink) {
+
+      } else {
+        if (kind === "GROUP") {
+          m.say("selection.enter.lastPage.group");
+        } else {
+          m.say("selection.enter.lastPage.publication");
+        }
+      }
+
+    } else {
+      const handler = m.selectionSession.from;
+      // intro
+      if (handler === "home_user__intent__bookshelf") {
+        const {publication} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
+        m.say('selection.enter.bookshelf.first', {number: publication.length});
+      } else if (handler === "home_user__intent__search") {
+        const {length} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
+        m.say('selection.enter.search', {number: length});
+      }
     }
-    // @TODO handle collection group or publication
+
+      // @TODO handle collection group or publication
 
     // list groups or publication
     m.say('selection.enter.common.1');
@@ -57,6 +73,7 @@ const enter: THandlerFn = async (m) => {
 
 
     // outro
+    const handler = m.selectionSession.from;
     if (handler === "home_user__intent__bookshelf") {
       m.say('selection.enter.bookshelf.second');
     }
