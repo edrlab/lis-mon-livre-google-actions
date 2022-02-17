@@ -48,7 +48,6 @@ handlers:
 - name: home_user__intent__fallback_end
 - name: home_user__intent__silence
 - name: home_user__intent__silence_end
-- name: bookshelf__on_enter
 - name: selection__on_enter
 - name: selection__intent__selects_book
 - name: selection__intent__repeat

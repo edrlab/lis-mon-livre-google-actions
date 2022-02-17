@@ -1,4 +1,4 @@
-import { NAME } from "../../constants";
+import { BOOKSHELF_URL, GENRE_LIST_URL, NAME } from "../../constants";
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";
@@ -72,7 +72,16 @@ const collections: THandlerFn = (m) => {
 }
 
 const bookshelf: THandlerFn = (m) => {
-  m.nextScene = "bookshelf";
+
+  // @TODO
+  // init selection session in function
+  m.selectionSession.from = 'home_user__intent__bookshelf';
+  m.selectionSession.kind = "PUBLICATION";
+  m.selectionSession.nbChoice = 0;
+  m.selectionSession.nextUrlCounter = 0;
+  m.selectionSession.state = "RUNNING";
+  m.selectionSession.url = BOOKSHELF_URL;
+  m.nextScene = "selection";
 }
 
 const help: THandlerFn = (m) => {

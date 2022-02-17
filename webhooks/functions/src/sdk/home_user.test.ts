@@ -1,9 +1,10 @@
-import {expressMocked, shell} from '../test/utils.test';
+import {expressMocked, shell, storageModelMocked} from '../test/utils.test';
 import * as chai from 'chai';
 // import * as sinon from 'sinon';
 import {headers, body} from './conv.test';
 import {parsedDataClone} from '../model/data.model.test';
 import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
+import { BOOKSHELF_URL } from '../constants';
 
 
 chai.should();
@@ -198,9 +199,19 @@ describe('home_user handler', () => {
       body.handler.name = 'home_user__intent__bookshelf';
       body.scene.name = scene;
 
-      const data = await expressMocked(body, headers);
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
 
-      data.scene.next.name.should.to.be.eq('bookshelf');
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      model.data.store.session.scene.selection.from.should.to.be.eq('home_user__intent__bookshelf');
+      model.data.store.session.scene.selection.kind.should.to.be.eq("PUBLICATION");
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+      model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(0);
+      model.data.store.session.scene.selection.state.should.to.be.eq("RUNNING");
+      model.data.store.session.scene.selection.url.should.to.be.eq(BOOKSHELF_URL);
+
+      data.scene.next.name.should.to.be.eq('selection');
     });
 
     const help = `You can search for a specific book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\nWhat would you like to do?\n`;
