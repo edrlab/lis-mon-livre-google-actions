@@ -1,1 +1,9 @@
-{}
+intentEvents:
+- handler:
+    webhookHandler: search__intent__search_query
+  intent: search_query
+- handler:
+    webhookHandler: search__intent__search
+  intent: search
+onEnter:
+  webhookHandler: search__on_enter

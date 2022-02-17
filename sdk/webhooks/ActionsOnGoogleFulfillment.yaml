@@ -68,6 +68,9 @@ handlers:
 - name: player__intent__media_status_paused
 - name: player__intent__media_status_stopped
 - name: player__intent__media_status_failed
+- name: search__on_enter
+- name: search__intent__search_query
+- name: search__intent__search
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
