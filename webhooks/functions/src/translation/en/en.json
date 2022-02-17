@@ -108,6 +108,14 @@
   "player": {
     "start": "I start reading {{- title}}"
   },
+  "collections": {
+    "enter": {
+      "1": "Okay, would you prefer to get a book selection by theme or by genre ?"
+    },
+    "help": {
+      "1": "To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres ?"
+    }
+  },
   "void": "need to replace this message",
   "bye": {
     "1": "Thank you for trying the app. To pick up your reading again, come back any time"

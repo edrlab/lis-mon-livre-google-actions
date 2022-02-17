@@ -71,6 +71,15 @@ handlers:
 - name: search__on_enter
 - name: search__intent__search_query
 - name: search__intent__search
+- name: collections__on_enter
+- name: collections__intent__bookshelf
+- name: collections__intent__by_genre
+- name: collections__intent__by_theme
+- name: collections__intent__help
+- name: collections__intent__fallback
+- name: collections__intent__fallback_end
+- name: collections__intent__silence
+- name: collections__intent__silence_end
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

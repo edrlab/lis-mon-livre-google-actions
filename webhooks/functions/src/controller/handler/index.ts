@@ -1,4 +1,5 @@
 import { Assistant } from "../Assistant";
+import { collections } from "./collections";
 import { home_new_user } from "./home_new_user";
 import { home_new_user_maybe_later } from "./home_new_user_maybe_later";
 import { home_new_user_no } from "./home_new_user_no";
@@ -49,4 +50,5 @@ export const handler = (app = new Assistant({})) => {
   selection(app);
   player(app);
   search(app);
+  collections(app);
 }
