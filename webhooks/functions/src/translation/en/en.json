@@ -106,7 +106,8 @@
     }
   },
   "player": {
-    "start": "I start reading {{- title}}"
+    "start": "I start reading {{- title}}",
+    "askResumeLastOffset": "Do you want to pick up where it left off ?"
   },
   "collections": {
     "enter": {

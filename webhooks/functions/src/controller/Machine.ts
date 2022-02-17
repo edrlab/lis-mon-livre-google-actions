@@ -177,6 +177,20 @@ export class Machine {
     this._model.store.session.scene.search = d;
   }
 
+  public isCurrentlyPlaying() {
+    const {url, time, index} = this.playerCurrent;
+    if (!this.isValidHttpUrl(url)) {
+      throw new Error('not valid playing url');
+    }
+    if (!time || !index) {
+      return false;
+    }
+    if (time > 0 || index > 0) {
+      return true;
+    }
+    return false;
+  }
+
   public get playerCurrent() {
     ok(this._model);
     return this._model.store.player.current;

@@ -80,6 +80,9 @@ handlers:
 - name: collections__intent__fallback_end
 - name: collections__intent__silence
 - name: collections__intent__silence_end
+- name: player_prequel__on_enter
+- name: player_prequel__intent__yes
+- name: player_prequel__intent__no
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

@@ -7,6 +7,7 @@ import { home_user } from "./home_user";
 import { info } from "./info";
 import { main } from "./main";
 import { player } from "./player";
+import { player_prequel } from "./player_prequel";
 import { search } from "./search";
 import { selection } from "./selection";
 
@@ -51,4 +52,5 @@ export const handler = (app = new Assistant({})) => {
   player(app);
   search(app);
   collections(app);
+  player_prequel(app);
 }
