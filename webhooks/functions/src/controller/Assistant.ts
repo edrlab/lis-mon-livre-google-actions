@@ -32,6 +32,10 @@ export class Assistant {
 
       // @TODO fix translation
       conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+
+      // @TODO
+      // remove session
+      // and return to main menu or home_user if authenticated
     });
 
     if (storageModel) {

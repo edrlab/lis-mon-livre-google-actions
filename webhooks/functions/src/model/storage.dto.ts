@@ -95,6 +95,10 @@ class StorageSessionDto implements IStorageSession {
         state: 'DEFAULT',
       },
       'selection': resetSelection(),
+      'search': {
+        state: 'DEFAULT',
+        query: '',
+      },
     };
   }
 }

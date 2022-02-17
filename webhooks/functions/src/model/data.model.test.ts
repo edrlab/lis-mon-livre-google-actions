@@ -24,6 +24,10 @@ export const freshDataClone = () => Object.assign({
         nbChoice: 0,
         from: 'main',
       },
+      search: {
+        state: 'DEFAULT',
+        query: '',
+      },
     },
   },
   user: {
@@ -52,6 +56,10 @@ export const parsedDataClone = (): IStorage => Object.assign({
         nextUrlCounter: 0,
         from: 'main',
         nbChoice: 0,
+      },
+      search: {
+        state: 'DEFAULT',
+        query: '',
       },
     },
   },

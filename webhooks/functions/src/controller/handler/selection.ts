@@ -31,6 +31,11 @@ const enter: THandlerFn = async (m) => {
       return ;
     }
 
+    // @TODO
+    // handle only one group or publication 
+    // redirect to nextScene 'selection' for group 
+    // or 'player-prequel' for a publication
+
     const handler = m.selectionSession.from;
     // intro
     if (handler === "home_user__intent__bookshelf") {
@@ -90,7 +95,7 @@ const enter: THandlerFn = async (m) => {
     // reset selection session
     // move to home user
   }
-  m.nextScene = "selection";
+  // m.nextScene = "selection";
 
 }
 

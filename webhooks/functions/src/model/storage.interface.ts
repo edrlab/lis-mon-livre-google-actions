@@ -23,6 +23,7 @@ export type TStateAuthentication = 'NO_LINKED' | 'NEWLY_LINKED' | 'LINKED' | TSt
 export type TStateHomeUser = 'SESSION' | TStateDefault;
 export type TStateSelection = 'RUNNING' | 'FINISH' | TStateDefault;
 export type TKindSelection = 'PUBLICATION' | 'GROUP';
+export type TStateSearch = 'RUNNING' | 'FINISH' | TStateDefault;
 
 export interface ISessionScene {
   'home_user': {
@@ -35,6 +36,10 @@ export interface ISessionScene {
     nextUrlCounter: number,
     from: TSdkHandler,
     nbChoice: number,
+  },
+  'search': {
+    state: TStateSearch,
+    query: string,
   }
 }
 export type TKeySessionScene = keyof ISessionScene;

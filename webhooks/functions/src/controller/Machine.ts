@@ -167,6 +167,16 @@ export class Machine {
     this._model.store.session.scene.selection = d;
   }
 
+  public get searchSession() {
+    ok(this._model);
+    return this._model.store.session.scene.search;
+  }
+
+  public set searchSession(d: ISessionScene['search']) {
+    ok(this._model);
+    this._model.store.session.scene.search = d;
+  }
+
   public get playerCurrent() {
     ok(this._model);
     return this._model.store.player.current;
@@ -259,7 +269,19 @@ export class Machine {
   }
 
   public get selectBookNumber() {
-    return this._conv.intent.params?.number.resolved as number | undefined;
+    const v = this._conv.intent.params?.number.resolved;
+    if (v && typeof v === 'number') {
+      return v;
+    }
+    return undefined;
+  }
+
+  public get querySearch() {
+    const v = this._conv.intent.params?.query.resolved;
+    if (v && typeof v === 'string') {
+      return v;
+    }
+    return undefined;
   }
 
   public async getNexLinkPublicationWithUrl(url: string) {
@@ -485,6 +507,10 @@ export class Machine {
             state: 'DEFAULT',
           },
           'selection': resetSelection(),
+          'search': {
+            state: 'DEFAULT',
+            query: '',
+          },
         },
       };
       this._model.store.user.sessionId = id;
