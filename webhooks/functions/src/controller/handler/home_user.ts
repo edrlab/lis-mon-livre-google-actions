@@ -73,15 +73,11 @@ const collections: THandlerFn = (m) => {
 
 const bookshelf: THandlerFn = (m) => {
 
-  // @TODO
-  // init selection session in function
-  m.selectionSession.from = 'home_user__intent__bookshelf';
-  m.selectionSession.kind = "PUBLICATION";
-  m.selectionSession.nbChoice = 0;
-  m.selectionSession.nextUrlCounter = 0;
-  m.selectionSession.state = "RUNNING";
-  m.selectionSession.url = BOOKSHELF_URL;
-  m.nextScene = "selection";
+  m.initAndGoToSelectionSession({
+    kind: 'PUBLICATION',
+    from: "home_user__intent__bookshelf",
+    url: BOOKSHELF_URL,
+  });
 }
 
 const help: THandlerFn = (m) => {

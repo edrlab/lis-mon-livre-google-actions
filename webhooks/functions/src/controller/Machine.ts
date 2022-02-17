@@ -1,7 +1,7 @@
 import {ok} from 'assert';
 import {AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher} from 'opds-fetcher-parser';
 import {API_BASE_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB} from '../constants';
-import {TKeySessionScene, TStateAuthentication} from '../model/storage.interface';
+import {ISessionScene, TKeySessionScene, TKindSelection, TStateAuthentication} from '../model/storage.interface';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
 import {IConversationV3, TSdkScene2} from '../type';
@@ -10,6 +10,7 @@ import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
 import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
+import { TSdkHandler } from '../typings/sdkHandler';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -160,10 +161,31 @@ export class Machine {
     ok(this._model);
     return this._model.store.session.scene.selection;
   }
+  
+  public set selectionSession(d: ISessionScene["selection"]) {
+    ok(this._model);
+    this._model.store.session.scene.selection = d;
+  }
 
   public get playerCurrent() {
     ok(this._model);
     return this._model.store.player.current;
+  }
+
+  public initAndGoToSelectionSession({
+    kind, from, url
+  }: {
+    kind: TKindSelection,
+    from: TSdkHandler,
+    url: string,
+  }) {
+    if (!this.isValidHttpUrl(url)) {
+      throw new Error("not a valid url");
+    }
+    this.selectionSession = {
+      from, kind, url, nextUrlCounter: 0, state: "RUNNING", nbChoice: 0,
+    };
+    this.nextScene = "selection";
   }
 
   public async selectGroup(url: string, number: number) {
