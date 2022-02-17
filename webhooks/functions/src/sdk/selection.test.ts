@@ -60,7 +60,7 @@ describe(scene + ' handler', () => {
     return a + b + c;
   };
 
-  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.\n` // What would you like to do?\n`;
+  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.\n`; // What would you like to do?\n`;
 
   describe('app', () => {
     it('on enter', async () => {
@@ -198,33 +198,33 @@ describe(scene + ' handler', () => {
       const feed: Partial<IOpdsResultView> = {
         publications: [
           {
-          openAccessLinks: [
-            {
-              url: 'http://pub.url',
-            },
-          ],
+            openAccessLinks: [
+              {
+                url: 'http://pub.url',
+              },
+            ],
             title: 'first publication',
             baseUrl: '',
             authors: [],
             numberOfPages: 0,
           },
           {
-          openAccessLinks: [
-            {
-              url: 'http://pub.url',
-            },
-          ],
+            openAccessLinks: [
+              {
+                url: 'http://pub.url',
+              },
+            ],
             title: 'second publication',
             baseUrl: '',
             authors: [],
             numberOfPages: 0,
           },
           {
-          openAccessLinks: [
-            {
-              url: 'http://pub.url',
-            },
-          ],
+            openAccessLinks: [
+              {
+                url: 'http://pub.url',
+              },
+            ],
             title: 'third publication',
             baseUrl: '',
             authors: [],

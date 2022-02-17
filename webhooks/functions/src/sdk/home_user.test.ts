@@ -4,7 +4,7 @@ import * as chai from 'chai';
 import {headers, body} from './conv.test';
 import {parsedDataClone} from '../model/data.model.test';
 import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
-import { BOOKSHELF_URL } from '../constants';
+import {BOOKSHELF_URL} from '../constants';
 
 
 chai.should();
@@ -205,10 +205,10 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
 
       model.data.store.session.scene.selection.from.should.to.be.eq('home_user__intent__bookshelf');
-      model.data.store.session.scene.selection.kind.should.to.be.eq("PUBLICATION");
+      model.data.store.session.scene.selection.kind.should.to.be.eq('PUBLICATION');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(0);
-      model.data.store.session.scene.selection.state.should.to.be.eq("RUNNING");
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING');
       model.data.store.session.scene.selection.url.should.to.be.eq(BOOKSHELF_URL);
 
       data.scene.next.name.should.to.be.eq('selection');

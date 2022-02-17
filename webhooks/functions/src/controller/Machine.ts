@@ -10,7 +10,7 @@ import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
 import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
-import { TSdkHandler } from '../typings/sdkHandler';
+import {TSdkHandler} from '../typings/sdkHandler';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -161,8 +161,8 @@ export class Machine {
     ok(this._model);
     return this._model.store.session.scene.selection;
   }
-  
-  public set selectionSession(d: ISessionScene["selection"]) {
+
+  public set selectionSession(d: ISessionScene['selection']) {
     ok(this._model);
     this._model.store.session.scene.selection = d;
   }
@@ -173,37 +173,37 @@ export class Machine {
   }
 
   public initAndGoToSelectionSession({
-    kind, from, url
+    kind, from, url,
   }: {
     kind: TKindSelection,
     from: TSdkHandler,
     url: string,
   }) {
     if (!this.isValidHttpUrl(url)) {
-      throw new Error("not a valid url");
+      throw new Error('not a valid url');
     }
     this.selectionSession = {
-      from, kind, url, nextUrlCounter: 0, state: "RUNNING", nbChoice: 0,
+      from, kind, url, nextUrlCounter: 0, state: 'RUNNING', nbChoice: 0,
     };
-    this.nextScene = "selection";
+    this.nextScene = 'selection';
   }
 
   public async selectGroup(url: string, number: number) {
     ok(this._model);
     if (!this.isValidHttpUrl(url)) {
-      throw new Error("url not valid");
+      throw new Error('url not valid');
     }
-    
+
     const group = await this.getGroupFromNumberInSelectionWithUrl(url, number);
     if (group) {
       const groupUrl = group.groupUrl;
       if (!this.isValidHttpUrl(groupUrl)) {
-        throw new Error("group url not valid");
+        throw new Error('group url not valid');
       }
       this.selectionSession.url = group.groupUrl;
-      this.selectionSession.kind = "PUBLICATION"; // set to publication mode
+      this.selectionSession.kind = 'PUBLICATION'; // set to publication mode
       this.selectionSession.nextUrlCounter = 0; // reset
-      this.selectionSession.state = "RUNNING";
+      this.selectionSession.state = 'RUNNING';
 
       return true;
     }
@@ -213,14 +213,14 @@ export class Machine {
   public async selectPublication(url: string, number: number) {
     ok(this._model);
     if (!this.isValidHttpUrl(url)) {
-      throw new Error("url not valid");
+      throw new Error('url not valid');
     }
-    
+
     const pub = await this.getPublicationFromNumberInSelectionWithUrl(url, number);
     if (pub) {
       const webpubUrl = pub.webpubUrl;
       if (!this.isValidHttpUrl(webpubUrl)) {
-        throw new Error("webpub url not valid");
+        throw new Error('webpub url not valid');
       }
       this.initPlayerCurrentWithWebpubUrl(pub.webpubUrl);
 
@@ -239,7 +239,7 @@ export class Machine {
   }
 
   public async getPublicationFromNumberInSelectionWithUrl(url: string, number: number) {
-    const {publication} = await this.getPublicationFromFeed(url); 
+    const {publication} = await this.getPublicationFromFeed(url);
 
     const pub = publication[number - 1];
     if (pub) {
@@ -249,7 +249,7 @@ export class Machine {
   }
 
   public async getGroupFromNumberInSelectionWithUrl(url: string, number: number) {
-    const {groups} = await this.getGroupsFromFeed(url); 
+    const {groups} = await this.getGroupsFromFeed(url);
 
     const group = groups[number - 1];
     if (group) {
