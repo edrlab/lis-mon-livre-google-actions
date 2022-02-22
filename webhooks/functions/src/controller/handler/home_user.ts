@@ -64,6 +64,9 @@ const enter: THandlerFn = async (m) => {
 }
 
 const search: THandlerFn = (m) => {
+
+  // query from search intent
+  m.setQuerySearch();
   m.nextScene = "search";
 }
 

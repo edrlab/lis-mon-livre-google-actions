@@ -192,6 +192,31 @@ describe('home_user handler', () => {
 
       data.scene.next.name.should.to.be.eq('search');
     });
+    it('search with query', async () => {
+      body.handler.name = 'home_user__intent__search';
+      body.scene.name = scene;
+      body.intent.params = {
+        query: {
+          original: 'my query',
+          resolved: 'my query',
+        },
+      };
+
+      // parse query and state = FINISH
+
+      const pullData = parsedDataClone();
+
+      pullData.session.scene.search.query = '';
+      pullData.session.scene.search.state = 'DEFAULT';
+
+      const model = await storageModelMocked(pullData);
+
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      model.data.store.session.scene.search.state.should.to.be.eq('FINISH');
+      model.data.store.session.scene.search.query.should.to.be.eq('my query');
+      data.scene.next.name.should.to.be.eq('search');
+    });
 
     it('browse collections', async () => {
       body.handler.name = 'home_user__intent__collections';

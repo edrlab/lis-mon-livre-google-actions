@@ -296,11 +296,26 @@ export class Machine {
   }
 
   public get querySearch() {
-    const v = this._conv.intent.params?.query.resolved;
+    const v = this._conv.intent.params?.query?.resolved;
     if (v && typeof v === 'string') {
       return v;
     }
     return undefined;
+  }
+
+  public setQuerySearch() {
+    const query = this.querySearch;
+    if (!query) {
+      this.searchSession = {
+        query: '',
+        state: 'RUNNING',
+      };
+    } else {
+      this.searchSession = {
+        query,
+        state: 'FINISH',
+      };
+    }
   }
 
   public async getNexLinkPublicationWithUrl(url: string) {
@@ -337,8 +352,8 @@ export class Machine {
         .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
           return (
             Array.isArray(l) &&
-        l[0] &&
-        this.isValidHttpUrl(l[0].url)
+          l[0] &&
+          this.isValidHttpUrl(l[0].url)
           );
         })
         .slice(0, PADDING_PUB)

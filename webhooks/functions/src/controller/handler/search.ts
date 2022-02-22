@@ -37,18 +37,9 @@ const enter: THandlerFn = (m) => {
 
 const query: THandlerFn = (m) => {
 
-  const query = m.querySearch;
-  if (!query) {
-    m.searchSession = {
-      query: '',
-      state: "RUNNING",
-    }
-  } else {
-    m.searchSession = {
-      query,
-      state: "FINISH",
-    }
-  }
-
+  // query from search intent
+  // query from search intent and search_query intent
+  // same intent but search_query as a free text parsing
+  m.setQuerySearch();
   m.nextScene = "search";
 }
