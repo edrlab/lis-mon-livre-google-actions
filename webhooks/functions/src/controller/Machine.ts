@@ -129,6 +129,11 @@ export class Machine {
     return false;
   }
 
+  public setSessionState<T extends keyof ISessionScene>(scene: T, state: ISessionScene[T]['state']) {
+    ok(this._model);
+    this._model.store.session.scene[scene].state = state;
+  }
+
   public get playingInProgress() {
     ok(this._model);
     return this._model.store.player.current.playing;
@@ -498,11 +503,6 @@ export class Machine {
     return feed;
   }
 
-  private setSessionStateHomeUser() {
-    ok(this._model);
-    this._model.store.session.scene['home_user'].state = 'SESSION';
-  }
-
   private removeSessionDataWhenNewUserSession() {
     if (!this._model) {
       return;
@@ -518,7 +518,7 @@ export class Machine {
     const sameSession = id === idFromStore;
     if (sameSession) {
       console.info('MIDDLEWARE :: Session in progress');
-      this.setSessionStateHomeUser();
+      this.setSessionState('home_user', 'SESSION');
     } else {
       console.info('MIDDLEWARE :: new SESSION');
       this._model.store.session = {

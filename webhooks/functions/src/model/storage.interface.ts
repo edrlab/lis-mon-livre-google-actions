@@ -20,7 +20,7 @@ export interface IStoragePlayer {
 
 export type TStateDefault = 'DEFAULT'
 export type TStateAuthentication = 'NO_LINKED' | 'NEWLY_LINKED' | 'LINKED' | TStateDefault;
-export type TStateHomeUser = 'SESSION' | TStateDefault;
+export type TStateHomeUser = 'SESSION' | 'REPEAT' | TStateDefault;
 export type TStateSelection = 'RUNNING' | 'FINISH' | TStateDefault;
 export type TKindSelection = 'PUBLICATION' | 'GROUP';
 export type TStateSearch = 'RUNNING' | 'FINISH' | TStateDefault;

@@ -89,6 +89,7 @@ const help: THandlerFn = (m) => {
 }
 
 const repeat: THandlerFn = (m) => {
-
+  
+  m.setSessionState("home_user", "REPEAT");
   m.nextScene = "home_user";
 }

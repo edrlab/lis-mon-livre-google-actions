@@ -176,7 +176,11 @@ describe('home_user handler', () => {
       body.handler.name = 'home_user__intent__repeat';
       body.scene.name = scene;
 
-      const data = await expressMocked(body, headers);
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+      model.data.store.session.scene.home_user.state.should.to.be.eq('REPEAT');
 
       data.scene.next.name.should.to.be.eq('home_user');
     });
