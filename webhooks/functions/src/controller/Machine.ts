@@ -498,6 +498,11 @@ export class Machine {
     return feed;
   }
 
+  private setSessionStateHomeUser() {
+    ok(this._model);
+    this._model.store.session.scene['home_user'].state = 'SESSION';
+  }
+
   private removeSessionDataWhenNewUserSession() {
     if (!this._model) {
       return;
@@ -513,6 +518,7 @@ export class Machine {
     const sameSession = id === idFromStore;
     if (sameSession) {
       console.info('MIDDLEWARE :: Session in progress');
+      this.setSessionStateHomeUser();
     } else {
       console.info('MIDDLEWARE :: new SESSION');
       this._model.store.session = {

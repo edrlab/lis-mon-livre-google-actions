@@ -20,7 +20,7 @@ export const home_user = (app: Assistant) => {
 
 const enter: THandlerFn = async (m) => {
 
-  const state = m.getSessionState("home_user")
+  const state = m.getSessionState("home_user");
   if (state === "SESSION") {
     // aka there is a session : the user discovered the app
     m.say("home_user.enter.regular.1");

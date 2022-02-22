@@ -62,6 +62,7 @@ describe('home_user handler', () => {
     it('on enter', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
+      body.session.id = 'on enter'; // new session
 
       const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const data = await expressMocked(body, headers);
@@ -71,45 +72,46 @@ describe('home_user handler', () => {
     it('on enter with session state but new session', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
-      body.session.id = 'newSession'; // new session
+      body.session.id = 'id'; // new session
 
       const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const pullData = parsedDataClone();
-      pullData.session.scene.home_user.state = 'SESSION';
-      pullData.user.sessionId = 'id';
+      const model = await storageModelMocked(pullData);
 
-      const data = await expressMocked(body, headers, pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+      model.data.store.session.scene.home_user.state.should.not.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with session state but new session undefined so the session data is not removed', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
-      body.session.id = 'newSession'; // new session
+      body.session.id = 'on enter with session state but new session undefined so the session data is not removed'; // new session
 
       const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const pullData = parsedDataClone();
-      pullData.session.scene.home_user.state = 'SESSION';
-      pullData.user.sessionId = 'id';
+      const model = await storageModelMocked(pullData);
 
-      const data = await expressMocked(body, headers, pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+      model.data.store.session.scene.home_user.state.should.not.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with session state', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
-      body.session.id = 'id';
+      body.session.id = 'test';
 
       const message = `What would you like to do?\n`;
       const pullData = parsedDataClone();
-      pullData.session.scene.home_user.state = 'SESSION';
-      pullData.user.sessionId = 'id';
+      const model = await storageModelMocked(pullData);
 
-      const data = await expressMocked(body, headers, pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+      model.data.store.session.scene.home_user.state.should.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with a current playing no history', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
+      body.session.id = 'on enter with a current playing no history';
 
       const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
       const pullData = parsedDataClone();
@@ -135,6 +137,7 @@ describe('home_user handler', () => {
     it('on enter with a current playing and history', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
+      body.session.id = 'on enter with a current playing and history';
 
       const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou are also reading 4 other recent books, which you can choose from.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
       const pullData = parsedDataClone();
