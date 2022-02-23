@@ -86,7 +86,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('info');
     });
 
-    const help = `If you'd like to learn more about CELA membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
+    const help = `If you'd like to learn more about EDRLAB membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
 
     it('help', async () => {
       body.handler.name = 'info__intent__help';
