@@ -40,6 +40,7 @@ export interface ISessionScene {
   'search': {
     state: TStateSearch,
     query: string,
+    from: TSdkHandler,
   }
 }
 export type TKeySessionScene = keyof ISessionScene;

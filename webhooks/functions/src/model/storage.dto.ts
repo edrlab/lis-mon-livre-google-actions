@@ -98,6 +98,7 @@ class StorageSessionDto implements IStorageSession {
       'search': {
         state: 'DEFAULT',
         query: '',
+        from: 'main',
       },
     };
   }

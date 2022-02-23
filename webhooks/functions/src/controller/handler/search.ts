@@ -11,22 +11,28 @@ export const search = (app: Assistant) => {
 
 const enter: THandlerFn = (m) => {
 
-  const { state, query } = m.searchSession;
+  const { state, query, from } = m.searchSession;
 
   if (state === "RUNNING") {
-    m.say('search.enter.1');
+    if (from === "selection__on_enter") {
+      m.say("search.enter.2");
+      m.searchSession.from = 'main'; // reset
+    } else {
+      m.say('search.enter.1');
+    }
     // wait intent search query
 
   } else if (state === "FINISH") {
 
     if (!query) {
+      m.searchSession.state = "RUNNING";
       m.nextScene = "search";
       return ;
     }
 
     m.initAndGoToSelectionSession({
       kind: 'PUBLICATION',
-      url: SEARCH_URL_FN(encodeURIComponent(query)), // @todo do you have to encode Url ?
+      url: SEARCH_URL_FN(encodeURIComponent(query)),
       from: 'search__on_enter',
     });
 

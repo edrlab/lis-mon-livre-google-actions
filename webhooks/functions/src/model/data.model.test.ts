@@ -27,6 +27,7 @@ export const freshDataClone = () => Object.assign({
       search: {
         state: 'DEFAULT',
         query: '',
+        from: 'main',
       },
     },
   },
@@ -60,6 +61,7 @@ export const parsedDataClone = (): IStorage => Object.assign({
       search: {
         state: 'DEFAULT',
         query: '',
+        from: 'main',
       },
     },
   },

@@ -72,7 +72,12 @@
   },
   "search": {
     "enter": {
-      "1": "What book or author are you looking for ?"
+      "1": "What book or author are you looking for ?",
+      "2": "In the meanwhile, is there another title or author you'd like to search for ?"
+    },
+    "empty": {
+      "1": "It seems like the book you are looking for is currently unavailable in the {{- name}} Library.",
+      "2": "You can suggest books for us to add at {{- website}}."
     }
   },
   "selection": {

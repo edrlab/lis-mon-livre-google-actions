@@ -64,6 +64,24 @@ describe(scene + ' handler', () => {
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
+    it('on enter no query available and running', async () => {
+      body.handler.name = 'search__on_enter';
+      body.scene.name = scene;
+
+      const message = `In the meanwhile, is there another title or author you'd like to search for ?\n`;
+
+      const pullData = parsedDataClone();
+
+      pullData.session.scene.search.query = '';
+      pullData.session.scene.search.state = 'RUNNING';
+      pullData.session.scene.search.from = 'selection__on_enter';
+
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      model.data.store.session.scene.search.from.should.to.be.eq('main');
+    });
     it('on enter query and finish state', async () => {
       body.handler.name = 'search__on_enter';
       body.scene.name = scene;

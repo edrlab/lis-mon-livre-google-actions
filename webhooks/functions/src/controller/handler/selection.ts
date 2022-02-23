@@ -21,14 +21,23 @@ const enter: THandlerFn = async (m) => {
 
   const { state, url, nbChoice } = m.selectionSession;
   const kind = m.selectionSession.kind;
+  const handler = m.selectionSession.from;
 
   if (state === "RUNNING") {
 
     const isAvailable = kind === "GROUP" ? await m.isGroupAvailable(url) : await m.isPublicationAvailable(url);
     const isEmpty = !isAvailable;
     if (isEmpty) {
-      m.say('selection.enter.empty.1');
-      m.nextScene = "home_user";
+      if (handler === "search__on_enter") {
+        m.say("search.empty.1", {name: NAME});
+        m.nextScene = "search";
+        m.searchSession.query = '';
+        m.searchSession.state = 'RUNNING';
+        m.searchSession.from = "selection__on_enter";
+      } else {
+        m.say('selection.enter.empty.1');
+        m.nextScene = "home_user";
+      }
       return ;
     }
 
@@ -50,7 +59,6 @@ const enter: THandlerFn = async (m) => {
       }
 
     } else {
-      const handler = m.selectionSession.from;
       // intro
       if (handler === "home_user__intent__bookshelf") {
         const {publication} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
@@ -73,7 +81,6 @@ const enter: THandlerFn = async (m) => {
 
 
     // outro
-    const handler = m.selectionSession.from;
     if (handler === "home_user__intent__bookshelf") {
       m.say('selection.enter.bookshelf.second');
     }

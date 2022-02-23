@@ -277,6 +277,63 @@ describe(scene + ' handler', () => {
       return {pullData, feed, message};
     };
 
+    it('on enter - state running - publication empty', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      let {pullData, feed, message} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 0;
+
+      // @ts-ignore
+      feed.publications = [];
+
+      message = 'Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you\'d like to search for a specific book by author or book title?\n';
+
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // data.scene.next.name.should.to.be.eq('selection');
+    });
+    it('on enter - state running - group empty', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      let {pullData, feed, message} = testStateRunningGroup();
+      pullData.session.scene.selection.nextUrlCounter = 0;
+
+      // @ts-ignore
+      feed.groups = [];
+
+      message = 'Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you\'d like to search for a specific book by author or book title?\n';
+
+      const data = await expressMocked(body, headers, pullData, feed);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // data.scene.next.name.should.to.be.eq('selection');
+    });
+    it('on enter - state running - publication empty - from search', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      let {pullData, feed, message} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 0;
+      pullData.session.scene.selection.from = 'search__on_enter';
+      const model = await storageModelMocked(pullData);
+
+      // @ts-ignore
+      feed.publications = [];
+
+      message = 'It seems like the book you are looking for is currently unavailable in the EDRLAB Library.\n';
+
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      model.data.store.session.scene.search.from.should.to.be.eq('selection__on_enter');
+      model.data.store.session.scene.search.query.should.to.be.eq('');
+      model.data.store.session.scene.search.state.should.to.be.eq('RUNNING');
+      data.scene.next.name.should.to.be.eq('search');
+    });
+
     it('on enter - state running - publication list first page with no next link', async () => {
       body.handler.name = 'selection__on_enter';
       body.scene.name = scene;

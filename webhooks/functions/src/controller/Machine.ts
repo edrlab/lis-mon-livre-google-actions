@@ -303,17 +303,19 @@ export class Machine {
     return undefined;
   }
 
-  public setQuerySearch() {
+  public setQuerySearch(scene: TSdkHandler = 'main') {
     const query = this.querySearch;
     if (!query) {
       this.searchSession = {
         query: '',
         state: 'RUNNING',
+        from: scene,
       };
     } else {
       this.searchSession = {
         query,
         state: 'FINISH',
+        from: scene,
       };
     }
   }
@@ -545,6 +547,7 @@ export class Machine {
           'search': {
             state: 'DEFAULT',
             query: '',
+            from: 'main',
           },
         },
       };
