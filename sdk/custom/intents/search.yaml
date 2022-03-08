@@ -1,0 +1,4 @@
+parameters:
+- name: query
+  type:
+    name: string

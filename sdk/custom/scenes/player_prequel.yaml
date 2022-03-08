@@ -1,0 +1,9 @@
+intentEvents:
+- handler:
+    webhookHandler: player_prequel__intent__yes
+  intent: "yes"
+- handler:
+    webhookHandler: player_prequel__intent__no
+  intent: "no"
+onEnter:
+  webhookHandler: player_prequel__on_enter
