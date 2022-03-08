@@ -1,7 +1,7 @@
 # lis-mon-livre
 
 
-### Project:
+### Projects:
 
 - `edrlab-1`: edrlab development not ready for production ([develop](https://github.com/edrlab/lis-mon-livre/tree/develop) branch)
   - https://console.firebase.google.com/u/1/project/edrlab-1/firestore/data
