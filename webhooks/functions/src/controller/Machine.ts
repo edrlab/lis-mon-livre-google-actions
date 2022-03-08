@@ -81,8 +81,12 @@ export class Machine {
     }
   }
 
-  public async say(key: TI18nKey, options?: object) {
+  public say(key: TI18nKey, options?: object) {
     this._sayAcc += this._i18n.t(key, options) + '\n';
+  }
+
+  public saidSomething(): boolean {
+    return !!this._sayAcc;
   }
 
   public get isLinked() {
@@ -162,6 +166,11 @@ export class Machine {
     return {title, author};
   }
 
+  public debugSelectionSession() {
+    ok(this._model);
+    console.info(this._model.store.session.scene.selection);
+  }
+
   public get selectionSession() {
     ok(this._model);
     return this._model.store.session.scene.selection;
@@ -233,6 +242,9 @@ export class Machine {
       this.selectionSession.kind = 'PUBLICATION'; // set to publication mode
       this.selectionSession.nextUrlCounter = 0; // reset
       this.selectionSession.state = 'RUNNING';
+      this.selectionSession.nbChoice = 0; // reset
+
+      this.debugSelectionSession();
 
       return true;
     }
@@ -252,6 +264,12 @@ export class Machine {
         throw new Error('webpub url not valid');
       }
       this.initPlayerCurrentWithWebpubUrl(pub.webpubUrl);
+
+      this.selectionSession.state = 'DEFAULT';
+      this.selectionSession.from = 'main';
+      this.selectionSession.url = '';
+      this.selectionSession.nbChoice = 0; // reset
+      this.selectionSession.nextUrlCounter = 0; // reset
 
       return true;
     }

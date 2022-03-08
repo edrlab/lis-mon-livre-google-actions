@@ -4,6 +4,8 @@ import {PROJECT_ID} from '../constants';
 import {StorageModel} from '../model/storage.model';
 import {THandlerFn} from '../type';
 import {TSdkHandler} from '../typings/sdkHandler';
+import {TSdkScene} from '../typings/sdkScene';
+import {enter as selectionEnter} from './handler/selection';
 import {Machine} from './Machine';
 
 export class Assistant {
@@ -20,7 +22,7 @@ export class Assistant {
   }) {
     this._app = conversation({
       verification: process.env['NODE_ENV'] === 'PRODUCTION' ? PROJECT_ID : undefined,
-      debug: false,
+      debug: process.env['NODE_ENV'] === 'development' ? true : false,
     });
 
     this._app.catch((conv, error) => {
@@ -53,14 +55,23 @@ export class Assistant {
     this._app.handle(path, async (conv) => {
       const machine = new Machine(conv);
 
+      console.info('ASSISTANT:', path);
+      console.info('scene.name=', conv.scene.name);
+      console.info('linkingStatus', conv.user.accountLinkingStatus);
+
       const bearerToken = conv.user.params.bearerToken;
       await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher});
 
       await Promise.resolve(fn(machine));
 
-      await machine.end();
+      // HACK
+      // google actions platform doesn't allow to set the same next scene name than the actual in the 'on_enter' handler scene
+      // it's a platform limitation for a basic infinite loop I think
+      if (path === 'selection__intent__selects_book' && conv.scene.next?.name as TSdkScene === 'selection') {
+        await Promise.resolve(selectionEnter(machine));
+      }
 
-      // console.log(JSON.stringify(conv, null, 4));
+      await machine.end();
     });
   };
 

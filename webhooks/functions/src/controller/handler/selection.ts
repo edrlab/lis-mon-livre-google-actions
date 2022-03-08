@@ -17,11 +17,13 @@ export const selection = (app: Assistant) => {
 
 }
 
-const enter: THandlerFn = async (m) => {
+export const enter: THandlerFn = async (m) => {
 
   const { state, url, nbChoice } = m.selectionSession;
   const kind = m.selectionSession.kind;
   const handler = m.selectionSession.from;
+  
+  m.debugSelectionSession();
 
   if (state === "RUNNING") {
 
@@ -92,22 +94,29 @@ const enter: THandlerFn = async (m) => {
     if (valid) {
       // select OK
 
-      const { state } = m.selectionSession;
-      if (state === "RUNNING") {
+      const { state, kind } = m.selectionSession;
+      console.log("FINISH VALID STATE: ", state, kind);
+
+      if (kind === "GROUP" && state === "RUNNING") {
+        console.log("RUN GROUPS");
         // group requested
         m.nextScene = "selection";
+      } else if (kind === "PUBLICATION" && state === "RUNNING") {
+        console.log("RUN PUBLICATIONS");
+
+        m.nextScene = "selection";
+      } else if (state === "DEFAULT" && m.playerCurrent.playing) {
+        console.log("RUN PLAYER");
+
+        m.nextScene = "player";
+        // @TODO set the next-scene to player prequel
+        // lecture en cours ou annonciation du titre
+      } else {
+        throw new Error("indalid finish state " + state);
       }
-
-      // const handler = m.selectionSession.from;
-      // is it usefull ?
-      // routing table
-      // all 'handler from' route to player ?
-
-      m.nextScene = "player";
-      // @TODO set the next-scene to player prequel
-      // lecture en cours ou annonciation du titre
-
+        
     } else {
+      
       // KO
       // help message
       m.say("selection.help.1");
