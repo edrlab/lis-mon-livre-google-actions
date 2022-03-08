@@ -1,0 +1,34 @@
+intentEvents:
+- handler:
+    webhookHandler: home_new_user__intent__help
+  intent: help
+- handler:
+    webhookHandler: home_new_user__intent__maybe_later
+  intent: maybe_later
+- handler:
+    webhookHandler: home_new_user__intent__no
+  intent: "no"
+- handler:
+    webhookHandler: home_new_user__intent__repeat
+  intent: repeat
+- handler:
+    webhookHandler: home_new_user__intent__yes
+  intent: "yes"
+  transitionToScene: home_new_user_AccountLinking
+- handler:
+    webhookHandler: home_new_user__intent__fallback
+  intent: actions.intent.NO_MATCH_1
+- handler:
+    webhookHandler: home_new_user__intent__fallback
+  intent: actions.intent.NO_MATCH_2
+- handler:
+    webhookHandler: home_new_user__intent__fallback_end
+  intent: actions.intent.NO_MATCH_FINAL
+- handler:
+    webhookHandler: home_new_user__intent__silence
+  intent: actions.intent.NO_INPUT_1
+- handler:
+    webhookHandler: home_new_user__intent__silence_end
+  intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: home_new_user__on_enter

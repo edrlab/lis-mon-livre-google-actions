@@ -1,8 +1,3 @@
 handler:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: Je quitte l'application
+  webhookHandler: silence_end
 transitionToScene: actions.scene.END_CONVERSATION

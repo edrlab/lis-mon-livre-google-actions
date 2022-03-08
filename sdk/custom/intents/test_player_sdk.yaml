@@ -1,7 +1,0 @@
-parameters:
-- name: number
-  type:
-    name: actions.type.Number
-trainingPhrases:
-- test player sdk ($number '123' auto=false)
-- test player ($number '123' auto=true)

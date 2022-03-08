@@ -1,8 +1,3 @@
 handler:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: malheureusement je m'en vais, je ne comprend pas
+  webhookHandler: fallback_end
 transitionToScene: actions.scene.END_CONVERSATION
