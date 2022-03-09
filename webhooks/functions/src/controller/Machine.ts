@@ -1,6 +1,6 @@
 import {ok} from 'assert';
 import {AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher} from 'opds-fetcher-parser';
-import {API_BASE_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB} from '../constants';
+import {API_BASE_URL, EDRLAB_FUNCTION_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB} from '../constants';
 import {ISessionScene, TKeySessionScene, TKindSelection, TStateAuthentication} from '../model/storage.interface';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
@@ -60,6 +60,10 @@ export class Machine {
         authenticationStorage.setAuthenticationToken({
           accessToken: bearerToken,
           authenticationUrl: API_BASE_URL,
+        });
+        authenticationStorage.setAuthenticationToken({
+          accessToken: bearerToken,
+          authenticationUrl: EDRLAB_FUNCTION_URL,
         });
         const http = new httpOpdsFetcherParser(undefined, authenticationStorage);
         this._fetcher = new OpdsFetcher(http);
