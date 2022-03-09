@@ -47,6 +47,8 @@ export class Machine {
     } else {
       if (typeof bearerToken === 'string') {
         this._model = await StorageModel.create(bearerToken);
+      } else {
+        console.info('No Bearer Token Available');
       }
     }
 
