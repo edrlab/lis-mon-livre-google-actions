@@ -59,7 +59,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'info__on_enter';
       body.scene.name = scene;
 
-      const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
+      const message = `CELA about text. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
 
       const data = await expressMocked(body, headers);
 
@@ -71,7 +71,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the EDRLAB library via Alexa, by saying 'Hey Google, launch EDRLAB'\n`;
+      const message = `Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the CELA library via Alexa, by saying 'Hey Google, launch CELA'\n`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
@@ -86,7 +86,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('info');
     });
 
-    const help = `If you'd like to learn more about EDRLAB membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
+    const help = `If you'd like to learn more about CELA membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
 
     it('help', async () => {
       body.handler.name = 'info__intent__help';

@@ -57,7 +57,7 @@ describe('home_new_user_maybe_later handler', () => {
       body.handler.name = 'home_new_user_maybe_later__on_enter';
       body.scene.name = scene;
 
-      const message = `Of course! you can learn more about EDRLAB or quit for now.\nWhat would you like to do?\n`;
+      const message = `Of course! you can learn more about CELA or quit for now.\nWhat would you like to do?\n`;
 
       const data = await expressMocked(body, headers);
 
@@ -78,7 +78,7 @@ describe('home_new_user_maybe_later handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
+      const message = `CELA about text. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('info');
@@ -93,7 +93,7 @@ describe('home_new_user_maybe_later handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_maybe_later');
     });
 
-    const help = `You can ask me to link your account, or to learn more about EDRLAB. You can also exit this skill, by simply saying 'stop'. What would you like to do?\n`;
+    const help = `You can ask me to link your account, or to learn more about CELA. You can also exit this skill, by simply saying 'stop'. What would you like to do?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user_maybe_later__intent__help';
