@@ -20,4 +20,4 @@ export const LAST_SEEN_THRESHOLD = 72;
 export const PROJECT_ID = 'cela-2';
 
 
-type TLang = 'fr' | 'en';
+export type TLang = 'fr' | 'en';

@@ -7,6 +7,7 @@ import {TSdkHandler} from '../typings/sdkHandler';
 import {TSdkScene} from '../typings/sdkScene';
 import {enter as selectionEnter} from './handler/selection';
 import {Machine} from './Machine';
+import {ok} from 'assert';
 
 export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
@@ -54,6 +55,11 @@ export class Assistant {
   public handle = (path: TSdkHandler, fn: THandlerFn) => {
     this._app.handle(path, async (conv) => {
       const machine = new Machine(conv);
+
+      const locale = (conv.user.locale || '').split('-')[0];
+      console.log('LOCALE=', locale);
+      ok(locale === 'fr' || locale === 'en', 'locale not known ' + locale);
+      await machine.setLanguage(locale);
 
       console.info('ASSISTANT:', path);
       console.info('scene.name=', conv.scene.name);

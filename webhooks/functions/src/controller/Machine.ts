@@ -1,6 +1,6 @@
 import {ok} from 'assert';
 import {AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher} from 'opds-fetcher-parser';
-import {API_BASE_URL, EDRLAB_FUNCTION_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB} from '../constants';
+import {API_BASE_URL, DEFAULT_LANGUAGE, EDRLAB_FUNCTION_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB, TLang} from '../constants';
 import {ISessionScene, TKeySessionScene, TKindSelection, TStateAuthentication} from '../model/storage.interface';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
@@ -17,6 +17,7 @@ export class Machine {
   private _i18n: TI18n;
   private _model: StorageModel | undefined;
   private _fetcher: OpdsFetcher | undefined;
+  private _locale: TLang;
 
   private _sayAcc: string;
 
@@ -29,6 +30,7 @@ export class Machine {
     this._conv = conv;
 
     this._sayAcc = '';
+    this._locale = DEFAULT_LANGUAGE;
   }
 
   public async begin({
@@ -65,7 +67,7 @@ export class Machine {
           accessToken: bearerToken,
           authenticationUrl: EDRLAB_FUNCTION_URL,
         });
-        const http = new httpOpdsFetcherParser(undefined, authenticationStorage);
+        const http = new httpOpdsFetcherParser(undefined, authenticationStorage, this._locale);
         this._fetcher = new OpdsFetcher(http);
       }
     }
@@ -97,6 +99,11 @@ export class Machine {
 
   public get isLinked() {
     return this._conv.user.accountLinkingStatus;
+  }
+
+  public setLanguage(locale: TLang) {
+    this._locale = locale;
+    return this._i18n.changeLanguage(locale);
   }
 
   public set nextScene(scene: TSdkScene2) {

@@ -42,7 +42,7 @@ const bodyCopy = () => Object.assign({}, {
     'languageCode': '',
   },
   'user': {
-    'locale': 'fr-CA',
+    'locale': 'en-US',
     'params': {
       'bearerToken': '',
     },
