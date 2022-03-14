@@ -3,6 +3,11 @@ parameters:
   type:
     name: string
 trainingPhrases:
+- je veux chercher un livre audio
+- je veux chercher un livre
+- recherche un livre
+- recherche
+- je veux rechercher un livre
 - Je recherche ($query 'Le Petit Prince par Antoine de Saint-Exupéry' auto=false)
 - Cherche ($query 'La Peste' auto=false)
 - Recherche ($query 'La Horla' auto=false)
