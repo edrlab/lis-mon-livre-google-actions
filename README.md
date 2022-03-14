@@ -9,3 +9,9 @@ cela-dev - cela-2
 ## gactions sdk
 
 `cd sdk && gactions pull --force --clean --project-id cela-2`
+
+
+## TODO to merge dans CELA_PROD CELA-1
+
+- replace displayName and invocation in settings.yaml
+- replace project-id in functions deploy github actions
