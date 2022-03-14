@@ -1,12 +1,21 @@
-parameters:
-- name: number
-  type:
-    name: actions.type.Number
 trainingPhrases:
-- ($letter 'c' auto=false)
-- ($letter 'b' auto=false)
-- ($letter 'C' auto=false)
-- ($letter 'B' auto=false)
-- ($letter 'ah' auto=false)
-- ($letter 'A' auto=false)
-- ($letter 'a' auto=false)
+- Le ($number 'permier' auto=false)
+- Le ($number 'second' auto=false)
+- Le ($number 'troisième' auto=false)
+- Le ($number 'quatrième' auto=false)
+- Le ($number 'cinquième' auto=false)
+- Numéro ($number 'un' auto=false)
+- Numéro ($number 'deux' auto=false)
+- Numéro ($number 'trois' auto=false)
+- Numéro ($number 'quatre' auto=false)
+- Numéro ($number 'cinq' auto=false)
+- Le numéro ($number 'un' auto=false)
+- Le numéro ($number 'deux' auto=false)
+- Le numéro ($number 'trois' auto=false)
+- Le numéro ($number 'quatre' auto=false)
+- Le numéro ($number 'cinq' auto=false)
+- ($number 'un' auto=false)
+- ($number 'deux' auto=false)
+- ($number 'trois' auto=false)
+- ($number 'quatre' auto=false)
+- ($number 'cinq' auto=false)

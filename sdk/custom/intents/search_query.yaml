@@ -1,4 +1,3 @@
-parameters:
-- name: query
-  type:
-    name: string
+trainingPhrases:
+- ($query 'La Peste de Camus' auto=false)
+- ($query 'Le Petit Prince par Antoine de Saint-Exupéry' auto=false)
