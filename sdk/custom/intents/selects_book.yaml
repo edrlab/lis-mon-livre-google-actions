@@ -1,3 +1,7 @@
+parameters:
+- name: number
+  type:
+    name: actions.type.Number
 trainingPhrases:
 - Le ($number 'permier' auto=false)
 - Le ($number 'second' auto=false)

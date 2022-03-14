@@ -1,3 +1,7 @@
+parameters:
+- name: query
+  type:
+    name: string
 trainingPhrases:
 - Je recherche ($query 'Le Petit Prince par Antoine de Saint-Exupéry' auto=false)
 - Cherche ($query 'La Peste' auto=false)
