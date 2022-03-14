@@ -84,5 +84,5 @@ handlers:
 - name: player_prequel__intent__yes
 - name: player_prequel__intent__no
 httpsEndpoint:
-  baseUrl: https://us-central1-cela-2.cloudfunctions.net/ActionsOnGoogleFulfillment
+  baseUrl: https://us-central1-cela-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

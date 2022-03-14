@@ -23,7 +23,7 @@ localizedSettings:
   shortDescription: Utilisez la bibliothèque CELA pour écouter des livres audio.
   smallLogoImage: https://lh3.googleusercontent.com/URQ_E-wxMdUfuq5C8rnCLi8c6hpFNrwvMJ7PGGfULzVSqjPctRU6TLVwgTz5O45uv9SwVJmQGgeO
   voice: female_1
-projectId: cela-2
+projectId: cela-1
 surfaceRequirements:
   minimumRequirements:
   - capability: AUDIO_OUTPUT
