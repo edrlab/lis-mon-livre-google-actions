@@ -1,69 +1,140 @@
 {
-  "error": {
-    "bearerTokenNotDefined": "Aucun identifiant défini",
-    "catch": "une erreur s'est produite",
-    "convadd": "conv.add value incorrect: {{error}}",
-    "urlNotValid": "url non définis ou invalide {{url}}",
-    "noQuery": "aucune requete demandée",
-    "webpubNotDefined": "webpub non définis",
-    "selectionListNotDefined": "selection list url non définie",
-    "selectionPubNotDefined": "selection url non définie",
-    "selectionNotAvailable": "selection non disponible"
-  },
   "main": {
-    "welcome": "Bienvenue dans Valentin Audio."
+    "welcome": {
+      "noLinked": {
+        "1": "Bienvenue dans la bibliothèque {{- name}}!"
+      },
+      "linked": {
+        "1": "Bienvenue dans votre bibliothèque {{- name}}!"
+      }
+    }
   },
-  "home": {
-    "information": "Vous accédez à la plateforme de démonstration du projet Lis mon Livre du laboratoire européen de lecture numérique (éderlab). Le service est actuellement réservé aux testeurs de l’application. Ce texte sera à terme remplacé par des informations génériques sur la manière d’accéder à l’espace membre.",
-    "welcome": "Que voulez-vous faire ? Vous pouvez dire informations ou espace membres."
+  "home_new_user": {
+    "enter": {
+      "first": {
+        "1": "Pour profiter de vos livres audio et accéder à votre bibliothèque personnelle, vous devrez lier votre {{- name}} compte.",
+        "2": "Voulez-vous le faire maintenant ?"
+      }
+    },
+    "no": {
+      "1": "Afin de lire des livres à l'aide de la bibliothèque {{- name}} via Google, vous devez être un membre {{- name}} enregistré et lier votre compte.",
+      "2": "Voulez-vous en savoir plus sur {{- name}}?"
+    },
+    "help": {
+      "1": "Pour profiter de la bibliothèque {{- name}} et profiter de vos livres audio préférés via Google, vous devez connecter votre compte CELA. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
+      "2": "Voulez-vous lier votre compte maintenant ?"
+    },
+    "maybeLater": {
+      "1": " Bien sûr ! vous pouvez en savoir plus sur {{- name}} ou quitter pour l'instant.",
+      "2": "Qu'aimeriez-vous faire ?"
+    }
   },
-  "homeMembers": {
-    "welcome1": "Les commandes possibles sont: sélection, lecture, recherche. ",
-    "welcome2": "Que voulez-vous faire ?",
-    "resumeAudiobook": {
-      "noCurrentListening": "Aucune lecture en cours."
+  "home_new_user_maybe_later": {
+    "help": {
+      "1": "Vous pouvez me demander de lier votre compte, ou d'en savoir plus sur {{- name}}. Vous pouvez également quitter cette compétence en disant simplement \"stop\". Qu'aimeriez-vous faire ?"
+    }
+  },
+  "home_new_user_no": {
+    "help": {
+      "1": "Si vous voulez en savoir plus sur {{- name}}. Vous pouvez me demander en disant \"qu'est-ce que {{- name}}\", ou simplement dire \"stop\" pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide. Veux-tu en savoir plus sur {{- name}} ou quitter cette application ?"
+    }
+  },
+  "info": {
+    "about": {
+      "1": "{{- name}} sur le texte. Veux-tu en savoir plus sur l'adhésion d'{{- name}}, ou préfères-tu quitter cette compétence ?"
     },
-    "selection": {
-      "welcome": "Les sélections disponibles sont ma liste, sélections thématiques, sélections par genre. Que voulez-vous faire ?",
-      "publication": "Pour choisir l'une des publications, dites son numéro.",
-      "next": "Pour obtenir la suite, dites suivant.",
-      "noNext": "Il n'y a pas de page suivante, je vais répéter la dernière page.",
-      "listAfterSelection": "Pour choisir une sélection, dites son numéro."
+    "help": {
+      "1": "Si tu veux en savoir plus sur l'adhésion d'{{- name}}, tu peux me demander en disant \" adhésion \", ou simplement dire \" stop \" pour quitter cette compétence. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide. Je suis en train d'écouter ?"
     },
-    "list": {
-      "wrongNumber": "Le numéro {{number}} est inconnu. Veuillez choisir un autre numéro.",
-      "numberSelection": "J'ai trouvé {{length}} sélections.\n",
-      "numberPublication": "J'ai trouvé {{length}} publications.",
-      "pagePublication": "Vous êtes sur la page {{page}}.",
-      "numero": "numéro {{i}} : {{- title}}.\n",
-      "numeroWithAuthor": "numéro {{i}} : {{- title}} {{- author}}.\n",
-      "numeroWithAuthorOf": "de {{- author}}",
-      "noResult": "Aucun résultat trouvé.",
-      "repeat": "dite répéter pour recommencer"
+    "yesOrMembership": {
+      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne du CELA à l'adresse \"URL\". Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque de {{- name}} via Alexa, en disant \" Hey Google, lance {{- name}}\"."
+    }
+  },
+  "home_user": {
+    "enter": {
+      "newlyUser": {
+        "1": "Félicitations ! Vous avez réussi à connecter votre compte et vous pouvez maintenant accéder à tous vos livres préférés !",
+        "2": "Vous souhaitez rechercher un livre ou un auteur spécifique, obtenir une recommandation ou vous préférez commencer un livre à partir de votre sélection ?"
+      },
+      "playing": {
+        "1": "La dernière fois, vous avez lu le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre là où vous vous êtes arrêté.",
+        "2": "Vous lisez également {{- readingNumber}} autres livres récents, parmi lesquels vous pouvez choisir.",
+        "3": "Vous pouvez aussi en chercher un nouveau."
+      },
+      "regular": {
+        "1": "Que voulez-vous faire ?"
+      }
     },
-    "search": "Que voulez-vous écouter ? Par exemple Zola."
+    "help": {
+      "1": "Vous pouvez rechercher un livre spécifique par titre ou par auteur, parcourir nos collections ou consulter votre étagère pour commencer à lire l'un de vos livres présélectionnés.",
+      "2": "Que voulez-vous faire ?"
+    }
+  },
+  "search": {
+    "enter": {
+      "1": "Quel livre ou auteur recherchez-vous ?",
+      "2": "En attendant, y a-t-il un autre titre ou auteur que vous aimeriez rechercher ?"
+    },
+    "empty": {
+      "1": "Il semble que le livre que vous recherchez soit actuellement indisponible dans la bibliothèque {{- name}}.",
+      "2": "Vous pouvez nous suggérer des livres à ajouter à {{- website}}."
+    }
+  },
+  "selection": {
+    "enter": {
+      "bookshelf": {
+        "first": "Voici les {{- number}} premiers titres sur votre étagère :",
+        "second": "Ou peut-être souhaitez-vous explorer les autres titres de votre bibliothèque ?"
+      },
+      "search": "J'ai trouvé {{- number}} livres avec ce titre",
+      "collection": {
+        "publication": "J'ai trouvé {{- number}} livres",
+        "group": "J'ai trouvé {{- number}} groupes"
+      },
+      "lastPage": {
+        "publication": "Voici les derniers livres disponibles",
+        "group": "Voici les derniers groupes disponibles",
+        "notAvailable": "aucun autre résultat disponible"
+      },
+      "common": {
+        "1": "Choisissez l'un d'entre eux en disant leur numéro.",
+        "2": "{{- symbol}}. {{- title}}",
+        "3": "Lequel voulez-vous commencer à lire ?"
+      },
+      "empty": {
+        "1": "Oh là là ! Rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !  Vous souhaitez parcourir nos collections ? Ou peut-être souhaitez-vous rechercher un livre spécifique par auteur ou par titre ?"
+      }
+    },
+    "help": {
+      "1": "Choisissez un des 3 titres en mentionnant leur numéro. Vous pouvez aussi demander \"un autre\".",
+      "2": "Que souhaitez-vous faire ?"
+    }
   },
   "player": {
-    "start": "Je lance la lecture de {{- title}}",
-    "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle s'était arrêtée ?",
-    "mediaStatus": {
-      "notCorrect": "état de lecture incorrect."
-    },
-    "remaining": {
-      "hoursAndMinute": "Il reste {{hours}} heures et {{minutes}} minutes.",
-      "minute": "Il reste {{minutes}} minutes."
-    },
-    "toc": {
-      "notFound": "Aucune table des matières disponible.",
-      "numero": "Choisir un numéro.",
-      "noNext": "Il n'y a pas de page suivante, je vais répéter la dernière page."
-    },
-    "notAvailable": "Fonctionnalité non disponible."
+    "start": "Je commence à lire {{- title}}",
+    "askResumeLastOffset": "Voulez-vous reprendre là où il s'est arrêté ?"
   },
-  "test": {
-    "player": "test player {{nb}}",
-    "setupSdk": "setup test {{nb}}",
-    "webhook": "webhook work: {{- message}}"
+  "collections": {
+    "enter": {
+      "1": "Bon, préférez-vous obtenir une sélection de livres par thème ou par genre ?"
+    },
+    "help": {
+      "1": "Pour entendre un aperçu des thèmes disponibles, dites 'thème'. Pour un aperçu des genres disponibles, dites 'genre'. Voulez-vous entendre la liste des thèmes ou des genres disponibles ?"
+    }
   },
-  "free": "{{- text}}"
+  "void": "Il faut remplacer ce message",
+  "bye": {
+    "1": "Merci d'avoir essayé l'application. Pour reprendre votre lecture, revenez quand vous voulez."
+  },
+  "fallback": {
+    "1": "Je n'ai pas compris",
+    "2": "Je n'ai vraiment pas compris"
+  },
+  "silence": {
+    "1": "Je n'ai pas entendu",
+    "2": "Je n'ai vraiment pas entendu"
+  },
+  "error": {
+    "1": "Oups, quelque chose s'est mal passé. Je vous renvoie au menu d'accueil"
+  }
 }
