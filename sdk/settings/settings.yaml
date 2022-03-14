@@ -1,15 +1,36 @@
 accountLinking:
-  appClientId: "123456"
+  appClientId: 264993278233-00c74eidtg83u9srrjrkkv1hrd465p6s.apps.googleusercontent.com
   authGrantType: IMPLICIT
-  authorizationUrl: https://opds-auth-test-server-aplqpqv3wa-ey.a.run.app/implicit/login
+  authorizationUrl: https://training1.celalibrary.ca/auth
   linkingType: OAUTH
 category: EDUCATION_AND_REFERENCE
 defaultLocale: fr
+enabledRegions:
+- Canada
+- France
 localizedSettings:
+  developerEmail: aide@bibliocaeb.ca
+  developerName: bibliocaeb
   displayName: edrlab
+  fullDescription: |-
+    Êtes-vous un utilisateur du Center for Equitable Library Access (CELA) ? L'application CELA Library vous donne accès à une bibliothèque audio de milliers de livres audio, dans plusieurs catégories. Choisissez l'un de vos auteurs ou livres préférés, choisissez un titre déjà sur votre étagère CELA ou découvrez un nouveau favori. Veuillez noter que la bibliothèque de l'ACDE est accessible aux personnes au Canada incapables de lire les imprimés.
+    Dites simplement "Hey Google, parlez à Lecture accessible Canada" pour commencer à écouter !
+    Besoin d'aide? Dites simplement « aide » à tout moment dans la compétence et nous vous remettrons sur la bonne voie !
+    Pendant que vous écoutez votre livre audio, vous pouvez demander à Google de "mettre en pause" ou de "reprendre" à tout moment, comme ça !
+    Vous voulez emporter un livre au lit ? Aucun problème! Demandez simplement à Alexa de lire votre livre pendant la durée de votre choix – en disant « Hey Google, Lecture accessible Canada pour reprendre mon dernier livre pendant 20 minutes ».
+    Pour profiter des livres audio via Google, vous devez connecter votre compte CELA. Pour ce faire, répondez « oui » lorsque vous y êtes invité et suivez les instructions. Une notification sera envoyée à votre appareil mobile, vous invitant à vous connecter à votre compte CELA. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter du monde merveilleux des livres CELA pendant des heures !
+  privacyPolicyUrl: https://bibliocaeb.ca/privacy
   pronunciation: edrlab
+  sampleInvocations:
+  - Parler avec edrlab
+  shortDescription: Utilisez la bibliothèque CELA pour écouter des livres audio.
+  smallLogoImage: https://lh3.googleusercontent.com/URQ_E-wxMdUfuq5C8rnCLi8c6hpFNrwvMJ7PGGfULzVSqjPctRU6TLVwgTz5O45uv9SwVJmQGgeO
   voice: female_1
 projectId: cela-2
+surfaceRequirements:
+  minimumRequirements:
+  - capability: AUDIO_OUTPUT
+  - capability: MEDIA_RESPONSE_AUDIO
 testingInstructions: |-
-  admin
-  admin
+  303715 / EDRLabs123456
+  122664 / EDRLabs123456
