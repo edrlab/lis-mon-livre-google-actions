@@ -566,7 +566,8 @@ export class Machine {
     const sameSession = id === idFromStore;
     if (sameSession) {
       console.info('MIDDLEWARE :: Session in progress');
-      this.setSessionState('home_user', 'SESSION');
+      // see home_user.ts
+      // this.setSessionState('home_user', 'SESSION');
     } else {
       console.info('MIDDLEWARE :: new SESSION');
       this._model.store.session = {

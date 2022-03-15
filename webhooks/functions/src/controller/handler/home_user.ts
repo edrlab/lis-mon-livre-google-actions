@@ -21,22 +21,32 @@ export const home_user = (app: Assistant) => {
 const enter: THandlerFn = async (m) => {
 
   const state = m.getSessionState("home_user");
+  const newlyLinked = m.authenticationState === "NEWLY_LINKED";
+  const playing = m.playingInProgress;
+  const regularUser = m.isARegularUser;
+
   if (state === "SESSION") {
     // aka there is a session : the user discovered the app
-    m.say("home_user.enter.regular.1");
 
-    return;
-  }
+    // "What would you like to do?"
+    // m.say("home_user.enter.regular.1");
 
-  const newlyLinked = m.authenticationState === "NEWLY_LINKED";
-  if (newlyLinked) {
+    // "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+    m.say("home_user.enter.newlyUser.2");
+
+  } else if (state === "REPEAT") {
+
+    m.say("home_user.help.1");
+    m.say("home_user.help.2");
+
+    m.setSessionState("home_user", "SESSION");
+
+  } else if (newlyLinked) {
+
     m.say("home_user.enter.newlyUser.1", { name: NAME });
     m.say("home_user.enter.newlyUser.2", { name: NAME });
 
-    return;
-  }
-  const playing = m.playingInProgress;
-  if (playing) {
+  } else if (playing) {
 
     const {title, chapter, author} = await m.getCurrentPlayingTitleAndChapter();
     const readingNumber = m.playingNumber;
@@ -48,19 +58,22 @@ const enter: THandlerFn = async (m) => {
     m.say("home_user.enter.playing.3");
     m.say("home_user.enter.regular.1");
 
-    return ;
-  }
-
-  const regularUser = m.isARegularUser;
-  if (regularUser) {
+  } else if (regularUser) {
     // regularUser
     // what is the purpose of this information ? 
     // @TODO ask to Maiike
   } else {
     // occasionalUser
+
+    // "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+    m.say("home_user.enter.newlyUser.2");
   }
-  
-  m.say("home_user.enter.newlyUser.2");
+
+
+  m.setSessionState("home_user", "SESSION");
+
+  // "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+  // m.say("home_user.enter.newlyUser.2");
 }
 
 const search: THandlerFn = (m) => {

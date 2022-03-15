@@ -79,7 +79,7 @@ describe('home_user handler', () => {
       const model = await storageModelMocked(pullData);
 
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
-      model.data.store.session.scene.home_user.state.should.not.to.be.eq('SESSION');
+      model.data.store.session.scene.home_user.state.should.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with session state but new session undefined so the session data is not removed', async () => {
@@ -92,7 +92,7 @@ describe('home_user handler', () => {
       const model = await storageModelMocked(pullData);
 
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
-      model.data.store.session.scene.home_user.state.should.not.to.be.eq('SESSION');
+      model.data.store.session.scene.home_user.state.should.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with session state', async () => {
@@ -100,7 +100,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'test';
 
-      const message = `What would you like to do?\n`;
+      const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
