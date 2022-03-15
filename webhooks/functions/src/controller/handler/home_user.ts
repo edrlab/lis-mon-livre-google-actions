@@ -60,8 +60,8 @@ const enter: THandlerFn = async (m) => {
 
   } else if (regularUser) {
     // regularUser
-    // what is the purpose of this information ? 
-    // @TODO ask to Maiike
+
+    m.say("home_user.enter.regular.1");
   } else {
     // occasionalUser
 
@@ -98,8 +98,7 @@ const bookshelf: THandlerFn = (m) => {
 
 const help: THandlerFn = (m) => {
 
-  m.say("home_user.help.1", {name: NAME});
-  m.say("home_user.help.2", {name: NAME});
+  m.setSessionState("home_user", "REPEAT");
 
   m.nextScene = "home_user";
 }
