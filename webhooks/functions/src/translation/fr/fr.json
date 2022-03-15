@@ -47,7 +47,7 @@
       "1": "Si tu veux en savoir plus sur l'adhésion d'{{- name}}, tu peux me demander en disant \" adhésion \", ou simplement dire \" stop \" pour quitter cette compétence. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide. Je suis en train d'écouter ?"
     },
     "yesOrMembership": {
-      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne du CELA à l'adresse \"URL\". Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque de {{- name}} via Alexa, en disant \" Hey Google, lance {{- name}}\"."
+      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne du CELA à l'adresse \"URL\". Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque de {{- name}} via Google Assistant, en disant \" Hey Google, lance {{- name}}\"."
     }
   },
   "home_user": {
