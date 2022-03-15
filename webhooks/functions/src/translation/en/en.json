@@ -98,7 +98,7 @@
       },
       "common": {
         "1": "Pick one of these by saying their numbers.",
-        "2": "{{- symbol}}. {{- title}}",
+        "2": "{{- symbol}}. {{- title}}.",
         "3": "Which one would you like to start reading?"
       },
       "empty": {
