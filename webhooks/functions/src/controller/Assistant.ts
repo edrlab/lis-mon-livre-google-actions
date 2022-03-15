@@ -1,6 +1,6 @@
 import {BaseApp, conversation, ConversationV3, ConversationV3App, OmniHandler} from '@assistant/conversation';
 import {OpdsFetcher} from 'opds-fetcher-parser';
-import {PROJECT_ID} from '../constants';
+import {DEFAULT_LANGUAGE, PROJECT_ID, TLang} from '../constants';
 import {StorageModel} from '../model/storage.model';
 import {THandlerFn} from '../type';
 import {TSdkHandler} from '../typings/sdkHandler';
@@ -13,6 +13,7 @@ export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
   private _storageModel: StorageModel | undefined;
   private _fetcher: OpdsFetcher | undefined;
+  private _locale: TLang;
 
   constructor({
     storageModel,
@@ -26,6 +27,8 @@ export class Assistant {
       debug: process.env['NODE_ENV'] === 'development' ? true : false,
     });
 
+    this._locale = DEFAULT_LANGUAGE;
+
     this._app.catch((conv, error) => {
       console.error('APP CATCH ERROR', error);
 
@@ -33,8 +36,11 @@ export class Assistant {
         conv.scene.next.name = 'actions.scene.END_CONVERSATION';
       }
 
-      // @TODO fix translation
-      conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      if (this._locale === 'en') {
+        conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      } else if (this._locale === 'fr') {
+        conv.add('Oups, quelque chose s\'est mal passé. Je vous renvoie au menu d\'accueil');
+      }
 
       // @TODO
       // remove session
@@ -59,6 +65,7 @@ export class Assistant {
       const locale = (conv.user.locale || '').split('-')[0];
       console.log('LOCALE=', locale);
       ok(locale === 'fr' || locale === 'en', 'locale not known ' + locale);
+      this._locale = locale;
       await machine.setLanguage(locale);
 
       console.info('ASSISTANT:', path);
