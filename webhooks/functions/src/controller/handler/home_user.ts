@@ -1,4 +1,4 @@
-import { BOOKSHELF_URL, GENRE_LIST_URL, NAME } from "../../constants";
+import { BOOKSHELF_URL, GENRE_LIST_URL, NAME, PADDING_PUB } from "../../constants";
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";
@@ -15,6 +15,7 @@ export const home_user = (app: Assistant) => {
   app.handle("home_user__intent__repeat", repeat);
   app.handle("home_user__intent__silence", help);
   app.handle("home_user__intent__silence_end", missing);
+  app.handle("home_user__intent__recent_books", recentBooks);
 
 }
 
@@ -94,6 +95,17 @@ const bookshelf: THandlerFn = (m) => {
     from: "home_user__intent__bookshelf",
     url: BOOKSHELF_URL,
   });
+}
+
+const recentBooks: THandlerFn = (m) => {
+  
+  const history = m.playingHistorySortByDate;
+  const urls = [...history.keys()];
+  m.initAndGoToSelectionSession({
+    kind: 'PUBLICATION',
+    from: "home_user__intent__recent_books",
+    url: 'data://' + JSON.stringify(urls.slice(0, PADDING_PUB)), // data url with an array of webpub links
+  })
 }
 
 const help: THandlerFn = (m) => {

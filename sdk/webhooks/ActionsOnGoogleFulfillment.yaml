@@ -83,6 +83,7 @@ handlers:
 - name: player_prequel__on_enter
 - name: player_prequel__intent__yes
 - name: player_prequel__intent__no
+- name: home_user__intent__recent_books
 httpsEndpoint:
   baseUrl: https://us-central1-cela-2.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

@@ -4,6 +4,7 @@ import * as chai from 'chai';
 import {headers, body} from './conv.test';
 import {parsedDataClone} from '../model/data.model.test';
 import {IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
+import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
 
 chai.should();
 
@@ -233,9 +234,9 @@ describe(scene + ' handler', () => {
         ],
       };
       const message = messageHelpers(3, [
-        [1, 'first publication'],
-        [2, 'second publication'],
-        [3, 'third publication'],
+        [1, 'first publication.'],
+        [2, 'second publication.'],
+        [3, 'third publication.'],
       ]);
 
       return {pullData, feed, message};
@@ -269,9 +270,9 @@ describe(scene + ' handler', () => {
         ],
       };
       const message = messageHelpers(3, [
-        [1, 'first group'],
-        [2, 'second group'],
-        [3, 'third group'],
+        [1, 'first group.'],
+        [2, 'second group.'],
+        [3, 'third group.'],
       ]);
 
       return {pullData, feed, message};
@@ -440,7 +441,7 @@ describe(scene + ' handler', () => {
 
       const {pullData, feed, message} = testStateRunningPublication();
       pullData.session.scene.selection.nextUrlCounter = 0;
-      pullData.session.scene.selection.from = 'home_user__intent__bookshelf',
+      pullData.session.scene.selection.from = 'home_user__intent__bookshelf';
       // @ts-ignore
       feed.links = {
         next: [
@@ -454,6 +455,32 @@ describe(scene + ' handler', () => {
       const message2 = 'Here are the first 3 titles on your bookshelf:\n' + message + 'Or perhaps you\'d like to explore the other titles on your bookshelf?\n';
 
       data.prompt.firstSimple.speech.should.to.be.eq(message2);
+      // data.scene.next.name.should.to.be.eq('selection');
+    });
+
+    it('on enter - state running - recent books', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+
+      const {pullData, feed} = testStateRunningPublication();
+      pullData.session.scene.selection.nextUrlCounter = 0;
+      pullData.session.scene.selection.state = 'RUNNING';
+      pullData.session.scene.selection.kind = 'PUBLICATION';
+      pullData.session.scene.selection.url = 'data://["https://my.url","https://my.url","https://my.url"]';
+      pullData.session.scene.selection.from = 'home_user__intent__recent_books';
+
+      const webpub: Partial<IWebPubView> = {
+        title: 'my test title',
+        authors: ['author'],
+      };
+
+      const data = await expressMocked(body, headers, pullData, feed, webpub);
+
+      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by saying their numbers.\n' +
+      '1. my test title.\n' +
+      '2. my test title.\n' +
+      '3. my test title.\n' +
+      'Which one would you like to start reading?\n');
       // data.scene.next.name.should.to.be.eq('selection');
     });
 
@@ -608,8 +635,8 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
       data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
       'Pick one of these by saying their numbers.\n' +
-      '1. first publication\n' +
-      '2. second publication\n' +
+      '1. first publication.\n' +
+      '2. second publication.\n' +
       'Which one would you like to start reading?\n');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
@@ -691,8 +718,8 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
       data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
       'Pick one of these by saying their numbers.\n' +
-      '1. first group\n' +
-      '2. second group\n' +
+      '1. first group.\n' +
+      '2. second group.\n' +
       'Which one would you like to start reading?\n');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
@@ -744,8 +771,8 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
       data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
       'Pick one of these by saying their numbers.\n' +
-      '1. first group\n' +
-      '2. second group\n' +
+      '1. first group.\n' +
+      '2. second group.\n' +
       'Which one would you like to start reading?\n');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset

@@ -9,7 +9,7 @@ import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
-import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
+import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
 
 export class Machine {
@@ -161,6 +161,14 @@ export class Machine {
     return this._model.store.player.history.size;
   }
 
+  public get playingHistorySortByDate() {
+    ok(this._model);
+    return new Map(
+        [...this._model.store.player.history]
+            .sort(([, {date: dateA}], [, {date: dateB}]) => dateB.getTime() - dateA.getTime()),
+    );
+  }
+
   public async getCurrentPlayingTitleAndChapter() {
     ok(this._model);
 
@@ -230,7 +238,8 @@ export class Machine {
     from: TSdkHandler,
     url: string,
   }) {
-    if (!this.isValidHttpUrl(url)) {
+    // @ts-ignore
+    if (!this.isValidHttpUrl(url) && !url.startsWith('data://')) { // data:// for recent books
       throw new Error('not a valid url');
     }
     this.selectionSession = {
@@ -266,11 +275,35 @@ export class Machine {
 
   public async selectPublication(url: string, number: number) {
     ok(this._model);
-    if (!this.isValidHttpUrl(url)) {
+    // @ts-ignore
+    if (!this.isValidHttpUrl(url) && !url.startsWith('data://')) { // recent books
       throw new Error('url not valid');
     }
 
-    const pub = await this.getPublicationFromNumberInSelectionWithUrl(url, number);
+    let pub: {
+      title: string;
+      author: string;
+      webpubUrl: string;
+  } | undefined;
+
+    if (url.startsWith('data://')) {
+      const dataStr = url.substring('data://'.length);
+      const data = JSON.parse(dataStr);
+      ok(Array.isArray(data));
+
+      const urlFromData = data[number - 1];
+      if (this.isValidHttpUrl(urlFromData)) {
+        const webpub = await this.webpubRequest(urlFromData);
+        pub = {
+          title: webpub.title,
+          author: webpub.authors[0] || '',
+          webpubUrl: urlFromData,
+        };
+      }
+    } else {
+      pub = await this.getPublicationFromNumberInSelectionWithUrl(url, number);
+    }
+
     if (pub) {
       const webpubUrl = pub.webpubUrl;
       if (!this.isValidHttpUrl(webpubUrl)) {
@@ -541,11 +574,41 @@ export class Machine {
   }
 
   private async feedRequest(url: string) {
-    if (!validator.isURL(url)) {
-      throw new Error('url not valid : ' + url);
-    }
     if (!this._fetcher) {
       throw new Error('no fetcher available !');
+    }
+
+    // recent books hack
+    if (url.startsWith('data://')) {
+      const dataStr = url.substring('data://'.length);
+      const data = JSON.parse(dataStr);
+      ok(Array.isArray(data));
+
+      const publications: IOpdsPublicationView[] = [];
+      for (const urlFromData of data) {
+        const webpub = await this._fetcher.webpubRequest(urlFromData);
+        const title = webpub.title || '';
+        const authors = webpub.authors || [];
+        publications.push({
+          title,
+          // @ts-ignore
+          authors: [{name: authors[0]}],
+          openAccessLinks: [{
+            url: urlFromData,
+          }],
+        });
+      }
+
+      const feed: IOpdsResultView = {
+        title: 'recent books',
+        publications,
+      };
+
+      return feed;
+    }
+
+    if (!validator.isURL(url)) {
+      throw new Error('url not valid : ' + url);
     }
     const feed = await this._fetcher.feedRequest(url);
     return feed;

@@ -10,7 +10,8 @@
     "outDir": "build",
     "experimentalDecorators": true,
     "strictNullChecks": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "downlevelIteration": true
   },
   "include": [
     "src/**/*"
