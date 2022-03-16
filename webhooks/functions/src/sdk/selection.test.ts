@@ -528,7 +528,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
-      data.scene.next.name.should.to.be.eq('player');
+      data.scene.next.name.should.to.be.eq('player_prequel');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
       model.data.store.session.scene.selection.url.should.to.be.eq('');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
@@ -555,7 +555,7 @@ describe(scene + ' handler', () => {
       feed.publications?.length.should.to.be.eq(2);
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
-      data.scene.next.name.should.to.be.eq('player');
+      data.scene.next.name.should.to.be.eq('player_prequel');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
       model.data.store.session.scene.selection.url.should.to.be.eq('');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);

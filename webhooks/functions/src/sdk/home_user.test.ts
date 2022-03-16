@@ -142,7 +142,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter with a current playing and history';
 
-      const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou are also reading 4 other recent books, which you can choose from.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
+      const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou are also reading 3 other recent books, which you can choose from.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
       const pullData = parsedDataClone();
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
