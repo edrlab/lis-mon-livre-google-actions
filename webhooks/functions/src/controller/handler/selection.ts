@@ -108,7 +108,7 @@ export const enter: THandlerFn = async (m) => {
       } else if (state === "DEFAULT" && m.playerCurrent.playing) {
         console.log("RUN PLAYER");
 
-        m.nextScene = "player";
+        m.nextScene = "player_prequel";
         // @TODO set the next-scene to player prequel
         // lecture en cours ou annonciation du titre
       } else {

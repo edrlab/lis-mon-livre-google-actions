@@ -217,13 +217,10 @@ export class Machine {
     if (!this.isValidHttpUrl(url)) {
       throw new Error('not valid playing url');
     }
-    if (!time || !index) {
+    if (time === 0 && index === 0) {
       return false;
     }
-    if (time > 0 || index > 0) {
-      return true;
-    }
-    return false;
+    return true;
   }
 
   public get playerCurrent() {

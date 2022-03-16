@@ -54,7 +54,7 @@ const enter: THandlerFn = async (m) => {
 
     m.say("home_user.enter.playing.1", {chapterNumber: chapter, titleAndAuthor: `${title}${author ? `, ${author}` : ''}`});
     if (readingNumber) {
-      m.say("home_user.enter.playing.2", {readingNumber: readingNumber});
+      m.say("home_user.enter.playing.2", {readingNumber: readingNumber - 1});
     }
     m.say("home_user.enter.playing.3");
     m.say("home_user.enter.regular.1");
