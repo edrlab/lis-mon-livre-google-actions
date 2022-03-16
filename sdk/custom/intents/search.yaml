@@ -3,6 +3,8 @@ parameters:
   type:
     name: string
 trainingPhrases:
+- chercher ($number1 'un' auto=true) nouveau
+- chercher ($number1 'un' auto=true) nouveau livre
 - je veux chercher un livre audio
 - je veux chercher un livre
 - recherche un livre
