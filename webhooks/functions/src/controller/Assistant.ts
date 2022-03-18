@@ -82,7 +82,7 @@ export class Assistant {
       // HACK
       // google actions platform doesn't allow to set the same next scene name than the actual in the 'on_enter' handler scene
       // it's a platform limitation for a basic infinite loop I think
-      if (path === 'selection__intent__selects_book' && conv.scene.next?.name as TSdkScene === 'selection') {
+      if (path === 'selection__intent__selects_book' && conv.scene.next?.name as TSdkScene === 'selection' && machine.getSessionState('selection') === 'FINISH') {
         await Promise.resolve(selectionEnter(machine));
       }
 

@@ -483,6 +483,60 @@ describe(scene + ' handler', () => {
       'Which one would you like to start reading?\n');
       // data.scene.next.name.should.to.be.eq('selection');
     });
+    it('on_enter - groups - state == DEFAULT should throw', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+      // body.intent.params = {
+      //   number: {
+      //     original: '3',
+      //     resolved: 3,
+      //   },
+      // };
+
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      model.data.store.session.scene.selection.kind = 'GROUP';
+      model.data.store.session.scene.selection.url = 'http://my.url';
+      model.data.store.session.scene.selection.nbChoice = 3;
+      const feed = newFeed();
+      feed.publications?.length.should.to.be.eq(2);
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      // THROWS !!
+
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(3);
+      data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+    });
+
+    it('on_enter - pub - state == DEFAULT should throw', async () => {
+      body.handler.name = 'selection__on_enter';
+      body.scene.name = scene;
+      // body.intent.params = {
+      //   number: {
+      //     original: '3',
+      //     resolved: 3,
+      //   },
+      // };
+
+      const pullData = parsedDataClone();
+      const model = await storageModelMocked(pullData);
+      model.data.store.session.scene.selection.kind = 'PUBLICATION';
+      model.data.store.session.scene.selection.url = 'http://my.url';
+      model.data.store.session.scene.selection.nbChoice = 0;
+      const feed = newFeed();
+      feed.publications?.length.should.to.be.eq(2);
+      const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
+
+      // THROWS !!
+
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+      data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+    });
+
 
     // @TODO
     // complete the test from handler
@@ -586,9 +640,10 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+      (typeof data.prompt.firstSimple).should.to.be.eq('undefined');
     });
 
-    it('select book - state == DEFAULT should throw', async () => {
+    it('select book - state == DEFAULT should throw in on_enter instead of select_books', async () => {
       body.handler.name = 'selection__intent__selects_book';
       body.scene.name = scene;
       body.intent.params = {
@@ -608,10 +663,11 @@ describe(scene + ' handler', () => {
 
       // THROWS !!
 
-      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
-      data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      // data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      (typeof data.prompt.firstSimple).should.to.be.eq('undefined');
     });
 
     it('select book - number 10', async () => {
@@ -633,11 +689,8 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
-      'Pick one of these by saying their numbers.\n' +
-      '1. first publication.\n' +
-      '2. second publication.\n' +
-      'Which one would you like to start reading?\n');
+      // must be set in selection__on_enter not here : return all logics to on_enter
+      (typeof data.prompt.firstSimple).should.to.be.eq('undefined');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
       // or
@@ -716,15 +769,18 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
-      'Pick one of these by saying their numbers.\n' +
-      '1. first group.\n' +
-      '2. second group.\n' +
-      'Which one would you like to start reading?\n');
+
+      // must be set in selection__on_enter not here : return all logics to on_enter
+      (typeof data.prompt.firstSimple).should.to.be.eq('undefined');
+      // data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
+      // 'Pick one of these by saying their numbers.\n' +
+      // '1. first group.\n' +
+      // '2. second group.\n' +
+      // 'Which one would you like to start reading?\n');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
     });
-    it('select book - group - state == DEFAULT should throw', async () => {
+    it('select book - group - state == DEFAULT should throw on selection on_enter not in select_books', async () => {
       body.handler.name = 'selection__intent__selects_book';
       body.scene.name = scene;
       body.intent.params = {
@@ -744,10 +800,11 @@ describe(scene + ' handler', () => {
 
       // THROWS !!
 
-      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      data.scene.next.name.should.to.be.eq('selection');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
-      data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      // data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      (typeof data.prompt.firstSimple).should.to.be.eq('undefined');
     });
 
     it('select book - group - number 10', async () => {
@@ -769,11 +826,13 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
-      'Pick one of these by saying their numbers.\n' +
-      '1. first group.\n' +
-      '2. second group.\n' +
-      'Which one would you like to start reading?\n');
+      // must be set in selection__on_enter not here : return all logics to on_enter
+      (typeof data.prompt.firstSimple).should.to.be.eq('undefined');
+      // data.prompt.firstSimple.speech.should.to.be.eq('Pick one out of 3 titles by mentioning their numbers. You can also ask for \'another one\'.\n' +
+      // 'Pick one of these by saying their numbers.\n' +
+      // '1. first group.\n' +
+      // '2. second group.\n' +
+      // 'Which one would you like to start reading?\n');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING'); // equals to original state
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0); // reset
       // or
