@@ -74,7 +74,7 @@ export const enter: THandlerFn = async (m) => {
       // @TODO handle collection group or publication
 
     // list groups or publication
-    m.say('selection.enter.common.1');
+    m.say('selection.enter.common.1', {pageSuivante: ''});
     const list = kind === "GROUP" 
       ? (await m.getGroupsFromFeed(url)).groups.map(({title}) => title)
       : (await m.getPublicationFromFeed(url)).publication.map(({title}) => title);
@@ -108,7 +108,7 @@ export const enter: THandlerFn = async (m) => {
       } else if (state === "DEFAULT" && m.playerCurrent.playing) {
         console.log("RUN PLAYER");
 
-        m.nextScene = "player";
+        m.nextScene = "player_prequel";
         // @TODO set the next-scene to player prequel
         // lecture en cours ou annonciation du titre
       } else {
@@ -157,11 +157,11 @@ const selectBook: THandlerFn = async (m) => {
 
   } else if (nb < 1) {
     m.selectionSession.nbChoice = 0;
-    m.say('selection.help.1');
+    // m.say('selection.help.1');
 
   } else if (nb > padding || nb > size) {
     m.selectionSession.nbChoice = 0;
-    m.say('selection.help.1');
+    // m.say('selection.help.1');
 
   } else {
     // ok let's go

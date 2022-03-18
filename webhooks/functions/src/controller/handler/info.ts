@@ -29,7 +29,7 @@ const membership: THandlerFn = (m) => {
 
 const help: THandlerFn = (m) => {
 
-  m.say('info.help.1', {name: NAME});
+  // m.say('info.help.1', {name: NAME});
 
   m.nextScene = "info";
 }

@@ -41,20 +41,20 @@
   },
   "info": {
     "about": {
-      "1": "{{- name}} about text. Would you like to find out more about {{- name}} membership, or would you prefer to exit this skill?"
+      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about {{- name}} membership, or would you prefer to exit this skill?"
     },
     "help": {
-      "1": "If you'd like to learn more about {{- name}} membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
+      "1": "If you'd like to learn more about {{- name}} membership - you can ask me by saying 'membership', or simply say 'stop' to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Alexa, by saying 'Hey Google, launch {{- name}}'"
+      "1": "Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying 'Hey Google, launch {{- name}}'"
     }
   },
   "home_user": {
     "enter": {
       "newlyUser": {
         "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-        "2": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+        "2": "Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?"
       },
       "playing": {
         "1": "Last time, you read Chapter {{- chapterNumber}} of {{- titleAndAuthor}}, which you can resume where you left off.",
@@ -62,7 +62,8 @@
         "3": "You can search for a new one alltogether."
       },
       "regular": {
-        "1": "What would you like to do?"
+        "1": "You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.",
+        "2": "What would you like to do?"
       }
     },
     "help": {
@@ -98,7 +99,7 @@
       },
       "common": {
         "1": "Pick one of these by saying their numbers.",
-        "2": "{{- symbol}}. {{- title}}",
+        "2": "{{- symbol}}. {{- title}}.",
         "3": "Which one would you like to start reading?"
       },
       "empty": {
@@ -111,7 +112,9 @@
     }
   },
   "player": {
+    "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time. Now, shall we get started with 'A Slow Fire Burning' ?",
     "start": "I start reading {{- title}}",
+    "start2": "I continue reading {{- title}}",
     "askResumeLastOffset": "Do you want to pick up where it left off ?"
   },
   "collections": {

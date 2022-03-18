@@ -1,6 +1,6 @@
 import {BaseApp, conversation, ConversationV3, ConversationV3App, OmniHandler} from '@assistant/conversation';
 import {OpdsFetcher} from 'opds-fetcher-parser';
-import {PROJECT_ID} from '../constants';
+import {DEFAULT_LANGUAGE, PROJECT_ID, setName, TIMER, TLang} from '../constants';
 import {StorageModel} from '../model/storage.model';
 import {THandlerFn} from '../type';
 import {TSdkHandler} from '../typings/sdkHandler';
@@ -13,6 +13,7 @@ export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
   private _storageModel: StorageModel | undefined;
   private _fetcher: OpdsFetcher | undefined;
+  private _locale: TLang;
 
   constructor({
     storageModel,
@@ -26,6 +27,8 @@ export class Assistant {
       debug: process.env['NODE_ENV'] === 'development' ? true : false,
     });
 
+    this._locale = DEFAULT_LANGUAGE;
+
     this._app.catch((conv, error) => {
       console.error('APP CATCH ERROR', error);
 
@@ -33,8 +36,11 @@ export class Assistant {
         conv.scene.next.name = 'actions.scene.END_CONVERSATION';
       }
 
-      // @TODO fix translation
-      conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      if (this._locale === 'en') {
+        conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      } else if (this._locale === 'fr') {
+        conv.add('Oups, quelque chose s\'est mal passé.');
+      }
 
       // @TODO
       // remove session
@@ -54,11 +60,16 @@ export class Assistant {
 
   public handle = (path: TSdkHandler, fn: THandlerFn) => {
     this._app.handle(path, async (conv) => {
+      // @TODO need to send an alert to google log on timeout error
+      const timerP = new Promise<void>((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), TIMER));
       const machine = new Machine(conv);
 
       const locale = (conv.user.locale || '').split('-')[0];
       console.log('LOCALE=', locale);
       ok(locale === 'fr' || locale === 'en', 'locale not known ' + locale);
+      setName(locale);
+      this._locale = locale;
+
       await machine.setLanguage(locale);
 
       console.info('ASSISTANT:', path);
@@ -68,13 +79,13 @@ export class Assistant {
       const bearerToken = conv.user.params.bearerToken;
       await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher});
 
-      await Promise.resolve(fn(machine));
+      await Promise.race([timerP, Promise.resolve(fn(machine))]);
 
       // HACK
       // google actions platform doesn't allow to set the same next scene name than the actual in the 'on_enter' handler scene
       // it's a platform limitation for a basic infinite loop I think
-      if (path === 'selection__intent__selects_book' && conv.scene.next?.name as TSdkScene === 'selection') {
-        await Promise.resolve(selectionEnter(machine));
+      if (path === 'selection__intent__selects_book' && conv.scene.next?.name as TSdkScene === 'selection' && machine.getSessionState('selection') === 'FINISH') {
+        await Promise.race([timerP, Promise.resolve(selectionEnter(machine))]);
       }
 
       await machine.end();

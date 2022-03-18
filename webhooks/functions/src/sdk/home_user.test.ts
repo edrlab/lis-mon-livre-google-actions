@@ -28,6 +28,9 @@ const yaml = `intentEvents:
     webhookHandler: home_user__intent__search
   intent: search
 - handler:
+    webhookHandler: home_user__intent__recent_books
+  intent: recent_books
+- handler:
     webhookHandler: home_user__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:
@@ -64,7 +67,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter'; // new session
 
-      const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
+      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -74,12 +77,12 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'id'; // new session
 
-      const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
+      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
-      model.data.store.session.scene.home_user.state.should.not.to.be.eq('SESSION');
+      model.data.store.session.scene.home_user.state.should.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with session state but new session undefined so the session data is not removed', async () => {
@@ -87,12 +90,12 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter with session state but new session undefined so the session data is not removed'; // new session
 
-      const message = `Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?\n`;
+      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
-      model.data.store.session.scene.home_user.state.should.not.to.be.eq('SESSION');
+      model.data.store.session.scene.home_user.state.should.to.be.eq('SESSION');
       data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('on enter with session state', async () => {
@@ -100,7 +103,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'test';
 
-      const message = `What would you like to do?\n`;
+      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -113,7 +116,6 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter with a current playing no history';
 
-      const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
       const pullData = parsedDataClone();
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
@@ -132,14 +134,15 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.prompt.firstSimple.speech.should.to.be.eq('Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\n' +
+      'You can search for a new one alltogether.\n' +
+      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n');
     });
     it('on enter with a current playing and history', async () => {
       body.handler.name = 'home_user__on_enter';
       body.scene.name = scene;
       body.session.id = 'on enter with a current playing and history';
 
-      const message = `Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\nYou are also reading 4 other recent books, which you can choose from.\nYou can search for a new one alltogether.\nWhat would you like to do?\n`;
       const pullData = parsedDataClone();
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
@@ -169,7 +172,10 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      data.prompt.firstSimple.speech.should.to.be.eq('Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\n' +
+      'You are also reading 3 other recent books, which you can choose from.\n' +
+      'You can search for a new one alltogether.\n' +
+      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n');
     });
 
     it('repeat', async () => {
@@ -218,6 +224,45 @@ describe('home_user handler', () => {
       data.scene.next.name.should.to.be.eq('search');
     });
 
+    it('recents book', async () => {
+      body.handler.name = 'home_user__intent__recent_books';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.player.current.index = 9;
+      pullData.player.current.url = 'https://my.url';
+      pullData.player.current.time = 0;
+      pullData.player.current.playing = true;
+
+      pullData.player.history = {
+        // @ts-ignore
+        1: {index: 0, time: 0, date: new Date()},
+        2: {index: 0, time: 0, date: new Date()},
+        3: {index: 0, time: 0, date: new Date()},
+        4: {index: 0, time: 0, date: new Date()},
+      };
+      // pullData.player.history.set("1", {index: 0, time: 0, date: new Date()});
+      // pullData.player.history.set("2", {index: 0, time: 0, date: new Date()});
+      // pullData.player.history.set("3", {index: 0, time: 0, date: new Date()});
+      // pullData.player.history.set("4", {index: 0, time: 0, date: new Date()});
+      const model = await storageModelMocked(pullData);
+
+      const webpub: Partial<IWebPubView> = {
+        title: 'my title',
+        authors: [
+          'hello',
+          'world',
+        ],
+      };
+
+      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+
+      data.scene.next.name.should.to.be.eq('selection');
+      model.data.store.session.scene.selection.url.should.to.be.eq('data://["1","2","3"]');
+      model.data.store.session.scene.selection.kind.should.to.be.eq('PUBLICATION');
+      model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING');
+    });
+
     it('browse collections', async () => {
       body.handler.name = 'home_user__intent__collections';
       body.scene.name = scene;
@@ -246,7 +291,7 @@ describe('home_user handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
     });
 
-    const help = `You can search for a specific book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\nWhat would you like to do?\n`;
+    // const help = `You can search for a specific book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\nWhat would you like to do?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_user__intent__help';
@@ -254,7 +299,7 @@ describe('home_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      // data.prompt.firstSimple.speech.should.to.be.eq(help);
 
       data.scene.next.name.should.to.be.eq('home_user');
     });
@@ -265,7 +310,7 @@ describe('home_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      // data.prompt.firstSimple.speech.should.to.be.eq(help);
 
       data.scene.next.name.should.to.be.eq('home_user');
     });
@@ -287,7 +332,7 @@ describe('home_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      // data.prompt.firstSimple.speech.should.to.be.eq(help);
 
       data.scene.next.name.should.to.be.eq('home_user');
     });

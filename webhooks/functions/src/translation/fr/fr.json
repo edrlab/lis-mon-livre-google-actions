@@ -2,36 +2,36 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Bienvenue dans la bibliothèque {{- name}}!"
+        "1": "Bienvenue dans la bibliothèque {{- name}} !"
       },
       "linked": {
-        "1": "Bienvenue dans votre bibliothèque {{- name}}!"
+        "1": "Bienvenue dans votre bibliothèque {{- name}} !"
       }
     }
   },
   "home_new_user": {
     "enter": {
       "first": {
-        "1": "Pour profiter de vos livres audio et accéder à votre bibliothèque personnelle, vous devrez lier votre {{- name}} compte.",
+        "1": "Pour profiter de vos livres audio et accéder à votre bibliothèque personnelle, vous devez lier votre compte {{- name}}.",
         "2": "Voulez-vous le faire maintenant ?"
       }
     },
     "no": {
       "1": "Afin de lire des livres à l'aide de la bibliothèque {{- name}} via Google, vous devez être un membre {{- name}} enregistré et lier votre compte.",
-      "2": "Voulez-vous en savoir plus sur {{- name}}?"
+      "2": "Voulez-vous en savoir plus sur l'adhésion à {{- name}} ?"
     },
     "help": {
-      "1": "Pour profiter de la bibliothèque {{- name}} et profiter de vos livres audio préférés via Google, vous devez connecter votre compte CELA. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
+      "1": "Pour découvrir la bibliothèque {{- name}} et profiter de vos livres audio préférés via Google, vous devez connecter votre compte {{- name}}. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
       "2": "Voulez-vous lier votre compte maintenant ?"
     },
     "maybeLater": {
-      "1": " Bien sûr ! vous pouvez en savoir plus sur {{- name}} ou quitter pour l'instant.",
-      "2": "Qu'aimeriez-vous faire ?"
+      "1": "Afin d'utiliser la bibliothèque {{- name}} via votre Google Home, vous devez être un membre enregistré de {{- name}} et lier votre compte. En attendant, vous pouvez en savoir plus sur le {{- name}} ou abandonner pour le moment.",
+      "2": "Que voulez-vous faire ?"
     }
   },
   "home_new_user_maybe_later": {
     "help": {
-      "1": "Vous pouvez me demander de lier votre compte, ou d'en savoir plus sur {{- name}}. Vous pouvez également quitter cette compétence en disant simplement \"stop\". Qu'aimeriez-vous faire ?"
+      "1": "Vous pouvez me demander de lier votre compte, ou en apprendre plus sur {{- name}}. Vous pouvez également quitter cette application en disant simplement \"Quitter\". Qu'aimeriez-vous faire ?"
     }
   },
   "home_new_user_no": {
@@ -41,20 +41,20 @@
   },
   "info": {
     "about": {
-      "1": "{{- name}} sur le texte. Veux-tu en savoir plus sur l'adhésion d'{{- name}}, ou préfères-tu quitter cette compétence ?"
+      "1": "La bibliothèque CAEB est une organisation nationale sans but lucratif créée par les bibliothèques publiques canadiennes pour défendre le droit fondamental des Canadiens souffrant de difficultés de lecture imprimée à accéder à des publications numériques dans le format de leur choix, y compris l'audio, le braille, le texte électronique et la vidéo descriptive - maintenant aussi disponible via Alexa et Google Home !  Souhaitez-vous en savoir plus sur l'adhésion à la bibliothèque CAEB, ou préférez-vous quitter cette application ?"
     },
     "help": {
       "1": "Si tu veux en savoir plus sur l'adhésion d'{{- name}}, tu peux me demander en disant \" adhésion \", ou simplement dire \" stop \" pour quitter cette compétence. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide. Je suis en train d'écouter ?"
     },
     "yesOrMembership": {
-      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne du CELA à l'adresse \"URL\". Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque de {{- name}} via Alexa, en disant \" Hey Google, lance {{- name}}\"."
+      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de {{- name}} à l'adresse bibliocaeb point ca. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque de {{- name}} via Google Assistant, en disant \" Hey Google, lance lecture accessible canada\"."
     }
   },
   "home_user": {
     "enter": {
       "newlyUser": {
         "1": "Félicitations ! Vous avez réussi à connecter votre compte et vous pouvez maintenant accéder à tous vos livres préférés !",
-        "2": "Vous souhaitez rechercher un livre ou un auteur spécifique, obtenir une recommandation ou vous préférez commencer un livre à partir de votre sélection ?"
+        "2": "Souhaitez-vous rechercher un livre ou un auteur spécifique, naviguer dans nos sélections, ou lire un livre à partir de votre liste personnelle ?"
       },
       "playing": {
         "1": "La dernière fois, vous avez lu le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre là où vous vous êtes arrêté.",
@@ -62,7 +62,8 @@
         "3": "Vous pouvez aussi en chercher un nouveau."
       },
       "regular": {
-        "1": "Que voulez-vous faire ?"
+        "1": "Vous pouvez rechercher un livre, naviguer dans nos sélections, ou lire un livre à partir de votre liste personnelle.",
+        "2": "Que voulez-vous faire ?"
       }
     },
     "help": {
@@ -97,22 +98,27 @@
         "notAvailable": "aucun autre résultat disponible"
       },
       "common": {
-        "1": "Choisissez l'un d'entre eux en disant leur numéro.",
-        "2": "{{- symbol}}. {{- title}}",
+        "1": "Choisissez l'un des titres suivants en donnant son numéro {{- pageSuivante}}.",
+        "2": "{{- symbol}}. {{- title}}.",
         "3": "Lequel voulez-vous commencer à lire ?"
       },
+      "nextPage": {
+        "1": "Ou demandez la page suivante"
+      },
       "empty": {
-        "1": "Oh là là ! Rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !  Vous souhaitez parcourir nos collections ? Ou peut-être souhaitez-vous rechercher un livre spécifique par auteur ou par titre ?"
+        "1": "Oh là là ! Rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !"
       }
     },
     "help": {
-      "1": "Choisissez un des 3 titres en mentionnant leur numéro. Vous pouvez aussi demander \"un autre\".",
+      "1": "Choisissez l'un des trois titres en mentionnant son numéro. Vous pouvez aussi demander la page suivante.",
       "2": "Que souhaitez-vous faire ?"
     }
   },
   "player": {
+    "explain": "Excellent choix ! Avant de commencer, laissez-moi vous rappeler comment fonctionne ce lecteur. Vous pouvez mettre votre lecture en attente à tout moment en disant 'Google, Pause'. 'Google, Lecture' vous permettra de reprendre votre lecture là où vous l'avez pausée. Vous pouvez également naviguer entre les chapitres en disant 'Hey Google, suivant' ou 'Hey Google, précédent' à tout moment.",
     "start": "Je commence à lire {{- title}}",
-    "askResumeLastOffset": "Voulez-vous reprendre là où il s'est arrêté ?"
+    "start2": "Je reprends la lecture de {{- title}}",
+    "askResumeLastOffset": "Voulez-vous reprendre là où la lecture s'est arrêtée ?"
   },
   "collections": {
     "enter": {
