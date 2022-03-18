@@ -1,5 +1,8 @@
 
-export const NAME = "CELA";
+export let NAME = "";
+export const NAME_EN = "CELA";
+export const NAME_FR = "CAEB";
+export const setName = (lang: TLang) => NAME = lang === 'fr' ? NAME_FR : NAME_EN;
 
 export const API_BASE_URL = "https://training1.celalibrary.ca/smartspeakerv1/search";
 export const EDRLAB_FUNCTION_URL = 'https://us-central1-edrlab-1.cloudfunctions.net/manifest';
@@ -21,3 +24,7 @@ export const PROJECT_ID = 'cela-2';
 
 
 export type TLang = 'fr' | 'en';
+
+
+// init
+setName(DEFAULT_LANGUAGE);
