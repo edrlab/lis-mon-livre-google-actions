@@ -27,7 +27,8 @@ const enter: THandlerFn = (m) => {
 
     if (!query) {
       m.searchSession.state = "RUNNING";
-      m.nextScene = "search";
+      // m.nextScene = "search";
+      m.say('search.enter.1');
       return ;
     }
 
