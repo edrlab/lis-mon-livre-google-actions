@@ -25,6 +25,8 @@ export const PROJECT_ID = 'cela-2';
 
 export type TLang = 'fr' | 'en';
 
+export const TIMER = 4000;
+
 
 // init
 setName(DEFAULT_LANGUAGE);
