@@ -607,7 +607,17 @@ export class Machine {
     if (!validator.isURL(url)) {
       throw new Error('url not valid : ' + url);
     }
-    const feed = await this._fetcher.feedRequest(url);
+    let feed: IOpdsResultView = {
+      title: '',
+      publications: [],
+    };
+    try {
+      feed = await this._fetcher.feedRequest(url);
+    } catch (e) {
+      console.error('FETCHER ERROR START');
+      console.error(e);
+      console.error('FETCHER ERROR END');
+    }
     return feed;
   }
 
