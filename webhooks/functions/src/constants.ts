@@ -25,7 +25,7 @@ export const PROJECT_ID = 'cela-1';
 
 export type TLang = 'fr' | 'en';
 
-export const TIMER = 4000;
+export const TIMER = 8000;
 
 
 // init
