@@ -17,6 +17,7 @@ const enter: THandlerFn = (m) => {
     if (from === "selection__on_enter") {
       m.say("search.enter.2");
       m.searchSession.from = 'main'; // reset
+      m.nextScene = "home_user"; // FIX: avoid infinite loop in gactions
     } else {
       m.say('search.enter.1');
     }
