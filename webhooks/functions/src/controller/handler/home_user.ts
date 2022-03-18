@@ -63,13 +63,13 @@ const enter: THandlerFn = async (m) => {
     // regularUser
 
     m.say("home_user.enter.regular.1");
+    m.say("home_user.enter.regular.2");
   } else {
     // occasionalUser
 
     // "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
     m.say("home_user.enter.newlyUser.2");
   }
-
 
   m.setSessionState("home_user", "SESSION");
 

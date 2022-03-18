@@ -68,7 +68,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `CELA about text. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
+      const message = `CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('info');

@@ -1,4 +1,6 @@
 trainingPhrases:
+- find
+- search for
 - I am looking for a book ($query 'The Little Prince by Antoine de Saint-Exupéry'
   auto=false)
 - I want to listen ($query 'this book title' auto=false)

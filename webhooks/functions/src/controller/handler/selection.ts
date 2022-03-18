@@ -74,7 +74,7 @@ export const enter: THandlerFn = async (m) => {
       // @TODO handle collection group or publication
 
     // list groups or publication
-    m.say('selection.enter.common.1');
+    m.say('selection.enter.common.1', {pageSuivante: ''});
     const list = kind === "GROUP" 
       ? (await m.getGroupsFromFeed(url)).groups.map(({title}) => title)
       : (await m.getPublicationFromFeed(url)).publication.map(({title}) => title);
