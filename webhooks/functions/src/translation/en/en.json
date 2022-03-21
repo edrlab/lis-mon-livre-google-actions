@@ -2,10 +2,10 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Welcome to {{- name}} Library!"
+        "1": "Welcome to {{- name}} Library, where you can easily access your favorite audio books."
       },
       "linked": {
-        "1": "Welcome back to your {{- name}} Library!"
+        "1": "Welcome back to your {{- name}} Library! Remember, you can ask for help at any time."
       }
     }
   },
@@ -18,36 +18,36 @@
     },
     "no": {
       "1": "In order to read books using the {{- name}} Library via Google, you need to be a registered {{- name}} member and link your account.",
-      "2": "Would you like to learn more about {{- name}}?"
+      "2": "Would you like to learn more about registering on the {{- name}} Library?"
     },
     "help": {
-      "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your CELA account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your {{- name}} account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
+      "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your {{- name}} account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your {{- name}} account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
       "2": "Would you like to link your account right now?"
     },
     "maybeLater": {
-      "1": "Of course! you can learn more about {{- name}} or quit for now.",
+      "1": "In order to use the {{- name}} Library via your Google Home, you must be a registered member of {{- name}} and link your account. In the meanwhile, you can learn more about {{- name}} or quit for now.",
       "2": "What would you like to do?"
     }
   },
   "home_new_user_maybe_later": {
     "help": {
-      "1": "You can ask me to link your account, or to learn more about {{- name}}. You can also exit this skill, by simply saying 'stop'. What would you like to do?"
+      "1": "You can ask me to link your account, or learn more about the {{- name}} Library. You can also exit this skill, by simply saying 'stop'. What is your decision?"
     }
   },
   "home_new_user_no": {
     "help": {
-      "1": "If you'd like to learn more about {{- name}}. You can ask me by saying 'what is {{- name}}', or simply say 'stop' to exit this app. If you have any other questions, we recommend reaching out to your local library for support. Do you want to learn more about {{- name}} or exit this app?"
+      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Livrary?"
     }
   },
   "info": {
     "about": {
-      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about {{- name}} membership, or would you prefer to exit this skill?"
+      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about the {{- name}} membership?"
     },
     "help": {
-      "1": "If you'd like to learn more about {{- name}} membership - you can ask me by saying 'membership', or simply say 'stop' to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
+      "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying 'Hey Google, launch {{- name}}'"
+      "1": "Signing up is easy, you can head on over to the CELA online platform at CELA Library dot c.a. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying 'Hey Google, I want to talk to {{- name}}'"
     }
   },
   "home_user": {
