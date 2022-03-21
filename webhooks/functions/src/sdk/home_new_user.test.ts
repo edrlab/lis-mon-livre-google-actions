@@ -140,7 +140,7 @@ describe('home_new_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
@@ -162,7 +162,7 @@ describe('home_new_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });

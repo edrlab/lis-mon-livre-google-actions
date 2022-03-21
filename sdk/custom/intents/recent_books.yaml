@@ -1,10 +1,12 @@
 trainingPhrases:
-- livres récents
-- derniers livres
-- mes livres récents
-- derniers livres lus
-- lister les livre récents
-- reprendre
-- reprends
-- reprendre la lecture
-- reprendre ma lecture
+  - mes livres récents
+  - reprends
+  - reprendre ma lecture
+  - reprendre la lecture
+  - derniers livres
+  - livres récents
+  - voir mes derniers livres
+  - voir mes livres récents
+  - reprendre ma lecture
+  - reprendre la lecture
+  - derniers livres lus

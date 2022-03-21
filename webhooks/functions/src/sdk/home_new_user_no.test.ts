@@ -68,8 +68,8 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // const message = `CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
+      // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('info');
     });
@@ -123,7 +123,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user_no');
     });
@@ -145,7 +145,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user_no');
     });

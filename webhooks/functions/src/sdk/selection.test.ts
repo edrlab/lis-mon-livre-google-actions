@@ -332,7 +332,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.search.from.should.to.be.eq('selection__on_enter');
       model.data.store.session.scene.search.query.should.to.be.eq('');
       model.data.store.session.scene.search.state.should.to.be.eq('RUNNING');
-      data.scene.next.name.should.to.be.eq('search');
+      data.scene.next.name.should.to.be.eq('home_user');
     });
 
     it('on enter - state running - publication list first page with no next link', async () => {
@@ -1065,7 +1065,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
@@ -1087,7 +1087,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
