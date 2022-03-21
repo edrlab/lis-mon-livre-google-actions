@@ -57,18 +57,18 @@
         "2": "Souhaitez-vous consulter votre liste personnelle, ou naviguer dans nos collections ? Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur."
       },
       "playing": {
-        "1": "Vos êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre là où vous vous êtes arrêté.",
+        "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre là où vous vous êtes arrêté.",
         "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux lister.",
         "3": "Mais ce n'est pas tout :"
       },
       "regular": {
         "1": "Vous pouvez consulter votre liste personnelle, ou naviguer dans nos collections. Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur.",
-        "2": "reprendre la lecture, livres récents, liste personnelle, collections, chercher un livre : que désirez-vous faire ?"
+        "2": "Reprendre la lecture. Livres récents. Liste personnelle. Collections. Chercher un livre : que désirez-vous faire ?"
       }
     },
     "help": {
       "1": "Vous pouvez consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
-      "2": "Que préférez-vous faire : reprendre la lecture, livres récents, liste personnelle, collections ou chercher un livre ?"
+      "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou chercher un livre ?"
     }
   },
   "search": {
@@ -130,7 +130,7 @@
   },
   "void": "au revoir!",
   "bye": {
-    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres audio préférés"
+    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres audio préférés."
   },
   "fallback": {
     "1": "Je n'ai pas compris, que désirez-vous faire ?",
