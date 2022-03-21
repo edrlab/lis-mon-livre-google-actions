@@ -57,7 +57,7 @@ describe('home_new_user_maybe_later handler', () => {
       body.handler.name = 'home_new_user_maybe_later__on_enter';
       body.scene.name = scene;
 
-      const message = `You can ask me to link your account, or learn more about the CELA Library. You can also exit this skill, by simply saying 'stop'. What is your decision?\n`;
+      const message = `You can ask me to link your account, or learn more about the CELA Library. You can also exit this application, by simply saying 'stop'. What is your decision?\n`;
 
       const data = await expressMocked(body, headers);
 
