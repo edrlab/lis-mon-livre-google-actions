@@ -136,7 +136,8 @@ describe('home_user handler', () => {
 
       data.prompt.firstSimple.speech.should.to.be.eq('Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\n' +
       'You can search for a new one alltogether.\n' +
-      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n');
+      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n' +
+      'What would you like to do?\n');
     });
     it('on enter with a current playing and history', async () => {
       body.handler.name = 'home_user__on_enter';
@@ -175,7 +176,8 @@ describe('home_user handler', () => {
       data.prompt.firstSimple.speech.should.to.be.eq('Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\n' +
       'You are also reading 3 other recent books, which you can choose from.\n' +
       'You can search for a new one alltogether.\n' +
-      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n');
+      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n' +
+      'What would you like to do?\n');
     });
 
     it('repeat', async () => {
