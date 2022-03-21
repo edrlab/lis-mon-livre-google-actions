@@ -57,7 +57,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'home_new_user_no__on_enter';
       body.scene.name = scene;
 
-      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about CELA?\n`;
+      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about registering on the CELA Library?\n`;
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -68,8 +68,8 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // const message = `CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
+      // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('info');
     });
@@ -92,7 +92,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_no');
     });
 
-    const help = `If you'd like to learn more about CELA. You can ask me by saying 'what is CELA', or simply say 'stop' to exit this app. If you have any other questions, we recommend reaching out to your local library for support. Do you want to learn more about CELA or exit this app?\n`;
+    const help = `In order to use the CELA library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the CELA Livrary?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user_no__intent__help';
@@ -123,7 +123,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user_no');
     });
@@ -145,7 +145,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user_no');
     });

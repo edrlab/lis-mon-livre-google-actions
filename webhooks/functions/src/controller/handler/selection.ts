@@ -32,7 +32,7 @@ export const enter: THandlerFn = async (m) => {
     if (isEmpty) {
       if (handler === "search__on_enter") {
         m.say("search.empty.1", {name: NAME});
-        m.nextScene = "search";
+        m.nextScene = "home_user"; // FIX GACTIONS ISSUE : INFINE LOOP CONTROL
         m.searchSession.query = '';
         m.searchSession.state = 'RUNNING';
         m.searchSession.from = "selection__on_enter";

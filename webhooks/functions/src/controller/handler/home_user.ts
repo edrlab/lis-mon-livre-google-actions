@@ -58,6 +58,7 @@ const enter: THandlerFn = async (m) => {
     }
     m.say("home_user.enter.playing.3");
     m.say("home_user.enter.regular.1");
+    m.say("home_user.enter.regular.2");
 
   } else if (regularUser) {
     // regularUser

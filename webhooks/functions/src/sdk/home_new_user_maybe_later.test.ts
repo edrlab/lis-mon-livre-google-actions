@@ -57,7 +57,7 @@ describe('home_new_user_maybe_later handler', () => {
       body.handler.name = 'home_new_user_maybe_later__on_enter';
       body.scene.name = scene;
 
-      const message = `You can ask me to link your account, or to learn more about CELA. You can also exit this skill, by simply saying 'stop'. What would you like to do?\n`;
+      const message = `You can ask me to link your account, or learn more about the CELA Library. You can also exit this application, by simply saying 'stop'. What is your decision?\n`;
 
       const data = await expressMocked(body, headers);
 
@@ -124,7 +124,7 @@ describe('home_new_user_maybe_later handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
@@ -146,7 +146,7 @@ describe('home_new_user_maybe_later handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });

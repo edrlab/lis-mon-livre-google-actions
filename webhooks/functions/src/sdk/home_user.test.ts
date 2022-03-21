@@ -67,7 +67,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter'; // new session
 
-      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -77,7 +77,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'id'; // new session
 
-      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -90,7 +90,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter with session state but new session undefined so the session data is not removed'; // new session
 
-      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -103,7 +103,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'test';
 
-      const message = 'Would you like to search for a specific book or author, browse our collections or would you prefer starting a book from your bookshelf ?\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -134,9 +134,10 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\n' +
-      'You can search for a new one alltogether.\n' +
-      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can pick up where you left off.\n' +
+      'But there is more:\n' +
+      'You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.\n' +
+      'Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?\n');
     });
     it('on enter with a current playing and history', async () => {
       body.handler.name = 'home_user__on_enter';
@@ -172,10 +173,11 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Last time, you read Chapter 10 of my title, hello, which you can resume where you left off.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can pick up where you left off.\n' +
       'You are also reading 3 other recent books, which you can choose from.\n' +
-      'You can search for a new one alltogether.\n' +
-      'You can search for a book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books.\n');
+      'But there is more:\n' +
+      'You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.\n' +
+      'Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?\n');
     });
 
     it('repeat', async () => {
@@ -321,7 +323,7 @@ describe('home_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_user');
     });
@@ -343,7 +345,7 @@ describe('home_user handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_user');
     });

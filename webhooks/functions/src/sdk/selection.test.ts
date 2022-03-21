@@ -55,9 +55,9 @@ describe(scene + ' handler', () => {
   });
 
   const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
-    const a = 'Pick one of these by saying their numbers.\n';
+    const a = 'Pick one of these by requesting the corresponding number, or ask for the next set.\n';
     const b = it.reduce((pv, [nb, title]) => pv + `${nb}. ${title}\n`, '');
-    const c = 'Which one would you like to start reading?\n';
+    const c = 'Which one will you choose?\n';
     return a + b + c;
   };
 
@@ -332,7 +332,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.search.from.should.to.be.eq('selection__on_enter');
       model.data.store.session.scene.search.query.should.to.be.eq('');
       model.data.store.session.scene.search.state.should.to.be.eq('RUNNING');
-      data.scene.next.name.should.to.be.eq('search');
+      data.scene.next.name.should.to.be.eq('home_user');
     });
 
     it('on enter - state running - publication list first page with no next link', async () => {
@@ -476,11 +476,11 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers, pullData, feed, webpub);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by saying their numbers.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by requesting the corresponding number, or ask for the next set.\n' +
       '1. my test title.\n' +
       '2. my test title.\n' +
       '3. my test title.\n' +
-      'Which one would you like to start reading?\n');
+      'Which one will you choose?\n');
       // data.scene.next.name.should.to.be.eq('selection');
     });
     it('on_enter - groups - state == DEFAULT should throw', async () => {
@@ -1065,7 +1065,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
@@ -1087,7 +1087,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
