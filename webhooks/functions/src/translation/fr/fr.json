@@ -98,9 +98,9 @@
         "notAvailable": "aucun autre résultat disponible"
       },
       "common": {
-        "1": "Choisissez l'un des titres suivants en donnant son numéro, ou demandez la page suivante.",
+        "1": "Choisissez l'un de ces titres en donnant son numéro, ou demandez les éléments suivants.",
         "2": "Numéro {{- symbol}} : {{- title}}.",
-        "3": "Lequel voulez-vous écouter ?"
+        "3": "Lequel choisissez-vous ?"
       },
       "nextPage": {
         "1": "Ou demandez la page suivante"

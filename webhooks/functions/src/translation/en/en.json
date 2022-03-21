@@ -98,9 +98,9 @@
         "notAvailable": "no another results available"
       },
       "common": {
-        "1": "Pick one of these by saying their numbers.",
+        "1": "Pick one of these by requesting the corresponding number, or ask for the next set.",
         "2": "{{- symbol}}. {{- title}}.",
-        "3": "Which one would you like to start reading?"
+        "3": "Which one will you choose?"
       },
       "empty": {
         "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
