@@ -31,7 +31,7 @@
   },
   "home_new_user_maybe_later": {
     "help": {
-      "1": "You can ask me to link your account, or learn more about the {{- name}} Library. You can also exit this skill, by simply saying 'stop'. What is your decision?"
+      "1": "You can ask me to link your account, or learn more about the {{- name}} Library. You can also exit this application, by simply saying 'stop'. What is your decision?"
     }
   },
   "home_new_user_no": {

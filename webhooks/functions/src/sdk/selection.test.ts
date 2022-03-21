@@ -55,9 +55,9 @@ describe(scene + ' handler', () => {
   });
 
   const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
-    const a = 'Pick one of these by saying their numbers.\n';
+    const a = 'Pick one of these by requesting the corresponding number, or ask for the next set.\n';
     const b = it.reduce((pv, [nb, title]) => pv + `${nb}. ${title}\n`, '');
-    const c = 'Which one would you like to start reading?\n';
+    const c = 'Which one will you choose?\n';
     return a + b + c;
   };
 
@@ -476,11 +476,11 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers, pullData, feed, webpub);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by saying their numbers.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by requesting the corresponding number, or ask for the next set.\n' +
       '1. my test title.\n' +
       '2. my test title.\n' +
       '3. my test title.\n' +
-      'Which one would you like to start reading?\n');
+      'Which one will you choose?\n');
       // data.scene.next.name.should.to.be.eq('selection');
     });
     it('on_enter - groups - state == DEFAULT should throw', async () => {
