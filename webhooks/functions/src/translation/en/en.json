@@ -125,7 +125,7 @@
       "1": "To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres ?"
     }
   },
-  "void": "need to replace this message",
+  "void": "Bye!",
   "bye": {
     "1": "Thank you for trying the app. To pick up your reading again, come back any time"
   },

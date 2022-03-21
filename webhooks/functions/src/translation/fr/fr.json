@@ -128,7 +128,7 @@
       "1": "Pour entendre un aperçu des thèmes disponibles, dites 'thème'. Pour un aperçu des genres disponibles, dites 'genre'. Voulez-vous entendre la liste des thèmes ou des genres disponibles ?"
     }
   },
-  "void": "Il faut remplacer ce message",
+  "void": "au revoir!",
   "bye": {
     "1": "Merci d'avoir essayé l'application. Pour reprendre votre lecture, revenez quand vous voulez."
   },
