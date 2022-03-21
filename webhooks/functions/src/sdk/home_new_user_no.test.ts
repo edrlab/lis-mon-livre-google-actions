@@ -57,7 +57,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'home_new_user_no__on_enter';
       body.scene.name = scene;
 
-      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about CELA?\n`;
+      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about registering on the CELA Library?\n`;
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -92,7 +92,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_no');
     });
 
-    const help = `If you'd like to learn more about CELA. You can ask me by saying 'what is CELA', or simply say 'stop' to exit this app. If you have any other questions, we recommend reaching out to your local library for support. Do you want to learn more about CELA or exit this app?\n`;
+    const help = `In order to use the CELA library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the CELA Livrary?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user_no__intent__help';
