@@ -9,21 +9,30 @@ localizedSettings:
   developerEmail: aide@bibliocaeb.ca
   developerName: bibliocaeb
   displayName: Lecture Accessible Canada
-  fullDescription: |-
-    Êtes-vous membre du Centre d'Accès Équitable aux Bibliothèques (CAÉB) ? L'application Lecture Accessible Canada vous donne alors accès à une bibliothèque de milliers de livres audio de multiples catégories. 
-    Vous pouvez écouter l'un de vos titres ou auteurs préférés, commencer un des livres présélectionnés de votre liste, ou partir a la recherche d'une nouveauté encore à découvrir. 
-    Dites simplement "Hey Google, je veux parler à Lecture accessible Canada" pour commencer à naviguer !
-    Besoin d'aide? Dites « aide » à tout moment dans l'application et nous vous remettrons sur la bonne voie !
-    Pendant la lecture de votre livre, vous pouvez mettre le lecteur en pause, reprendre la lecture ou naviguer de piste à piste.
-    Lors de votre première utilisation, Google vous demandra de connecter votre compte CAÉB. Il vous suffit  de dire 'oui' puis de suivre les instructions pas-à-pas. Une notification sera envoyée à votre appareil mobile, dans l'application Google Home, vous invitant à vous connecter à votre compte CAÉB. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter de votre bibliothèque CAÉB pendant des heures !
-    Besoin d'aide? Nos bibliothécaires se tiennent a votre disposition dans votre bibliothèque locale, ou par email à contact@cela.ca
+  fullDescription: "Êtes-vous membre du Centre d'Accès Équitable aux Bibliothèques
+    (CAÉB) ? L'application Lecture Accessible Canada vous donne alors accès à une
+    bibliothèque de milliers de livres audio de multiples catégories. \nVous pouvez
+    écouter l'un de vos titres ou auteurs préférés, commencer un des livres présélectionnés
+    de votre liste, ou partir a la recherche d'une nouveauté encore à découvrir. \nDites
+    simplement \"Hey Google, je veux parler à Lecture accessible Canada\" pour commencer
+    à naviguer !\nBesoin d'aide? Dites « aide » à tout moment dans l'application et
+    nous vous remettrons sur la bonne voie !\nPendant la lecture de votre livre, vous
+    pouvez mettre le lecteur en pause, reprendre la lecture ou naviguer de piste à
+    piste.\nLors de votre première utilisation, Google vous demandra de connecter
+    votre compte CAÉB. Il vous suffit  de dire 'oui' puis de suivre les instructions
+    pas-à-pas. Une notification sera envoyée à votre appareil mobile, dans l'application
+    Google Home, vous invitant à vous connecter à votre compte CAÉB. Vous n'aurez
+    à le faire qu'une seule fois, et vous serez prêt à commencer à profiter de votre
+    bibliothèque CAÉB pendant des heures !\nBesoin d'aide? Nos bibliothécaires se
+    tiennent a votre disposition dans votre bibliothèque locale, ou par email à contact@cela.ca"
   privacyPolicyUrl: https://bibliocaeb.ca/privacy
   pronunciation: Lecture Accessible Canada
   sampleInvocations:
   - Parler à Lecture Accessible Canada
   - Parler avec Lecture Accessible Canada
   - Je veux me connecter à Lecture Accessible Canada
-  shortDescription: Utilisez Lecture Accessible Canada pour écouter les livres audio de la bibliothèque CAÉB.
+  shortDescription: Utilisez Lecture Accessible Canada pour écouter les livres audio
+    de la bibliothèque CAÉB.
   smallLogoImage: https://lh3.googleusercontent.com/URQ_E-wxMdUfuq5C8rnCLi8c6hpFNrwvMJ7PGGfULzVSqjPctRU6TLVwgTz5O45uv9SwVJmQGgeO
   voice: female_1
 projectId: cela-1
@@ -31,5 +40,4 @@ surfaceRequirements:
   minimumRequirements:
   - capability: AUDIO_OUTPUT
   - capability: MEDIA_RESPONSE_AUDIO
-testingInstructions: |-
-  303715 / EDRLabs123456
+testingInstructions: 303715 / EDRLabs123456
