@@ -3,7 +3,7 @@ parameters:
   type:
     name: actions.type.Number
 trainingPhrases:
-- Le ($number 'permier' auto=false)
+- Le ($number 'premier' auto=false)
 - Le ($number 'second' auto=false)
 - Le ($number 'troisième' auto=false)
 - Le ($number 'quatrième' auto=false)
