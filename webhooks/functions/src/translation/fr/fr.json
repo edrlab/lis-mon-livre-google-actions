@@ -2,7 +2,7 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Bienvenue dans la bibliothèque {{- name}}, où vous pouvez d'accéder facilement à vos livres audios favoris. "
+        "1": "Bienvenue dans la bibliothèque {{- name}}, où vous pouvez accéder facilement à vos livres audios favoris. "
       },
       "linked": {
         "1": "Bienvenue dans votre bibliothèque {{- name}} ! Rappelez-vous, vous pouvez demander de l'aide à tout instant."
@@ -110,7 +110,7 @@
       }
     },
     "help": {
-      "1": "A cette étape, vous devez choisir un titre parmi les trois proposés, en mentionnant son numéro, par exemple numéro 1. Vous pouvez aussi demander trois autres titres par les commandes Suivants ou Précédents.",
+      "1": "A cette étape, vous devez choisir un titre parmi ceux proposés, en mentionnant son numéro, par exemple numéro 1. Vous pouvez aussi demander d'autres titres par les commandes Suivants ou Précédents.",
       "2": "Que souhaitez-vous faire ?"
     }
   },
