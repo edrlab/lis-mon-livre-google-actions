@@ -107,7 +107,7 @@
       }
     },
     "help": {
-      "1": "Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.",
+      "1": "At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands.",
       "2": "What would you like to do?"
     }
   },
