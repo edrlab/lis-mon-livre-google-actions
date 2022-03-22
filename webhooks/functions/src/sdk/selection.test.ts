@@ -61,7 +61,7 @@ describe(scene + ' handler', () => {
     return a + b + c;
   };
 
-  const help = `Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.\n`; // What would you like to do?\n`;
+  const help = 'At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands.\n';
 
   describe('app', () => {
     it('on enter', async () => {
