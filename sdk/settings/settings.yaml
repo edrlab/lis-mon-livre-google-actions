@@ -21,10 +21,12 @@ localizedSettings:
   pronunciation: Lecture Accessible Canada
   sampleInvocations:
   - Parler à Lecture Accessible Canada
+  - Parler avec Lecture Accessible Canada
+  - Je veux me connecter à Lecture Accessible Canada
   shortDescription: Utilisez Lecture Accessible Canada pour écouter les livres audio de la bibliothèque CAÉB.
   smallLogoImage: https://lh3.googleusercontent.com/URQ_E-wxMdUfuq5C8rnCLi8c6hpFNrwvMJ7PGGfULzVSqjPctRU6TLVwgTz5O45uv9SwVJmQGgeO
   voice: female_1
-projectId: cela-2
+projectId: cela-1
 surfaceRequirements:
   minimumRequirements:
   - capability: AUDIO_OUTPUT
