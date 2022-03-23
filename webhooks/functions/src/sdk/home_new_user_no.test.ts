@@ -57,7 +57,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'home_new_user_no__on_enter';
       body.scene.name = scene;
 
-      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about registering on the CELA Library?\n`;
+      const message = `In order to read books using the EDRLAB Library via Google, you need to be a registered EDRLAB member and link your account.\nWould you like to learn more about registering on the EDRLAB Library?\n`;
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -68,7 +68,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      // const message = `CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership, or would you prefer to exit this skill?\n`;
+      // const message = `EDRLAB is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
       // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('info');
@@ -92,7 +92,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_no');
     });
 
-    const help = `In order to use the CELA library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the CELA Livrary?\n`;
+    const help = `In order to use the EDRLAB library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the EDRLAB Livrary?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user_no__intent__help';

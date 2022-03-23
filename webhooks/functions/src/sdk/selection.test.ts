@@ -324,7 +324,7 @@ describe(scene + ' handler', () => {
       // @ts-ignore
       feed.publications = [];
 
-      message = 'It seems like the book you are looking for is currently unavailable in the CELA Library.\n';
+      message = 'It seems like the book you are looking for is currently unavailable in the EDRLAB Library.\n';
 
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
