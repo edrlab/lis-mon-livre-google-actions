@@ -13,9 +13,17 @@ const enter: THandlerFn = async (m) => {
   
   const isPlaying = m.isCurrentlyPlaying();
 
+  const isRegular = m.isARegularUser;
+  const a = m.playerCurrent.playing;
+  if (!isRegular || !a) {
+    m.say("player.explain");
+  }
+
   if (isPlaying) {
     m.say("player.askResumeLastOffset");
   } else {
+
+    await intro(m);
     m.nextScene = "player";
   }
   m.playerCurrent.playing = true;
@@ -26,6 +34,9 @@ const intro: THandlerFn = async (m) => {
 
   const {title} = await m.getCurrentPlayingTitleAndChapter();
   m.say("player.start", {title});
+  
+  
+  // m.say("player.start2", {title});
 }
 
 const yes: THandlerFn = async (m) => {

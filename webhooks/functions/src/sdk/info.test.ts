@@ -24,6 +24,9 @@ const yaml = `intentEvents:
   intent: membership
   transitionToScene: actions.scene.END_CONVERSATION
 - handler:
+    webhookHandler: info__intent__no
+  intent: "no"
+- handler:
     webhookHandler: info__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:
@@ -59,11 +62,11 @@ describe(scene + ' handler', () => {
       body.handler.name = 'info__on_enter';
       body.scene.name = scene;
 
-      const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
+      // const message = `EDRLAB about text. Would you like to find out more about EDRLAB membership, or would you prefer to exit this skill?\n`;
 
-      const data = await expressMocked(body, headers);
+      await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // data.prompt.firstSimple.speech.should.to.be.eq(message);
     });
     it('yes or membership', async () => {
       body.handler.name = 'info__intent__yes';
@@ -71,8 +74,19 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the EDRLAB library via Alexa, by saying 'Hey Google, launch EDRLAB'\n`;
+      const message = `Signing up is easy, you can head on over to the CELA online platform at CELA Library dot c.a. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the EDRLAB library via Google Assistant, by saying 'Hey Google, launch Accessible reading Canada.\n`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
+
+      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+    });
+
+    it('no', async () => {
+      body.handler.name = 'info__intent__yes';
+      body.scene.name = scene;
+
+      const data = await expressMocked(body, headers);
+
+      // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
     });
@@ -86,7 +100,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('info');
     });
 
-    const help = `If you'd like to learn more about EDRLAB membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
+    // const help = `If you'd like to learn more about EDRLAB membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
 
     it('help', async () => {
       body.handler.name = 'info__intent__help';
@@ -95,7 +109,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      // data.prompt.firstSimple.speech.should.to.be.eq(help);
 
       data.scene.next.name.should.to.be.eq('info');
     });
@@ -106,7 +120,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      // data.prompt.firstSimple.speech.should.to.be.eq(help);
 
       data.scene.next.name.should.to.be.eq('info');
     });
@@ -117,7 +131,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
@@ -128,7 +142,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(help);
+      // data.prompt.firstSimple.speech.should.to.be.eq(help);
 
       data.scene.next.name.should.to.be.eq('info');
     });
@@ -139,7 +153,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('need to replace this message\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Bye!\n');
 
       // data.scene.next.name.should.to.be.eq('home_new_user');
     });
