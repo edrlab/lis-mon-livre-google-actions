@@ -1,4 +1,18 @@
 localizedSettings:
-  displayName: edrlab
-  pronunciation: edrlab
+  developerEmail: help@celalibrary.ca
+  developerName: Centre for Equitable Library Access
+  displayName: guadeloupe
+  fullDescription: |-
+    Are you a user of the Centre for Equitable Library Access (CELA)? The CELA Library application gives you access to an audio library of thousands of audiobooks, across multiple categories.  Pick one of your favourite authors or books, choose a title already on your CELA bookshelf or discover a new favourite. Please note that CELA Library is available to people in Canada living with a print disability.
+    Just say ‘Hey Google, talk to Accessible Reading Canada” to start listening!
+    Need help? Just say ‘help’ at any time in the skill and we’ll get you back on track!
+    While you’re listening to your audiobook you can ask Google to ‘pause’ or ‘resume’ at any time, just like that!
+    Want to take a book to bed? No problem! Simply ask Alexa to read your book for a duration of your choice – by saying ‘Hey Google, Accessible Reading Canada to resume my last book for 20 minutes’.
+    To enjoy audiobooks via Google, you’ll need to connect your CELA account. To do so, answer ‘yes’ when prompted to do so and follow the instructions. A notification will be sent to your mobile device, prompting you to log in to your CELA account. You’ll only have to do this once, and you’ll be all set to start enjoying the wonderful world of CELA books for hours on end!
+  privacyPolicyUrl: https://celalibrary.ca/privacy
+  pronunciation: guadeloupe
+  sampleInvocations:
+  - Talk to guadeloupe
+  shortDescription: Use CELA Library to listen to audiobooks.
+  smallLogoImage: https://lh3.googleusercontent.com/HliTGFI0iiD6xAiTJPgRWQyIKHzW7bK87UjIHly6rwYJjz3Dw-rHod2zlPoN9WsS6TckpoMBr3yn
   voice: female_1

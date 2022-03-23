@@ -21,7 +21,7 @@ export const main = (machine: TMachine) => {
 
     machine.say("main.welcome.noLinked.1", { name: NAME});
 
-    machine.authenticationState = "NO_LINKED";
+    // machine.authenticationState = "NO_LINKED";
 
     machine.nextScene = "home_new_user";
   }
