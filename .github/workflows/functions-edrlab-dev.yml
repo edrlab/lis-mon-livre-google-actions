@@ -19,7 +19,7 @@ jobs:
 
     env:
       working-directory: './webhooks/functions'
-      project-id: 'cela-2'
+      project-id: 'edrlab-1'
     defaults:
       run:
         working-directory: './webhooks/functions'
