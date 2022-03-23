@@ -14,6 +14,9 @@ intentEvents:
   intent: membership
   transitionToScene: actions.scene.END_CONVERSATION
 - handler:
+    webhookHandler: info__intent__no
+  intent: "no"
+- handler:
     webhookHandler: info__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:

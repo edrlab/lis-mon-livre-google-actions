@@ -11,7 +11,7 @@ slots:
     writeSessionParam: AccountLinkingSlot
   config:
     '@type': type.googleapis.com/google.actions.conversation.v3.SignInSpec
-    opt_context: To keep using EDRLab
+    opt_context: ""
   defaultValue:
     sessionParam: AccountLinkingSlot
   name: AccountLinkingSlot

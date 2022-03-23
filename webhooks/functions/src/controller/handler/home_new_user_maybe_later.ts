@@ -18,8 +18,10 @@ export const home_new_user_maybe_later = (app: Assistant) => {
 }
 
 const enter: THandlerFn = (m) => {
-  m.say("home_new_user.maybeLater.1", { name: NAME });
-  m.say("home_new_user.maybeLater.2", { name: NAME });
+  // m.say("home_new_user.maybeLater.1", { name: NAME });
+  // m.say("home_new_user.maybeLater.2", { name: NAME });
+
+  m.say("home_new_user_maybe_later.help.1", {name: NAME});
 }
 
 const linkAccount: THandlerFn = (m) => {
@@ -29,7 +31,7 @@ const linkAccount: THandlerFn = (m) => {
 
 const help: THandlerFn = (m) => {
 
-  m.say("home_new_user_maybe_later.help.1", {name: NAME});
+  // m.say("home_new_user_maybe_later.help.1", {name: NAME});
 
   m.nextScene = "home_new_user_maybe_later";
 }
@@ -41,7 +43,7 @@ const repeat: THandlerFn = (m) => {
 
 const learnMore: THandlerFn = (m) => {
 
-  m.say("info.about.1", { name: NAME });
+  // m.say("info.about.1", { name: NAME });
 
   m.nextScene = "info";
 }

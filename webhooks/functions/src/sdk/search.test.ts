@@ -68,7 +68,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'search__on_enter';
       body.scene.name = scene;
 
-      const message = `In the meanwhile, is there another title or author you'd like to search for ?\n`;
+      const message = `In the meanwhile, is there another title or author you'd like to search for?\n`;
 
       const pullData = parsedDataClone();
 

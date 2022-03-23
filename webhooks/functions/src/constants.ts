@@ -1,7 +1,9 @@
-
 export const NAME = "EDRLAB";
 
+export const setName = (locale: TLang) => {};
+
 export const API_BASE_URL = "https://storage.googleapis.com/audiobook_edrlab/feed.json";
+export const EDRLAB_FUNCTION_URL = 'https://us-central1-edrlab-1.cloudfunctions.net/manifest';
 
 export const ALL_PUBLICATION_LIST_URL = "https://storage.googleapis.com/audiobook_edrlab/navigation/all.json";
 export const BOOKSHELF_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
@@ -19,5 +21,6 @@ export const LAST_SEEN_THRESHOLD = 72;
 
 export const PROJECT_ID = 'edrlab-1';
 
+export const TIMER = 8000;
 
-type TLang = 'fr' | 'en';
+export type TLang = 'fr' | 'en';
