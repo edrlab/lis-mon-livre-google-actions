@@ -1,6 +1,6 @@
 import {ok} from 'assert';
 import {AuthenticationStorage, http as httpOpdsFetcherParser, OpdsFetcher} from 'opds-fetcher-parser';
-import {API_BASE_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB} from '../constants';
+import {API_BASE_URL, DEFAULT_LANGUAGE, EDRLAB_FUNCTION_URL, LAST_SEEN_THRESHOLD, PADDING_GROUP, PADDING_PUB, TLang} from '../constants';
 import {ISessionScene, TKeySessionScene, TKindSelection, TStateAuthentication} from '../model/storage.interface';
 import {StorageModel} from '../model/storage.model';
 import {i18n, TI18n, TI18nKey} from '../translation';
@@ -9,14 +9,16 @@ import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
-import {IOpdsLinkView} from 'opds-fetcher-parser/build/src/interface/opds';
+import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
+import {WebpubError} from '../error';
 
 export class Machine {
   private _conv: IConversationV3;
   private _i18n: TI18n;
   private _model: StorageModel | undefined;
   private _fetcher: OpdsFetcher | undefined;
+  private _locale: TLang;
 
   private _sayAcc: string;
 
@@ -29,6 +31,7 @@ export class Machine {
     this._conv = conv;
 
     this._sayAcc = '';
+    this._locale = DEFAULT_LANGUAGE;
   }
 
   public async begin({
@@ -47,6 +50,8 @@ export class Machine {
     } else {
       if (typeof bearerToken === 'string') {
         this._model = await StorageModel.create(bearerToken);
+      } else {
+        console.info('No Bearer Token Available');
       }
     }
 
@@ -59,7 +64,11 @@ export class Machine {
           accessToken: bearerToken,
           authenticationUrl: API_BASE_URL,
         });
-        const http = new httpOpdsFetcherParser(undefined, authenticationStorage);
+        authenticationStorage.setAuthenticationToken({
+          accessToken: bearerToken,
+          authenticationUrl: EDRLAB_FUNCTION_URL,
+        });
+        const http = new httpOpdsFetcherParser(undefined, authenticationStorage, this._locale);
         this._fetcher = new OpdsFetcher(http);
       }
     }
@@ -91,6 +100,11 @@ export class Machine {
 
   public get isLinked() {
     return this._conv.user.accountLinkingStatus;
+  }
+
+  public setLanguage(locale: TLang) {
+    this._locale = locale;
+    return this._i18n.changeLanguage(locale);
   }
 
   public set nextScene(scene: TSdkScene2) {
@@ -148,6 +162,14 @@ export class Machine {
     return this._model.store.player.history.size;
   }
 
+  public get playingHistorySortByDate() {
+    ok(this._model);
+    return new Map(
+        [...this._model.store.player.history]
+            .sort(([, {date: dateA}], [, {date: dateB}]) => dateB.getTime() - dateA.getTime()),
+    );
+  }
+
   public async getCurrentPlayingTitleAndChapter() {
     ok(this._model);
 
@@ -196,13 +218,10 @@ export class Machine {
     if (!this.isValidHttpUrl(url)) {
       throw new Error('not valid playing url');
     }
-    if (!time || !index) {
+    if (time === 0 && index === 0) {
       return false;
     }
-    if (time > 0 || index > 0) {
-      return true;
-    }
-    return false;
+    return true;
   }
 
   public get playerCurrent() {
@@ -217,7 +236,8 @@ export class Machine {
     from: TSdkHandler,
     url: string,
   }) {
-    if (!this.isValidHttpUrl(url)) {
+    // @ts-ignore
+    if (!this.isValidHttpUrl(url) && !url.startsWith('data://')) { // data:// for recent books
       throw new Error('not a valid url');
     }
     this.selectionSession = {
@@ -253,11 +273,35 @@ export class Machine {
 
   public async selectPublication(url: string, number: number) {
     ok(this._model);
-    if (!this.isValidHttpUrl(url)) {
+    // @ts-ignore
+    if (!this.isValidHttpUrl(url) && !url.startsWith('data://')) { // recent books
       throw new Error('url not valid');
     }
 
-    const pub = await this.getPublicationFromNumberInSelectionWithUrl(url, number);
+    let pub: {
+      title: string;
+      author: string;
+      webpubUrl: string;
+  } | undefined;
+
+    if (url.startsWith('data://')) {
+      const dataStr = url.substring('data://'.length);
+      const data = JSON.parse(dataStr);
+      ok(Array.isArray(data));
+
+      const urlFromData = data[number - 1];
+      if (this.isValidHttpUrl(urlFromData)) {
+        const webpub = await this.webpubRequest(urlFromData);
+        pub = {
+          title: webpub.title,
+          author: webpub.authors[0] || '',
+          webpubUrl: urlFromData,
+        };
+      }
+    } else {
+      pub = await this.getPublicationFromNumberInSelectionWithUrl(url, number);
+    }
+
     if (pub) {
       const webpubUrl = pub.webpubUrl;
       if (!this.isValidHttpUrl(webpubUrl)) {
@@ -471,10 +515,6 @@ export class Machine {
     const startTimeRaw = this._model.store.player.current.time;
 
     const webpub = await this.webpubRequest(url);
-    if (!webpub) {
-      throw new Error('no webpub');
-      // @TODO how to handle these errors : just tell it to the user that the webpub is not readable and must choice an another
-    }
 
     let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length) ?
       startIndexRaw :
@@ -523,18 +563,64 @@ export class Machine {
     if (!this._fetcher) {
       throw new Error('no fetcher available !');
     }
-    const webpub = await this._fetcher.webpubRequest(url);
-    return webpub;
+    try {
+      const webpub = await this._fetcher.webpubRequest(url);
+      return webpub;
+    } catch (e) {
+      const error = new WebpubError(`${e?.toString ? e.toString() : e}`);
+      error.code = 401;
+      throw error;
+    }
   }
 
   private async feedRequest(url: string) {
-    if (!validator.isURL(url)) {
-      throw new Error('url not valid : ' + url);
-    }
     if (!this._fetcher) {
       throw new Error('no fetcher available !');
     }
-    const feed = await this._fetcher.feedRequest(url);
+
+    // recent books hack
+    if (url.startsWith('data://')) {
+      const dataStr = url.substring('data://'.length);
+      const data = JSON.parse(dataStr);
+      ok(Array.isArray(data));
+
+      const publications: IOpdsPublicationView[] = [];
+      for (const urlFromData of data) {
+        const webpub = await this._fetcher.webpubRequest(urlFromData);
+        const title = webpub.title || '';
+        const authors = webpub.authors || [];
+        publications.push({
+          title,
+          // @ts-ignore
+          authors: [{name: authors[0]}],
+          openAccessLinks: [{
+            url: urlFromData,
+          }],
+        });
+      }
+
+      const feed: IOpdsResultView = {
+        title: 'recent books',
+        publications,
+      };
+
+      return feed;
+    }
+
+    if (!validator.isURL(url)) {
+      throw new Error('url not valid : ' + url);
+    }
+    let feed: IOpdsResultView = {
+      title: '',
+      publications: [],
+    };
+    try {
+      feed = await this._fetcher.feedRequest(url);
+    } catch (e) {
+      console.error('FETCHER ERROR START');
+      console.error(e);
+      console.error('FETCHER ERROR END');
+    }
     return feed;
   }
 
@@ -553,7 +639,8 @@ export class Machine {
     const sameSession = id === idFromStore;
     if (sameSession) {
       console.info('MIDDLEWARE :: Session in progress');
-      this.setSessionState('home_user', 'SESSION');
+      // see home_user.ts
+      // this.setSessionState('home_user', 'SESSION');
     } else {
       console.info('MIDDLEWARE :: new SESSION');
       this._model.store.session = {

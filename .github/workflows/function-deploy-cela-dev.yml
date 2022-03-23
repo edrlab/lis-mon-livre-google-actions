@@ -3,10 +3,10 @@ name: functions deploy
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ cela-dev ]
     paths:
       - 'webhooks/**'
-      - '.github/workflows/functions-edrlab-dev.yml'
+      - '.github/workflows/function-deploy-cela-dev.yml'
 
 jobs:
   deploy:

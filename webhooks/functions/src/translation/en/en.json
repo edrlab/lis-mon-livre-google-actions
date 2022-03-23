@@ -2,10 +2,10 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Welcome to {{- name}} Library!"
+        "1": "Welcome to {{- name}} Library, where you can easily access your favorite audio books."
       },
       "linked": {
-        "1": "Welcome back to your {{- name}} Library!"
+        "1": "Welcome back to your {{- name}} Library! Remember, you can ask for help at any time."
       }
     }
   },
@@ -18,61 +18,63 @@
     },
     "no": {
       "1": "In order to read books using the {{- name}} Library via Google, you need to be a registered {{- name}} member and link your account.",
-      "2": "Would you like to learn more about {{- name}}?"
+      "2": "Would you like to learn more about registering on the {{- name}} Library?"
     },
     "help": {
-      "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your CELA account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your {{- name}} account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
+      "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your {{- name}} account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your {{- name}} account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
       "2": "Would you like to link your account right now?"
     },
     "maybeLater": {
-      "1": "Of course! you can learn more about {{- name}} or quit for now.",
+      "1": "In order to use the {{- name}} Library via your Google Home, you must be a registered member of {{- name}} and link your account. In the meanwhile, you can learn more about {{- name}} or quit for now.",
       "2": "What would you like to do?"
     }
   },
   "home_new_user_maybe_later": {
     "help": {
-      "1": "You can ask me to link your account, or to learn more about {{- name}}. You can also exit this skill, by simply saying 'stop'. What would you like to do?"
+      "1": "You can ask me to link your account, or learn more about the {{- name}} Library. You can also exit this application, by simply saying 'stop'. What is your decision?"
     }
   },
   "home_new_user_no": {
     "help": {
-      "1": "If you'd like to learn more about {{- name}}. You can ask me by saying 'what is {{- name}}', or simply say 'stop' to exit this app. If you have any other questions, we recommend reaching out to your local library for support. Do you want to learn more about {{- name}} or exit this app?"
+      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Livrary?"
     }
   },
   "info": {
     "about": {
-      "1": "{{- name}} about text. Would you like to find out more about {{- name}} membership, or would you prefer to exit this skill?"
+      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about the {{- name}} membership?"
     },
     "help": {
-      "1": "If you'd like to learn more about {{- name}} membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
+      "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "Signing up is easy, you can head on over to the CELA online platform at 'URL'. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Alexa, by saying 'Hey Google, launch {{- name}}'"
+      "1": "Signing up is easy, you can head on over to the CELA online platform at CELA Library dot c.a. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying 'Hey Google, launch Accessible reading Canada."
     }
   },
   "home_user": {
     "enter": {
       "newlyUser": {
         "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-        "2": "Would you like to search for a specific book or author, get a recommendation or would you prefer starting a book from your selection ?"
+        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author."
       },
       "playing": {
-        "1": "Last time, you read Chapter {{- chapterNumber}} of {{- titleAndAuthor}}, which you can resume where you left off.",
+        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can pick up where you left off.",
         "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
-        "3": "You can search for a new one alltogether."
+        "3": "But there is more:"
       },
       "regular": {
-        "1": "What would you like to do?"
+        "1": "You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.",
+        "2": "Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?"
       }
     },
     "help": {
-      "1": "You can search for a specific book by title or author, browse our collections or check your bookshelf to start reading one of your preselected books."
+      "1": "You can pick the books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
+      "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or search for a book?"
     }
   },
   "search": {
     "enter": {
       "1": "What book or author are you looking for ?",
-      "2": "In the meanwhile, is there another title or author you'd like to search for ?"
+      "2": "In the meanwhile, is there another title or author you'd like to search for?"
     },
     "empty": {
       "1": "It seems like the book you are looking for is currently unavailable in the {{- name}} Library.",
@@ -96,42 +98,44 @@
         "notAvailable": "no another results available"
       },
       "common": {
-        "1": "Pick one of these by saying their numbers.",
-        "2": "{{- symbol}}. {{- title}}",
-        "3": "Which one would you like to start reading?"
+        "1": "Pick one of these by requesting the corresponding number, or ask for the next set.",
+        "2": "{{- symbol}}. {{- title}}.",
+        "3": "Which one will you choose?"
       },
       "empty": {
         "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
       }
     },
     "help": {
-      "1": "Pick one out of 3 titles by mentioning their numbers. You can also ask for 'another one'.",
+      "1": "At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands.",
       "2": "What would you like to do?"
     }
   },
   "player": {
-    "start": "I start reading {{- title}}",
-    "askResumeLastOffset": "Do you want to pick up where it left off ?"
+    "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time. Now, shall we get started with 'A Slow Fire Burning'?",
+    "start": "Let's start reading {{- title}}",
+    "start2": "Let's continue reading {{- title}}",
+    "askResumeLastOffset": "Do you want to pick up where it left off?"
   },
   "collections": {
     "enter": {
-      "1": "Okay, would you prefer to get a book selection by theme or by genre ?"
+      "1": "Okay, would you prefer to get a choice of collections by theme or by genre?"
     },
     "help": {
-      "1": "To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres ?"
+      "1": "To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres?"
     }
   },
-  "void": "need to replace this message",
+  "void": "Bye!",
   "bye": {
-    "1": "Thank you for trying the app. To pick up your reading again, come back any time"
+    "1": "Good bye! Remember, if you need help using the Accessible Reading Canada application, our librarians are here to help. We hope you will come back soon to enjoy your favourite audio books."
   },
   "fallback": {
-    "1": "I did not understand",
-    "2": "I really did not understand"
+    "1": "I did not understand, what would you like to do?",
+    "2": "Sorry, I really did not understand. Can you please try one more time?"
   },
   "silence": {
-    "1": "I did not hear",
-    "2": "I really did not hear"
+    "1": "I did not hear anything.",
+    "2": "Sorry, I really don't hear well."
   },
   "error": {
     "1": "Oops, something went wrong. I will send you back to the home menu"

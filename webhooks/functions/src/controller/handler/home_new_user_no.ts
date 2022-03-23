@@ -31,7 +31,7 @@ const help: THandlerFn = (m) => {
 
 const yes: THandlerFn = (m) => {
 
-  m.say("info.about.1", {name: NAME});
+  // m.say("info.about.1", {name: NAME});
 
   m.nextScene = "info";
 }

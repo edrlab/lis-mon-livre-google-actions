@@ -15,6 +15,9 @@ intentEvents:
     webhookHandler: home_user__intent__search
   intent: search
 - handler:
+    webhookHandler: home_user__intent__recent_books
+  intent: recent_books
+- handler:
     webhookHandler: home_user__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:

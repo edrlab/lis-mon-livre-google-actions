@@ -28,7 +28,7 @@ const bodyCopy = () => Object.assign({}, {
   'intent': {
     'name': 'actions.intent.MAIN',
     'params': {},
-    'query': 'Parler avec dev edrlab',
+    'query': 'Parler avec dev CELA',
   },
   'scene': {
     'name': 'actions.scene.START_CONVERSATION',
@@ -42,7 +42,7 @@ const bodyCopy = () => Object.assign({}, {
     'languageCode': '',
   },
   'user': {
-    'locale': 'fr-CA',
+    'locale': 'en-US',
     'params': {
       'bearerToken': '',
     },
@@ -85,7 +85,7 @@ export const convRequestInHandle = {
     'intent': {
       'name': 'actions.intent.MAIN',
       'params': {},
-      'query': 'Parler avec dev edrlab',
+      'query': 'Parler avec dev CELA',
     },
     'scene': {
       'name': 'actions.scene.START_CONVERSATION',
@@ -142,7 +142,7 @@ export const convRequestInHandle = {
   },
   'intent': {
     'name': 'actions.intent.MAIN',
-    'query': 'Parler avec dev edrlab',
+    'query': 'Parler avec dev CELA',
     'params': {},
   },
   'scene': {
