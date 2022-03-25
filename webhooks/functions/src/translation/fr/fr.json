@@ -2,7 +2,7 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Bienvenue dans la bibliothèque {{- name}}, où vous pouvez accéder facilement à vos livres audios favoris. "
+        "1": "Bienvenue dans la bibliothèque {{- name}}, où vous pouvez accéder facilement à vos livres favoris. "
       },
       "linked": {
         "1": "Bienvenue dans votre bibliothèque {{- name}} ! Rappelez-vous, vous pouvez demander de l'aide à tout instant."
@@ -12,7 +12,7 @@
   "home_new_user": {
     "enter": {
       "first": {
-        "1": "Pour profiter de vos livres audio et accéder à votre liste personnelle, vous devez lier votre compte {{- name}}.",
+        "1": "Pour profiter de vos livres et accéder à votre liste personnelle, vous devez lier votre compte {{- name}}.",
         "2": "Voulez-vous le faire maintenant ?"
       }
     },
@@ -21,7 +21,7 @@
       "2": "Voulez-vous en savoir plus sur l'adhésion à {{- name}} ?"
     },
     "help": {
-      "1": "Pour découvrir la bibliothèque {{- name}} et profiter de vos livres audio préférés via Google, vous devez connecter votre compte {{- name}}. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
+      "1": "Pour découvrir la bibliothèque {{- name}} et profiter de vos livres préférés via Google, vous devez connecter votre compte {{- name}}. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous pourrez profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
       "2": "Voulez-vous lier votre compte maintenant ?"
     },
     "maybeLater": {
@@ -41,13 +41,13 @@
   },
   "info": {
     "about": {
-      "1": "La bibliothèque {{- name}} est une organisation nationale sans but lucratif créée par les bibliothèques publiques canadiennes pour défendre le droit fondamental des Canadiens souffrant de difficultés de lecture imprimée. Ces personnes peuvent accéder à des publications numériques dans le format de leur choix, y compris l'audio, le braille, le texte électronique et la vidéo descriptive - maintenant aussi disponible via Alexa et Google Home !  Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque {{- name}} ?"
+      "1": "La bibliothèque {{- name}} est une organisation nationale sans but lucratif créée par les bibliothèques publiques canadiennes pour défendre le droit fondamental des Canadiens souffrant de difficultés de lecture sur des supports imprimés. Ces personnes peuvent accéder à des publications numériques dans le format de leur choix, y compris l'audio, le braille, le texte électronique et la vidéo descriptive - maintenant aussi disponible via Alexa et Google Home !  Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque {{- name}} ?"
     },
     "help": {
       "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque {{- name}}, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide."
     },
     "yesOrMembership": {
-      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse biblio cahèb point c.a. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant \" Hey Google, je veux parler à Lecture Accessible Canada\"."
+      "1": "<speak>L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"biblio cahèb\">bibliocaeb</sub> point <say-as interpret-as=\"characters\">ca</say-as>. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Lecture Accessible Canada.</speak>"
     }
   },
   "home_user": {
@@ -87,23 +87,23 @@
         "first": "Voici les {{- number}} premiers titres de votre liste personnelle :",
         "second": "Ou peut-être souhaitez-vous explorer les autres titres de votre liste personnelle ?"
       },
-      "search": "J'ai trouvé {{- number}} livres avec ce titre",
+      "search": "J'ai trouvé {{- number}} livres avec ce titre.",
       "collection": {
-        "publication": "J'ai trouvé {{- number}} livres",
-        "group": "J'ai trouvé {{- number}} groupes"
+        "publication": "J'ai trouvé {{- number}} livres.",
+        "group": "J'ai trouvé {{- number}} groupes."
       },
       "lastPage": {
-        "publication": "Voici les derniers livres disponibles",
-        "group": "Voici les derniers groupes disponibles",
-        "notAvailable": "aucun autre résultat disponible"
+        "publication": "Voici les derniers livres disponibles:",
+        "group": "Voici les derniers groupes disponibles:",
+        "notAvailable": "Aucun autre résultat disponible."
       },
       "common": {
-        "1": "Choisissez l'un de ces titres en donnant son numéro, ou demandez les éléments suivants.",
+        "1": "Choisissez l'un de ces éléments en donnant son numéro, ou demandez les éléments suivants :",
         "2": "Numéro {{- symbol}} : {{- title}}.",
-        "3": "Lequel choisissez-vous ?"
+        "3": "Quel numéro choisissez-vous ?"
       },
       "nextPage": {
-        "1": "Ou demandez la page suivante"
+        "1": "Ou demandez la page suivante."
       },
       "empty": {
         "1": "En fait, il n'y a rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !"
@@ -116,8 +116,8 @@
   },
   "player": {
     "explain": "Excellent choix ! Avant de commencer, laissez-moi vous rappeler comment fonctionne ce lecteur. Vous pouvez mettre votre lecture en attente à tout moment en disant 'Google, Pause'. 'Google, Lecture' vous permettra de reprendre votre lecture là où vous l'avez pausée. Vous pouvez également naviguer entre les chapitres en disant 'Hey Google, suivant' ou 'Hey Google, précédent' à tout moment.",
-    "start": "Voici donc {{- title}}",
-    "start2": "Reprenons la lecture de {{- title}}",
+    "start": "Voici donc {{- title}}.",
+    "start2": "Reprenons la lecture de {{- title}}.",
     "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle a été interrompue ?"
   },
   "collections": {
@@ -125,12 +125,12 @@
       "1": "Très bien. Préférez-vous obtenir une sélection de livres par thème ou par genre ?"
     },
     "help": {
-      "1": "Pour entendre un aperçu des thèmes disponibles, dites thème. Pour un aperçu des genres disponibles, dites genre. Voulez-vous entendre la liste des thèmes ou des genres disponibles ?"
+      "1": "Pour entendre un aperçu des thèmes disponibles, dites par thème. Pour un aperçu des genres disponibles, dites par genre."
     }
   },
   "void": "au revoir!",
   "bye": {
-    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres audio préférés."
+    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres préférés."
   },
   "fallback": {
     "1": "Je n'ai pas compris, que désirez-vous faire ?",

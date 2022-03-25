@@ -13,7 +13,7 @@
     "enter": {
       "first": {
         "1": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
-        "2": "Would you like to do so now ?"
+        "2": "Would you like to do so now?"
       }
     },
     "no": {
@@ -36,7 +36,7 @@
   },
   "home_new_user_no": {
     "help": {
-      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Livrary?"
+      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Library?"
     }
   },
   "info": {
@@ -47,7 +47,7 @@
       "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "Signing up is easy, you can head on over to the CELA online platform at CELA Library dot c.a. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying 'Hey Google, launch Accessible reading Canada."
+      "1": "<speak>Signing up is easy, you can head on over to the CELA online platform at <sub alias=\"cela library\">celalibrary</sub> dot <say-as interpret-as=\"characters\">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying Hey Google, launch Accessible reading Canada.</speak>"
     }
   },
   "home_user": {
@@ -87,20 +87,20 @@
         "first": "Here are the first {{- number}} titles on your bookshelf:",
         "second": "Or perhaps you'd like to explore the other titles on your bookshelf?"
       },
-      "search": "I found {{- number}} books with that title",
+      "search": "I found {{- number}} books with that title.",
       "collection": {
-        "publication": "I found {{- number}} books",
-        "group": "I found {{- number}} groups"
+        "publication": "I found {{- number}} books.",
+        "group": "I found {{- number}} groups."
       },
       "lastPage": {
-        "publication": "Here's the last available books",
-        "group": "Here's the last available groups",
-        "notAvailable": "no another results available"
+        "publication": "Here's the last available books.",
+        "group": "Here's the last available groups.",
+        "notAvailable": "no another results available."
       },
       "common": {
-        "1": "Pick one of these by requesting the corresponding number, or ask for the next set.",
+        "1": "Pick one of these by requesting the corresponding number, or ask for the next set:",
         "2": "{{- symbol}}. {{- title}}.",
-        "3": "Which one will you choose?"
+        "3": "Which number do you choose?"
       },
       "empty": {
         "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
@@ -113,8 +113,8 @@
   },
   "player": {
     "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time. Now, shall we get started with 'A Slow Fire Burning'?",
-    "start": "Let's start reading {{- title}}",
-    "start2": "Let's continue reading {{- title}}",
+    "start": "Let's start reading {{- title}}.",
+    "start2": "Let's continue reading {{- title}}.",
     "askResumeLastOffset": "Do you want to pick up where it left off?"
   },
   "collections": {
@@ -122,7 +122,7 @@
       "1": "Okay, would you prefer to get a choice of collections by theme or by genre?"
     },
     "help": {
-      "1": "To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres?"
+      "1": "To hear an overview of available themes, say 'by theme'. For an overview of available genres, say 'by genre'."
     }
   },
   "void": "Bye!",
@@ -138,6 +138,6 @@
     "2": "Sorry, I really don't hear well."
   },
   "error": {
-    "1": "Oops, something went wrong. I will send you back to the home menu"
+    "1": "Oops, something went wrong. I will send you back to the home menu."
   }
 }
