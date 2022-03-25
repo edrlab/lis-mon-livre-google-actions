@@ -47,7 +47,7 @@
       "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque {{- name}}, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide."
     },
     "yesOrMembership": {
-      "1": "<speak>L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"biblio cahèb\">bibliocaeb</sub> point <say-as interpret-as=\"characters\">ca</say-as>. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Lecture Accessible Canada.</speak>"
+      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"biblio cahèb\">bibliocaeb</sub> point <say-as interpret-as=\"characters\">ca</say-as>. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Lecture Accessible Canada."
     }
   },
   "home_user": {

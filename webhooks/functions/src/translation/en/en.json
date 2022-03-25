@@ -47,7 +47,7 @@
       "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "<speak>Signing up is easy, you can head on over to the CELA online platform at <sub alias=\"cela library\">celalibrary</sub> dot <say-as interpret-as=\"characters\">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying Hey Google, launch Accessible reading Canada.</speak>"
+      "1": "Signing up is easy, you can head on over to the CELA online platform at <sub alias=\"cela library\">celalibrary</sub> dot <say-as interpret-as=\"characters\">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying Hey Google, launch Accessible reading Canada."
     }
   },
   "home_user": {

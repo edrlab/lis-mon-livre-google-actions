@@ -85,6 +85,9 @@ export class Machine {
     }
 
     if (this._sayAcc) {
+      if (/.*<.*><\/.*>.*/.test(this._sayAcc)) {
+        this._sayAcc = '<speak>' + this._sayAcc + '<speak>';
+      }
       console.info('SAY: ', this._sayAcc);
       this._conv.add(this._sayAcc);
     }

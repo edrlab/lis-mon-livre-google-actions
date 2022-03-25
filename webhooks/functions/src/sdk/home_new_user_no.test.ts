@@ -92,7 +92,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_no');
     });
 
-    const help = `In order to use the CELA library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the CELA Livrary?\n`;
+    const help = `In order to use the CELA library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the CELA Library?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user_no__intent__help';

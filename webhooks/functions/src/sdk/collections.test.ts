@@ -121,7 +121,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('selection');
     });
 
-    const help = `To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres?\n`;
+    const help = `To hear an overview of available themes, say 'by theme'. For an overview of available genres, say 'by genre'.\n`;
 
     it('help', async () => {
       body.handler.name = 'collections__intent__help';
