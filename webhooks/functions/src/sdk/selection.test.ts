@@ -55,9 +55,9 @@ describe(scene + ' handler', () => {
   });
 
   const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
-    const a = 'Pick one of these by requesting the corresponding number, or ask for the next set.\n';
+    const a = 'Pick one of these by requesting the corresponding number, or ask for the next set:\n';
     const b = it.reduce((pv, [nb, title]) => pv + `${nb}. ${title}\n`, '');
-    const c = 'Which one will you choose?\n';
+    const c = 'Which number do you choose?\n';
     return a + b + c;
   };
 
@@ -375,7 +375,7 @@ describe(scene + ' handler', () => {
       feed.links = {};
       const data = await expressMocked(body, headers, pullData, feed);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available books\n' + message);
+      data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available books.\n' + message);
       // data.scene.next.name.should.to.be.eq('selection');
     });
 
@@ -390,7 +390,7 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, pullData, feed);
 
       // must say the first page
-      data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available groups\n' + message);
+      data.prompt.firstSimple.speech.should.to.be.eq('Here\'s the last available groups.\n' + message);
       // data.scene.next.name.should.to.be.eq('selection');
     });
 
@@ -476,11 +476,11 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers, pullData, feed, webpub);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by requesting the corresponding number, or ask for the next set.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by requesting the corresponding number, or ask for the next set:\n' +
       '1. my test title.\n' +
       '2. my test title.\n' +
       '3. my test title.\n' +
-      'Which one will you choose?\n');
+      'Which number do you choose?\n');
       // data.scene.next.name.should.to.be.eq('selection');
     });
     it('on_enter - groups - state == DEFAULT should throw', async () => {
@@ -993,7 +993,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // 3
       model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
 
-      const message = 'no another results available\n';
+      const message = 'no another results available.\n';
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('selection');
@@ -1022,7 +1022,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(3); // 3
       model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url'); // reset
 
-      const message = 'no another results available\n';
+      const message = 'no another results available.\n';
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('selection');
