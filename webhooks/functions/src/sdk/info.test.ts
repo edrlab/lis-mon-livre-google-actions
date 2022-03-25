@@ -74,7 +74,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `Signing up is easy, you can head on over to the CELA online platform at <sub alias="cela library">celalibrary</sub> dot <say-as interpret-as="characters">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the CELA library via Google Assistant, by saying Hey Google, launch Accessible reading Canada.\n`;
+      const message = `<speak>Signing up is easy, you can head on over to the CELA online platform at <sub alias="cela library">celalibrary</sub> dot <say-as interpret-as="characters">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the CELA library via Google Assistant, by saying Hey Google, launch Accessible reading Canada.\n</speak>`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
