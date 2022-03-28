@@ -8,6 +8,7 @@ import {TSdkScene} from '../typings/sdkScene';
 import {enter as selectionEnter} from './handler/selection';
 import {Machine} from './Machine';
 import {ok} from 'assert';
+import {WebpubError} from '../error';
 
 export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
@@ -36,15 +37,22 @@ export class Assistant {
         conv.scene.next.name = 'actions.scene.END_CONVERSATION';
       }
 
-      if (this._locale === 'en') {
-        conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
-      } else if (this._locale === 'fr') {
-        conv.add('Oups, quelque chose s\'est mal passé.');
-      }
+      // error instanceOf WebpubError !== True ?! why?
+      if ((error as WebpubError).code === 401) {
+        console.log('WEBPUB ERROR code 401');
 
-      // @TODO
-      // remove session
-      // and return to main menu or home_user if authenticated
+        if (this._locale === 'en') {
+          conv.add('Sorry, it is not possible to go further. Please unlink your CELA account from your assistant, then link them again.');
+        } else if (this._locale === 'fr') {
+          conv.add('Désolé, impossible d\'aller plus loin : dissociez votre compte CAÉB de votre assistant puis ré-associez les.');
+        }
+      } else {
+        if (this._locale === 'en') {
+          conv.add('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+        } else if (this._locale === 'fr') {
+          conv.add('Oups, quelque chose s\'est mal passé.');
+        }
+      }
     });
 
     if (storageModel) {

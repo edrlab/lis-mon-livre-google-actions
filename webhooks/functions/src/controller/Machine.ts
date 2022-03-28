@@ -11,6 +11,7 @@ import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
 import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
+import {WebpubError} from '../error';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -84,6 +85,9 @@ export class Machine {
     }
 
     if (this._sayAcc) {
+      if (/.*<.*>.*<\/.*>.*/.test(this._sayAcc)) {
+        this._sayAcc = '<speak>' + this._sayAcc + '</speak>';
+      }
       console.info('SAY: ', this._sayAcc);
       this._conv.add(this._sayAcc);
     }
@@ -514,10 +518,6 @@ export class Machine {
     const startTimeRaw = this._model.store.player.current.time;
 
     const webpub = await this.webpubRequest(url);
-    if (!webpub) {
-      throw new Error('no webpub');
-      // @TODO how to handle these errors : just tell it to the user that the webpub is not readable and must choice an another
-    }
 
     let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length) ?
       startIndexRaw :
@@ -566,8 +566,14 @@ export class Machine {
     if (!this._fetcher) {
       throw new Error('no fetcher available !');
     }
-    const webpub = await this._fetcher.webpubRequest(url);
-    return webpub;
+    try {
+      const webpub = await this._fetcher.webpubRequest(url);
+      return webpub;
+    } catch (e) {
+      const error = new WebpubError(`${e?.toString ? e.toString() : e}`);
+      error.code = 401;
+      throw error;
+    }
   }
 
   private async feedRequest(url: string) {
