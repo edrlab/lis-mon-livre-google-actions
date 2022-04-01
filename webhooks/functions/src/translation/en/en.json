@@ -66,8 +66,11 @@
         "2": "Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?"
       }
     },
+    "currentBook": {
+      "1": "Uh Oh! Nothing to read here quite yet."
+    },
     "help": {
-      "1": "You can pick the books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
+      "1": "You can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
       "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or search for a book?"
     }
   },

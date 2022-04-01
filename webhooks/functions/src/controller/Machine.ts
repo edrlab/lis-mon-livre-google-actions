@@ -218,6 +218,12 @@ export class Machine {
 
   public isCurrentlyPlaying() {
     const {url, time, index} = this.playerCurrent;
+    // if (!playing) {
+    //   return false; // @TODO: need to define the use of this boolean
+    // }
+    if (url === undefined || time === undefined || index === undefined) {
+      return false;
+    }
     if (!this.isValidHttpUrl(url)) {
       throw new Error('not valid playing url');
     }

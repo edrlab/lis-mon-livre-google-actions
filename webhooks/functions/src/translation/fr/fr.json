@@ -66,8 +66,11 @@
         "2": "Reprendre la lecture. Livres récents. Liste personnelle. Collections. Chercher un livre : que désirez-vous faire ?"
       }
     },
+    "currentBook": {
+      "1": "Il n'y a rien à lire"
+    },
     "help": {
-      "1": "Vous pouvez consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
+      "1": "Vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
       "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou chercher un livre ?"
     }
   },

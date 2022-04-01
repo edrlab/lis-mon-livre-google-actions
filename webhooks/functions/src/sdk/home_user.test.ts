@@ -31,6 +31,9 @@ const yaml = `intentEvents:
     webhookHandler: home_user__intent__recent_books
   intent: recent_books
 - handler:
+    webhookHandler: home_user__intent__current_book
+  intent: current_book
+- handler:
     webhookHandler: home_user__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:
@@ -234,7 +237,7 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = true;
+      pullData.player.current.playing = false;
 
       pullData.player.history = {
         // @ts-ignore
@@ -263,6 +266,35 @@ describe('home_user handler', () => {
       model.data.store.session.scene.selection.url.should.to.be.eq('data://["1","2","3"]');
       model.data.store.session.scene.selection.kind.should.to.be.eq('PUBLICATION');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING');
+    });
+
+    it('current book available', async () => {
+      body.handler.name = 'home_user__intent__current_book';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.player.current.index = 9;
+      pullData.player.current.url = 'https://my.url';
+      pullData.player.current.time = 0;
+      pullData.player.current.playing = false;
+
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('player_prequel');
+    });
+
+    it('current book not available', async () => {
+      body.handler.name = 'home_user__intent__current_book';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('home_user');
+      data.prompt.firstSimple.speech.should.to.be.eq('Uh Oh! Nothing to read here quite yet.\n');
     });
 
     it('browse collections', async () => {
