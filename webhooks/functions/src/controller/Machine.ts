@@ -12,6 +12,8 @@ import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/
 import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
+import {stall} from '../tools';
+import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -565,7 +567,7 @@ export class Machine {
     );
   }
 
-  private async webpubRequest(url: string) {
+  private webpubRequest: (url: string) => Promise<IWebPubView> = stall(async (url: string) => {
     if (!validator.isURL(url)) {
       throw new Error('url not valid : ' + url);
     }
@@ -580,9 +582,9 @@ export class Machine {
       error.code = 401;
       throw error;
     }
-  }
+  });
 
-  private async feedRequest(url: string) {
+  private feedRequest: (url: string) => Promise<IOpdsResultView> = stall(async (url: string) => {
     if (!this._fetcher) {
       throw new Error('no fetcher available !');
     }
@@ -631,7 +633,7 @@ export class Machine {
       console.error('FETCHER ERROR END');
     }
     return feed;
-  }
+  });
 
   private removeSessionDataWhenNewUserSession() {
     if (!this._model) {
