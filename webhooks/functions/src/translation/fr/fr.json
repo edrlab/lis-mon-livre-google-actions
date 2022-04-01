@@ -2,76 +2,72 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Bienvenue dans la bibliothèque {{- name}}, où vous pouvez accéder facilement à vos livres favoris. "
+        "1": "Bienvenue dans la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub>, où vous pouvez accéder facilement à vos livres favoris. "
       },
       "linked": {
-        "1": "Bienvenue dans votre bibliothèque {{- name}} ! Rappelez-vous, vous pouvez demander de l'aide à tout instant."
+        "1": "Bienvenue dans votre bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> !"
       }
     }
   },
   "home_new_user": {
     "enter": {
       "first": {
-        "1": "Pour profiter de vos livres et accéder à votre liste personnelle, vous devez lier votre compte {{- name}}.",
+        "1": "Pour profiter de vos livres et accéder à votre liste personnelle, vous devez lier votre compte <sub alias=\"qua hèbe\">CAÉB</sub>.",
         "2": "Voulez-vous le faire maintenant ?"
       }
     },
     "no": {
-      "1": "Afin de lire des livres à l'aide de la bibliothèque {{- name}} via Google, vous devez être un membre enregistré de la bibliothèque {{- name}} et vous devez lier votre compte.",
-      "2": "Voulez-vous en savoir plus sur l'adhésion à {{- name}} ?"
+      "1": "Afin de lire des livres à l'aide de la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> via Google, vous devez être un membre enregistré de la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> et vous devez lier votre compte.",
+      "2": "Voulez-vous en savoir plus sur la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> ?"
     },
     "help": {
-      "1": "Pour découvrir la bibliothèque {{- name}} et profiter de vos livres préférés via Google, vous devez connecter votre compte {{- name}}. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous pourrez profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
+      "1": "Pour découvrir la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> et profiter de vos livres préférés via Google, vous devez connecter votre compte <sub alias=\"qua hèbe\">CAÉB</sub>. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte <sub alias=\"qua hèbe\">CAÉB</sub>. Vous n'aurez à le faire qu'une seule fois, et vous pourrez profiter du monde merveilleux des livres de <sub alias=\"qua hèbe\">CAÉB</sub> pendant des heures !",
       "2": "Voulez-vous lier votre compte maintenant ?"
     },
     "maybeLater": {
-      "1": "Afin d'utiliser la bibliothèque {{- name}} via votre Google Home, vous devez être un membre enregistré de cette bibliothèque et lier votre compte. En attendant, vous pouvez en savoir plus sur la bibliothèque {{- name}} ou quitter l'application pour le moment.",
+      "1": "Afin d'utiliser la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> via Google, vous devez être un membre enregistré de cette bibliothèque et lier votre compte. En attendant, vous pouvez en savoir plus sur la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> ou quitter l'application pour le moment.",
       "2": "Que préférez-vous faire ?"
     }
   },
   "home_new_user_maybe_later": {
     "help": {
-      "1": "Vous pouvez me demander de lier votre compte, ou en apprendre plus sur la bibliothèque {{- name}}. Vous pouvez également quitter cette application en disant simplement \"Quitter\". Que décidez-vous ?"
+      "1": "Vous pouvez me demander de lier votre compte, ou en apprendre plus sur la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub>. Vous pouvez également quitter cette application en disant simplement \"Quitter\". Que décidez-vous ?"
     }
   },
   "home_new_user_no": {
     "help": {
-      "1": "Afin d'utiliser la bibliothèque {{- name}} via votre Google Home, vous devez être un membre enregistré de cette bibliothèque et lier votre compte. Voulez-vous en savoir plus sur la bibliothèque {{- name}} ?"
+      "1": "Afin d'utiliser la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> via votre Google Home, vous devez être un membre enregistré de cette bibliothèque et lier votre compte. Voulez-vous en savoir plus sur la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> ?"
     }
   },
   "info": {
     "about": {
-      "1": "La bibliothèque {{- name}} est une organisation nationale sans but lucratif créée par les bibliothèques publiques canadiennes pour défendre le droit fondamental des Canadiens souffrant de difficultés de lecture sur des supports imprimés. Ces personnes peuvent accéder à des publications numériques dans le format de leur choix, y compris l'audio, le braille, le texte électronique et la vidéo descriptive - maintenant aussi disponible via Alexa et Google Home !  Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque {{- name}} ?"
+      "1": "La bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> est une organisation nationale sans but lucratif créée par les bibliothèques publiques canadiennes pour défendre le droit fondamental des Canadiens souffrant de difficultés de lecture sur des supports imprimés. Ces personnes peuvent accéder à des publications numériques dans le format de leur choix, y compris l'audio, le braille, le texte électronique et la vidéo descriptive - maintenant aussi disponible via Alexa et Google Home !  Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> ?"
     },
     "help": {
-      "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque {{- name}}, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide."
+      "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub>, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide."
     },
     "yesOrMembership": {
-      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"biblio cahèb\">bibliocaeb</sub> point <say-as interpret-as=\"characters\">ca</say-as>. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Lecture Accessible Canada."
+      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> à l'adresse <sub alias=\"biblio qua hèbe\">bibliocaeb</sub> point <say-as interpret-as=\"characters\">ca</say-as>. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub> via Google Assistant, en disant Hey Google, je veux parler à Lecture Accessible Canada."
     }
   },
   "home_user": {
     "enter": {
       "newlyUser": {
-        "1": "Félicitations ! Vous avez réussi à connecter votre compte et vous pouvez maintenant accéder à tous vos livres préférés !",
+        "1": "Félicitations ! Vous avez réussi à connecter votre compte et vous pouvez maintenant accéder à tous vos livres préférés ! Rappelez-vous, vous pouvez demander de l'aide à tout instant.",
         "2": "Souhaitez-vous consulter votre liste personnelle, ou naviguer dans nos collections ? Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur."
       },
       "playing": {
-        "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre là où vous vous êtes arrêté.",
-        "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux lister.",
-        "3": "Mais ce n'est pas tout :"
+        "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre maintenant.",
+        "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux détailler.",
+        "3": "Et bien entendu, "
       },
       "regular": {
-        "1": "Vous pouvez consulter votre liste personnelle, ou naviguer dans nos collections. Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur.",
-        "2": "Reprendre la lecture. Livres récents. Liste personnelle. Collections. Chercher un livre : que désirez-vous faire ?"
+        "1": "Vous pouvez consulter votre liste personnelle, naviguer dans nos collections ou rechercher un livre par son titre ou son auteur."
       }
     },
-    "currentBook": {
-      "1": "Il n'y a rien à lire"
-    },
     "help": {
-      "1": "Vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
-      "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou chercher un livre ?"
+      "1": "A cette étape, vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
+      "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou Chercher ?"
     }
   },
   "search": {
@@ -80,7 +76,7 @@
       "2": "En attendant, y a-t-il un autre titre ou auteur que vous aimeriez rechercher ?"
     },
     "empty": {
-      "1": "Il semble que le livre que vous recherchez soit actuellement indisponible dans la bibliothèque {{- name}}.",
+      "1": "Il semble que le livre que vous recherchez soit actuellement indisponible dans la bibliothèque <sub alias=\"qua hèbe\">CAÉB</sub>.",
       "2": "Vous pouvez nous suggérer des livres à ajouter à {{- website}}."
     }
   },
@@ -101,12 +97,12 @@
         "notAvailable": "Aucun autre résultat disponible."
       },
       "common": {
-        "1": "Choisissez l'un de ces éléments en donnant son numéro.",
+        "1": "Choisissez l'un de ces éléments en donnant son numéro, ou demandez les éléments suivants.",
         "2": "Numéro {{- symbol}} : {{- title}}.",
         "3": "Quel numéro choisissez-vous ?"
       },
       "nextPage": {
-        "1": "Ou demandez les éléments suivants."
+        "1": "Ou demandez la page suivante."
       },
       "empty": {
         "1": "En fait, il n'y a rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !"
