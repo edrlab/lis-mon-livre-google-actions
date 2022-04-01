@@ -53,13 +53,13 @@
   "home_user": {
     "enter": {
       "newlyUser": {
-        "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author."
+        "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books! Remember, you can ask for help at any time.",
+        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author."
       },
       "playing": {
-        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can pick up where you left off.",
+        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now pick up.",
         "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
-        "3": "But there is more:"
+        "3": "And, of course, "
       },
       "regular": {
         "1": "You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.",
@@ -70,8 +70,8 @@
       "1": "Uh Oh! Nothing to read here quite yet."
     },
     "help": {
-      "1": "You can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
-      "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or search for a book?"
+      "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
+      "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or Search?"
     }
   },
   "search": {

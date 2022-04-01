@@ -70,7 +70,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter'; // new session
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -80,7 +80,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'id'; // new session
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -93,7 +93,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter with session state but new session undefined so the session data is not removed'; // new session
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -106,7 +106,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'test';
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -137,8 +137,8 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can pick up where you left off.\n' +
-      'But there is more:\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now pick up.\n' +
+      'And, of course, \n' +
       'You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.\n' +
       'Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?\n');
     });
@@ -176,9 +176,9 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can pick up where you left off.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now pick up.\n' +
       'You are also reading 3 other recent books, which you can choose from.\n' +
-      'But there is more:\n' +
+      'And, of course, \n' +
       'You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.\n' +
       'Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?\n');
     });
