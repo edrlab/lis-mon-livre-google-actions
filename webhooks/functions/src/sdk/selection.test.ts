@@ -54,8 +54,8 @@ describe(scene + ' handler', () => {
     });
   });
 
-  const messageHelpers = (number: number, it: Array<[nb: number, title: string]>) => {
-    const a = 'Pick one of these by requesting the corresponding number, or ask for the next set:\n';
+  const messageHelpers = (number: number, it: Array<[nb: number, title: string]>, nextPage = false) => {
+    const a = 'Pick one of these by requesting the corresponding number.\n' + (nextPage ? 'Or ask for the next set.\n' : '');
     const b = it.reduce((pv, [nb, title]) => pv + `${nb}. ${title}\n`, '');
     const c = 'Which number do you choose?\n';
     return a + b + c;
@@ -190,7 +190,7 @@ describe(scene + ' handler', () => {
       },
     });
 
-    const testStateRunningPublication = () => {
+    const testStateRunningPublication = (n = false) => {
       const pullData = parsedDataClone();
       pullData.session.scene.selection.state = 'RUNNING';
       pullData.session.scene.selection.url = 'http://my.url';
@@ -237,11 +237,14 @@ describe(scene + ' handler', () => {
         [1, 'first publication.'],
         [2, 'second publication.'],
         [3, 'third publication.'],
-      ]);
+      ], n);
+
+      console.log(message);
+
 
       return {pullData, feed, message};
     };
-    const testStateRunningGroup = () => {
+    const testStateRunningGroup = (n = false) => {
       const pullData = parsedDataClone();
       pullData.session.scene.selection.state = 'RUNNING';
       pullData.session.scene.selection.url = 'http://my.url';
@@ -273,7 +276,7 @@ describe(scene + ' handler', () => {
         [1, 'first group.'],
         [2, 'second group.'],
         [3, 'third group.'],
-      ]);
+      ], n);
 
       return {pullData, feed, message};
     };
@@ -398,7 +401,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'selection__on_enter';
       body.scene.name = scene;
 
-      const {pullData, feed, message} = testStateRunningPublication();
+      const {pullData, feed, message} = testStateRunningPublication(true);
       pullData.session.scene.selection.nextUrlCounter = 3;
       // @ts-ignore
       feed.links = {
@@ -418,7 +421,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'selection__on_enter';
       body.scene.name = scene;
 
-      const {pullData, feed, message} = testStateRunningGroup();
+      const {pullData, feed, message} = testStateRunningGroup(true);
       pullData.session.scene.selection.nextUrlCounter = 3;
       // @ts-ignore
       feed.links = {
@@ -439,7 +442,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'selection__on_enter';
       body.scene.name = scene;
 
-      const {pullData, feed, message} = testStateRunningPublication();
+      const {pullData, feed, message} = testStateRunningPublication(true);
       pullData.session.scene.selection.nextUrlCounter = 0;
       pullData.session.scene.selection.from = 'home_user__intent__bookshelf';
       // @ts-ignore
@@ -476,7 +479,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers, pullData, feed, webpub);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by requesting the corresponding number, or ask for the next set:\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('Pick one of these by requesting the corresponding number.\n' +
       '1. my test title.\n' +
       '2. my test title.\n' +
       '3. my test title.\n' +

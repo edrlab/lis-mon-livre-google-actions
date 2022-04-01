@@ -101,9 +101,12 @@
         "notAvailable": "no another results available."
       },
       "common": {
-        "1": "Pick one of these by requesting the corresponding number, or ask for the next set:",
+        "1": "Pick one of these by requesting the corresponding number.",
         "2": "{{- symbol}}. {{- title}}.",
         "3": "Which number do you choose?"
+      },
+      "nextPage": {
+        "1": "Or ask for the next set."
       },
       "empty": {
         "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"

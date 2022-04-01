@@ -101,12 +101,12 @@
         "notAvailable": "Aucun autre résultat disponible."
       },
       "common": {
-        "1": "Choisissez l'un de ces éléments en donnant son numéro, ou demandez les éléments suivants :",
+        "1": "Choisissez l'un de ces éléments en donnant son numéro.",
         "2": "Numéro {{- symbol}} : {{- title}}.",
         "3": "Quel numéro choisissez-vous ?"
       },
       "nextPage": {
-        "1": "Ou demandez la page suivante."
+        "1": "Ou demandez les éléments suivants."
       },
       "empty": {
         "1": "En fait, il n'y a rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !"
