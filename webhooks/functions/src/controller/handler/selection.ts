@@ -61,11 +61,12 @@ export const enter: THandlerFn = async (m) => {
       }
 
     } else {
+
       // intro
       if (handler === "home_user__intent__bookshelf") {
         const {publication} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
         m.say('selection.enter.bookshelf.first', {number: publication.length});
-      } else if (handler === "home_user__intent__search") {
+      } else if (handler === "search__on_enter") {
         const {length} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
         m.say('selection.enter.search', {number: length});
       }
