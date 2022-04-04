@@ -1,4 +1,10 @@
 trainingPhrases:
+- search for a book
+- search for a book by ($query 'Ernest Hemingway' auto=false)
+- I want to search for a book
+- search for a specific book
+- I am looking for ($query 'The Little Prince by Antoine de Saint-Exupéry' auto=false)
+- search
 - find
 - search for
 - I am looking for a book ($query 'The Little Prince by Antoine de Saint-Exupéry'

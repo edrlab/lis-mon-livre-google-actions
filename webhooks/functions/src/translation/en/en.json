@@ -13,7 +13,7 @@
     "enter": {
       "first": {
         "1": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
-        "2": "Would you like to do so now ?"
+        "2": "Would you like to do so now?"
       }
     },
     "no": {
@@ -36,7 +36,7 @@
   },
   "home_new_user_no": {
     "help": {
-      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Livrary?"
+      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Library?"
     }
   },
   "info": {
@@ -47,28 +47,31 @@
       "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "Signing up is easy, you can head on over to the CELA online platform at CELA Library dot c.a. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying 'Hey Google, launch Accessible reading Canada."
+      "1": "Signing up is easy, you can head on over to the EDRLAB online platform at <sub alias=\"cela library\">celalibrary</sub> dot <say-as interpret-as=\"characters\">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying Hey Google, launch Accessible reading Canada."
     }
   },
   "home_user": {
     "enter": {
       "newlyUser": {
-        "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books!",
-        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author."
+        "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books! Remember, you can ask for help at any time.",
+        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author."
       },
       "playing": {
-        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can pick up where you left off.",
+        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now pick up.",
         "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
-        "3": "But there is more:"
+        "3": "And, of course, "
       },
       "regular": {
         "1": "You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.",
         "2": "Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?"
       }
     },
+    "currentBook": {
+      "1": "Uh Oh! Nothing to read here quite yet."
+    },
     "help": {
-      "1": "You can pick the books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
-      "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or search for a book?"
+      "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
+      "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or Search?"
     }
   },
   "search": {
@@ -87,34 +90,36 @@
         "first": "Here are the first {{- number}} titles on your bookshelf:",
         "second": "Or perhaps you'd like to explore the other titles on your bookshelf?"
       },
-      "search": "I found {{- number}} books with that title",
+      "search": "I found {{- number}} books with that title.",
       "collection": {
-        "publication": "I found {{- number}} books",
-        "group": "I found {{- number}} groups"
+        "publication": "I found {{- number}} books.",
+        "group": "I found {{- number}} groups."
       },
       "lastPage": {
-        "publication": "Here's the last available books",
-        "group": "Here's the last available groups",
-        "notAvailable": "no another results available"
+        "publication": "Here's the last available books.",
+        "group": "Here's the last available groups.",
+        "notAvailable": "no another results available."
       },
       "common": {
-        "1": "Pick one of these by requesting the corresponding number, or ask for the next set.",
+        "1": "Pick one of these by requesting the corresponding number.",
         "2": "{{- symbol}}. {{- title}}.",
-        "3": "Which one will you choose?"
+        "3": "Which number do you choose?"
+      },
+      "nextPage": {
+        "1": "Or ask for the next set."
       },
       "empty": {
         "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
       }
     },
     "help": {
-      "1": "At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands.",
-      "2": "What would you like to do?"
+      "1": "At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands."
     }
   },
   "player": {
     "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time. Now, shall we get started with 'A Slow Fire Burning'?",
-    "start": "Let's start reading {{- title}}",
-    "start2": "Let's continue reading {{- title}}",
+    "start": "Let's start reading {{- title}}.",
+    "start2": "Let's continue reading {{- title}}.",
     "askResumeLastOffset": "Do you want to pick up where it left off?"
   },
   "collections": {
@@ -122,7 +127,7 @@
       "1": "Okay, would you prefer to get a choice of collections by theme or by genre?"
     },
     "help": {
-      "1": "To hear an overview of available themes, say 'theme'. For an overview of available genres, say 'genre'. Do you want to hear a list of available themes or genres?"
+      "1": "To hear an overview of available themes, say 'by theme'. For an overview of available genres, say 'by genre'."
     }
   },
   "void": "Bye!",
@@ -138,6 +143,6 @@
     "2": "Sorry, I really don't hear well."
   },
   "error": {
-    "1": "Oops, something went wrong. I will send you back to the home menu"
+    "1": "Oops, something went wrong. I will send you back to the home menu."
   }
 }

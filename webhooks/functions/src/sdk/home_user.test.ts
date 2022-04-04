@@ -31,6 +31,9 @@ const yaml = `intentEvents:
     webhookHandler: home_user__intent__recent_books
   intent: recent_books
 - handler:
+    webhookHandler: home_user__intent__current_book
+  intent: current_book
+- handler:
     webhookHandler: home_user__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:
@@ -67,7 +70,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter'; // new session
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);
@@ -77,7 +80,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'id'; // new session
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -90,7 +93,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'on enter with session state but new session undefined so the session data is not removed'; // new session
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -103,7 +106,7 @@ describe('home_user handler', () => {
       body.scene.name = scene;
       body.session.id = 'test';
 
-      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search followed by a book title or an author.\n';
+      const message = 'Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author.\n';
       const pullData = parsedDataClone();
       const model = await storageModelMocked(pullData);
 
@@ -134,8 +137,8 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can pick up where you left off.\n' +
-      'But there is more:\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now pick up.\n' +
+      'And, of course, \n' +
       'You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.\n' +
       'Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?\n');
     });
@@ -173,9 +176,9 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, pullData, undefined, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can pick up where you left off.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now pick up.\n' +
       'You are also reading 3 other recent books, which you can choose from.\n' +
-      'But there is more:\n' +
+      'And, of course, \n' +
       'You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.\n' +
       'Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?\n');
     });
@@ -234,7 +237,7 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = true;
+      pullData.player.current.playing = false;
 
       pullData.player.history = {
         // @ts-ignore
@@ -263,6 +266,35 @@ describe('home_user handler', () => {
       model.data.store.session.scene.selection.url.should.to.be.eq('data://["1","2","3"]');
       model.data.store.session.scene.selection.kind.should.to.be.eq('PUBLICATION');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING');
+    });
+
+    it('current book available', async () => {
+      body.handler.name = 'home_user__intent__current_book';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+      pullData.player.current.index = 9;
+      pullData.player.current.url = 'https://my.url';
+      pullData.player.current.time = 0;
+      pullData.player.current.playing = false;
+
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('player_prequel');
+    });
+
+    it('current book not available', async () => {
+      body.handler.name = 'home_user__intent__current_book';
+      body.scene.name = scene;
+
+      const pullData = parsedDataClone();
+
+      const model = await storageModelMocked(pullData);
+      const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
+
+      data.scene.next.name.should.to.be.eq('home_user');
+      data.prompt.firstSimple.speech.should.to.be.eq('Uh Oh! Nothing to read here quite yet.\n');
     });
 
     it('browse collections', async () => {

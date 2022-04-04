@@ -18,6 +18,9 @@ intentEvents:
     webhookHandler: home_user__intent__recent_books
   intent: recent_books
 - handler:
+    webhookHandler: home_user__intent__current_book
+  intent: current_book
+- handler:
     webhookHandler: home_user__intent__fallback
   intent: actions.intent.NO_MATCH_1
 - handler:
