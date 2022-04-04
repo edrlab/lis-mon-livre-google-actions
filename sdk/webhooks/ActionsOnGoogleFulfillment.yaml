@@ -87,5 +87,5 @@ handlers:
 - name: info__intent__no
 - name: home_user__intent__current_book
 httpsEndpoint:
-  baseUrl: https://us-central1-cela-1.cloudfunctions.net/ActionsOnGoogleFulfillment
+  baseUrl: https://us-central1-cela-2.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
