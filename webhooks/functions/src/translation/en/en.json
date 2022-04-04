@@ -57,7 +57,7 @@
         "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for, <break time=\"200ms\"/>followed by a book title or an author."
       },
       "playing": {
-        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now pick up.",
+        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now resume reading.",
         "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
         "3": "And, of course, "
       },
