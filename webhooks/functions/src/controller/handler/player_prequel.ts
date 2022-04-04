@@ -6,6 +6,7 @@ export const player_prequel = (app: Assistant) => {
   app.handle("player_prequel__on_enter", enter);
   app.handle("player_prequel__intent__yes", yes);
   app.handle("player_prequel__intent__no", no);
+  app.handle("player_prequel__intent__summarize", summarize);
 
 }
 
@@ -32,7 +33,7 @@ const enter: THandlerFn = async (m) => {
 
 const intro: THandlerFn = async (m) => {
 
-  const {title} = await m.getCurrentPlayingTitleAndChapter();
+  const {title} = await m.getCurrentPlayingInfo();
   m.say("player.start", {title});
   
   
@@ -56,5 +57,17 @@ const no: THandlerFn = async (m) => {
   m.nextScene = "player";
 }
 
+const summarize: THandlerFn = async (m) => {
 
+  const {description} = await m.getCurrentPlayingInfo();
+  
+  if (!description) {
 
+    // no description
+  } else {
+    m.say("player.summarize", {summary: description});
+  }
+
+  // loop
+  m.nextScene = 'player_prequel';
+};

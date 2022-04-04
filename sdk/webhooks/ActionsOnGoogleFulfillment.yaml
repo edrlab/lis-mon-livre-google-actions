@@ -86,6 +86,7 @@ handlers:
 - name: home_user__intent__recent_books
 - name: info__intent__no
 - name: home_user__intent__current_book
+- name: player_prequel__intent__summarize
 httpsEndpoint:
   baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2

@@ -175,22 +175,23 @@ export class Machine {
     );
   }
 
-  public async getCurrentPlayingTitleAndChapter() {
+  public async getCurrentPlayingInfo() {
     ok(this._model);
 
     const cur = this._model.store.player.current;
     const url = cur.url || '';
     const chapter = (cur.index || 0) + 1;
-    const {title, author} = await this.getTitleAndAuthorFromWebpub(url);
+    const {title, author, description} = await this.getInfoFromWebpub(url);
 
-    return {chapter, title, author};
+    return {chapter, title, author, description};
   }
 
-  public async getTitleAndAuthorFromWebpub(url: string) {
+  public async getInfoFromWebpub(url: string) {
     const webpub = await this.webpubRequest(url);
     const title = webpub?.title || 'no title'; // @TODO i18n
     const author = (webpub?.authors || [])[0] || '';
-    return {title, author};
+    const description = (webpub?.description) || '';
+    return {title, author, description};
   }
 
   public debugSelectionSession() {

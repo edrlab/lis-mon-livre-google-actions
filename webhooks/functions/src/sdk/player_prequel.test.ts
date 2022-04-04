@@ -17,6 +17,9 @@ const yaml = `intentEvents:
 - handler:
     webhookHandler: player_prequel__intent__no
   intent: "no"
+- handler:
+    webhookHandler: player_prequel__intent__summarize
+  intent: summarize
 onEnter:
   webhookHandler: player_prequel__on_enter
 `;
