@@ -291,7 +291,7 @@ describe(scene + ' handler', () => {
       // @ts-ignore
       feed.publications = [];
 
-      message = 'Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you\'d like to search for a specific book by author or book title?\n';
+      message = 'Oh! This list is empty. But don\'t worry, there are many other possibilities!\n';
 
       const data = await expressMocked(body, headers, pullData, feed);
 
@@ -308,7 +308,7 @@ describe(scene + ' handler', () => {
       // @ts-ignore
       feed.groups = [];
 
-      message = 'Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you\'d like to search for a specific book by author or book title?\n';
+      message = 'Oh! This list is empty. But don\'t worry, there are many other possibilities!\n';
 
       const data = await expressMocked(body, headers, pullData, feed);
 

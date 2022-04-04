@@ -62,7 +62,7 @@
         "3": "And, of course, "
       },
       "regular": {
-        "1": "You can consult your bookshelf, browse our collections or search for a book by its title or author."
+        "1": "You can consult your bookshelf, browse our collections or search for a book by its title or author. What is your choice?"
       }
     },
     "currentBook": {
@@ -89,7 +89,7 @@
         "first": "Here are the first {{- number}} titles on your bookshelf:",
         "second": "Or perhaps you'd like to explore the other titles on your bookshelf?"
       },
-      "search": "I found {{- number}} books with that title.",
+      "search": "I found {{- number}} books which may fit.",
       "collection": {
         "publication": "I found {{- number}} books.",
         "group": "I found {{- number}} groups."
@@ -108,7 +108,7 @@
         "1": "Or ask for the next set."
       },
       "empty": {
-        "1": "Uh Oh! Nothing to read here quite yet. Not to worry though, we can fix that right away!  Would you like to browse our collections? Or perhaps you'd like to search for a specific book by author or book title?"
+        "1": "Oh! This list is empty. But don't worry, there are many other possibilities!"
       }
     },
     "help": {

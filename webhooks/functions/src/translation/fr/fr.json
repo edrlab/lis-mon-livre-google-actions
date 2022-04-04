@@ -54,7 +54,7 @@
     "enter": {
       "newlyUser": {
         "1": "Félicitations ! Vous avez réussi à connecter votre compte et vous pouvez maintenant accéder à tous vos livres préférés ! Rappelez-vous, vous pouvez demander de l'aide à tout instant.",
-        "2": "Souhaitez-vous consulter votre liste personnelle, ou naviguer dans nos collections ? Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur."
+        "2": "Souhaitez-vous consulter votre liste personnelle, ou naviguer dans nos collections ? Vous pouvez également rechercher un livre en prononçant cherche, <break time=\"200ms\"/>suivi d'un titre de livre ou d'un auteur."
       },
       "playing": {
         "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre maintenant.",
@@ -62,7 +62,7 @@
         "3": "Et bien entendu, "
       },
       "regular": {
-        "1": "Vous pouvez consulter votre liste personnelle, naviguer dans nos collections ou rechercher un livre par son titre ou son auteur."
+        "1": "Vous pouvez consulter votre liste personnelle, naviguer dans nos collections ou rechercher un livre par son titre ou son auteur. Que désirez-vous faire ?"
       }
     },
     "currentBook": {
@@ -89,7 +89,7 @@
         "first": "Voici les {{- number}} premiers titres de votre liste personnelle :",
         "second": "Ou peut-être souhaitez-vous explorer les autres titres de votre liste personnelle ?"
       },
-      "search": "J'ai trouvé {{- number}} livres avec ce titre.",
+      "search": "J'ai trouvé {{- number}} livres pouvant correspondre.",
       "collection": {
         "publication": "J'ai trouvé {{- number}} livres.",
         "group": "J'ai trouvé {{- number}} groupes."
@@ -108,7 +108,7 @@
         "1": "Ou demandez la page suivante."
       },
       "empty": {
-        "1": "En fait, il n'y a rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !"
+        "1": "Malheureusement, cette liste est vide. Mais ne vous inquiétez pas, il y a bien d'autres possibilités !"
       }
     },
     "help": {
