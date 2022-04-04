@@ -54,7 +54,7 @@
     "enter": {
       "newlyUser": {
         "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books! Remember, you can ask for help at any time.",
-        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for, followed by a book title or an author."
+        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for, <break time=\"200ms\"/>followed by a book title or an author."
       },
       "playing": {
         "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now pick up.",
