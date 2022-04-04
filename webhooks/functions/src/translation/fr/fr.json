@@ -58,19 +58,18 @@
       },
       "playing": {
         "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre maintenant.",
-        "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux lister.",
+        "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux détailler.",
         "3": "Et bien entendu, "
       },
       "regular": {
-        "1": "Vous pouvez consulter votre liste personnelle, ou naviguer dans nos collections. Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur.",
-        "2": "Reprendre la lecture. Livres récents. Liste personnelle. Collections. Chercher un livre : que désirez-vous faire ?"
+        "1": "Vous pouvez consulter votre liste personnelle, naviguer dans nos collections ou rechercher un livre par son titre ou son auteur."
       }
     },
     "currentBook": {
-      "1": "Il n'y a rien à lire"
+      "1": "Vous n'avez aucun livre courant."
     },
     "help": {
-      "1": "A cette étape, Vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
+      "1": "A cette étape, vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
       "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou Chercher ?"
     }
   },

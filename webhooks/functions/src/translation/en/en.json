@@ -18,7 +18,7 @@
     },
     "no": {
       "1": "In order to read books using the {{- name}} Library via Google, you need to be a registered {{- name}} member and link your account.",
-      "2": "Would you like to learn more about registering on the {{- name}} Library?"
+      "2": "Would you like to learn more about the {{- name}} Library?"
     },
     "help": {
       "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your {{- name}} account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your {{- name}} account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
@@ -41,7 +41,7 @@
   },
   "info": {
     "about": {
-      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about the {{- name}} membership?"
+      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about {{- name}} membership?"
     },
     "help": {
       "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
@@ -54,7 +54,7 @@
     "enter": {
       "newlyUser": {
         "1": "Congratulations! You have succesfully linked your account and can now access all of your favorite books! Remember, you can ask for help at any time.",
-        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for. Followed by a book title or an author."
+        "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for, <break time=\"200ms\"/>followed by a book title or an author."
       },
       "playing": {
         "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now pick up.",
@@ -62,12 +62,11 @@
         "3": "And, of course, "
       },
       "regular": {
-        "1": "You can consult your bookshelf, or browse our collections. You can also search for a book by saying search followed by a book title or an author.",
-        "2": "Resume reading. Recent books. Bookshelf. Collections. Search for a specific book: what do you want to do?"
+        "1": "You can consult your bookshelf, browse our collections or search for a book by its title or author."
       }
     },
     "currentBook": {
-      "1": "Uh Oh! Nothing to read here quite yet."
+      "1": "Your have no current book."
     },
     "help": {
       "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
