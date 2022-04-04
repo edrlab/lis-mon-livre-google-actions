@@ -48,24 +48,23 @@ export const enter: THandlerFn = async (m) => {
     // redirect to nextScene 'selection' for group 
     // or 'player-prequel' for a publication
 
+    const nextLink = kind === "GROUP" ? await m.getNexLinkGroupWithUrl(url) : await m.getNexLinkPublicationWithUrl(url);
+    const nextPageBool = !!nextLink;
     if (m.selectionSession.nextUrlCounter) {
-      const nextLink = kind === "GROUP" ? await m.getNexLinkGroupWithUrl(url) : await m.getNexLinkPublicationWithUrl(url);
-      if (nextLink) {
-
-      } else {
+      if (!nextLink) {
         if (kind === "GROUP") {
           m.say("selection.enter.lastPage.group");
         } else {
           m.say("selection.enter.lastPage.publication");
         }
       }
-
     } else {
+
       // intro
       if (handler === "home_user__intent__bookshelf") {
         const {publication} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
         m.say('selection.enter.bookshelf.first', {number: publication.length});
-      } else if (handler === "home_user__intent__search") {
+      } else if (handler === "search__on_enter") {
         const {length} = await m.getPublicationFromFeed(url); // @TODO fix it .. twice call to api
         m.say('selection.enter.search', {number: length});
       }
@@ -74,7 +73,10 @@ export const enter: THandlerFn = async (m) => {
       // @TODO handle collection group or publication
 
     // list groups or publication
-    m.say('selection.enter.common.1', {pageSuivante: ''});
+    m.say('selection.enter.common.1');
+    if (nextPageBool) {
+      m.say('selection.enter.nextPage.1');
+    }
     const list = kind === "GROUP" 
       ? (await m.getGroupsFromFeed(url)).groups.map(({title}) => title)
       : (await m.getPublicationFromFeed(url)).publication.map(({title}) => title);
