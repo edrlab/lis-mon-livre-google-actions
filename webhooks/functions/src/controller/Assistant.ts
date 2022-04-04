@@ -42,7 +42,7 @@ export class Assistant {
         console.log('WEBPUB ERROR code 401');
 
         if (this._locale === 'en') {
-          conv.add('Sorry, it is not possible to go further. Please unlink your CELA account from your assistant, then link them again.');
+          conv.add('Sorry, it is not possible to go further. Please unlink your EDRLAB account from your assistant, then link them again.');
         } else if (this._locale === 'fr') {
           conv.add('Désolé, impossible d\'aller plus loin : dissociez votre compte CAÉB de votre assistant puis ré-associez les.');
         }
