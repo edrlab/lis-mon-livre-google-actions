@@ -139,7 +139,7 @@ describe('home_user handler', () => {
 
       data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now pick up.\n' +
       'And, of course, \n' +
-      'You can consult your bookshelf, browse our collections or search for a book by its title or author.\n');
+      'You can consult your bookshelf, browse our collections or search for a book by its title or author. What is your choice?\n');
     });
     it('on enter with a current playing and history', async () => {
       body.handler.name = 'home_user__on_enter';
@@ -178,7 +178,7 @@ describe('home_user handler', () => {
       data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now pick up.\n' +
       'You are also reading 3 other recent books, which you can choose from.\n' +
       'And, of course, \n' +
-      'You can consult your bookshelf, browse our collections or search for a book by its title or author.\n');
+      'You can consult your bookshelf, browse our collections or search for a book by its title or author. What is your choice?\n');
     });
 
     it('repeat', async () => {
