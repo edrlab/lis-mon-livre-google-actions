@@ -1,7 +1,7 @@
 
 export let NAME = "";
 export const NAME_EN = "CELA";
-export const NAME_FR = "CAEB";
+export const NAME_FR = "<sub alias=\"ka hèbe\">CAÉB</sub>";
 export const setName = (lang: TLang) => NAME = lang === 'fr' ? NAME_FR : NAME_EN;
 
 export const API_BASE_URL = "https://training1.celalibrary.ca/smartspeakerv1/search";
@@ -20,7 +20,7 @@ export const PADDING_GROUP = 5;
 export const PADDING_PUB = 3;
 export const LAST_SEEN_THRESHOLD = 72;
 
-export const PROJECT_ID = 'cela-1';
+export const PROJECT_ID = 'cela-2';
 
 
 export type TLang = 'fr' | 'en';

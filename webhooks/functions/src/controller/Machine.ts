@@ -12,6 +12,8 @@ import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/
 import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
+import {stall} from '../tools';
+import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -85,7 +87,7 @@ export class Machine {
     }
 
     if (this._sayAcc) {
-      if (/.*<.*>.*<\/.*>.*/.test(this._sayAcc)) {
+      if (/.*<.*>.*/.test(this._sayAcc)) {
         this._sayAcc = '<speak>' + this._sayAcc + '</speak>';
       }
       console.info('SAY: ', this._sayAcc);
@@ -218,6 +220,12 @@ export class Machine {
 
   public isCurrentlyPlaying() {
     const {url, time, index} = this.playerCurrent;
+    // if (!playing) {
+    //   return false; // @TODO: need to define the use of this boolean
+    // }
+    if (url === undefined || time === undefined || index === undefined) {
+      return false;
+    }
     if (!this.isValidHttpUrl(url)) {
       throw new Error('not valid playing url');
     }
@@ -559,7 +567,7 @@ export class Machine {
     );
   }
 
-  private async webpubRequest(url: string) {
+  private webpubRequest: (url: string) => Promise<IWebPubView> = stall(async (url: string) => {
     if (!validator.isURL(url)) {
       throw new Error('url not valid : ' + url);
     }
@@ -574,9 +582,9 @@ export class Machine {
       error.code = 401;
       throw error;
     }
-  }
+  });
 
-  private async feedRequest(url: string) {
+  private feedRequest: (url: string) => Promise<IOpdsResultView> = stall(async (url: string) => {
     if (!this._fetcher) {
       throw new Error('no fetcher available !');
     }
@@ -625,7 +633,7 @@ export class Machine {
       console.error('FETCHER ERROR END');
     }
     return feed;
-  }
+  });
 
   private removeSessionDataWhenNewUserSession() {
     if (!this._model) {

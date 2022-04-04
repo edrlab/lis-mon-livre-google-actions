@@ -57,7 +57,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'home_new_user_no__on_enter';
       body.scene.name = scene;
 
-      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about registering on the CELA Library?\n`;
+      const message = `In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.\nWould you like to learn more about the CELA Library?\n`;
       const data = await expressMocked(body, headers);
 
       data.prompt.firstSimple.speech.should.to.be.eq(message);

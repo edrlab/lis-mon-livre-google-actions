@@ -16,6 +16,7 @@ export const home_user = (app: Assistant) => {
   app.handle("home_user__intent__silence", help);
   app.handle("home_user__intent__silence_end", missing);
   app.handle("home_user__intent__recent_books", recentBooks);
+  app.handle("home_user__intent__current_book", currentBook);
 
 }
 
@@ -58,13 +59,13 @@ const enter: THandlerFn = async (m) => {
     }
     m.say("home_user.enter.playing.3");
     m.say("home_user.enter.regular.1");
-    m.say("home_user.enter.regular.2");
+//    m.say("home_user.enter.regular.2");
 
   } else if (regularUser) {
     // regularUser
 
     m.say("home_user.enter.regular.1");
-    m.say("home_user.enter.regular.2");
+//    m.say("home_user.enter.regular.2");
   } else {
     // occasionalUser
 
@@ -107,6 +108,19 @@ const recentBooks: THandlerFn = (m) => {
     from: "home_user__intent__recent_books",
     url: 'data://' + JSON.stringify(urls.slice(0, PADDING_PUB)), // data url with an array of webpub links
   })
+}
+
+const currentBook: THandlerFn = (m) => {
+  
+  const isPlaying = m.isCurrentlyPlaying();
+  if (isPlaying) {
+
+    m.nextScene = 'player_prequel';
+  } else {
+
+    m.say('home_user.currentBook.1');
+    m.nextScene = 'home_user';
+  }
 }
 
 const help: THandlerFn = (m) => {
