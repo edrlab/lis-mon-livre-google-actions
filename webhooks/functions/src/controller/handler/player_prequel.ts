@@ -92,11 +92,14 @@ const startPlaying = (resume: boolean) => async (m: TMachine) => {
   m.nextScene = "player";
 
   m.resetPlayerInPLayerPrequelSession();
+  m.resetSelectionSession();
 }
 
 const back: THandlerFn = async (m) => {
 
   m.resetPlayerInPLayerPrequelSession();
+  m.selectionSession.state = "RUNNING";
+  m.selectionSession.nbChoice = 0;
   m.nextScene = 'selection';
 };
 
@@ -132,6 +135,8 @@ const summary: THandlerFn = async (m) => {
   } else {
     m.say("player_prequel.summarize", {summary: description});
   }
+
+  m.say("player_prequel.summary.1");
 
   // loop
   // m.nextScene = 'player_prequel';

@@ -107,7 +107,7 @@ export const enter: THandlerFn = async (m) => {
         console.log("RUN PUBLICATIONS");
 
         m.nextScene = "selection";
-      } else if (state === "DEFAULT" && m.isPlayingAvailableInPlayerPrequelSession()) {
+      } else if (state === "FINISH" && m.isPlayingAvailableInPlayerPrequelSession()) {
         console.log("RUN PLAYER");
 
         m.nextScene = "player_prequel";

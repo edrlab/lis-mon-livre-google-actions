@@ -124,7 +124,7 @@
     },
     "enter": {
       "1": "Vous avez choisi {{- title}}{{- resume}}",
-      "1-continue": "que vous aviez déja commencé.",
+      "1-continue": " que vous aviez déja commencé.",
       "1-begin": ".",
       "2": "{{- resumeOrStart}}, écouter le résumé, ou revenir à la liste précédente ?",
       "2-continue": "Voulez-vous reprendre la lecture",

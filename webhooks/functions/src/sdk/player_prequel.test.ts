@@ -300,7 +300,7 @@ describe(scene + ' handler', () => {
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('This is the summary: this the world.\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('This is the summary: this the world.\nDo you want to start reading or come back to the list?\n');
     });
   });
 });

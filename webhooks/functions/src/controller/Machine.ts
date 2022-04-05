@@ -339,15 +339,17 @@ export class Machine {
       }
       this.initPlayerInPlayerPrequelSession(pub.webpubUrl);
 
-      this.selectionSession.state = 'DEFAULT';
-      this.selectionSession.from = 'main';
-      this.selectionSession.url = '';
-      this.selectionSession.nbChoice = 0; // reset
-      this.selectionSession.nextUrlCounter = 0; // reset
-
       return true;
     }
     return false;
+  }
+
+  public resetSelectionSession() {
+    this.selectionSession.state = 'DEFAULT';
+    this.selectionSession.from = 'main';
+    this.selectionSession.url = '';
+    this.selectionSession.nbChoice = 0; // reset
+    this.selectionSession.nextUrlCounter = 0; // reset
   }
 
   public initPlayerInPlayerPrequelSession(webpubUrl: string) {
