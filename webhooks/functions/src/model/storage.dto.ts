@@ -41,8 +41,8 @@ class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
   @IsOptional()
     url?: string;
 
-  @IsBoolean()
-    playing: boolean;
+  // @IsBoolean()
+    // playing: boolean;
 
   // set(data: IStoragePlayerCurrent) {
   //   this.index = data.index;
@@ -52,7 +52,7 @@ class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
   // }
 
   constructor() {
-    this.playing = false;
+    // this.playing = false;
   }
 }
 
@@ -100,6 +100,11 @@ class StorageSessionDto implements IStorageSession {
         query: '',
         from: 'main',
       },
+      'player_prequel': {
+        state: 'DEFAULT',
+        from: 'main',
+        player: {},
+      }
     };
   }
 }

@@ -123,8 +123,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = true;
-
 
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
@@ -151,7 +149,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = true;
 
       pullData.player.history = {
         // @ts-ignore
@@ -237,7 +234,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = false;
 
       pullData.player.history = {
         // @ts-ignore
@@ -276,7 +272,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = false;
 
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);

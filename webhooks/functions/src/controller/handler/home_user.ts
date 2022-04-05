@@ -24,7 +24,7 @@ const enter: THandlerFn = async (m) => {
 
   const state = m.getSessionState("home_user");
   const newlyLinked = m.authenticationState === "NEWLY_LINKED";
-  const playing = m.playingInProgress;
+  const playing = m.isCurrentlyPlaying();
   const regularUser = m.isARegularUser;
 
   if (state === "SESSION") {
@@ -115,6 +115,7 @@ const currentBook: THandlerFn = (m) => {
   const isPlaying = !!m.currentPlayingUrl;
   if (isPlaying) {
 
+    m.playerPrequelSession.from = "home_user__intent__current_book";
     m.nextScene = 'player_prequel';
   } else {
 

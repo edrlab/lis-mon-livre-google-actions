@@ -107,12 +107,10 @@ export const enter: THandlerFn = async (m) => {
         console.log("RUN PUBLICATIONS");
 
         m.nextScene = "selection";
-      } else if (state === "DEFAULT" && m.playerCurrent.playing) {
+      } else if (state === "DEFAULT" && m.isPlayingAvailableInPlayerPrequelSession()) {
         console.log("RUN PLAYER");
 
         m.nextScene = "player_prequel";
-        // @TODO set the next-scene to player prequel
-        // lecture en cours ou annonciation du titre
       } else {
         throw new Error("indalid finish state " + state);
       }

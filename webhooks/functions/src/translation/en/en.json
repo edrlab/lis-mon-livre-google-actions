@@ -116,13 +116,25 @@
       "1": "At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands."
     }
   },
-  "player": {
-    "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time. Now, shall we get started with 'A Slow Fire Burning'?",
-    "start": "Let's start reading {{- title}}.",
-    "start2": "Let's continue reading {{- title}}.",
-    "askResumeLastOffset": "Do you want to pick up where it left off?",
+  "player_prequel": {
     "summarize": "This is the summary: {{- summary}}.",
-    "noSummary": "There are no summary available yet."
+    "noSummary": "There are no summary available yet.",
+    "help": {
+      "1": "At any time you can ask to read the summary of the book, ask who wrote it or simply get the listening time of the book."
+    },
+    "enter": {
+      "1": "You've chosen {{- title}}{{- resume}}",
+      "1-continue": ", that you have already started.",
+      "1-begin": ".",
+      "2": "{{- resumeOrStart}}, listen the summary or come back to the list?",
+      "2-continue": "Do you want to resume reading",
+      "2-begin": "Do you want to start reading"
+    }
+  },
+  "player": {
+    "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time.",
+    "start": "Let's start reading {{- title}}.",
+    "start2": "Let's continue reading {{- title}}."
   },
   "collections": {
     "enter": {
