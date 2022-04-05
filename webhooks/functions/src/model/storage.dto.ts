@@ -1,7 +1,7 @@
 import * as util from 'util';
 import {ISessionScene, IStorage, IStoragePlayer, IStoragePlayerCurrent, IStoragePlayerHistory, IStorageSession, IStorageUser, TStateAuthentication} from './storage.interface';
 import {classToPlain, Exclude, plainToClass, Transform, TransformationType, Type} from 'class-transformer';
-import {Equals, IsBoolean, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
+import {Equals, IsDate, IsNotEmpty, IsNumber, IsObject, IsOptional, IsString, IsUrl, Min, ValidateNested, validateSync} from 'class-validator';
 import {resetSelection} from '../controller/handler/selection.helper';
 
 const DB_VERSION = 1;
@@ -42,7 +42,7 @@ class StoragePlayerCurrentDto implements IStoragePlayerCurrent {
     url?: string;
 
   // @IsBoolean()
-    // playing: boolean;
+  // playing: boolean;
 
   // set(data: IStoragePlayerCurrent) {
   //   this.index = data.index;
@@ -104,7 +104,7 @@ class StorageSessionDto implements IStorageSession {
         state: 'DEFAULT',
         from: 'main',
         player: {},
-      }
+      },
     };
   }
 }

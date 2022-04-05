@@ -92,7 +92,7 @@ describe(scene + ' handler', () => {
         ],
       };
 
-      pullData.session.scene.player_prequel.from = "home_user__intent__current_book";
+      pullData.session.scene.player_prequel.from = 'home_user__intent__current_book';
 
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
@@ -100,7 +100,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('player');
 
       model.data.store.session.scene.player_prequel.from.should.to.be.eq('main');
-      model.data.store.session.scene.player_prequel.player.should.to.be.deep.eq({});;
+      model.data.store.session.scene.player_prequel.player.should.to.be.deep.eq({}); ;
       model.data.store.player.current.should.to.be.deep.eq(pullData.player.current);
     });
     it('on enter - from selection and playing', async () => {
@@ -112,7 +112,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.time = 330;
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
-      pullData.session.scene.player_prequel.from = "selection__on_enter";
+      pullData.session.scene.player_prequel.from = 'selection__on_enter';
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -133,9 +133,8 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.player_prequel.player.url?.should.be.eq('https://my.url');
       model.data.store.session.scene.player_prequel.from.should.be.eq('selection__on_enter');
 
-      data.prompt.firstSimple.speech.should.to.be.eq("You've chosen my title, that you have already started.\n" +
+      data.prompt.firstSimple.speech.should.to.be.eq('You\'ve chosen my title, that you have already started.\n' +
       'Do you want to resume reading, listen the summary or come back to the list?\n');
-
     });
     it('on enter - from selection and no playing', async () => {
       body.handler.name = 'player_prequel__on_enter';
@@ -146,7 +145,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.time = 0;
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
-      pullData.session.scene.player_prequel.from = "selection__on_enter";
+      pullData.session.scene.player_prequel.from = 'selection__on_enter';
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -170,7 +169,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.player_prequel.player.url.should.be.eq('https://my.url');
       model.data.store.session.scene.player_prequel.from.should.be.eq('selection__on_enter');
 
-      data.prompt.firstSimple.speech.should.to.be.eq("You've chosen my title.\n" +
+      data.prompt.firstSimple.speech.should.to.be.eq('You\'ve chosen my title.\n' +
       'Do you want to start reading, listen the summary or come back to the list?\n');
     });
 
@@ -183,7 +182,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.time = 0;
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
-      pullData.session.scene.player_prequel.from = "selection__on_enter";
+      pullData.session.scene.player_prequel.from = 'selection__on_enter';
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -194,14 +193,13 @@ describe(scene + ' handler', () => {
 
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
-      
+
       (typeof model.data.store.session.scene.player_prequel.player.index).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.time).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.url).should.be.eq('undefined');
       model.data.store.session.scene.player_prequel.from.should.be.eq('selection__on_enter');
 
       data.scene.next.name.should.to.be.eq('selection');
-
     });
 
     it('start', async () => {
@@ -213,7 +211,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.time = 0;
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
-      pullData.session.scene.player_prequel.from = "selection__on_enter";
+      pullData.session.scene.player_prequel.from = 'selection__on_enter';
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -224,7 +222,7 @@ describe(scene + ' handler', () => {
 
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
-      
+
       (typeof model.data.store.session.scene.player_prequel.player.index).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.time).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.url).should.be.eq('undefined');
@@ -239,9 +237,8 @@ describe(scene + ' handler', () => {
 
       data.scene.next.name.should.to.be.eq('player');
 
-      data.prompt.firstSimple.speech.should.to.be.eq("Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time.\n" +
-      "Let's start reading my title.\n");
-      
+      data.prompt.firstSimple.speech.should.to.be.eq('Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying \'Hey Google, Pause\'. \'Hey Google, Resume\' will let you pick up your reading where you last left it. You can also navigate between chapters by saying \'Hey Google, next\' or \'Hey Google, previous\' at any time.\n' +
+      'Let\'s start reading my title.\n');
     });
     it('resume', async () => {
       body.handler.name = 'player_prequel__intent__player_prequel_start';
@@ -252,7 +249,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.time = 435;
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
-      pullData.session.scene.player_prequel.from = "selection__on_enter";
+      pullData.session.scene.player_prequel.from = 'selection__on_enter';
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -263,7 +260,7 @@ describe(scene + ' handler', () => {
 
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
-      
+
       (typeof model.data.store.session.scene.player_prequel.player.index).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.time).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.url).should.be.eq('undefined');
@@ -278,9 +275,8 @@ describe(scene + ' handler', () => {
 
       data.scene.next.name.should.to.be.eq('player');
 
-      data.prompt.firstSimple.speech.should.to.be.eq("Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time.\n" +
-      "Let's start reading my title.\n");
-      
+      data.prompt.firstSimple.speech.should.to.be.eq('Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying \'Hey Google, Pause\'. \'Hey Google, Resume\' will let you pick up your reading where you last left it. You can also navigate between chapters by saying \'Hey Google, next\' or \'Hey Google, previous\' at any time.\n' +
+      'Let\'s start reading my title.\n');
     });
     it('summary', async () => {
       body.handler.name = 'player_prequel__intent__player_prequel_summary';
@@ -291,7 +287,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.time = 435;
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
-      pullData.session.scene.player_prequel.from = "selection__on_enter";
+      pullData.session.scene.player_prequel.from = 'selection__on_enter';
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -304,8 +300,7 @@ describe(scene + ' handler', () => {
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
 
-      data.prompt.firstSimple.speech.should.to.be.eq("This is the summary: this the world.\n");
+      data.prompt.firstSimple.speech.should.to.be.eq('This is the summary: this the world.\n');
     });
-
   });
 });

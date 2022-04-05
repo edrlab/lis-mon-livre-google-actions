@@ -1,5 +1,4 @@
 import {TSdkHandler} from '../typings/sdkHandler';
-import { TSdkScene } from '../typings/sdkScene';
 
 export interface IStoragePlayerHistory {
   index: number;

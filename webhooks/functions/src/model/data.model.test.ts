@@ -33,7 +33,7 @@ export const freshDataClone = () => Object.assign({
         state: 'DEFAULT',
         from: 'main',
         player: {},
-      }
+      },
     },
   },
   user: {
@@ -72,7 +72,7 @@ export const parsedDataClone = (): IStorage => Object.assign({
         state: 'DEFAULT',
         from: 'main',
         player: {},
-      }
+      },
     },
   },
   user: {

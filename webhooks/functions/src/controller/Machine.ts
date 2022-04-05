@@ -14,7 +14,6 @@ import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
 import {stall} from '../tools';
 import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
-import { object } from 'firebase-functions/v1/storage';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -102,7 +101,7 @@ export class Machine {
 
   public t(key: TI18nKey, options?: object) {
     ok(this._i18n);
-    return this._i18n.t(key, options)
+    return this._i18n.t(key, options);
   }
 
   public saidSomething(): boolean {
@@ -700,7 +699,7 @@ export class Machine {
             state: 'DEFAULT',
             from: 'main',
             player: {},
-          }
+          },
         },
       };
       this._model.store.user.sessionId = id;
