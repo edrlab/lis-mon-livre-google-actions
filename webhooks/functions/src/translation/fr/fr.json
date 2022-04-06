@@ -118,9 +118,9 @@
   },
   "player_prequel": {
     "summarize": "Voici le résumé: {{- summary}}.",
-    "noSummary": "Aucun résumé de disponible",
+    "noSummary": "Aucun résumé n'est disponible, j'en suis désolé.",
     "help": {
-      "1": "A tout moment vous pouvez demander le lecture du résumé du livre, demandé qui l'as écrit ou tout simplement obtenir le temps d'écoute du livre."
+      "1": "A tout moment vous pouvez demander la lecture du résumé du livre , demander son auteur ou obtenir le temps d'écoute restant."
     },
     "enter": {
       "1": "Vous avez choisi {{- title}}{{- resume}}",
