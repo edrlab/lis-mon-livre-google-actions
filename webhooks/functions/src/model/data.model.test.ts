@@ -5,7 +5,7 @@ export const freshDataClone = () => Object.assign({
   bearerToken: 'test',
   player: {
     current: {
-      playing: false,
+
     },
     history: {
 
@@ -29,6 +29,11 @@ export const freshDataClone = () => Object.assign({
         query: '',
         from: 'main',
       },
+      player_prequel: {
+        state: 'DEFAULT',
+        from: 'main',
+        player: {},
+      },
     },
   },
   user: {
@@ -41,7 +46,7 @@ export const parsedDataClone = (): IStorage => Object.assign({
   bearerToken: 'test',
   player: {
     current: {
-      playing: false,
+
     },
     history: new Map(),
   },
@@ -62,6 +67,11 @@ export const parsedDataClone = (): IStorage => Object.assign({
         state: 'DEFAULT',
         query: '',
         from: 'main',
+      },
+      player_prequel: {
+        state: 'DEFAULT',
+        from: 'main',
+        player: {},
       },
     },
   },

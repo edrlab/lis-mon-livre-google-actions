@@ -24,7 +24,7 @@ const enter: THandlerFn = async (m) => {
 
   const state = m.getSessionState("home_user");
   const newlyLinked = m.authenticationState === "NEWLY_LINKED";
-  const playing = m.playingInProgress;
+  const playing = m.isCurrentlyPlaying();
   const regularUser = m.isARegularUser;
 
   if (state === "SESSION") {
@@ -50,7 +50,7 @@ const enter: THandlerFn = async (m) => {
 
   } else if (playing) {
 
-    const {title, chapter, author} = await m.getCurrentPlayingTitleAndChapter();
+    const {title, chapter, author} = await m.getCurrentPlayingInfo();
     const readingNumber = m.playingNumber - 1;
 
     m.say("home_user.enter.playing.1", {chapterNumber: chapter, titleAndAuthor: `${title}${author ? `, ${author}` : ''}`});
@@ -112,9 +112,10 @@ const recentBooks: THandlerFn = (m) => {
 
 const currentBook: THandlerFn = (m) => {
   
-  const isPlaying = m.isCurrentlyPlaying();
+  const isPlaying = !!m.currentPlayingUrl;
   if (isPlaying) {
 
+    m.playerPrequelSession.from = "home_user__intent__current_book";
     m.nextScene = 'player_prequel';
   } else {
 

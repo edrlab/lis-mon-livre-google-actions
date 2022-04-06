@@ -1,9 +1,39 @@
 intentEvents:
 - handler:
-    webhookHandler: player_prequel__intent__yes
-  intent: "yes"
+    webhookHandler: player_prequel__intent__help
+  intent: help
 - handler:
-    webhookHandler: player_prequel__intent__no
-  intent: "no"
+    webhookHandler: player_prequel__intent__repeat
+  intent: repeat
+- handler:
+    webhookHandler: player_prequel__intent__player_prequel_back
+  intent: player_prequel_back
+- handler:
+    webhookHandler: player_prequel__intent__player_prequel_resume
+  intent: player_prequel_resume
+- handler:
+    webhookHandler: player_prequel__intent__player_prequel_start
+  intent: player_prequel_start
+- handler:
+    webhookHandler: player_prequel__intent__player_prequel_summary
+  intent: player_prequel_summary
+- handler:
+    webhookHandler: player_prequel__fallback
+  intent: actions.intent.NO_MATCH_1
+- handler:
+    webhookHandler: player_prequel__fallback
+  intent: actions.intent.NO_MATCH_2
+- handler:
+    webhookHandler: player_prequel__fallback_end
+  intent: actions.intent.NO_MATCH_FINAL
+- handler:
+    webhookHandler: player_prequel__silence
+  intent: actions.intent.NO_INPUT_1
+- handler:
+    webhookHandler: player_prequel__silence
+  intent: actions.intent.NO_INPUT_2
+- handler:
+    webhookHandler: player_prequel__silence_end
+  intent: actions.intent.NO_INPUT_FINAL
 onEnter:
   webhookHandler: player_prequel__on_enter

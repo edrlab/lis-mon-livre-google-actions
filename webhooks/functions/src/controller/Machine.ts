@@ -99,6 +99,11 @@ export class Machine {
     this._sayAcc += this._i18n.t(key, options) + '\n';
   }
 
+  public t(key: TI18nKey, options?: object) {
+    ok(this._i18n);
+    return this._i18n.t(key, options);
+  }
+
   public saidSomething(): boolean {
     return !!this._sayAcc;
   }
@@ -157,10 +162,6 @@ export class Machine {
     this._model.store.session.scene[scene].state = state;
   }
 
-  public get playingInProgress() {
-    ok(this._model);
-    return this._model.store.player.current.playing;
-  }
 
   public get playingNumber() {
     ok(this._model);
@@ -175,22 +176,22 @@ export class Machine {
     );
   }
 
-  public async getCurrentPlayingTitleAndChapter() {
+  public async getCurrentPlayingInfo(cur = this._model?.store.player.current) {
     ok(this._model);
-
-    const cur = this._model.store.player.current;
+    ok(cur);
     const url = cur.url || '';
     const chapter = (cur.index || 0) + 1;
-    const {title, author} = await this.getTitleAndAuthorFromWebpub(url);
+    const {title, author, description} = await this.getInfoFromWebpub(url);
 
-    return {chapter, title, author};
+    return {chapter, title, author, description};
   }
 
-  public async getTitleAndAuthorFromWebpub(url: string) {
+  public async getInfoFromWebpub(url: string) {
     const webpub = await this.webpubRequest(url);
     const title = webpub?.title || 'no title'; // @TODO i18n
     const author = (webpub?.authors || [])[0] || '';
-    return {title, author};
+    const description = (webpub?.description) || '';
+    return {title, author, description};
   }
 
   public debugSelectionSession() {
@@ -208,6 +209,16 @@ export class Machine {
     this._model.store.session.scene.selection = d;
   }
 
+  public get playerPrequelSession() {
+    ok(this._model);
+    return this._model.store.session.scene.player_prequel;
+  }
+
+  public set playerPrequelSession(d: ISessionScene['player_prequel']) {
+    ok(this._model);
+    this._model.store.session.scene.player_prequel = d;
+  }
+
   public get searchSession() {
     ok(this._model);
     return this._model.store.session.scene.search;
@@ -218,8 +229,8 @@ export class Machine {
     this._model.store.session.scene.search = d;
   }
 
-  public isCurrentlyPlaying() {
-    const {url, time, index} = this.playerCurrent;
+  public isCurrentlyPlaying(c = this.playerCurrent) {
+    const {url, time, index} = c;
     // if (!playing) {
     //   return false; // @TODO: need to define the use of this boolean
     // }
@@ -233,6 +244,14 @@ export class Machine {
       return false;
     }
     return true;
+  }
+
+  public isPlayingAvailableInPlayerPrequelSession() {
+    return !!this.playerPrequelSession.player.url;
+  }
+
+  public isCurrentlyPlayingInPlayerPrequelSession() {
+    return this.isCurrentlyPlaying(this.playerPrequelSession.player);
   }
 
   public get playerCurrent() {
@@ -318,26 +337,40 @@ export class Machine {
       if (!this.isValidHttpUrl(webpubUrl)) {
         throw new Error('webpub url not valid');
       }
-      this.initPlayerCurrentWithWebpubUrl(pub.webpubUrl);
-
-      this.selectionSession.state = 'DEFAULT';
-      this.selectionSession.from = 'main';
-      this.selectionSession.url = '';
-      this.selectionSession.nbChoice = 0; // reset
-      this.selectionSession.nextUrlCounter = 0; // reset
+      this.initPlayerInPlayerPrequelSession(pub.webpubUrl);
 
       return true;
     }
     return false;
   }
 
-  public initPlayerCurrentWithWebpubUrl(webpubUrl: string) {
+  public resetSelectionSession() {
+    this.selectionSession.state = 'DEFAULT';
+    this.selectionSession.from = 'main';
+    this.selectionSession.url = '';
+    this.selectionSession.nbChoice = 0; // reset
+    this.selectionSession.nextUrlCounter = 0; // reset
+  }
+
+  public initPlayerInPlayerPrequelSession(webpubUrl: string) {
     ok(this._model);
     const pubFromHistory = this._model.store.player.history.get(webpubUrl);
-    this.playerCurrent.index = pubFromHistory?.index ?? 0;
-    this.playerCurrent.playing = true;
-    this.playerCurrent.time = pubFromHistory?.time ?? 0;
-    this.playerCurrent.url = webpubUrl;
+    this.playerPrequelSession.player = {
+      url: webpubUrl,
+      index: pubFromHistory?.index ?? 0,
+      time: pubFromHistory?.time ?? 0,
+    };
+  }
+
+  public resetPlayerInPLayerPrequelSession() {
+    this.playerPrequelSession.player = {};
+  }
+
+  public initPlayerCurrentWithPlayerPrequelSession() {
+    const {index, time, url} = this.playerPrequelSession.player;
+    this.playerCurrent.index = index;
+    this.playerCurrent.time = time;
+    this.playerCurrent.url = url;
   }
 
   public async getPublicationFromNumberInSelectionWithUrl(url: string, number: number) {
@@ -491,7 +524,6 @@ export class Machine {
 
     this._model.store.player.current.index = index;
     this._model.store.player.current.time = progress;
-    this._model.store.player.current.playing = true; // always true
 
     this._model.store.player.history.set(url, {
       index,
@@ -664,6 +696,11 @@ export class Machine {
             state: 'DEFAULT',
             query: '',
             from: 'main',
+          },
+          'player_prequel': {
+            state: 'DEFAULT',
+            from: 'main',
+            player: {},
           },
         },
       };
