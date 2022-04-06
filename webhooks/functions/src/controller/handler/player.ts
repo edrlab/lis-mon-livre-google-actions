@@ -39,7 +39,7 @@ const failed: THandlerFn = async (m) => {
 
 const finished: THandlerFn = async (m) => {
 
-  m.persistMediaPlayer();
+  m.persistMediaPlayer(true);
 
   m.nextScene = "home_user";
 };
