@@ -129,6 +129,9 @@
       "2": "{{- resumeOrStart}}, écouter le résumé, ou revenir à la liste précédente ?",
       "2-continue": "Voulez-vous reprendre la lecture",
       "2-begin": "Voulez-vous commencer la lecture"
+    },
+    "summary": {
+      "1": "Voulez-vous commencer la lecture ou revenir à la liste précédente ?"
     }
   },
   "player": {
