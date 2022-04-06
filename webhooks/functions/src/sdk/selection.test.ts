@@ -586,12 +586,11 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('player_prequel');
-      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
-      model.data.store.session.scene.selection.url.should.to.be.eq('');
-      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+      model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(1);
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(0);
       model.data.store.session.scene.selection.from.should.to.be.eq('main');
-      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
     });
     it('select book - number 2 ', async () => {
       body.handler.name = 'selection__intent__selects_book';
@@ -613,12 +612,11 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, feed, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('player_prequel');
-      model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
-      model.data.store.session.scene.selection.url.should.to.be.eq('');
-      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+      model.data.store.session.scene.selection.state.should.to.be.eq('FINISH');
+      model.data.store.session.scene.selection.url.should.to.be.eq('http://my.url');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(2);
       model.data.store.session.scene.selection.nextUrlCounter.should.to.be.eq(0);
       model.data.store.session.scene.selection.from.should.to.be.eq('main');
-      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
     });
 
     it('select book - number 3 with only 2 pub available', async () => {

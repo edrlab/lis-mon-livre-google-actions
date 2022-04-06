@@ -10,7 +10,7 @@ export interface IStoragePlayerCurrent {
   index?: number;
   time?: number;
   url?: string;
-  playing: boolean;
+  // playing: boolean;
 }
 
 export interface IStoragePlayer {
@@ -24,6 +24,7 @@ export type TStateHomeUser = 'SESSION' | 'REPEAT' | TStateDefault;
 export type TStateSelection = 'RUNNING' | 'FINISH' | TStateDefault;
 export type TKindSelection = 'PUBLICATION' | 'GROUP';
 export type TStateSearch = 'RUNNING' | 'FINISH' | TStateDefault;
+export type TStatePlayerPrequel = TStateDefault;
 
 export interface ISessionScene {
   'home_user': {
@@ -41,6 +42,11 @@ export interface ISessionScene {
     state: TStateSearch,
     query: string,
     from: TSdkHandler,
+  },
+  'player_prequel': {
+    state: TStatePlayerPrequel,
+    from: TSdkHandler,
+    player: IStoragePlayerCurrent,
   }
 }
 export type TKeySessionScene = keyof ISessionScene;

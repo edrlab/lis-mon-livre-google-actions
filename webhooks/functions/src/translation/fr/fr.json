@@ -116,11 +116,25 @@
       "1": "A cette étape, vous devez choisir un titre parmi ceux proposés, en mentionnant son numéro, par exemple numéro 1. Vous pouvez aussi demander d'autres titres par les commandes Suivants ou Précédents."
     }
   },
+  "player_prequel": {
+    "summarize": "Voici le résumé: {{- summary}}.",
+    "noSummary": "Aucun résumé n'est disponible, j'en suis désolé.",
+    "help": {
+      "1": "A tout moment vous pouvez demander la lecture du résumé du livre , demander son auteur ou obtenir le temps d'écoute restant."
+    },
+    "enter": {
+      "1": "Vous avez choisi {{- title}}{{- resume}}",
+      "1-continue": " que vous aviez déja commencé.",
+      "1-begin": ".",
+      "2": "{{- resumeOrStart}}, écouter le résumé, ou revenir à la liste précédente ?",
+      "2-continue": "Voulez-vous reprendre la lecture",
+      "2-begin": "Voulez-vous commencer la lecture"
+    }
+  },
   "player": {
     "explain": "Excellent choix ! Avant de commencer, laissez-moi vous rappeler comment fonctionne ce lecteur. Vous pouvez mettre votre lecture en attente à tout moment en disant 'Google, Pause'. 'Google, Lecture' vous permettra de reprendre votre lecture là où vous l'avez pausée. Vous pouvez également naviguer entre les chapitres en disant 'Hey Google, suivant' ou 'Hey Google, précédent' à tout moment.",
     "start": "Voici donc {{- title}}.",
-    "start2": "Reprenons la lecture de {{- title}}.",
-    "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle a été interrompue ?"
+    "start2": "Reprenons la lecture de {{- title}}."
   },
   "collections": {
     "enter": {
