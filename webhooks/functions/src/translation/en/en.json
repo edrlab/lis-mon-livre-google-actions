@@ -117,10 +117,10 @@
     }
   },
   "player_prequel": {
-    "summarize": "This is the summary: {{- summary}}.",
-    "noSummary": "There are no summary available yet.",
+    "summarize": "Here is the summary: {{- summary}}.",
+    "noSummary": "No summary is available, sorry.",
     "help": {
-      "1": "At any time you can ask to read the summary of the book, ask who wrote it or simply get the listening time of the book."
+      "1": "At any time you can ask for the summary of the book, ask for the author or get the remaining listening time."
     },
     "enter": {
       "1": "You've chosen {{- title}}{{- resume}}",
@@ -131,7 +131,7 @@
       "2-begin": "Do you want to start reading"
     },
     "summary": {
-      "1": "Do you want to start reading or come back to the list?"
+      "1": "Do you want to start reading or go back to the list?"
     }
   },
   "player": {
