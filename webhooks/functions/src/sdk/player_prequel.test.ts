@@ -89,7 +89,7 @@ describe(scene + ' handler', () => {
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying \'Hey Google, Pause\'. \'Hey Google, Resume\' will let you pick up your reading where you last left it. You can also navigate between chapters by saying \'Hey Google, next\' or \'Hey Google, previous\' at any time. Now, shall we get started with \'A Slow Fire Burning\'?\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying \'Hey Google, Pause\'. \'Hey Google, Resume\' will let you pick up your reading where you last left it. You can also navigate between tracks by saying \'Hey Google, next\' or \'Hey Google, previous\' at any time.\n' +
              'Do you want to pick up where it left off?\n');
     });
 
