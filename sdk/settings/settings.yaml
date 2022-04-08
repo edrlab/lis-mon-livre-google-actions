@@ -1,7 +1,7 @@
 accountLinking:
   appClientId: 264993278233-00c74eidtg83u9srrjrkkv1hrd465p6s.apps.googleusercontent.com
   authGrantType: IMPLICIT
-  authorizationUrl: https://training1.celalibrary.ca/auth
+  authorizationUrl: https://celalibrary.ca/auth
   linkingType: OAUTH
 category: EDUCATION_AND_REFERENCE
 defaultLocale: fr
