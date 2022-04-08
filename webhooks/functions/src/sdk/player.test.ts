@@ -68,8 +68,7 @@ describe(scene + ' handler', () => {
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
 
       model.data.store.player.current.index = 2;
-      model.data.store.player.current.playing.should.to.be.eq(true);
-      model.data.store.player.current.time?.should.to.be.eq(40);
+      model.data.store.player.current.time?.should.to.be.eq(0);
       model.data.store.player.current.url?.should.to.be.eq('http://my.url');
     });
     it('media status stopped', async () => {

@@ -9,7 +9,7 @@ import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
-import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
+import {IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
 import {stall} from '../tools';
@@ -99,6 +99,11 @@ export class Machine {
     this._sayAcc += this._i18n.t(key, options) + '\n';
   }
 
+  public t(key: TI18nKey, options?: object) {
+    ok(this._i18n);
+    return this._i18n.t(key, options);
+  }
+
   public saidSomething(): boolean {
     return !!this._sayAcc;
   }
@@ -157,10 +162,6 @@ export class Machine {
     this._model.store.session.scene[scene].state = state;
   }
 
-  public get playingInProgress() {
-    ok(this._model);
-    return this._model.store.player.current.playing;
-  }
 
   public get playingNumber() {
     ok(this._model);
@@ -175,22 +176,27 @@ export class Machine {
     );
   }
 
-  public async getCurrentPlayingTitleAndChapter() {
+  public async getCurrentPlayingInfo(cur = this._model?.store.player.current) {
     ok(this._model);
-
-    const cur = this._model.store.player.current;
+    ok(cur);
     const url = cur.url || '';
     const chapter = (cur.index || 0) + 1;
-    const {title, author} = await this.getTitleAndAuthorFromWebpub(url);
+    const {title, author, description} = await this.getInfoFromOpdsPub(url);
 
-    return {chapter, title, author};
+    return {chapter, title, author, description};
   }
 
-  public async getTitleAndAuthorFromWebpub(url: string) {
-    const webpub = await this.webpubRequest(url);
-    const title = webpub?.title || 'no title'; // @TODO i18n
-    const author = (webpub?.authors || [])[0] || '';
-    return {title, author};
+  public async getInfoFromOpdsPub(opdsPubUrl: string) {
+    if (!this.isValidHttpUrl(opdsPubUrl)) {
+      throw new Error('not a valid opdsPubUrl in getInfoFromOpdsPub');
+    }
+    const {publications} = await this.feedRequest(opdsPubUrl);
+
+    const pub = Array.isArray(publications) ? publications[0] : undefined;
+    const title: string = pub?.title || this.t('noTitle');
+    const author: string = ((pub && Array.isArray(pub?.authors)) ? pub?.authors : [])[0]?.name || '';
+    const description: string = (pub?.description) || '';
+    return {title, author, description};
   }
 
   public debugSelectionSession() {
@@ -208,6 +214,16 @@ export class Machine {
     this._model.store.session.scene.selection = d;
   }
 
+  public get playerPrequelSession() {
+    ok(this._model);
+    return this._model.store.session.scene.player_prequel;
+  }
+
+  public set playerPrequelSession(d: ISessionScene['player_prequel']) {
+    ok(this._model);
+    this._model.store.session.scene.player_prequel = d;
+  }
+
   public get searchSession() {
     ok(this._model);
     return this._model.store.session.scene.search;
@@ -218,8 +234,8 @@ export class Machine {
     this._model.store.session.scene.search = d;
   }
 
-  public isCurrentlyPlaying() {
-    const {url, time, index} = this.playerCurrent;
+  public isCurrentlyPlaying(c = this.playerCurrent) {
+    const {url, time, index} = c;
     // if (!playing) {
     //   return false; // @TODO: need to define the use of this boolean
     // }
@@ -233,6 +249,14 @@ export class Machine {
       return false;
     }
     return true;
+  }
+
+  public isPlayingAvailableInPlayerPrequelSession() {
+    return !!this.playerPrequelSession.player.url;
+  }
+
+  public isCurrentlyPlayingInPlayerPrequelSession() {
+    return this.isCurrentlyPlaying(this.playerPrequelSession.player);
   }
 
   public get playerCurrent() {
@@ -292,7 +316,7 @@ export class Machine {
     let pub: {
       title: string;
       author: string;
-      webpubUrl: string;
+      opdsPubUrl: string;
   } | undefined;
 
     if (url.startsWith('data://')) {
@@ -302,11 +326,13 @@ export class Machine {
 
       const urlFromData = data[number - 1];
       if (this.isValidHttpUrl(urlFromData)) {
-        const webpub = await this.webpubRequest(urlFromData);
+        const {publications} = await this.feedRequest(urlFromData);
+        const publication = Array.isArray(publications) ? publications[0] : undefined;
+        const author: string = ((publication && Array.isArray(publication?.authors)) ? publication?.authors : [])[0]?.name || '';
         pub = {
-          title: webpub.title,
-          author: webpub.authors[0] || '',
-          webpubUrl: urlFromData,
+          title: publication?.title || this.t('noTitle'),
+          author,
+          opdsPubUrl: urlFromData,
         };
       }
     } else {
@@ -314,30 +340,41 @@ export class Machine {
     }
 
     if (pub) {
-      const webpubUrl = pub.webpubUrl;
-      if (!this.isValidHttpUrl(webpubUrl)) {
-        throw new Error('webpub url not valid');
-      }
-      this.initPlayerCurrentWithWebpubUrl(pub.webpubUrl);
-
-      this.selectionSession.state = 'DEFAULT';
-      this.selectionSession.from = 'main';
-      this.selectionSession.url = '';
-      this.selectionSession.nbChoice = 0; // reset
-      this.selectionSession.nextUrlCounter = 0; // reset
+      const {opdsPubUrl} = pub;
+      this.initPlayerInPlayerPrequelSession(opdsPubUrl);
 
       return true;
     }
     return false;
   }
 
-  public initPlayerCurrentWithWebpubUrl(webpubUrl: string) {
+  public resetSelectionSession() {
+    this.selectionSession.state = 'DEFAULT';
+    this.selectionSession.from = 'main';
+    this.selectionSession.url = '';
+    this.selectionSession.nbChoice = 0; // reset
+    this.selectionSession.nextUrlCounter = 0; // reset
+  }
+
+  public initPlayerInPlayerPrequelSession(opdsPubUrl: string) {
     ok(this._model);
-    const pubFromHistory = this._model.store.player.history.get(webpubUrl);
-    this.playerCurrent.index = pubFromHistory?.index ?? 0;
-    this.playerCurrent.playing = true;
-    this.playerCurrent.time = pubFromHistory?.time ?? 0;
-    this.playerCurrent.url = webpubUrl;
+    const pubFromHistory = this._model.store.player.history.get(opdsPubUrl);
+    this.playerPrequelSession.player = {
+      url: opdsPubUrl,
+      index: pubFromHistory?.index ?? 0,
+      time: pubFromHistory?.time ?? 0,
+    };
+  }
+
+  public resetPlayerInPLayerPrequelSession() {
+    this.playerPrequelSession.player = {};
+  }
+
+  public initPlayerCurrentWithPlayerPrequelSession() {
+    const {index, time, url} = this.playerPrequelSession.player;
+    this.playerCurrent.index = index;
+    this.playerCurrent.time = time;
+    this.playerCurrent.url = url;
   }
 
   public async getPublicationFromNumberInSelectionWithUrl(url: string, number: number) {
@@ -424,19 +461,19 @@ export class Machine {
     const feed = await this.feedRequest(url);
 
     const list = (feed.publications || [])
-        .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
-          return (
-            Array.isArray(l) &&
-          l[0] &&
-          this.isValidHttpUrl(l[0].url)
-          );
+        .filter(({entryLinks: l}) => {
+          return Array.isArray(l) && l[0]?.url && this.isValidHttpUrl(l[0].url);
+        })
+        .filter(({openAccessLinks: l}) => {
+          return Array.isArray(l) && l[0]?.url && this.isValidHttpUrl(l[0].url);
         })
         .slice(0, PADDING_PUB)
-        .map(({title, authors, openAccessLinks}) => ({
+        .map(({title, authors, entryLinks}) => ({
           title: title,
           author: Array.isArray(authors) && authors.length ? authors[0].name : '',
-          webpubUrl: (openAccessLinks as IOpdsLinkView[])[0].url,
+          opdsPubUrl: entryLinks ? entryLinks[0].url : '',
         }));
+
     return {publication: list, length: feed.metadata?.numberOfItems || list.length};
   }
 
@@ -475,12 +512,12 @@ export class Machine {
     return size;
   }
 
-  public persistMediaPlayer() {
+  public persistMediaPlayer(finished: boolean = false) {
     ok(this._model);
 
     const _progress = this._conv.context?.media?.progress || '0';
-    const progress = parseInt(_progress, 10);
-    const index = this._conv.request.context?.media?.index || 0;
+    const progress = finished ? 0 : parseInt(_progress, 10);
+    const index = finished ? 0 : (this._conv.request.context?.media?.index || 0);
     const url = this._model.store.player.current.url;
     if (!url) {
       return;
@@ -491,7 +528,6 @@ export class Machine {
 
     this._model.store.player.current.index = index;
     this._model.store.player.current.time = progress;
-    this._model.store.player.current.playing = true; // always true
 
     this._model.store.player.history.set(url, {
       index,
@@ -518,14 +554,21 @@ export class Machine {
   public async player() {
     ok(this._model);
     const url = this.currentPlayingUrl;
-    if (!url) {
-      throw new Error('no playing url');
+    if (!this.isValidHttpUrl(url)) {
+      throw new Error('no opdsPublication url');
+    }
+
+    const {publications} = await this.feedRequest(url);
+    const webpubUrl: string = (Array.isArray(publications) && Array.isArray(publications[0]?.openAccessLinks)) ? publications[0].openAccessLinks[0]?.url : '';
+
+    if (!this.isValidHttpUrl(webpubUrl)) {
+      throw new Error('no webpub url');
     }
 
     const startIndexRaw = this._model.store.player.current.index;
     const startTimeRaw = this._model.store.player.current.time;
 
-    const webpub = await this.webpubRequest(url);
+    const webpub = await this.webpubRequest(webpubUrl);
 
     let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length) ?
       startIndexRaw :
@@ -592,23 +635,17 @@ export class Machine {
     // recent books hack
     if (url.startsWith('data://')) {
       const dataStr = url.substring('data://'.length);
-      const data = JSON.parse(dataStr);
+      const data: string[] = JSON.parse(dataStr);
       ok(Array.isArray(data));
 
-      const publications: IOpdsPublicationView[] = [];
-      for (const urlFromData of data) {
-        const webpub = await this._fetcher.webpubRequest(urlFromData);
-        const title = webpub.title || '';
-        const authors = webpub.authors || [];
-        publications.push({
-          title,
-          // @ts-ignore
-          authors: [{name: authors[0]}],
-          openAccessLinks: [{
-            url: urlFromData,
-          }],
-        });
-      }
+      const dataFiltered = data
+          .filter((v) => typeof v === 'string' && this.isValidHttpUrl(v))
+          .slice(0, PADDING_PUB); // FIXME: Little Hacky : need to add pagination instead of slicing 3 items
+      const feedResultP = dataFiltered.map((url) => this._fetcher!.feedRequest(url));
+      const feedResult = await Promise.all(feedResultP);
+      const publications = feedResult
+          .map(({publications}) => Array.isArray(publications) ? publications[0] : undefined)
+          .filter((v) => !!v) as IOpdsPublicationView[];
 
       const feed: IOpdsResultView = {
         title: 'recent books',
@@ -664,6 +701,11 @@ export class Machine {
             state: 'DEFAULT',
             query: '',
             from: 'main',
+          },
+          'player_prequel': {
+            state: 'DEFAULT',
+            from: 'main',
+            player: {},
           },
         },
       };

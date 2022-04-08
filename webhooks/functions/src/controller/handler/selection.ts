@@ -107,12 +107,10 @@ export const enter: THandlerFn = async (m) => {
         console.log("RUN PUBLICATIONS");
 
         m.nextScene = "selection";
-      } else if (state === "DEFAULT" && m.playerCurrent.playing) {
+      } else if (state === "FINISH" && m.isPlayingAvailableInPlayerPrequelSession()) {
         console.log("RUN PLAYER");
 
         m.nextScene = "player_prequel";
-        // @TODO set the next-scene to player prequel
-        // lecture en cours ou annonciation du titre
       } else {
         throw new Error("indalid finish state " + state);
       }
@@ -159,10 +157,12 @@ const selectBook: THandlerFn = async (m) => {
 
   } else if (nb < 1) {
     m.selectionSession.nbChoice = 0;
+    console.info("number from intent lower than 1");
     // m.say('selection.help.1');
 
   } else if (nb > padding || nb > size) {
     m.selectionSession.nbChoice = 0;
+    console.info("number from intent upper than padding or size");
     // m.say('selection.help.1');
 
   } else {

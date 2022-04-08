@@ -123,9 +123,21 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = true;
 
-
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+            authors: [
+              {
+                name: 'hello',
+              },
+            ],
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -134,10 +146,10 @@ describe('home_user handler', () => {
         ],
       };
 
-      const data = await expressMocked(body, headers, pullData, undefined, webpub);
+      const data = await expressMocked(body, headers, pullData, feed, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now resume reading.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the track 10 of my title, hello, which you can now resume reading.\n' +
       'And, of course, \n' +
       'You can consult your bookshelf, browse our collections or search for a book by its title or author. What is your choice?\n');
     });
@@ -150,7 +162,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = true;
 
       pullData.player.history = {
         // @ts-ignore
@@ -164,6 +175,20 @@ describe('home_user handler', () => {
       // pullData.player.history.set("3", {index: 0, time: 0, date: new Date()});
       // pullData.player.history.set("4", {index: 0, time: 0, date: new Date()});
 
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+            authors: [
+              {
+                name: 'hello',
+              },
+            ],
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -172,10 +197,10 @@ describe('home_user handler', () => {
         ],
       };
 
-      const data = await expressMocked(body, headers, pullData, undefined, webpub);
+      const data = await expressMocked(body, headers, pullData, feed, webpub);
       console.log(JSON.stringify(data, null, 4));
 
-      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the 10 chapter of my title, hello, which you can now resume reading.\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the track 10 of my title, hello, which you can now resume reading.\n' +
       'You are also reading 3 other recent books, which you can choose from.\n' +
       'And, of course, \n' +
       'You can consult your bookshelf, browse our collections or search for a book by its title or author. What is your choice?\n');
@@ -235,7 +260,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = false;
 
       pullData.player.history = {
         // @ts-ignore
@@ -274,7 +298,6 @@ describe('home_user handler', () => {
       pullData.player.current.index = 9;
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
-      pullData.player.current.playing = false;
 
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
@@ -292,7 +315,7 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
 
       data.scene.next.name.should.to.be.eq('home_user');
-      data.prompt.firstSimple.speech.should.to.be.eq('Your have no current book.\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('You have no current book.\n');
     });
 
     it('browse collections', async () => {

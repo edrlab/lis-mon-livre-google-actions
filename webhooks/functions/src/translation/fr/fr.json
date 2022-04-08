@@ -57,7 +57,7 @@
         "2": "Souhaitez-vous consulter votre liste personnelle, ou naviguer dans nos collections ? Vous pouvez également rechercher un livre en prononçant cherche, <break time=\"200ms\"/>suivi d'un titre de livre ou d'un auteur."
       },
       "playing": {
-        "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre maintenant.",
+        "1": "Vous êtes en train d'écouter la piste {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre maintenant.",
         "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux détailler.",
         "3": "Et bien entendu, "
       },
@@ -69,7 +69,7 @@
       "1": "Vous n'avez aucun livre courant."
     },
     "help": {
-      "1": "A cette étape, vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
+      "1": "A cette étape, vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes Livres Récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec notre aide par la commande Liste Personnelle, naviguer dans nos collections prédéfinies par la commande Collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
       "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou Chercher ?"
     }
   },
@@ -115,11 +115,28 @@
       "1": "A cette étape, vous devez choisir un titre parmi ceux proposés, en mentionnant son numéro, par exemple numéro 1. Vous pouvez aussi demander d'autres titres par les commandes Suivants ou Précédents."
     }
   },
+  "player_prequel": {
+    "summarize": "Voici le résumé: {{- summary}}.",
+    "noSummary": "Aucun résumé n'est disponible, j'en suis désolé.",
+    "help": {
+      "1": "A tout moment vous pouvez demander la lecture du résumé du livre , demander son auteur ou obtenir le temps d'écoute restant."
+    },
+    "enter": {
+      "1": "Vous avez choisi {{- title}}{{- resume}}",
+      "1-continue": " que vous aviez déja commencé.",
+      "1-begin": ".",
+      "2": "{{- resumeOrStart}}, écouter le résumé, ou revenir à la liste précédente ?",
+      "2-continue": "Voulez-vous reprendre la lecture",
+      "2-begin": "Voulez-vous commencer la lecture"
+    },
+    "summary": {
+      "1": "Voulez-vous commencer la lecture ou revenir à la liste précédente ?"
+    }
+  },
   "player": {
     "explain": "Excellent choix ! Avant de commencer, laissez-moi vous rappeler comment fonctionne ce lecteur. Vous pouvez mettre votre lecture en attente à tout moment en disant 'Google, Pause'. 'Google, Lecture' vous permettra de reprendre votre lecture là où vous l'avez pausée. Vous pouvez également naviguer entre les chapitres en disant 'Hey Google, suivant' ou 'Hey Google, précédent' à tout moment.",
     "start": "Voici donc {{- title}}.",
-    "start2": "Reprenons la lecture de {{- title}}.",
-    "askResumeLastOffset": "Voulez-vous reprendre la lecture là où elle a été interrompue ?"
+    "start2": "Reprenons la lecture de {{- title}}."
   },
   "collections": {
     "enter": {
@@ -131,7 +148,7 @@
   },
   "void": "au revoir!",
   "bye": {
-    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres préférés."
+    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, le personnel de {{- name}} est à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres préférés."
   },
   "fallback": {
     "1": "Je n'ai pas compris, que désirez-vous faire ?",
@@ -143,5 +160,6 @@
   },
   "error": {
     "1": "Oups, quelque chose s'est mal passé. Je vous renvoie au menu d'accueil."
-  }
+  },
+  "noTitle": "Aucun titre disponible"
 }

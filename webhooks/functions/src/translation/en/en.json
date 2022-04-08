@@ -57,7 +57,11 @@
         "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for, <break time=\"200ms\"/>followed by a book title or an author."
       },
       "playing": {
+<<<<<<< HEAD
         "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now resume reading.",
+=======
+        "1": "You are listening to the track {{- chapterNumber}} of {{- titleAndAuthor}}, which you can now resume reading.",
+>>>>>>> prodmerge2
         "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
         "3": "And, of course, "
       },
@@ -66,10 +70,17 @@
       }
     },
     "currentBook": {
+<<<<<<< HEAD
       "1": "Your have no current book."
     },
     "help": {
       "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
+=======
+      "1": "You have no current book."
+    },
+    "help": {
+      "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with our help by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
+>>>>>>> prodmerge2
       "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or Search?"
     }
   },
@@ -115,11 +126,28 @@
       "1": "At this stage, you must choose a title among the proposed set, by mentioning its number, for example number 1. You can request other titles by using the Next or Previous commands."
     }
   },
+  "player_prequel": {
+    "summarize": "Here is the summary: {{- summary}}.",
+    "noSummary": "No summary is available, sorry.",
+    "help": {
+      "1": "At any time you can ask for the summary of the book, ask for the author or get the remaining listening time."
+    },
+    "enter": {
+      "1": "You've chosen {{- title}}{{- resume}}",
+      "1-continue": ", that you have already started.",
+      "1-begin": ".",
+      "2": "{{- resumeOrStart}}, listen the summary or come back to the list?",
+      "2-continue": "Do you want to resume reading",
+      "2-begin": "Do you want to start reading"
+    },
+    "summary": {
+      "1": "Do you want to start reading or go back to the list?"
+    }
+  },
   "player": {
-    "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time. Now, shall we get started with 'A Slow Fire Burning'?",
+    "explain": "Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying 'Hey Google, Pause'. 'Hey Google, Resume' will let you pick up your reading where you last left it. You can also navigate between chapters by saying 'Hey Google, next' or 'Hey Google, previous' at any time.",
     "start": "Let's start reading {{- title}}.",
-    "start2": "Let's continue reading {{- title}}.",
-    "askResumeLastOffset": "Do you want to pick up where it left off?"
+    "start2": "Let's continue reading {{- title}}."
   },
   "collections": {
     "enter": {
@@ -131,7 +159,7 @@
   },
   "void": "Bye!",
   "bye": {
-    "1": "Good bye! Remember, if you need help using the Accessible Reading Canada application, our librarians are here to help. We hope you will come back soon to enjoy your favourite audio books."
+    "1": "Good bye! Remember, if you need help using the Accessible Reading Canada application, {{-name}} staff are at your service. We hope you will come back soon to enjoy your favourite audio books."
   },
   "fallback": {
     "1": "I did not understand, what would you like to do?",
@@ -143,5 +171,10 @@
   },
   "error": {
     "1": "Oops, something went wrong. I will send you back to the home menu."
+<<<<<<< HEAD
   }
+=======
+  },
+  "noTitle": "No title available"
+>>>>>>> prodmerge2
 }

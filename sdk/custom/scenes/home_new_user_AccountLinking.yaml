@@ -1,7 +1,6 @@
 conditionalEvents:
 - condition: session.params.AccountLinkingSlot == "LINKED"
-  handler:
-    webhookHandler: home_new_user_AccountLinking__linked
+  transitionToScene: home_user
 - condition: session.params.AccountLinkingSlot == "ERROR"
   transitionToScene: actions.scene.END_CONVERSATION
 - condition: session.params.AccountLinkingSlot == "REJECTED"

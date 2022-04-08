@@ -9,7 +9,6 @@ handlers:
 - name: home_new_user__intent__fallback_end
 - name: home_new_user__intent__silence
 - name: home_new_user__intent__silence_end
-- name: home_new_user_AccountLinking__linked
 - name: home_new_user_maybe_later__intent__learn_more
 - name: home_new_user_maybe_later__intent__repeat
 - name: home_new_user_maybe_later__intent__link_account
@@ -81,11 +80,19 @@ handlers:
 - name: collections__intent__silence
 - name: collections__intent__silence_end
 - name: player_prequel__on_enter
-- name: player_prequel__intent__yes
-- name: player_prequel__intent__no
 - name: home_user__intent__recent_books
 - name: info__intent__no
 - name: home_user__intent__current_book
+- name: player_prequel__intent__help
+- name: player_prequel__intent__repeat
+- name: player_prequel__intent__player_prequel_back
+- name: player_prequel__intent__player_prequel_resume
+- name: player_prequel__intent__player_prequel_start
+- name: player_prequel__intent__player_prequel_summary
+- name: player_prequel__fallback
+- name: player_prequel__fallback_end
+- name: player_prequel__silence
+- name: player_prequel__silence_end
 httpsEndpoint:
   baseUrl: https://us-central1-cela-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
