@@ -638,7 +638,9 @@ export class Machine {
       const data: string[] = JSON.parse(dataStr);
       ok(Array.isArray(data));
 
-      const dataFiltered = data.filter((v) => typeof v === 'string' && this.isValidHttpUrl(v));
+      const dataFiltered = data
+          .filter((v) => typeof v === 'string' && this.isValidHttpUrl(v))
+          .slice(0, PADDING_PUB); // FIXME: Little Hacky : need to add pagination instead of slicing 3 items
       const feedResultP = dataFiltered.map((url) => this._fetcher!.feedRequest(url));
       const feedResult = await Promise.all(feedResultP);
       const publications = feedResult
