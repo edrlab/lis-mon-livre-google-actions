@@ -57,11 +57,7 @@
         "2": "Would you like to consult your bookshelf, or browse our collections? You can also search for a book by saying search for, <break time=\"200ms\"/>followed by a book title or an author."
       },
       "playing": {
-<<<<<<< HEAD
-        "1": "You are listening to the {{- chapterNumber}} chapter of {{- titleAndAuthor}}, which you can now resume reading.",
-=======
         "1": "You are listening to the track {{- chapterNumber}} of {{- titleAndAuthor}}, which you can now resume reading.",
->>>>>>> prodmerge2
         "2": "You are also reading {{- readingNumber}} other recent books, which you can choose from.",
         "3": "And, of course, "
       },
@@ -70,17 +66,10 @@
       }
     },
     "currentBook": {
-<<<<<<< HEAD
-      "1": "Your have no current book."
-    },
-    "help": {
-      "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with the help of a librarian by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
-=======
       "1": "You have no current book."
     },
     "help": {
       "1": "At this stage, you can resume your last book with Resume Reading command or pick any books you recently listened to with the Recent Books command. You can also check the list of books you have selected with our help by the command Bookshelf; browse our predefined collections by the command Collections. Finally, you can search for a book by saying Search followed by a title or part of a title, an author, or both.",
->>>>>>> prodmerge2
       "2": "What do you prefer: Resume reading. Recent books. Bookshelf. Collections or Search?"
     }
   },
@@ -171,10 +160,6 @@
   },
   "error": {
     "1": "Oops, something went wrong. I will send you back to the home menu."
-<<<<<<< HEAD
-  }
-=======
   },
   "noTitle": "No title available"
->>>>>>> prodmerge2
 }
