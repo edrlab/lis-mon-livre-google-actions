@@ -160,5 +160,6 @@
   },
   "error": {
     "1": "Oups, quelque chose s'est mal passé. Je vous renvoie au menu d'accueil."
-  }
+  },
+  "noTitle": "Aucun titre disponible"
 }

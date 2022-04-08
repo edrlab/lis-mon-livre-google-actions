@@ -9,7 +9,7 @@ import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
 import {Media} from '@assistant/conversation';
 import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
-import {IOpdsLinkView, IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
+import {IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
 import {stall} from '../tools';
@@ -181,16 +181,21 @@ export class Machine {
     ok(cur);
     const url = cur.url || '';
     const chapter = (cur.index || 0) + 1;
-    const {title, author, description} = await this.getInfoFromWebpub(url);
+    const {title, author, description} = await this.getInfoFromOpdsPub(url);
 
     return {chapter, title, author, description};
   }
 
-  public async getInfoFromWebpub(url: string) {
-    const webpub = await this.webpubRequest(url);
-    const title = webpub?.title || 'no title'; // @TODO i18n
-    const author = (webpub?.authors || [])[0] || '';
-    const description = (webpub?.description) || '';
+  public async getInfoFromOpdsPub(opdsPubUrl: string) {
+    if (!this.isValidHttpUrl(opdsPubUrl)) {
+      throw new Error('not a valid opdsPubUrl in getInfoFromOpdsPub');
+    }
+    const {publications} = await this.feedRequest(opdsPubUrl);
+
+    const pub = Array.isArray(publications) ? publications[0] : undefined;
+    const title: string = pub?.title || this.t('noTitle');
+    const author: string = ((pub && Array.isArray(pub?.authors)) ? pub?.authors : [])[0]?.name || '';
+    const description: string = (pub?.description) || '';
     return {title, author, description};
   }
 
@@ -311,7 +316,7 @@ export class Machine {
     let pub: {
       title: string;
       author: string;
-      webpubUrl: string;
+      opdsPubUrl: string;
   } | undefined;
 
     if (url.startsWith('data://')) {
@@ -321,11 +326,13 @@ export class Machine {
 
       const urlFromData = data[number - 1];
       if (this.isValidHttpUrl(urlFromData)) {
-        const webpub = await this.webpubRequest(urlFromData);
+        const {publications} = await this.feedRequest(urlFromData);
+        const publication = Array.isArray(publications) ? publications[0] : undefined;
+        const author: string = ((publication && Array.isArray(publication?.authors)) ? publication?.authors : [])[0]?.name || '';
         pub = {
-          title: webpub.title,
-          author: webpub.authors[0] || '',
-          webpubUrl: urlFromData,
+          title: publication?.title || this.t('noTitle'),
+          author,
+          opdsPubUrl: urlFromData,
         };
       }
     } else {
@@ -333,11 +340,8 @@ export class Machine {
     }
 
     if (pub) {
-      const webpubUrl = pub.webpubUrl;
-      if (!this.isValidHttpUrl(webpubUrl)) {
-        throw new Error('webpub url not valid');
-      }
-      this.initPlayerInPlayerPrequelSession(pub.webpubUrl);
+      const {opdsPubUrl} = pub;
+      this.initPlayerInPlayerPrequelSession(opdsPubUrl);
 
       return true;
     }
@@ -352,11 +356,11 @@ export class Machine {
     this.selectionSession.nextUrlCounter = 0; // reset
   }
 
-  public initPlayerInPlayerPrequelSession(webpubUrl: string) {
+  public initPlayerInPlayerPrequelSession(opdsPubUrl: string) {
     ok(this._model);
-    const pubFromHistory = this._model.store.player.history.get(webpubUrl);
+    const pubFromHistory = this._model.store.player.history.get(opdsPubUrl);
     this.playerPrequelSession.player = {
-      url: webpubUrl,
+      url: opdsPubUrl,
       index: pubFromHistory?.index ?? 0,
       time: pubFromHistory?.time ?? 0,
     };
@@ -457,19 +461,19 @@ export class Machine {
     const feed = await this.feedRequest(url);
 
     const list = (feed.publications || [])
-        .filter(({openAccessLinks: l}) /* : l is IOpdsLinkView[]*/ => {
-          return (
-            Array.isArray(l) &&
-          l[0] &&
-          this.isValidHttpUrl(l[0].url)
-          );
+        .filter(({entryLinks: l}) => {
+          return Array.isArray(l) && l[0]?.url && this.isValidHttpUrl(l[0].url);
+        })
+        .filter(({openAccessLinks: l}) => {
+          return Array.isArray(l) && l[0]?.url && this.isValidHttpUrl(l[0].url);
         })
         .slice(0, PADDING_PUB)
-        .map(({title, authors, openAccessLinks}) => ({
+        .map(({title, authors, entryLinks}) => ({
           title: title,
           author: Array.isArray(authors) && authors.length ? authors[0].name : '',
-          webpubUrl: (openAccessLinks as IOpdsLinkView[])[0].url,
+          opdsPubUrl: entryLinks ? entryLinks[0].url : '',
         }));
+
     return {publication: list, length: feed.metadata?.numberOfItems || list.length};
   }
 
@@ -550,14 +554,21 @@ export class Machine {
   public async player() {
     ok(this._model);
     const url = this.currentPlayingUrl;
-    if (!url) {
-      throw new Error('no playing url');
+    if (!this.isValidHttpUrl(url)) {
+      throw new Error('no opdsPublication url');
+    }
+
+    const {publications} = await this.feedRequest(url);
+    const webpubUrl: string = (Array.isArray(publications) && Array.isArray(publications[0]?.openAccessLinks)) ? publications[0].openAccessLinks[0]?.url : '';
+
+    if (!this.isValidHttpUrl(webpubUrl)) {
+      throw new Error('no webpub url');
     }
 
     const startIndexRaw = this._model.store.player.current.index;
     const startTimeRaw = this._model.store.player.current.time;
 
-    const webpub = await this.webpubRequest(url);
+    const webpub = await this.webpubRequest(webpubUrl);
 
     let startIndex = (startIndexRaw && startIndexRaw > -1 && startIndexRaw <= webpub.readingOrders.length) ?
       startIndexRaw :
@@ -624,23 +635,15 @@ export class Machine {
     // recent books hack
     if (url.startsWith('data://')) {
       const dataStr = url.substring('data://'.length);
-      const data = JSON.parse(dataStr);
+      const data: string[] = JSON.parse(dataStr);
       ok(Array.isArray(data));
 
-      const publications: IOpdsPublicationView[] = [];
-      for (const urlFromData of data) {
-        const webpub = await this._fetcher.webpubRequest(urlFromData);
-        const title = webpub.title || '';
-        const authors = webpub.authors || [];
-        publications.push({
-          title,
-          // @ts-ignore
-          authors: [{name: authors[0]}],
-          openAccessLinks: [{
-            url: urlFromData,
-          }],
-        });
-      }
+      const dataFiltered = data.filter((v) => typeof v === 'string' && this.isValidHttpUrl(v));
+      const feedResultP = dataFiltered.map((url) => this._fetcher!.feedRequest(url));
+      const feedResult = await Promise.all(feedResultP);
+      const publications = feedResult
+          .map(({publications}) => Array.isArray(publications) ? publications[0] : undefined)
+          .filter((v) => !!v) as IOpdsPublicationView[];
 
       const feed: IOpdsResultView = {
         title: 'recent books',

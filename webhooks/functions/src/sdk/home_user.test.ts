@@ -124,6 +124,20 @@ describe('home_user handler', () => {
       pullData.player.current.url = 'https://my.url';
       pullData.player.current.time = 0;
 
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+            authors: [
+              {
+                name: 'hello',
+              },
+            ],
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -132,7 +146,7 @@ describe('home_user handler', () => {
         ],
       };
 
-      const data = await expressMocked(body, headers, pullData, undefined, webpub);
+      const data = await expressMocked(body, headers, pullData, feed, webpub);
       console.log(JSON.stringify(data, null, 4));
 
       data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the track 10 of my title, hello, which you can now resume reading.\n' +
@@ -161,6 +175,20 @@ describe('home_user handler', () => {
       // pullData.player.history.set("3", {index: 0, time: 0, date: new Date()});
       // pullData.player.history.set("4", {index: 0, time: 0, date: new Date()});
 
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+            authors: [
+              {
+                name: 'hello',
+              },
+            ],
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -169,7 +197,7 @@ describe('home_user handler', () => {
         ],
       };
 
-      const data = await expressMocked(body, headers, pullData, undefined, webpub);
+      const data = await expressMocked(body, headers, pullData, feed, webpub);
       console.log(JSON.stringify(data, null, 4));
 
       data.prompt.firstSimple.speech.should.to.be.eq('You are listening to the track 10 of my title, hello, which you can now resume reading.\n' +

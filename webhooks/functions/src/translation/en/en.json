@@ -160,5 +160,6 @@
   },
   "error": {
     "1": "Oops, something went wrong. I will send you back to the home menu."
-  }
+  },
+  "noTitle": "No title available"
 }

@@ -143,6 +143,11 @@ describe(scene + ' handler', () => {
               url: 'http://pub.url',
             },
           ],
+          entryLinks: [
+            {
+              url: 'http://self.url',
+            },
+          ],
           baseUrl: 'http://base.url',
           title: 'first publication',
           authors: [],
@@ -152,6 +157,11 @@ describe(scene + ' handler', () => {
           openAccessLinks: [
             {
               url: 'http://pub.url',
+            },
+          ],
+          entryLinks: [
+            {
+              url: 'http://self.url',
             },
           ],
           baseUrl: 'http://base.url',
@@ -199,6 +209,11 @@ describe(scene + ' handler', () => {
       const feed: Partial<IOpdsResultView> = {
         publications: [
           {
+            entryLinks: [
+              {
+                url: 'http://webpub.url',
+              },
+            ],
             openAccessLinks: [
               {
                 url: 'http://pub.url',
@@ -210,6 +225,11 @@ describe(scene + ' handler', () => {
             numberOfPages: 0,
           },
           {
+            entryLinks: [
+              {
+                url: 'http://webpub.url',
+              },
+            ],
             openAccessLinks: [
               {
                 url: 'http://pub.url',
@@ -221,6 +241,11 @@ describe(scene + ' handler', () => {
             numberOfPages: 0,
           },
           {
+            entryLinks: [
+              {
+                url: 'http://webpub.url',
+              },
+            ],
             openAccessLinks: [
               {
                 url: 'http://pub.url',
@@ -472,6 +497,10 @@ describe(scene + ' handler', () => {
       pullData.session.scene.selection.url = 'data://["https://my.url","https://my.url","https://my.url"]';
       pullData.session.scene.selection.from = 'home_user__intent__recent_books';
 
+      // @ts-ignore
+      feed.publications[0].title = 'my test title';
+
+      // USELESS NOW !
       const webpub: Partial<IWebPubView> = {
         title: 'my test title',
         authors: ['author'],
