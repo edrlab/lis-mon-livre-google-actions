@@ -157,10 +157,12 @@ const selectBook: THandlerFn = async (m) => {
 
   } else if (nb < 1) {
     m.selectionSession.nbChoice = 0;
+    console.info("number from intent lower than 1");
     // m.say('selection.help.1');
 
   } else if (nb > padding || nb > size) {
     m.selectionSession.nbChoice = 0;
+    console.info("number from intent upper than padding or size");
     // m.say('selection.help.1');
 
   } else {

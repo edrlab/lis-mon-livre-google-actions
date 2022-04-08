@@ -24,12 +24,7 @@ const enter: THandlerFn = async (m) => {
 
   const from = m.playerPrequelSession.from;
   // const fromScene = from.split("__")[0] as TSdkScene;
-
-
   // const state = m.getSessionState('player_prequel');
-
-  console.log(from);
-  
 
   if (from === "home_user__intent__current_book") {
 

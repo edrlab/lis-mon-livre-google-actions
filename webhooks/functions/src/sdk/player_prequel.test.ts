@@ -84,6 +84,16 @@ describe(scene + ' handler', () => {
       pullData.player.current.time = 0;
       pullData.player.current.url = 'http://my.url';
 
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+          },
+        ],
+      };
+
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -95,7 +105,7 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.from = 'home_user__intent__current_book';
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
       data.scene.next.name.should.to.be.eq('player');
 
@@ -113,6 +123,15 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
       pullData.session.scene.player_prequel.from = 'selection__on_enter';
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -122,7 +141,7 @@ describe(scene + ' handler', () => {
       };
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
       (typeof model.data.store.player.current.index).should.be.eq('undefined');
       (typeof model.data.store.player.current.time).should.be.eq('undefined');
@@ -146,6 +165,17 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
       pullData.session.scene.player_prequel.from = 'selection__on_enter';
+
+
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -155,7 +185,7 @@ describe(scene + ' handler', () => {
       };
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
       (typeof model.data.store.player.current.index).should.be.eq('undefined');
       (typeof model.data.store.player.current.time).should.be.eq('undefined');
@@ -183,6 +213,15 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
       pullData.session.scene.player_prequel.from = 'selection__on_enter';
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -192,7 +231,7 @@ describe(scene + ' handler', () => {
       };
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
       (typeof model.data.store.session.scene.player_prequel.player.index).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.time).should.be.eq('undefined');
@@ -212,6 +251,16 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
       pullData.session.scene.player_prequel.from = 'selection__on_enter';
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -221,7 +270,7 @@ describe(scene + ' handler', () => {
       };
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
       (typeof model.data.store.session.scene.player_prequel.player.index).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.time).should.be.eq('undefined');
@@ -250,6 +299,15 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
       pullData.session.scene.player_prequel.from = 'selection__on_enter';
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            title: 'my title',
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
@@ -259,7 +317,7 @@ describe(scene + ' handler', () => {
       };
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
       (typeof model.data.store.session.scene.player_prequel.player.index).should.be.eq('undefined');
       (typeof model.data.store.session.scene.player_prequel.player.time).should.be.eq('undefined');
@@ -288,19 +346,28 @@ describe(scene + ' handler', () => {
       pullData.session.scene.player_prequel.player.url = 'https://my.url';
 
       pullData.session.scene.player_prequel.from = 'selection__on_enter';
+      const feed: Partial<any> = {
+        publications: [
+          {
+            entryLinks: [{url: 'http://self.link'}],
+            openAccessLinks: [{url: 'http://webpub.link'}],
+            description: 'this is the world in feed',
+          },
+        ],
+      };
       const webpub: Partial<IWebPubView> = {
         title: 'my title',
         authors: [
           'hello',
           'world',
         ],
-        description: 'this the world',
+        description: 'this is the world',
       };
 
       const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
+      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('Here is the summary: this the world.\nDo you want to start reading or go back to the list?\n');
+      data.prompt.firstSimple.speech.should.to.be.eq('Here is the summary: this is the world in feed.\nDo you want to start reading or go back to the list?\n');
     });
   });
 });
