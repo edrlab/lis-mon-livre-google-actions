@@ -46,7 +46,7 @@ const bodyCopy = () => Object.assign({}, {
     'params': {
       'bearerToken': '',
     },
-    'accountLinkingStatus': 'ACCOUNT_LINKING_STATUS_UNSPECIFIED',
+    'accountLinkingStatus': 'LINKED',
     'verificationStatus': 'VERIFIED',
     'packageEntitlements': [],
     'gaiamint': '',
@@ -103,7 +103,7 @@ export const convRequestInHandle = {
       'params': {
         'bearerToken': 'bearer token not defined',
       },
-      'accountLinkingStatus': 'ACCOUNT_LINKING_STATUS_UNSPECIFIED',
+      'accountLinkingStatus': 'LINKED',
       'verificationStatus': 'VERIFIED',
       'packageEntitlements': [],
       'gaiamint': '',
