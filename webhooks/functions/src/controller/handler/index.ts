@@ -23,6 +23,8 @@ export const handler = (app = new Assistant({})) => {
   });
 
   app.handle('fallback_1', (m) => {
+
+    m.persistMediaPlayer();
     m.say('fallback.1');
   });
 
@@ -37,6 +39,8 @@ export const handler = (app = new Assistant({})) => {
   });
 
   app.handle('silence_1', (m) => {
+
+    m.persistMediaPlayer();
     m.say('silence.1');
   });
 

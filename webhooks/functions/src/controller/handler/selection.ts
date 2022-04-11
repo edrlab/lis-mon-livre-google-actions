@@ -120,7 +120,7 @@ export const enter: THandlerFn = async (m) => {
       // KO
       // help message
       m.say("selection.help.1");
-      m.nextScene = "selection";
+      // m.nextScene = "selection";
     }
   } else {
     throw new Error("undefined selection state");
@@ -203,7 +203,7 @@ const help: THandlerFn = (m) => {
   m.say("selection.help.1");
   // m.say("selection.help.2");
 
-  m.nextScene = "selection";
+  // m.nextScene = "selection";
 }
 
 const repeat: THandlerFn = (m) => {

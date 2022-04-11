@@ -8,6 +8,7 @@ export const player = (app: Assistant) => {
   app.handle("player__intent__media_status_finished", finished);
   app.handle("player__intent__media_status_paused", paused);
   app.handle("player__intent__media_status_failed", failed);
+  app.handle("player__intent__player_prequel_resume", resume);
 
 }
 
@@ -36,6 +37,9 @@ const failed: THandlerFn = async (m) => {
   m.nextScene = "home_user";
 }
 
+const resume: THandlerFn = async (m) => {
+  await m.player();
+}
 
 const finished: THandlerFn = async (m) => {
 

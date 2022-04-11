@@ -12,6 +12,9 @@ const scene = 'player';
 
 const yaml = `intentEvents:
 - handler:
+    webhookHandler: player__intent__player_prequel_resume
+  intent: player_prequel_resume
+- handler:
     webhookHandler: player__intent__media_status_finished
   intent: actions.intent.MEDIA_STATUS_FINISHED
 - handler:

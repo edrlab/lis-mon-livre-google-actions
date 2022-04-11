@@ -334,7 +334,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('player');
 
       data.prompt.firstSimple.speech.should.to.be.eq('Great choice! Before we start, let me remind you how this reader works. You can put your read on hold at any time by saying \'Hey Google, Pause\'. \'Hey Google, Resume\' will let you pick up your reading where you last left it. You can also navigate between chapters by saying \'Hey Google, next\' or \'Hey Google, previous\' at any time.\n' +
-      'Let\'s start reading my title.\n');
+      'Let\'s continue reading my title.\n');
     });
     it('summary', async () => {
       body.handler.name = 'player_prequel__intent__player_prequel_summary';
