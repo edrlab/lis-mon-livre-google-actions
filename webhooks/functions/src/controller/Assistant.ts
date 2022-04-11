@@ -9,6 +9,7 @@ import {enter as selectionEnter} from './handler/selection';
 import {Machine} from './Machine';
 import {ok} from 'assert';
 import {WebpubError} from '../error';
+import {AccountLinkingStatus} from '@assistant/conversation/dist/api/schema';
 
 export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
@@ -68,7 +69,6 @@ export class Assistant {
 
   public handle = (path: TSdkHandler, fn: THandlerFn) => {
     this._app.handle(path, async (conv) => {
-      // @TODO need to send an alert to google log on timeout error
       const timerP = new Promise<void>((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), TIMER));
       const machine = new Machine(conv);
 
@@ -80,11 +80,30 @@ export class Assistant {
 
       await machine.setLanguage(locale);
 
-      console.info('ASSISTANT:', path);
-      console.info('scene.name=', conv.scene.name);
-      console.info('linkingStatus', conv.user.accountLinkingStatus);
+      const sceneName = conv.scene.name;
+      const linkingStatus = conv.user.accountLinkingStatus;
+      const linked = linkingStatus === AccountLinkingStatus.Linked;
+      const notLinked = !linked;
+      const bearerToken = linked ? conv.user.params.bearerToken : undefined;
 
-      const bearerToken = conv.user.params.bearerToken;
+      console.info('ASSISTANT:', path);
+      console.info('scene.name=', sceneName);
+      console.info('linkingStatus', linkingStatus);
+      ok(sceneName, 'scene name not found');
+      ok(linkingStatus, 'linking status not found');
+
+      const sceneWhereYouHaveToBeAuthenticated: TSdkScene[] = [
+        'collections', 'home_user', 'player', 'player_prequel', 'search', 'selection',
+      ];
+      const linkedScene = sceneWhereYouHaveToBeAuthenticated.findIndex((v) => v === sceneName) > -1;
+      if (notLinked && linkedScene) {
+        machine.say('error.noBearerTokenInLinkedScene');
+
+        console.error('NOT_LINKED IN LINKED_SCENE', linkingStatus, bearerToken, sceneName, path);
+        machine.nextScene = 'actions.scene.END_CONVERSATION';
+        return;
+      }
+
       await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher});
 
       await Promise.race([timerP, Promise.resolve(fn(machine))]);

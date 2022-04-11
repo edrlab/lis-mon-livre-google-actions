@@ -160,7 +160,8 @@
     "2": "Sorry, I really don't hear well."
   },
   "error": {
-    "1": "Oops, something went wrong. I will send you back to the home menu."
+    "1": "Oops, something went wrong. I will send you back to the home menu.",
+    "noBearerTokenInLinkedScene": "An issue occured during authentication, please retry later."
   },
   "noTitle": "No title available"
 }
