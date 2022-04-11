@@ -51,6 +51,11 @@ export class Machine {
       this._model = storageModel;
     } else {
       if (typeof bearerToken === 'string') {
+        const Reset = '\x1b[0m';
+        const FgRed = '\x1b[31m';
+
+        console.log(`${FgRed}BEARER=${bearerToken}${Reset}`);
+
         this._model = await StorageModel.create(bearerToken);
       } else {
         console.info('No Bearer Token Available');

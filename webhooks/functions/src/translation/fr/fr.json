@@ -159,7 +159,8 @@
     "2": "Désolé, je n'entends vraiment pas bien."
   },
   "error": {
-    "1": "Oups, quelque chose s'est mal passé. Je vous renvoie au menu d'accueil."
+    "1": "Oups, quelque chose s'est mal passé. Je vous renvoie au menu d'accueil.",
+    "noBearerTokenInLinkedScene": "Un problème est survenu lors de l'authentification, veuillez réessayer plus tard."
   },
   "noTitle": "Aucun titre disponible"
 }
