@@ -51,6 +51,11 @@ export class Machine {
       this._model = storageModel;
     } else {
       if (typeof bearerToken === 'string') {
+        const Reset = '\x1b[0m';
+        const FgRed = '\x1b[31m';
+
+        console.log(`${FgRed}BEARER=${bearerToken}${Reset}`);
+
         this._model = await StorageModel.create(bearerToken);
       } else {
         console.info('No Bearer Token Available');
@@ -249,6 +254,10 @@ export class Machine {
       return false;
     }
     return true;
+  }
+
+  public isPlayingAvailableInPlayer() {
+    return !!this.playerCurrent.url;
   }
 
   public isPlayingAvailableInPlayerPrequelSession() {
@@ -513,16 +522,16 @@ export class Machine {
   }
 
   public persistMediaPlayer(finished: boolean = false) {
-    ok(this._model);
+    if (!this._conv.request.context?.media) {
+      return;
+    }
 
+    ok(this._model);
     const _progress = this._conv.context?.media?.progress || '0';
     const progress = finished ? 0 : parseInt(_progress, 10);
     const index = finished ? 0 : (this._conv.request.context?.media?.index || 0);
     const url = this._model.store.player.current.url;
-    if (!url) {
-      return;
-    }
-    if (!validator.isURL(url)) {
+    if (!this.isValidHttpUrl(url)) {
       return;
     }
 
@@ -534,6 +543,8 @@ export class Machine {
       time: progress,
       date: new Date(),
     });
+
+    console.info(`PERSIST MEDIA PLAYER - URL= ${url}, T=${progress}, I=${index}`);
   }
 
   public mediaPlayerAck() {

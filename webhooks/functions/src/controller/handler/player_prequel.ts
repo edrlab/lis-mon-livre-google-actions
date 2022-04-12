@@ -39,7 +39,7 @@ const enter: THandlerFn = async (m) => {
     if (isPlayingAvailable) {
       m.playerPrequelSession.from = "main";
 
-      await startPlaying(true)(m);
+      await startPlaying(m);
       return ;
     }
   }
@@ -70,7 +70,7 @@ const enter: THandlerFn = async (m) => {
 // demandé qui l'as écrit, obtenir le temps d'écoute du livre,
 // ou tout simplement naviguer dans la table des matiere.
 
-const startPlaying = (resume: boolean) => async (m: TMachine) => {
+const startPlaying = async (m: TMachine) => {
 
   const isRegular = m.isARegularUser;
   if (!isRegular) {
@@ -79,6 +79,7 @@ const startPlaying = (resume: boolean) => async (m: TMachine) => {
 
   m.initPlayerCurrentWithPlayerPrequelSession();
   const { title } = await m.getCurrentPlayingInfo();
+  const resume = m.isCurrentlyPlaying();
   if (resume) {
     m.say("player.start2", { title });
   } else {
@@ -100,12 +101,12 @@ const back: THandlerFn = async (m) => {
 
 const resume: THandlerFn = async (m) => {
 
-  await startPlaying(true)(m);
+  await startPlaying(m);
 };
 
 const start: THandlerFn = async (m) => {
 
-  await startPlaying(false)(m);
+  await startPlaying(m);
 };
 
 const repeat: THandlerFn = async (m) => {

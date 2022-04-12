@@ -24,7 +24,7 @@ const enter: THandlerFn = async (m) => {
 
   const state = m.getSessionState("home_user");
   const newlyLinked = m.authenticationState === "NEWLY_LINKED";
-  const playing = m.isCurrentlyPlaying();
+  const playing = m.isPlayingAvailableInPlayer();
   const regularUser = m.isARegularUser;
 
   if (state === "SESSION") {
