@@ -93,7 +93,6 @@ handlers:
 - name: player_prequel__fallback_end
 - name: player_prequel__silence
 - name: player_prequel__silence_end
-- name: player__intent__player_prequel_resume
 httpsEndpoint:
   baseUrl: https://us-central1-cela-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
