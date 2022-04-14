@@ -1,7 +1,7 @@
 
 export let NAME = "";
-export const NAME_EN = "EDRLAB";
-export const NAME_FR = "<sub alias=\"e d r lab\">EDRLAB</sub>";
+export const NAME_EN = "VALENTIN";
+export const NAME_FR = "<sub alias=\"valentin\">VALENTIN</sub>";
 export const setName = (lang: TLang) => NAME = lang === 'fr' ? NAME_FR : NAME_EN;
 
 export const API_BASE_URL = "https://storage.googleapis.com/audiobook_edrlab/feed.json";
@@ -20,7 +20,7 @@ export const PADDING_GROUP = 5;
 export const PADDING_PUB = 3;
 export const LAST_SEEN_THRESHOLD = 72;
 
-export const PROJECT_ID = 'edrlab-1';
+export const PROJECT_ID = 'valentin-5';
 
 export const TIMER = 8000;
 
