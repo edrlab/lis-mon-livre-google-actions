@@ -407,18 +407,22 @@ export class Machine {
   }
 
   public get selectBookNumber() {
-    const v = this._conv.intent.params?.number.resolved;
-    if (v && typeof v === 'number') {
-      return v;
-    }
+    try {
+      const v = this._conv.intent.params?.number.resolved;
+      if (v && typeof v === 'number') {
+        return v;
+      }
+    } catch {}
     return undefined;
   }
 
   public get querySearch() {
-    const v = this._conv.intent.params?.query?.resolved;
-    if (v && typeof v === 'string') {
-      return v;
-    }
+    try {
+      const v = this._conv.intent.params?.query?.resolved;
+      if (v && typeof v === 'string') {
+        return v;
+      }
+    } catch {}
     return undefined;
   }
 
@@ -527,7 +531,7 @@ export class Machine {
     }
 
     ok(this._model);
-    const _progress = this._conv.context?.media?.progress || '0';
+    const _progress = this._conv.context.media?.progress || '0';
     const progress = finished ? 0 : parseInt(_progress, 10);
     const index = finished ? 0 : (this._conv.request.context?.media?.index || 0);
     const url = this._model.store.player.current.url;
