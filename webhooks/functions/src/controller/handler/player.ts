@@ -37,10 +37,6 @@ const failed: THandlerFn = async (m) => {
   m.nextScene = "home_user";
 }
 
-const resume: THandlerFn = async (m) => {
-  await m.player();
-}
-
 const finished: THandlerFn = async (m) => {
 
   m.persistMediaPlayer(true);
