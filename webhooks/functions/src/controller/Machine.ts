@@ -40,10 +40,12 @@ export class Machine {
     storageModel,
     bearerToken,
     fetcher,
+    path,
   }: {
     storageModel?: StorageModel,
     bearerToken?: string,
     fetcher?: OpdsFetcher;
+    path: TSdkHandler;
   }) {
     console.info('Machine BEGIN');
 
@@ -81,7 +83,7 @@ export class Machine {
     }
 
     // check new Session and keep or remove the data session
-    this.removeSessionDataWhenNewUserSession();
+    this.removeSessionDataWhenNewUserSession(path);
   }
 
   public async end() {
@@ -688,24 +690,18 @@ export class Machine {
     return feed;
   });
 
-  private removeSessionDataWhenNewUserSession() {
+  private removeSessionDataWhenNewUserSession(p: TSdkHandler) {
     if (!this._model) {
       return;
     }
-    const id = this._conv.session.id;
-    if (!id) {
-      return;
-    }
-    const idFromStore = this._model.store.user.sessionId;
-    if (!idFromStore) {
-      console.info('no user session id saved in database');
-    }
-    const sameSession = id === idFromStore;
-    if (sameSession) {
-      console.info('MIDDLEWARE :: Session in progress');
-      // see home_user.ts
-      // this.setSessionState('home_user', 'SESSION');
-    } else {
+
+    // the sessionId from google is not regular when a user session is in progress
+    // if homeUserScene then reset the session
+
+    if (p === 'home_user__on_enter') {
+      const id = this._conv.session.id;
+
+      // reset session !
       console.info('MIDDLEWARE :: new SESSION');
       this._model.store.session = {
         scene: {
@@ -725,7 +721,7 @@ export class Machine {
           },
         },
       };
-      this._model.store.user.sessionId = id;
+      this._model.store.user.sessionId = id || 'no ID';
     }
   }
 

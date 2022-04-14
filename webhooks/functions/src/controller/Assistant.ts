@@ -104,7 +104,7 @@ export class Assistant {
         return;
       }
 
-      await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher});
+      await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher, path});
 
       await Promise.race([timerP, Promise.resolve(fn(machine))]);
 
