@@ -3,7 +3,7 @@ name: functions deploy
 
 on:
   push:
-    branches: [ cela-dev ]
+    branches: [ avh-dev ]
     paths:
       - 'webhooks/**'
       - '.github/workflows/function-deploy-cela-dev.yml'
@@ -19,7 +19,7 @@ jobs:
 
     env:
       working-directory: './webhooks/functions'
-      project-id: 'cela-2'
+      project-id: 'valentin-5'
     defaults:
       run:
         working-directory: './webhooks/functions'
