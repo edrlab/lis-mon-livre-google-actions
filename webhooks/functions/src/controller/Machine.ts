@@ -609,7 +609,7 @@ export class Machine {
               url: webpub.cover || '',
             },
           },
-        })).slice(startIndex);
+        }));
 
     console.log('Media list');
     console.log(mediaObjects);
@@ -621,6 +621,7 @@ export class Machine {
           mediaType: MediaType.Audio,
           optionalMediaControls: [OptionalMediaControl.Paused, OptionalMediaControl.Stopped],
           startOffset: `${startTime}s`,
+          firstMediaObjectIndex: startIndex,
         }),
     );
   }
