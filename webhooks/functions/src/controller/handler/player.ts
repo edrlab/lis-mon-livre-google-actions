@@ -8,7 +8,6 @@ export const player = (app: Assistant) => {
   app.handle("player__intent__media_status_finished", finished);
   app.handle("player__intent__media_status_paused", paused);
   app.handle("player__intent__media_status_failed", failed);
-  app.handle("player__intent__player_prequel_resume", resume);
 
 }
 
