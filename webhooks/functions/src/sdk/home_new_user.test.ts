@@ -58,10 +58,10 @@ describe('home_new_user handler', () => {
       body.handler.name = 'home_new_user__on_enter';
       body.scene.name = scene;
 
-      // const message = `To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your EDRLAB account.\nWould you like to do so now ?\n`;
+      // const message = `To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your VALENTIN account.\nWould you like to do so now ?\n`;
       const data = await expressMocked(body, headers);
 
-      data.prompt.firstSimple.speech.should.to.be.eq('To fully experience EDRLAB Library, and enjoy your favorite audiobooks via Google, you\'ll need to connect your EDRLAB account. To do so, answer \'yes\' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your EDRLAB account. You\'ll only have to do this once, and you\'ll be all set to start enjoying the wonderful world of EDRLAB books for hours on end!\n' +
+      data.prompt.firstSimple.speech.should.to.be.eq('To fully experience VALENTIN Library, and enjoy your favorite audiobooks via Google, you\'ll need to connect your VALENTIN account. To do so, answer \'yes\' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your VALENTIN account. You\'ll only have to do this once, and you\'ll be all set to start enjoying the wonderful world of VALENTIN books for hours on end!\n' +
               'Would you like to link your account right now?\n');
     });
     it('repeat', async () => {
@@ -90,7 +90,7 @@ describe('home_new_user handler', () => {
 
       console.log(data.prompt.firstSimple);
 
-      // const message = `In order to read books using the EDRLAB Library via Google, you need to be a registered EDRLAB member and link your account.\nWould you like to learn more about EDRLAB?\n`;
+      // const message = `In order to read books using the VALENTIN Library via Google, you need to be a registered VALENTIN member and link your account.\nWould you like to learn more about VALENTIN?\n`;
       // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('home_new_user_no');
@@ -100,7 +100,7 @@ describe('home_new_user handler', () => {
       body.handler.name = 'home_new_user__intent__maybe_later';
       body.scene.name = scene;
 
-      // const message = `Of course! you can learn more about EDRLAB or quit for now.\nWhat would you like to do?\n`;
+      // const message = `Of course! you can learn more about VALENTIN or quit for now.\nWhat would you like to do?\n`;
 
       const data = await expressMocked(body, headers);
 
@@ -109,7 +109,7 @@ describe('home_new_user handler', () => {
       data.scene.next.name.should.to.be.eq('home_new_user_maybe_later');
     });
 
-    // const help = `To fully experience EDRLAB Library, and enjoy your favorite audiobooks via Google, you'll need to connect your EDRLAB account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your EDRLAB account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of EDRLAB books for hours on end!\nWould you like to link your account right now?\n`;
+    // const help = `To fully experience VALENTIN Library, and enjoy your favorite audiobooks via Google, you'll need to connect your VALENTIN account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your VALENTIN account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of VALENTIN books for hours on end!\nWould you like to link your account right now?\n`;
 
     it('help', async () => {
       body.handler.name = 'home_new_user__intent__help';

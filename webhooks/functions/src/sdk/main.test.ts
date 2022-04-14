@@ -20,7 +20,7 @@ describe('main handler', () => {
       body.user.accountLinkingStatus = 'ACCOUNT_LINKING_STATUS_UNSPECIFIED';
       const data = await expressMocked(body, headers);
 
-      const welcomeNewUser = 'Welcome to EDRLAB Library, where you can easily access your favorite audio books.\n';
+      const welcomeNewUser = 'Welcome to VALENTIN Library, where you can easily access your favorite audio books.\n';
 
       data.prompt.firstSimple.speech.should.to.be.eq(welcomeNewUser);
 
@@ -31,7 +31,7 @@ describe('main handler', () => {
       body.user.accountLinkingStatus = 'NO_LINKED';
       const data = await expressMocked(body, headers);
 
-      const welcomeNewUser = 'Welcome to EDRLAB Library, where you can easily access your favorite audio books.\n';
+      const welcomeNewUser = 'Welcome to VALENTIN Library, where you can easily access your favorite audio books.\n';
 
       data.prompt.firstSimple.speech.should.to.be.eq(welcomeNewUser);
 
@@ -45,7 +45,7 @@ describe('main handler', () => {
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
 
-      const welcomeUser = 'Welcome back to your EDRLAB Library! Remember, you can ask for help at any time.\n';
+      const welcomeUser = 'Welcome back to your VALENTIN Library! Remember, you can ask for help at any time.\n';
 
       data.prompt.firstSimple.speech.should.to.be.eq(welcomeUser);
 
@@ -60,7 +60,7 @@ describe('main handler', () => {
       model.data.store.user.authentication = 'NEWLY_LINKED';
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
 
-      const welcomeUser = 'Welcome back to your EDRLAB Library! Remember, you can ask for help at any time.\n';
+      const welcomeUser = 'Welcome back to your VALENTIN Library! Remember, you can ask for help at any time.\n';
 
       data.prompt.firstSimple.speech.should.to.be.eq(welcomeUser);
 
