@@ -14,6 +14,8 @@ import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
 import {stall} from '../tools';
 import {IWebPubView} from 'opds-fetcher-parser/build/src/interface/webpub';
+import {URL} from 'url';
+import {dirname} from 'path';
 
 export class Machine {
   private _conv: IConversationV3;
@@ -619,6 +621,28 @@ export class Machine {
           startOffset: `${startTime}s`,
         }),
     );
+  }
+
+  public async callCelaTracker(u: string | undefined) {
+    // ex: https://celalibrary.ca/smartspeakerv1/19601722/feed.json
+
+    try {
+      if (!this.isValidHttpUrl(u)) {
+        return;
+      }
+
+      const url = new URL(u);
+
+      const {pathname} = url;
+      const id = dirname(pathname).split('/smartspeakerv1/')[1];
+
+      const tracker = 'https://celalibrary.ca/smartspeakerv1/issue-a-title/' + id;
+
+      console.info('request TRACKER=', tracker);
+      await this.webpubRequest(tracker);
+    } catch (e) {
+      // nothing
+    }
   }
 
   private webpubRequest: (url: string) => Promise<IWebPubView> = stall(async (url: string) => {

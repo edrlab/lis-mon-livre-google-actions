@@ -13,8 +13,12 @@ export const player = (app: Assistant) => {
 }
 
 const enter: THandlerFn = async (m) => {
+
   
   await m.player();
+
+  const url = m.currentPlayingUrl;
+  await m.callCelaTracker(url);
 }
 
 const stopped: THandlerFn = async (m) => {
