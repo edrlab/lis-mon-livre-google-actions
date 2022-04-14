@@ -1,7 +1,2 @@
 handler:
-  staticPrompt:
-    candidates:
-    - promptResponse:
-        firstSimple:
-          variants:
-          - speech: Que dite-vous ?
+  webhookHandler: silence_2

@@ -1,10 +1,8 @@
-import { ConversationV3 } from "@assistant/conversation";
+import { ConversationV3, ConversationV3App } from "@assistant/conversation";
 import { Media } from "@assistant/conversation/dist/api/schema";
-import { User, Scene } from "@assistant/conversation/dist/conversation/handler";  
+import { Machine } from "./controller/Machine";
 import { TI18nKey } from "./translation";
-import { StorageDto } from "./model/storage.dto";
-import { TSdkScene } from "./sdk";
-import { OpdsFetcher } from "opds-fetcher-parser";
+import { TSdkScene } from "./typings/sdkScene";
 
 export enum MediaType {
   Audio = 'AUDIO',
@@ -20,30 +18,17 @@ export enum OptionalMediaControl {
 
 export type TPromptItem = TI18nKey | {[k: string]: any} | Media; //PromtItem type from @assistant/conversation
 
-interface IUser extends User {
-  params: StorageDto; 
+export interface IConversationV3 extends ConversationV3 {
 }
-interface IScene extends Scene {
-  next: {
-    name: TSdkScene;
-  },
-  name: TSdkScene;
+
+export interface IConversationWithParams extends IConversationV3 {
 }
-export interface IConversationWithParams extends ConversationV3 {
-  di: {
-    opds: OpdsFetcher;
-  };
-  user: IUser;
-  scene: IScene;
-  add: (...promptItems: TPromptItem[]) => this;
-  session: {
-    params: {
-      pubListUrl: string;
-      groupListUrl: string;
-      query: string;
-      scene: TSdkScene;
-      nextUrlCounter: number;
-      tocStart: number;
-    }
-  }
+
+export interface IConversationV3App extends ConversationV3App<IConversationWithParams> {
 }
+
+export type TMachine = Machine;
+
+export type THandlerFn = (machine: TMachine) => TMachine | undefined | void | Promise<void>;
+
+export type TSdkScene2 = TSdkScene | "actions.scene.END_CONVERSATION";

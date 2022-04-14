@@ -1,0 +1,20 @@
+parameters:
+- name: query
+  type:
+    name: string
+trainingPhrases:
+- chercher un livre
+- chercher un livre audio
+- chercher ($number1 'un' auto=true) nouveau livre
+- chercher
+- je veux chercher un livre audio
+- je veux chercher un livre
+- recherche un livre
+- recherche
+- je veux rechercher un livre
+- Je recherche ($query 'Le Petit Prince par Antoine de Saint-Exupéry' auto=false)
+- Cherche ($query 'La Peste' auto=false)
+- Recherche ($query 'La Horla' auto=false)
+- Je veux écouter ($query 'Ce livre' auto=false)
+- Je veux lire ($query 'Ce livre par cet auteur' auto=false)
+- Je cherche un livre écrit par ($query 'Auteur' auto=false)

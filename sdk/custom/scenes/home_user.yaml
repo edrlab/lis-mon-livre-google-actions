@@ -1,0 +1,42 @@
+intentEvents:
+- handler:
+    webhookHandler: home_user__intent__help
+  intent: help
+- handler:
+    webhookHandler: home_user__intent__repeat
+  intent: repeat
+- handler:
+    webhookHandler: home_user__intent__bookshelf
+  intent: bookshelf
+- handler:
+    webhookHandler: home_user__intent__collections
+  intent: collections
+- handler:
+    webhookHandler: home_user__intent__search
+  intent: search
+- handler:
+    webhookHandler: home_user__intent__recent_books
+  intent: recent_books
+- handler:
+    webhookHandler: home_user__intent__current_book
+  intent: current_book
+- handler:
+    webhookHandler: home_user__intent__fallback
+  intent: actions.intent.NO_MATCH_1
+- handler:
+    webhookHandler: home_user__intent__fallback
+  intent: actions.intent.NO_MATCH_2
+- handler:
+    webhookHandler: home_user__intent__fallback_end
+  intent: actions.intent.NO_MATCH_FINAL
+- handler:
+    webhookHandler: home_user__intent__silence
+  intent: actions.intent.NO_INPUT_1
+- handler:
+    webhookHandler: home_user__intent__silence
+  intent: actions.intent.NO_INPUT_2
+- handler:
+    webhookHandler: home_user__intent__silence_end
+  intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: home_user__on_enter

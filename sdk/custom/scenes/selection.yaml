@@ -1,0 +1,33 @@
+intentEvents:
+- handler:
+    webhookHandler: selection__intent__selects_book
+  intent: selects_book
+- handler:
+    webhookHandler: selection__intent__repeat
+  intent: repeat
+- handler:
+    webhookHandler: selection__intent__another_one
+  intent: another_one
+- handler:
+    webhookHandler: selection__intent__help
+  intent: help
+- handler:
+    webhookHandler: selection__intent__fallback
+  intent: actions.intent.NO_MATCH_1
+- handler:
+    webhookHandler: selection__intent__fallback
+  intent: actions.intent.NO_MATCH_2
+- handler:
+    webhookHandler: selection__intent__fallback_end
+  intent: actions.intent.NO_MATCH_FINAL
+- handler:
+    webhookHandler: selection__intent__silence
+  intent: actions.intent.NO_INPUT_1
+- handler:
+    webhookHandler: selection__intent__silence
+  intent: actions.intent.NO_INPUT_2
+- handler:
+    webhookHandler: selection__intent__silence_end
+  intent: actions.intent.NO_INPUT_FINAL
+onEnter:
+  webhookHandler: selection__on_enter
