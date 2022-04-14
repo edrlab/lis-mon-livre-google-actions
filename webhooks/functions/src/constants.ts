@@ -4,17 +4,16 @@ export const NAME_EN = "VALENTIN";
 export const NAME_FR = "<sub alias=\"valentin\">VALENTIN</sub>";
 export const setName = (lang: TLang) => NAME = lang === 'fr' ? NAME_FR : NAME_EN;
 
-export const API_BASE_URL = "https://storage.googleapis.com/audiobook_edrlab/feed.json";
-export const EDRLAB_FUNCTION_URL = "https://storage.googleapis.com/audiobook_edrlab/feed.json";
-// export const ALL_PUBLICATION_LIST_URL = "https://storage.googleapis.com/audiobook_edrlab/navigation/all.json";
-export const BOOKSHELF_URL = 'https://storage.googleapis.com/audiobook_edrlab/groups/popular.json';
-export const SEARCH_URL = 'https://europe-west1-audiobooks-a6348.cloudfunctions.net/indexer?url=https://storage.googleapis.com/audiobook_edrlab/navigation/all.json&query={query}';
+export const API_BASE_URL = "https://eole.stepnet.fr/api/v1/my_list";
+export const EDRLAB_FUNCTION_URL = "https://eole.stepnet.fr/api/v1/my_list";
+export const BOOKSHELF_URL = 'https://eole.stepnet.fr/api/v1/my_list';
+export const SEARCH_URL = 'https://eole.stepnet.fr/api/v1/search?q={query}';
 export const SEARCH_URL_FN = (value: string) => SEARCH_URL.replace("{query}", value);
-export const THEMATIC_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/thematic_list.json';
-export const GENRE_LIST_URL = 'https://storage.googleapis.com/audiobook_edrlab/navigation/genre_list.json';
-export const DEFAULT_LANGUAGE: TDefaultLanguage = 'en';
+export const THEMATIC_LIST_URL = 'https://eole.stepnet.fr/api/v1/preselections/thematique';
+export const GENRE_LIST_URL = 'https://eole.stepnet.fr/api/v1/preselections/genre';
+export const DEFAULT_LANGUAGE: TDefaultLanguage = 'fr';
 
-export type TDefaultLanguage = Extract<TLang, 'en'>;
+export type TDefaultLanguage = Extract<TLang, 'fr'>;
 
 export const PADDING_GROUP = 5;
 export const PADDING_PUB = 3;
