@@ -6,10 +6,17 @@ accountLinking:
 category: EDUCATION_AND_REFERENCE
 defaultLocale: fr
 localizedSettings:
-  displayName: edrlab
-  pronunciation: edrlab
+  developerEmail: dev.edrlab@gmail.com
+  developerName: edrlab
+  displayName: valentin audio dev
+  fullDescription: lis mon live edrlab demo
+  privacyPolicyUrl: https://www.edrlab.org/lml-privacy-policy/
+  pronunciation: valentin audio dev
+  sampleInvocations:
+  - Parler avec valentin audio dev
+  - Connecter avec valentin audio dev
+  - Discuter avec valentin audio dev
+  shortDescription: lis mon livre
+  smallLogoImage: https://lh3.googleusercontent.com/IPE84cRJZSbgpkLCNMhJFkP_sbh5e18cYRvn30hVHE6nYNLfQ_9a-opqTKbQNThVPUzo8sfP1_cR
   voice: female_1
-projectId: edrlab-1
-testingInstructions: |-
-  admin
-  admin
+projectId: valentin-5

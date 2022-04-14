@@ -8,4 +8,4 @@
 
 ## gactions sdk
 
-`cd sdk && gactions pull --force --clean --project-id edrlab-1`
+`cd sdk && gactions pull --force --clean --project-id valentin-5`

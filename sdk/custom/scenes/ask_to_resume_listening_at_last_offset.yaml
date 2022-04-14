@@ -1,0 +1,9 @@
+intentEvents:
+- handler:
+    webhookHandler: ask_to_resume_listening_at_last_offset__intent__yes
+  intent: "yes"
+- handler:
+    webhookHandler: ask_to_resume_listening_at_last_offset__intent__no
+  intent: "no"
+onEnter:
+  webhookHandler: ask_to_resume_listening_at_last_offset

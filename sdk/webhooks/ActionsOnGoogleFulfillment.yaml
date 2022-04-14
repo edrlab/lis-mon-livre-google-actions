@@ -94,5 +94,5 @@ handlers:
 - name: player_prequel__silence
 - name: player_prequel__silence_end
 httpsEndpoint:
-  baseUrl: https://us-central1-edrlab-1.cloudfunctions.net/ActionsOnGoogleFulfillment
+  baseUrl: https://us-central1-valentin-5.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
