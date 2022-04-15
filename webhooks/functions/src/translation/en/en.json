@@ -125,7 +125,7 @@
       "1": "You've chosen {{- title}}{{- resume}}",
       "1-continue": ", that you have already started.",
       "1-begin": ".",
-      "2": "{{- resumeOrStart}}, listen the summary or come back to the list?",
+      "2": "{{- resumeOrStart}}, hear the summary or come back to the list?",
       "2-continue": "Do you want to resume reading",
       "2-begin": "Do you want to start reading"
     },
