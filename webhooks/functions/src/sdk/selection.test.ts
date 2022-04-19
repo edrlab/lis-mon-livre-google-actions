@@ -68,47 +68,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'selection__on_enter';
       body.scene.name = scene;
 
-
-      // TODO
-      // LOT of Code here because all messages will be in on-enter
-
-      // test si state === "running" sinon forward vers la bonne scene
-      // tant que state !=== 'finish' dire à l'utilisateur les resultats
-      // soit de groupes ou soit de publications puis demander le numéro
-      // lorsque le numéro est vérifier dans select book intent
-      // vérifier le numéro dans la state machine et afficher la proposition
-      // lorsque cela est la derniere page afficher la page en cours et dire un message
-      //
-      // ici ce trouve la machine a état de selection
-      // nécéssite surement d'étoffer les états .. au lieu de les morcelés
-
-      // state === running
-      // 1) check url
-      // 2) check page
-      // 3) if (last page) ->say
-      // 4) afficher resultat
-
-      // state === finish
-      // 1) check url
-      // 2) check page ((else an error happen (reset ? )))
-      // 3) routing table with from handler
-
-      // 1) state === running
-      // 2) vérifier url
-      // 3) vérifier page
-      // 4) afficher utilisateur
-      // 5) attendre numéro
-      // 6) checker ce numéro
-      // 7) afficher utilisateur
-      // 8) attendre num
-      // 9) check num
-      // 10) last page -> say user
-      // 11) afficher user
-      // 12) good choice user
-      // 13) machine finish
-      // 15) table de routage prochaine scene en fonction de sceneFrom
-
-      const message = `Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.`;
+      // const message = `Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.`;
 
       const pullData = parsedDataClone();
 
@@ -116,10 +76,10 @@ describe(scene + ' handler', () => {
       // pullData.session.scene.selection.state = 'DEFAULT';
       const data = await expressMocked(body, headers, pullData);
 
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       // must redirect to home_user when the state machine not initialized
-      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      data.scene.next.name.should.to.be.eq('home_user');
     });
 
     it('on enter - state running - no url', async () => {
@@ -536,10 +496,10 @@ describe(scene + ' handler', () => {
 
       // THROWS !!
 
-      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      data.scene.next.name.should.to.be.eq('home_user');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
-      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(3);
-      data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
+      // data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
     });
 
     it('on_enter - pub - state == DEFAULT should throw', async () => {
@@ -563,10 +523,10 @@ describe(scene + ' handler', () => {
 
       // THROWS !!
 
-      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      data.scene.next.name.should.to.be.eq('home_user');
       model.data.store.session.scene.selection.state.should.to.be.eq('DEFAULT');
       model.data.store.session.scene.selection.nbChoice.should.to.be.eq(0);
-      data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
+      // data.prompt.firstSimple.speech.should.to.be.eq('Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.');
     });
 
 
@@ -883,10 +843,10 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.selection.url.should.to.be.eq(''); // reset
 
       // catch trap
-      const message = 'Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.';
-      data.prompt.firstSimple.speech.should.to.be.eq(message);
+      // const message = 'Oops, something went wrong. I will exit the app. Feel free to reopen it as soon as possible.';
+      // data.prompt.firstSimple.speech.should.to.be.eq(message);
 
-      data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
+      data.scene.next.name.should.to.be.eq('home_user');
     });
 
     it('another one with machine running but next link url is good with no publication available', async () => {

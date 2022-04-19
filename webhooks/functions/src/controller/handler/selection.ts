@@ -1,6 +1,7 @@
 import { NAME, PADDING_GROUP, PADDING_PUB } from "../../constants";
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
+import { resetSessionsSelection } from "./selection.helper";
 import { missing } from "./void";
 
 export const selection = (app: Assistant) => {
@@ -123,13 +124,10 @@ export const enter: THandlerFn = async (m) => {
       // m.nextScene = "selection";
     }
   } else {
-    throw new Error("undefined selection state");
-    // @TODO
-    // reset selection session
-    // move to home user
-  }
-  // m.nextScene = "selection";
 
+    m.resetSelectionSession();
+    m.nextScene = 'home_user';
+  }
 }
 
 const selectBook: THandlerFn = async (m) => {
@@ -179,9 +177,16 @@ const anotherOne: THandlerFn = async (m) => {
   const { state, url } = m.selectionSession;
 
   if (state === "DEFAULT") {
-    throw new Error("DEFAULT mode not allowed with another one intent");
-  }
+    // throw new Error("DEFAULT mode not allowed with another one intent");
 
+    // behaviour not allowed : but in error logs : I see it 
+    // what is the best to do here ?
+
+    m.resetSelectionSession();
+    m.nextScene = 'home_user';
+    return;
+
+  }
   if (state === "RUNNING") {
 
     const kind = m.selectionSession.kind;
