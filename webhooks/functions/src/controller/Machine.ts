@@ -113,6 +113,11 @@ export class Machine {
     return this._i18n.t(key, options);
   }
 
+  public get conv() {
+    ok(this.conv);
+    return this.conv;
+  }
+
   public saidSomething(): boolean {
     return !!this._sayAcc;
   }

@@ -124,9 +124,20 @@ export const enter: THandlerFn = async (m) => {
       // m.nextScene = "selection";
     }
   } else {
+    let storeString = '';
+    let convString = ''
+    try {
+
+      storeString = JSON.stringify(m.store);
+      const { context, device, handler, home, intent, scene, session, user } = m.conv;
+      convString = JSON.stringify({ context, device, handler, home, intent, scene, session, user });
+
+    } catch {}
+    console.error("SELECTION ON ENTER DEFAULT: ", storeString, convString);
 
     m.resetSelectionSession();
     m.nextScene = 'home_user';
+
   }
 }
 
@@ -181,6 +192,17 @@ const anotherOne: THandlerFn = async (m) => {
 
     // behaviour not allowed : but in error logs : I see it 
     // what is the best to do here ?
+
+    let storeString = '';
+    let convString = ''
+    try {
+
+      storeString = JSON.stringify(m.store);
+      const { context, device, handler, home, intent, scene, session, user } = m.conv;
+      convString = JSON.stringify({ context, device, handler, home, intent, scene, session, user });
+
+    } catch {}
+    console.error("ANOTHER ONE DEFAULT: ", storeString, convString);
 
     m.resetSelectionSession();
     m.nextScene = 'home_user';
