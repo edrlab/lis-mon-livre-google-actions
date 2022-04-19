@@ -153,7 +153,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.player_prequel.from.should.be.eq('selection__on_enter');
 
       data.prompt.firstSimple.speech.should.to.be.eq('You\'ve chosen my title, that you have already started.\n' +
-      'Do you want to resume reading, listen the summary or come back to the list?\n');
+      'Do you want to resume reading, hear the summary or come back to the list?\n');
     });
     it('on enter - from selection and no playing', async () => {
       body.handler.name = 'player_prequel__on_enter';
@@ -200,7 +200,7 @@ describe(scene + ' handler', () => {
       model.data.store.session.scene.player_prequel.from.should.be.eq('selection__on_enter');
 
       data.prompt.firstSimple.speech.should.to.be.eq('You\'ve chosen my title.\n' +
-      'Do you want to start reading, listen the summary or come back to the list?\n');
+      'Do you want to start reading, hear the summary or come back to the list?\n');
     });
 
     it('back', async () => {
