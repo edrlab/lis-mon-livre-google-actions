@@ -11,6 +11,8 @@ import {ok} from 'assert';
 import {WebpubError} from '../error';
 import {AccountLinkingStatus} from '@assistant/conversation/dist/api/schema';
 
+const machineRef: Map<string, any> = new Map();
+
 export class Assistant {
   private _app: OmniHandler & BaseApp & ConversationV3App<ConversationV3>;
   private _storageModel: StorageModel | undefined;
@@ -32,7 +34,22 @@ export class Assistant {
     this._locale = DEFAULT_LANGUAGE;
 
     this._app.catch((conv, error) => {
-      console.error('APP CATCH ERROR', error);
+      let storeString = '';
+      let convString = '';
+      try {
+        const machine: Machine = machineRef.get(conv.session.id || '');
+        const store = machine.store;
+        storeString = JSON.stringify(store);
+      } catch (_e) {
+        // ignore
+      }
+      try {
+        const {context, device, handler, home, intent, scene, session, user} = conv;
+        convString = JSON.stringify({context, device, handler, home, intent, scene, session, user});
+      } catch (_e) {
+        // ignore
+      }
+      console.error('APP CATCH ERROR', error, storeString, convString, this._locale, machineRef.keys());
 
       if (conv.scene.next) {
         conv.scene.next.name = 'actions.scene.END_CONVERSATION';
@@ -40,7 +57,7 @@ export class Assistant {
 
       // error instanceOf WebpubError !== True ?! why?
       if ((error as WebpubError).code === 401) {
-        console.log('WEBPUB ERROR code 401');
+        console.error('WEBPUB ERROR code 401');
 
         if (this._locale === 'en') {
           conv.add('Sorry, it is not possible to go further. Please unlink your CELA account from your assistant, then link them again.');
@@ -71,6 +88,7 @@ export class Assistant {
     this._app.handle(path, async (conv) => {
       const timerP = new Promise<void>((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), TIMER));
       const machine = new Machine(conv);
+      machineRef.set(conv.session.id || '', machine);
 
       const locale = (conv.user.locale || '').split('-')[0];
       console.log('LOCALE=', locale);
@@ -116,6 +134,8 @@ export class Assistant {
       }
 
       await machine.end();
+
+      machineRef.delete(conv.session.id || '');
     });
   };
 

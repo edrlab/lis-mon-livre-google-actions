@@ -113,6 +113,11 @@ export class Machine {
     return this._i18n.t(key, options);
   }
 
+  public get conv() {
+    ok(this.conv);
+    return this.conv;
+  }
+
   public saidSomething(): boolean {
     return !!this._sayAcc;
   }
@@ -188,6 +193,7 @@ export class Machine {
   public async getCurrentPlayingInfo(cur = this._model?.store.player.current) {
     ok(this._model);
     ok(cur);
+    ok(cur.url, 'current url is undefined');
     const url = cur.url || '';
     const chapter = (cur.index || 0) + 1;
     const {title, author, description} = await this.getInfoFromOpdsPub(url);
@@ -568,6 +574,11 @@ export class Machine {
       return url;
     }
     return undefined;
+  }
+
+  public get store() {
+    ok(this._model);
+    return this._model.store;
   }
 
   public async player() {
