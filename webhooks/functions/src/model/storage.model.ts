@@ -2,8 +2,6 @@ import {ok} from 'assert';
 import {pull, push} from './database';
 import {StorageDto} from './storage.dto';
 
-let storageModel: StorageModel | undefined;
-
 export class StorageModel {
   private _bearer: string;
   private _storage: StorageDto;
@@ -20,13 +18,7 @@ export class StorageModel {
     const data = await pull(bearerToken);
 
     const store = StorageDto.create(bearerToken, data);
-
-    // let's to cascading the storage errors accross storage -> storageModel -> Machine -> Assistant
-    if (storageModel) {
-      console.info('storageModel already instancied');
-      return storageModel;
-    }
-    storageModel = new StorageModel(bearerToken, store);
+    const storageModel = new StorageModel(bearerToken, store);
     return storageModel;
   }
 
