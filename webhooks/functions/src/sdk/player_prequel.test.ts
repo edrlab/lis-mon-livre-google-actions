@@ -75,44 +75,7 @@ describe(scene + ' handler', () => {
       data.prompt.firstSimple.speech.should.to.be.eq(message);
       data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
     });
-    it('on enter - home_user_current_book', async () => {
-      body.handler.name = 'player_prequel__on_enter';
-      body.scene.name = scene;
 
-      const pullData = parsedDataClone();
-      pullData.player.current.index = 0;
-      pullData.player.current.time = 0;
-      pullData.player.current.url = 'http://my.url';
-
-      const feed: Partial<any> = {
-        publications: [
-          {
-            entryLinks: [{url: 'http://self.link'}],
-            openAccessLinks: [{url: 'http://webpub.link'}],
-            title: 'my title',
-          },
-        ],
-      };
-
-      const webpub: Partial<IWebPubView> = {
-        title: 'my title',
-        authors: [
-          'hello',
-          'world',
-        ],
-      };
-
-      pullData.session.scene.player_prequel.from = 'home_user__intent__current_book';
-
-      const model = await storageModelMocked(pullData);
-      const data = await expressMocked(body, headers, undefined, feed, webpub, model.data);
-
-      data.scene.next.name.should.to.be.eq('player');
-
-      model.data.store.session.scene.player_prequel.from.should.to.be.eq('main');
-      model.data.store.session.scene.player_prequel.player.should.to.be.deep.eq({}); ;
-      model.data.store.player.current.should.to.be.deep.eq(pullData.player.current);
-    });
     it('on enter - from selection and playing', async () => {
       body.handler.name = 'player_prequel__on_enter';
       body.scene.name = scene;

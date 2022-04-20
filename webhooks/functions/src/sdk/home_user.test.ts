@@ -302,7 +302,7 @@ describe('home_user handler', () => {
       const model = await storageModelMocked(pullData);
       const data = await expressMocked(body, headers, undefined, undefined, undefined, model.data);
 
-      data.scene.next.name.should.to.be.eq('player_prequel');
+      data.scene.next.name.should.to.be.eq('player');
     });
 
     it('current book not available', async () => {

@@ -3,9 +3,8 @@ import {Timestamp} from '@google-cloud/firestore';
 
 admin.initializeApp();
 
-const db = admin.firestore();
-
 export const push = async (key: string, value: FirebaseFirestore.DocumentData) => {
+  const db = admin.firestore();
   const docRef = db.collection('user-storage').doc(key);
   await docRef.set(value);
 };
@@ -29,6 +28,7 @@ const convertTimestampRecurs = (obj: {[str:string]:any}) => {
 };
 
 export const pull = async (key: string): Promise<{[str:string]:any}> => {
+  const db = admin.firestore();
   const docRef = db.collection('user-storage').doc(key);
   const doc = await docRef.get();
   const data = doc.exists ? doc.data() : undefined;
