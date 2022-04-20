@@ -115,8 +115,7 @@ const currentBook: THandlerFn = (m) => {
   const isPlaying = !!m.currentPlayingUrl;
   if (isPlaying) {
 
-    m.playerPrequelSession.from = "home_user__intent__current_book";
-    m.nextScene = 'player_prequel';
+    m.nextScene = 'player';
   } else {
 
     m.say('home_user.currentBook.1');

@@ -26,24 +26,6 @@ const enter: THandlerFn = async (m) => {
   // const fromScene = from.split("__")[0] as TSdkScene;
   // const state = m.getSessionState('player_prequel');
 
-  if (from === "home_user__intent__current_book") {
-
-    // from home user last book
-
-    // go to player direct
-    // check if playing available
-
-    m.playerPrequelSession.player = m.playerCurrent;
-    const isPlayingAvailable = m.isPlayingAvailableInPlayerPrequelSession();
-
-    if (isPlayingAvailable) {
-      m.playerPrequelSession.from = "main";
-
-      await startPlaying(m);
-      return ;
-    }
-  }
-
   // from selection
 
   // > vous avez choisi <TITLE>
