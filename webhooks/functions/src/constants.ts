@@ -1,8 +1,5 @@
 
-export let NAME = "";
-export const NAME_EN = "VALENTIN";
-export const NAME_FR = "<sub alias=\"valentin\">VALENTIN</sub>";
-export const setName = (lang: TLang) => NAME = lang === 'fr' ? NAME_FR : NAME_EN;
+export let NAME = "EOLE";
 
 export const API_BASE_URL = "https://eole.stepnet.fr/api/v1/my_list";
 export const EDRLAB_FUNCTION_URL = "https://eole.stepnet.fr/api/v1/my_list";
@@ -24,7 +21,3 @@ export const PROJECT_ID = 'valentin-5';
 export const TIMER = 8000;
 
 export type TLang = 'fr' | 'en';
-
-
-// init
-setName(DEFAULT_LANGUAGE);

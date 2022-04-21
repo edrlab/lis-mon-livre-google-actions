@@ -41,13 +41,13 @@
   },
   "info": {
     "about": {
-      "1": "La bibliothèque {{- name}} est une organisation nationale sans but lucratif créée par les bibliothèques publiques canadiennes pour défendre le droit fondamental des Canadiens souffrant de difficultés de lecture sur des supports imprimés. Ces personnes peuvent accéder à des publications numériques dans le format de leur choix, y compris l'audio, le braille, le texte électronique et la vidéo descriptive - maintenant aussi disponible via Alexa et Google Home !  Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque {{- name}} ?"
+      "1": "La bibliothèque {{- name}} est une organisation nationale à but non lucratif, acteur historique de l'aide aux personnes déficientes visuelles. L'association Valentin Haüy, créée en 1889 par Maurice de La Sizeranne et reconnue d'utilité publique en 1891, déploie depuis plus de 130 ans un grand nombre de services et d'actions à travers toute la France. Et maintenant aussi disponible via Alexa et Google Home ! Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque {{- name}} ?"
     },
     "help": {
-      "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque {{- name}}, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à votre bibliothèque locale pour obtenir de l'aide."
+      "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque {{- name}}, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à l'association Valentin Haüy pour obtenir de l'aide."
     },
     "yesOrMembership": {
-      "1": "L'inscription est facile, vous pouvez vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"biblio cahèb\">bibliocaeb</sub> point <say-as interpret-as=\"characters\">ca</say-as>. Gardez à portée de main le nom de votre bibliothèque locale et votre numéro de bibliothèque ou de SQLA, c'est tout ce dont vous aurez besoin. Vous pouvez également demander de l'aide à votre bibliothèque locale. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Lecture Accessible Canada."
+      "1": "L'inscription est facile, vous devez simplement vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"éole\">eole</sub> point <say-as interpret-as=\"characters\">avh</say-as> point asso point <say-as interpret-as=\"characters\">fr</say-as>. Allez sur la page d'inscription. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Valentin Lecture."
     }
   },
   "home_user": {
@@ -120,7 +120,7 @@
     "summarize": "Voici le résumé: {{- summary}}.",
     "noSummary": "Aucun résumé n'est disponible, j'en suis désolé.",
     "help": {
-      "1": "A tout moment vous pouvez demander la lecture du résumé du livre , demander son auteur ou obtenir le temps d'écoute restant."
+      "1": "A cette étape vous pouvez demander la lecture du résumé du livre, reprendre ou commencer la lecture."
     },
     "enter": {
       "1": "Vous avez choisi {{- title}}{{- resume}}",
@@ -149,7 +149,7 @@
   },
   "void": "au revoir!",
   "bye": {
-    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Lecture Accessible Canada, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres préférés."
+    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Valentin Lecture, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres préférés."
   },
   "fallback": {
     "1": "Je n'ai pas compris, que désirez-vous faire ?",

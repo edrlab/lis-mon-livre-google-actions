@@ -62,7 +62,7 @@ describe(scene + ' handler', () => {
       body.handler.name = 'info__on_enter';
       body.scene.name = scene;
 
-      // const message = `VALENTIN about text. Would you like to find out more about VALENTIN membership, or would you prefer to exit this skill?\n`;
+      // const message = `EOLE about text. Would you like to find out more about EOLE membership, or would you prefer to exit this skill?\n`;
 
       await expressMocked(body, headers);
 
@@ -74,7 +74,7 @@ describe(scene + ' handler', () => {
 
       const data = await expressMocked(body, headers);
 
-      const message = `<speak>Signing up is easy, you can head on over to the EDRLAB online platform at <sub alias="cela library">celalibrary</sub> dot <say-as interpret-as="characters">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the VALENTIN library via Google Assistant, by saying Hey Google, launch Accessible reading Canada.\n</speak>`;
+      const message = `<speak>Signing up is easy, you can head on over to the EDRLAB online platform at <sub alias="cela library">celalibrary</sub> dot <say-as interpret-as="characters">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the EOLE library via Google Assistant, by saying Hey Google, launch Accessible reading Canada.\n</speak>`;
       data.prompt.firstSimple.speech.should.to.be.eq(message);
 
       data.scene.next.name.should.to.be.eq('actions.scene.END_CONVERSATION');
@@ -100,7 +100,7 @@ describe(scene + ' handler', () => {
       data.scene.next.name.should.to.be.eq('info');
     });
 
-    // const help = `If you'd like to learn more about VALENTIN membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
+    // const help = `If you'd like to learn more about EOLE membership - you can ask me by saying 'membership', or simply say 'stop' to exit this skill. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?\n`;
 
     it('help', async () => {
       body.handler.name = 'info__intent__help';
