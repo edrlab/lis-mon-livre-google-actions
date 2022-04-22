@@ -95,5 +95,5 @@ handlers:
 - name: player_prequel__silence_end
 - name: player__fallback_1
 httpsEndpoint:
-  baseUrl: https://us-central1-cela-2.cloudfunctions.net/ActionsOnGoogleFulfillment
+  baseUrl: https://us-central1-cela-1.cloudfunctions.net/ActionsOnGoogleFulfillment
   endpointApiVersion: 2
