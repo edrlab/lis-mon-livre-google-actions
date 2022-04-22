@@ -2,52 +2,52 @@
   "main": {
     "welcome": {
       "noLinked": {
-        "1": "Welcome to {{- name}} Library, where you can easily access your favorite audio books."
+        "1": "Welcome to CELA Library, where you can easily access your favorite audio books."
       },
       "linked": {
-        "1": "Welcome back to your {{- name}} Library! Remember, you can ask for help at any time."
+        "1": "Welcome back to your CELA Library! Remember, you can ask for help at any time."
       }
     }
   },
   "home_new_user": {
     "enter": {
       "first": {
-        "1": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your {{- name}} account.",
+        "1": "To fully enjoy your audiobooks and access your personal bookshelf, you will need to link your CELA account.",
         "2": "Would you like to do so now?"
       }
     },
     "no": {
-      "1": "In order to read books using the {{- name}} Library via Google, you need to be a registered {{- name}} member and link your account.",
-      "2": "Would you like to learn more about the {{- name}} Library?"
+      "1": "In order to read books using the CELA Library via Google, you need to be a registered CELA member and link your account.",
+      "2": "Would you like to learn more about the CELA Library?"
     },
     "help": {
-      "1": "To fully experience {{- name}} Library, and enjoy your favorite audiobooks via Google, you'll need to connect your {{- name}} account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your {{- name}} account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of {{- name}} books for hours on end!",
+      "1": "To fully experience CELA Library, and enjoy your favorite audiobooks via Google, you'll need to connect your CELA account. To do so, answer 'yes' when prompted and follow the instructions. I will then send a connection link, that you will find into the Google Home application. You will have to log in to your CELA account. You'll only have to do this once, and you'll be all set to start enjoying the wonderful world of CELA books for hours on end!",
       "2": "Would you like to link your account right now?"
     },
     "maybeLater": {
-      "1": "In order to use the {{- name}} Library via your Google Home, you must be a registered member of {{- name}} and link your account. In the meanwhile, you can learn more about {{- name}} or quit for now.",
+      "1": "In order to use the CELA Library via your Google Home, you must be a registered member of CELA and link your account. In the meanwhile, you can learn more about CELA or quit for now.",
       "2": "What would you like to do?"
     }
   },
   "home_new_user_maybe_later": {
     "help": {
-      "1": "You can ask me to link your account, or learn more about the {{- name}} Library. You can also exit this application, by simply saying 'stop'. What is your decision?"
+      "1": "You can ask me to link your account, or learn more about the CELA Library. You can also exit this application, by simply saying 'stop'. What is your decision?"
     }
   },
   "home_new_user_no": {
     "help": {
-      "1": "In order to use the {{- name}} library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the {{- name}} Library?"
+      "1": "In order to use the CELA library via your Google Home, you must be a registered member of the library and link your account. Would you like to learn more about the CELA Library?"
     }
   },
   "info": {
     "about": {
-      "1": "{{- name}} is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about {{- name}} membership?"
+      "1": "CELA is a national non-profit organization established by Canadian public libraries to champion the fundamental right of Canadians with print disabilities to access media and reading materials in the format of their choice, including audio, braille, e-text and descriptive video. Would you like to find out more about CELA membership?"
     },
     "help": {
-      "1": "If you'd like to learn more about {{- name}} membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
+      "1": "If you'd like to learn more about CELA membership, you can ask me by simply saying Yes, or Stop to exit this google application. If you have any other questions, we recommend reaching out to your local library for support. I'm listening?"
     },
     "yesOrMembership": {
-      "1": "Signing up is easy, you can head on over to the CELA online platform at <sub alias=\"cela library\">celalibrary</sub> dot <say-as interpret-as=\"characters\">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the {{- name}} library via Google Assistant, by saying Hey Google, launch Accessible reading Canada."
+      "1": "Signing up is easy, you can head on over to the CELA online platform at <sub alias=\"cela library\">celalibrary</sub> dot <say-as interpret-as=\"characters\">ca</say-as>. Keep the name of your local library and your library or SQLA number handy, that's all you'll need. You can also ask for help at your local library. As soon as your membership is activated, you can come back to  start using the CELA library via Google Assistant, by saying Hey Google, launch Accessible reading Canada."
     }
   },
   "home_user": {
@@ -79,7 +79,7 @@
       "2": "In the meanwhile, is there another title or author you'd like to search for?"
     },
     "empty": {
-      "1": "It seems like the book you are looking for is currently unavailable in the {{- name}} Library.",
+      "1": "It seems like the book you are looking for is currently unavailable in the CELA Library.",
       "2": "You can suggest books for us to add at {{- website}}."
     }
   },

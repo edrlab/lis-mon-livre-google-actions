@@ -1,4 +1,4 @@
-import { NAME, PADDING_GROUP, PADDING_PUB } from "../../constants";
+import { PADDING_GROUP, PADDING_PUB } from "../../constants";
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { resetSessionsSelection } from "./selection.helper";
@@ -32,7 +32,7 @@ export const enter: THandlerFn = async (m) => {
     const isEmpty = !isAvailable;
     if (isEmpty) {
       if (handler === "search__on_enter") {
-        m.say("search.empty.1", {name: NAME});
+        m.say("search.empty.1");
         m.nextScene = "home_user"; // FIX GACTIONS ISSUE : INFINE LOOP CONTROL
         m.searchSession.query = '';
         m.searchSession.state = 'RUNNING';

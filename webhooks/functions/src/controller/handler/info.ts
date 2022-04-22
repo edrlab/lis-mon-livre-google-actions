@@ -1,4 +1,4 @@
-import { NAME } from "../../constants";
+
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";
@@ -18,12 +18,12 @@ export const info = (app: Assistant) => {
 }
 
 const enter: THandlerFn = (m) => {
-  m.say('info.about.1', {name: NAME});
+  m.say('info.about.1');
 }
 
 const membership: THandlerFn = (m) => {
 
-  m.say('info.yesOrMembership.1', {name: NAME});
+  m.say('info.yesOrMembership.1');
 
   m.nextScene = "actions.scene.END_CONVERSATION";
 };
@@ -37,7 +37,7 @@ const no: THandlerFn = (m) => {
 
 const help: THandlerFn = (m) => {
 
-  // m.say('info.help.1', {name: NAME});
+  // m.say('info.help.1');
 
   m.nextScene = "info";
 }

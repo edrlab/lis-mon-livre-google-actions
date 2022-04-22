@@ -1,4 +1,4 @@
-import { NAME } from "../../constants";
+
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";
@@ -18,20 +18,20 @@ export const home_new_user_no = (app: Assistant) => {
 }
 
 const enter: THandlerFn = (m) => {
-  m.say('home_new_user.no.1', {name: NAME});
-  m.say('home_new_user.no.2', {name: NAME});
+  m.say('home_new_user.no.1');
+  m.say('home_new_user.no.2');
 }
 
 const help: THandlerFn = (m) => {
 
-  m.say("home_new_user_no.help.1", {name: NAME});
+  m.say("home_new_user_no.help.1");
 
   m.nextScene = "home_new_user_no";
 }
 
 const yes: THandlerFn = (m) => {
 
-  // m.say("info.about.1", {name: NAME});
+  // m.say("info.about.1");
 
   m.nextScene = "info";
 }

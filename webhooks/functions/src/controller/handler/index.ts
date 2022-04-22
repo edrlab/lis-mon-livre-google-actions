@@ -1,4 +1,4 @@
-import { NAME } from "../../constants";
+
 import { Assistant } from "../Assistant";
 import { collections } from "./collections";
 import { home_new_user } from "./home_new_user";
@@ -19,7 +19,7 @@ export const handler = (app = new Assistant({})) => {
   app.handle('cancel', (m) => {
 
     m.persistMediaPlayer();
-    m.say('bye.1', {name: NAME}); 
+    m.say('bye.1'); 
   });
 
   app.handle('fallback_1', (m) => {
@@ -35,7 +35,7 @@ export const handler = (app = new Assistant({})) => {
   app.handle('fallback_end', (m) => {
 
     m.persistMediaPlayer();
-    m.say('bye.1', {name: NAME}); 
+    m.say('bye.1'); 
   });
 
   app.handle('silence_1', (m) => {
@@ -51,7 +51,7 @@ export const handler = (app = new Assistant({})) => {
   app.handle('silence_end', (m) => {
 
     m.persistMediaPlayer();
-    m.say('bye.1', {name: NAME}); 
+    m.say('bye.1'); 
   });
 
   home_user(app);
