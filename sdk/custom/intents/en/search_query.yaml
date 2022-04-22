@@ -1,4 +1,0 @@
-trainingPhrases:
-- ($query 'To  kill a mockingbird by Harper Lee' auto=false)
-- ($query 'Wild by Cheryl Strayed' auto=false)
-- ($query 'The Little Prince by Antoine de Saint-Exupéry' auto=false)
