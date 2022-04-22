@@ -1,4 +1,4 @@
-import { BOOKSHELF_URL, GENRE_LIST_URL, NAME, PADDING_PUB } from "../../constants";
+import { BOOKSHELF_URL, PADDING_PUB } from "../../constants";
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";
@@ -45,8 +45,8 @@ const enter: THandlerFn = async (m) => {
 
   } else if (newlyLinked) {
 
-    m.say("home_user.enter.newlyUser.1", { name: NAME });
-    m.say("home_user.enter.newlyUser.2", { name: NAME });
+    m.say("home_user.enter.newlyUser.1");
+    m.say("home_user.enter.newlyUser.2");
 
   } else if (playing) {
 

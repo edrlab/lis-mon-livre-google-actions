@@ -23,6 +23,9 @@ const yaml = `intentEvents:
 - handler:
     webhookHandler: player__intent__media_status_failed
   intent: actions.intent.MEDIA_STATUS_FAILED
+- handler:
+    webhookHandler: player__fallback_1
+  intent: actions.intent.NO_MATCH_1
 onEnter:
   webhookHandler: player__on_enter
 `;

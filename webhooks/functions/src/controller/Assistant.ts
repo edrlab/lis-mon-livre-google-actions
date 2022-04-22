@@ -1,6 +1,6 @@
 import {BaseApp, conversation, ConversationV3, ConversationV3App, OmniHandler} from '@assistant/conversation';
 import {OpdsFetcher} from 'opds-fetcher-parser';
-import {DEFAULT_LANGUAGE, PROJECT_ID, setName, TIMER, TLang} from '../constants';
+import {DEFAULT_LANGUAGE, PROJECT_ID, TIMER, TLang} from '../constants';
 import {StorageModel} from '../model/storage.model';
 import {THandlerFn} from '../type';
 import {TSdkHandler} from '../typings/sdkHandler';
@@ -93,7 +93,6 @@ export class Assistant {
       const locale = (conv.user.locale || '').split('-')[0];
       console.log('LOCALE=', locale);
       ok(locale === 'fr' || locale === 'en', 'locale not known ' + locale);
-      setName(locale);
       this._locale = locale;
 
       await machine.setLanguage(locale);

@@ -1,4 +1,4 @@
-import { BOOKSHELF_URL, GENRE_LIST_URL, NAME, THEMATIC_LIST_URL } from "../../constants";
+import { BOOKSHELF_URL, GENRE_LIST_URL, THEMATIC_LIST_URL } from "../../constants";
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";

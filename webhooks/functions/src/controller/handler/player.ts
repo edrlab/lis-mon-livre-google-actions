@@ -8,6 +8,7 @@ export const player = (app: Assistant) => {
   app.handle("player__intent__media_status_finished", finished);
   app.handle("player__intent__media_status_paused", paused);
   app.handle("player__intent__media_status_failed", failed);
+  app.handle("player__fallback_1", fallback);
 
 }
 
@@ -46,3 +47,11 @@ const finished: THandlerFn = async (m) => {
 
   m.nextScene = "home_user";
 };
+
+const fallback: THandlerFn =async (m) => {
+
+  m.persistMediaPlayer();
+  m.mediaPlayerAck();
+
+  m.nextScene = 'player';
+}

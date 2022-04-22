@@ -1,4 +1,4 @@
-import { NAME } from "../../constants";
+
 import { THandlerFn } from "../../type";
 import { Assistant } from "../Assistant";
 import { missing } from "./void";
@@ -21,7 +21,7 @@ const enter: THandlerFn = (m) => {
   // m.say("home_new_user.maybeLater.1", { name: NAME });
   // m.say("home_new_user.maybeLater.2", { name: NAME });
 
-  m.say("home_new_user_maybe_later.help.1", {name: NAME});
+  m.say("home_new_user_maybe_later.help.1");
 }
 
 const linkAccount: THandlerFn = (m) => {
@@ -31,7 +31,7 @@ const linkAccount: THandlerFn = (m) => {
 
 const help: THandlerFn = (m) => {
 
-  // m.say("home_new_user_maybe_later.help.1", {name: NAME});
+  // m.say("home_new_user_maybe_later.help.1");
 
   m.nextScene = "home_new_user_maybe_later";
 }

@@ -1,5 +1,5 @@
 import { AccountLinkingStatus } from "@assistant/conversation/dist/api/schema";
-import { NAME } from "../../constants";
+
 import { TMachine } from "../../type";
 
 export const main = (machine: TMachine) => {
@@ -8,7 +8,7 @@ export const main = (machine: TMachine) => {
 
   if (isLinked === AccountLinkingStatus.Linked) {
 
-    machine.say("main.welcome.linked.1", { name: NAME});
+    machine.say("main.welcome.linked.1");
 
     if (machine.authenticationState === "NO_LINKED") {
       machine.authenticationState = "NEWLY_LINKED";
@@ -19,7 +19,7 @@ export const main = (machine: TMachine) => {
     machine.nextScene = "home_user";
   } else {
 
-    machine.say("main.welcome.noLinked.1", { name: NAME});
+    machine.say("main.welcome.noLinked.1");
 
     // machine.authenticationState = "NO_LINKED";
 
