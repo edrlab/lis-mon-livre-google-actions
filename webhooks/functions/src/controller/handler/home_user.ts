@@ -51,7 +51,8 @@ const enter: THandlerFn = async (m) => {
   } else if (playing) {
 
     const {title, chapter, author} = await m.getCurrentPlayingInfo();
-    const readingNumber = m.playingNumber - 1;
+    const readingNumberNotCapped = m.playingNumber - 1; // Minus 1 to not count current book
+    const readingNumber = readingNumberNotCapped > 3 ? 3 : readingNumberNotCapped;
 
     m.say("home_user.enter.playing.1", {chapterNumber: chapter, titleAndAuthor: `${title}${author ? `, ${author}` : ''}`});
     if (readingNumber > 0) {
