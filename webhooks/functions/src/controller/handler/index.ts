@@ -18,13 +18,17 @@ export const handler = (app = new Assistant({})) => {
 
   app.handle('cancel', (m) => {
 
-    m.persistMediaPlayer();
+    if (m.isLinked) {
+      m.persistMediaPlayer();
+    }
     m.say('bye.1'); 
   });
 
   app.handle('fallback_1', (m) => {
 
-    m.persistMediaPlayer();
+    if (m.isLinked) {
+      m.persistMediaPlayer();
+    }
     m.say('fallback.1');
   });
 
@@ -34,13 +38,17 @@ export const handler = (app = new Assistant({})) => {
 
   app.handle('fallback_end', (m) => {
 
-    m.persistMediaPlayer();
-    m.say('bye.1'); 
+    if (m.isLinked) {
+      m.persistMediaPlayer();
+    }
+    m.say('bye.1');
   });
 
   app.handle('silence_1', (m) => {
 
-    m.persistMediaPlayer();
+    if (m.isLinked) {
+      m.persistMediaPlayer();
+    }
     m.say('silence.1');
   });
 
@@ -50,7 +58,9 @@ export const handler = (app = new Assistant({})) => {
 
   app.handle('silence_end', (m) => {
 
-    m.persistMediaPlayer();
+    if (m.isLinked) {
+      m.persistMediaPlayer();
+    }
     m.say('bye.1'); 
   });
 
