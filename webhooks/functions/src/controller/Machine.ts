@@ -8,7 +8,7 @@ import {IConversationV3, TSdkScene2} from '../type';
 import {resetSelection} from './handler/selection.helper';
 import validator from 'validator';
 import {Media} from '@assistant/conversation';
-import {MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
+import {AccountLinkingStatus, MediaType, OptionalMediaControl} from '@assistant/conversation/dist/api/schema';
 import {IOpdsPublicationView, IOpdsResultView} from 'opds-fetcher-parser/build/src/interface/opds';
 import {TSdkHandler} from '../typings/sdkHandler';
 import {WebpubError} from '../error';
@@ -123,7 +123,7 @@ export class Machine {
   }
 
   public get isLinked() {
-    return this._conv.user.accountLinkingStatus;
+    return this._conv.user.accountLinkingStatus === AccountLinkingStatus.Linked;
   }
 
   public setLanguage(locale: TLang) {

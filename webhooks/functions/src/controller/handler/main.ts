@@ -5,8 +5,7 @@ import { TMachine } from "../../type";
 export const main = (machine: TMachine) => {
 
   const isLinked = machine.isLinked;
-
-  if (isLinked === AccountLinkingStatus.Linked) {
+  if (isLinked) {
 
     machine.say("main.welcome.linked.1");
 
