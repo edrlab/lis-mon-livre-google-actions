@@ -654,7 +654,7 @@ export class Machine {
       const {pathname} = url;
       const id = dirname(pathname).split('/smartspeakerv1/')[1];
 
-      const tracker = 'https://celalibrary.ca/smartspeakerv1/issue-a-title/' + id;
+      const tracker = `https://celalibrary.ca/smartspeakerv1/issue-a-title/${id}?req-src='google'`;
 
       console.info('request TRACKER=', tracker);
       await this.webpubRequest(tracker);
