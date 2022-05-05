@@ -1,6 +1,6 @@
 import {BaseApp, conversation, ConversationV3, ConversationV3App, OmniHandler} from '@assistant/conversation';
 import {OpdsFetcher} from 'opds-fetcher-parser';
-import {DEFAULT_LANGUAGE, PROJECT_ID, TIMER, TLang} from '../constants';
+import {DEFAULT_LANGUAGE, PROJECT_ID, TLang} from '../constants';
 import {StorageModel} from '../model/storage.model';
 import {THandlerFn} from '../type';
 import {TSdkHandler} from '../typings/sdkHandler';
@@ -86,7 +86,6 @@ export class Assistant {
 
   public handle = (path: TSdkHandler, fn: THandlerFn) => {
     this._app.handle(path, async (conv) => {
-      const timerP = new Promise<void>((_, rej) => setTimeout(() => rej(new Error('TIMEOUT')), TIMER));
       const machine = new Machine(conv);
       machineRef.set(conv.session.id || '', machine);
 
@@ -123,13 +122,13 @@ export class Assistant {
 
       await machine.begin({bearerToken, storageModel: this._storageModel, fetcher: this._fetcher, path});
 
-      await Promise.race([timerP, Promise.resolve(fn(machine))]);
+      await Promise.resolve(fn(machine));
 
       // HACK
       // google actions platform doesn't allow to set the same next scene name than the actual in the 'on_enter' handler scene
       // it's a platform limitation for a basic infinite loop I think
       if (path === 'selection__intent__selects_book' && conv.scene.next?.name as TSdkScene === 'selection' && machine.getSessionState('selection') === 'FINISH') {
-        await Promise.race([timerP, Promise.resolve(selectionEnter(machine))]);
+        await Promise.resolve(selectionEnter(machine));
       }
 
       await machine.end();
