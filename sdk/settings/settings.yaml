@@ -8,37 +8,26 @@ defaultLocale: fr
 localizedSettings:
   developerEmail: aide@bibliocaeb.ca
   developerName: bibliocaeb
-  displayName: Lecture Accessible Canada
-  fullDescription: "Êtes-vous membre du Centre d'Accès Équitable aux Bibliothèques
-    (CAÉB) ? L'application Lecture Accessible Canada vous donne alors accès à une
-    bibliothèque de milliers de livres audio de multiples catégories. \n     Vous
-    pouvez écouter l'un de vos titres ou auteurs préférés, commencer un des livres
-    présélectionnés de votre liste, ou partir a la recherche d'une nouveauté encore
-    à découvrir. \n     Dites simplement \"Hey Google, je veux parler à Lecture accessible
-    Canada\" pour commencer à naviguer !\n     Besoin d'aide? Dites « aide » à tout
-    moment dans l'application et nous vous remettrons sur la bonne voie !\n     Pendant
-    la lecture de votre livre, vous pouvez mettre le lecteur en pause, reprendre la
-    lecture ou naviguer de piste à piste.\n     Lors de votre première utilisation,
-    Google vous demandra de connecter votre compte CAÉB. Il vous suffit  de dire 'oui'
-    puis de suivre les instructions pas-à-pas. Une notification sera envoyée à votre
-    appareil mobile, dans l'application Google Home, vous invitant à vous connecter
-    à votre compte CAÉB. Vous n'aurez à le faire qu'une seule fois, et vous serez
-    prêt à commencer à profiter de votre bibliothèque CAÉB pendant des heures !\n
-    \    Besoin d'aide? Nos bibliothécaires se tiennent a votre disposition dans votre
-    bibliothèque locale, ou par email à contact@cela.ca"
+  displayName: guadeloupe
+  fullDescription: |-
+    Êtes-vous un utilisateur du Center for Equitable Library Access (CELA) ? L'application CELA Library vous donne accès à une bibliothèque audio de milliers de livres audio, dans plusieurs catégories. Choisissez l'un de vos auteurs ou livres préférés, choisissez un titre déjà sur votre étagère CELA ou découvrez un nouveau favori. Veuillez noter que la bibliothèque de l'ACDE est accessible aux personnes au Canada incapables de lire les imprimés.
+    Dites simplement "Hey Google, parlez à Lecture accessible Canada" pour commencer à écouter !
+    Besoin d'aide? Dites simplement « aide » à tout moment dans la compétence et nous vous remettrons sur la bonne voie !
+    Pendant que vous écoutez votre livre audio, vous pouvez demander à Google de "mettre en pause" ou de "reprendre" à tout moment, comme ça !
+    Vous voulez emporter un livre au lit ? Aucun problème! Demandez simplement à Alexa de lire votre livre pendant la durée de votre choix – en disant « Hey Google, Lecture accessible Canada pour reprendre mon dernier livre pendant 20 minutes ».
+    Pour profiter des livres audio via Google, vous devez connecter votre compte CELA. Pour ce faire, répondez « oui » lorsque vous y êtes invité et suivez les instructions. Une notification sera envoyée à votre appareil mobile, vous invitant à vous connecter à votre compte CELA. Vous n'aurez à le faire qu'une seule fois, et vous serez prêt à commencer à profiter du monde merveilleux des livres CELA pendant des heures !
   privacyPolicyUrl: https://bibliocaeb.ca/privacy
-  pronunciation: Lecture Accessible Canada
+  pronunciation: guadeloupe
   sampleInvocations:
-  - Parler à Lecture Accessible Canada
-  - Parler avec Lecture Accessible Canada
-  - Je veux me connecter à Lecture Accessible Canada
-  shortDescription: Utilisez Lecture Accessible Canada pour écouter les livres audio
-    de la bibliothèque CAÉB.
-  smallLogoImage: https://lh3.googleusercontent.com/DHoAZ67gIS412_mNttidLaJ5zKff-d3K946s0fgdRG9cDviUN8gkTejtX48ITZKOkcWdndtt7NYW
+  - Parler avec edrlab
+  shortDescription: Utilisez la bibliothèque CELA pour écouter des livres audio.
+  smallLogoImage: https://lh3.googleusercontent.com/URQ_E-wxMdUfuq5C8rnCLi8c6hpFNrwvMJ7PGGfULzVSqjPctRU6TLVwgTz5O45uv9SwVJmQGgeO
   voice: female_1
-projectId: cela-1
+projectId: cela-2
 surfaceRequirements:
   minimumRequirements:
   - capability: AUDIO_OUTPUT
   - capability: MEDIA_RESPONSE_AUDIO
-testingInstructions: 303715 / EDRLabs123456
+testingInstructions: |-
+  303715 / EDRLabs123456
+  122664 / EDRLabs123456
