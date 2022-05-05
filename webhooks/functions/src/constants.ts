@@ -15,7 +15,7 @@ export const PADDING_GROUP = 5;
 export const PADDING_PUB = 3;
 export const LAST_SEEN_THRESHOLD = 72;
 
-export const PROJECT_ID = 'cela-2';
+export const PROJECT_ID = 'cela-1';
 
 
 export type TLang = 'fr' | 'en';
