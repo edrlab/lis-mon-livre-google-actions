@@ -73,10 +73,12 @@ export class Machine {
           accessToken: bearerToken,
           authenticationUrl: API_BASE_URL,
         });
-        authenticationStorage.setAuthenticationToken({
-          accessToken: bearerToken,
-          authenticationUrl: EDRLAB_FUNCTION_URL,
-        });
+        if (EDRLAB_FUNCTION_URL) {
+          authenticationStorage.setAuthenticationToken({
+            accessToken: bearerToken,
+            authenticationUrl: EDRLAB_FUNCTION_URL,
+          });
+        }
         const http = new httpOpdsFetcherParser(undefined, authenticationStorage, this._locale);
         this._fetcher = new OpdsFetcher(http);
       }

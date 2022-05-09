@@ -1,13 +1,13 @@
 
 export let NAME = "EOLE";
 
-export const API_BASE_URL = "https://eole.stepnet.fr/api/v1/my_list";
-export const EDRLAB_FUNCTION_URL = "https://eole.stepnet.fr/api/v1/my_list";
-export const BOOKSHELF_URL = 'https://eole.stepnet.fr/api/v1/my_list';
-export const SEARCH_URL = 'https://eole.stepnet.fr/api/v1/search?q={query}';
+export const API_BASE_URL = "https://eole-recette.avh.asso.fr/api/v1/my_list";
+export const EDRLAB_FUNCTION_URL = "";
+export const BOOKSHELF_URL = 'https://eole-recette.avh.asso.fr/api/v1/my_list';
+export const SEARCH_URL = 'https://eole-recette.avh.asso.fr/api/v1/search?search={query}';
 export const SEARCH_URL_FN = (value: string) => SEARCH_URL.replace("{query}", value);
-export const THEMATIC_LIST_URL = 'https://eole.stepnet.fr/api/v1/preselections/thematique';
-export const GENRE_LIST_URL = 'https://eole.stepnet.fr/api/v1/preselections/genre';
+export const THEMATIC_LIST_URL = 'https://eole-recette.avh.asso.fr/api/v1/preselections/thematique';
+export const GENRE_LIST_URL = 'https://eole-recette.avh.asso.fr/api/v1/preselections/genre';
 export const DEFAULT_LANGUAGE: TDefaultLanguage = 'fr';
 
 export type TDefaultLanguage = Extract<TLang, 'fr'>;
