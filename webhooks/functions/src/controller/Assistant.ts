@@ -45,7 +45,7 @@ export class Assistant {
         if (this._locale === 'en') {
           conv.add('Sorry, it is not possible to go further. Please unlink your EDRLAB account from your assistant, then link them again.');
         } else if (this._locale === 'fr') {
-          conv.add('Désolé, impossible d\'aller plus loin : dissociez votre compte CAÉB de votre assistant puis ré-associez les.');
+          conv.add('Désolé, impossible d\'aller plus loin : dissociez votre compte EOLE de votre assistant puis ré-associez les.');
         }
       } else {
         if (this._locale === 'en') {
