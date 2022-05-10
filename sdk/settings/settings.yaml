@@ -6,10 +6,44 @@ accountLinking:
 category: EDUCATION_AND_REFERENCE
 defaultLocale: fr
 localizedSettings:
-  displayName: martinique
-  pronunciation: martinique
+  developerEmail: mediatheque@avh.asso.fr
+  developerName: Association Valentin Haüy
+  displayName: Valentin Lecture
+  fullDescription: "Avec Valentin Lecture, écoutez les livres audio de l’Association
+    Valentin Haüy.\nÉole, la bibliothèque numérique de la Médiathèque Valentin Haüy,
+    propose plus de 60 000 titres en tout genre (https://eole.avh.asso.fr/moteur-de-recherche/audio).\nAvec
+    Valentin Lecture, retrouvez les derniers best-sellers, vos auteurs préférés ou
+    laissez-vous guider par les sélections de nos bibliothécaires. \nValentin Lecture
+    est destinée à toute personne qui ne peut pas lire du fait d’un handicap, d’un
+    trouble cognitif, qu’il s’agisse de déficience visuelle, de dyslexie ou autre.
+    \nPour accéder à votre bibliothèque, dites simplement « Okay Google, je veux parler
+    à \nValentin Lecture ». \nÀ la première utilisation, vous devrez vous identifier
+    comme sur Éole. Ce ne sera plus nécessaire les fois suivantes. \nCela fait, l’Assistant
+    Google vous proposera de choisir vos lectures :\n - Pour découvrir les nouveautés,
+    dites « nouveautés »\n - Pour accéder à nos sélections, dites « sélections » \n
+    - Pour accéder à votre liste personnelle Éole, dites « ma liste » \n - Pour effectuer
+    une recherche, dites « chercher » \n\nUne fois la lecture lancée :\n - Pour mettre
+    en pause, dites « pause »\n - Pour accéder au chapitre suivant, dites « suivant
+    »\n - Pour accéder au chapitre précédent, dites « précédent »\n - Pour arrêter
+    la lecture, dites « stop »\nC’est votre première utilisation ? À tout moment,
+    dites « aide » et nous vous expliquons tout.\n\nVous n’avez pas compris les mots
+    de l’Assistant ou vous souhaitez réentendre ? \nDites « incompris » ou « répéter
+    ».\n\nPré-requis : \nÊtre inscrit aux services de la Médiathèque Valentin Haüy.
+    Pour en savoir plus sur les modalités d’inscription : https://eole.avh.asso.fr/aide/comment-sinscrire-sur-%C3%A9ole"
+  privacyPolicyUrl: https://eole.avh.asso.fr/mentions-l%C3%A9gales
+  pronunciation: Valentin Lecture
+  sampleInvocations:
+  - Parler avec Valentin Lecture
+  - Je veux parler avec Valentin Lecture
+  shortDescription: Un handicap vous empêche de lire ? Les livres de l'Association
+    Valentin Haüy sont à  portée de voix.
+  smallLogoImage: https://lh3.googleusercontent.com/gSi4crOR5yTGauup_3oedexSzWfkTUE8nbb06Mlr4uZvUs53FObJBzFJp5yMFieZiluIuDN5fcEw
   voice: female_1
 projectId: valentin-4
+surfaceRequirements:
+  minimumRequirements:
+  - capability: AUDIO_OUTPUT
+  - capability: MEDIA_RESPONSE_AUDIO
 testingInstructions: |-
   edrlab@email.com
   edrlab
