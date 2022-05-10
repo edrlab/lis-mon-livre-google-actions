@@ -1,0 +1,32 @@
+
+name: webhooks unitary tests
+
+on:
+  push:
+    branches: [ develop, avh-prod, avh-dev, cela-prod, cela-dev ]
+    #    paths:
+  pull_request:
+    branches: [ develop, avh-prod, avh-dev, cela-prod, cela-dev ]
+
+jobs:
+  sdk-test-prod:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [12, 14, 16]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    defaults:
+      run:
+        working-directory: './webhooks/functions'
+    name: Node ${{ matrix.node }} webhooks unitary tests
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node -v
+      - run: npm -v
+      - run: find . -type f
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint

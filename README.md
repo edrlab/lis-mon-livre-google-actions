@@ -6,10 +6,6 @@
   - https://console.actions.google.com/u/1/project/valentin-4/overview
   - https://console.cloud.google.com/logs/query?referrer=search&authuser=1&project=valentin-4
 
+## gactions sdk
 
-! NOT IN PRODUCTION - see avh-dev ! 
-
-
-## gactions
-
-`cd sdk && gactions pull --force --clean --project-id valentin-4`
+`cd sdk && gactions pull --force --clean --project-id valentin-4

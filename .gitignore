@@ -1,0 +1,10 @@
+
+.DS_Store
+**/*.swp
+
+node_modules
+service_account.json
+
+.nyc_output/
+firebase-debug.log
+ui-debug.log

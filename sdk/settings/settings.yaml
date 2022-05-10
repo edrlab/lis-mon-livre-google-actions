@@ -1,0 +1,15 @@
+accountLinking:
+  appClientId: "123456"
+  authGrantType: IMPLICIT
+  authorizationUrl: https://eole-recette.avh.asso.fr/implicit/login
+  linkingType: OAUTH
+category: EDUCATION_AND_REFERENCE
+defaultLocale: fr
+localizedSettings:
+  displayName: martinique
+  pronunciation: martinique
+  voice: female_1
+projectId: valentin-4
+testingInstructions: |-
+  edrlab@email.com
+  edrlab

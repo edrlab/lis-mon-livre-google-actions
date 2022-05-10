@@ -1,0 +1,167 @@
+{
+  "main": {
+    "welcome": {
+      "noLinked": {
+        "1": "Bienvenue dans la bibliothèque {{- name}}, où vous pouvez accéder facilement à vos livres favoris. "
+      },
+      "linked": {
+        "1": "Bienvenue dans votre bibliothèque {{- name}} !"
+      }
+    }
+  },
+  "home_new_user": {
+    "enter": {
+      "first": {
+        "1": "Pour profiter de vos livres et accéder à votre liste personnelle, vous devez lier votre compte {{- name}}.",
+        "2": "Voulez-vous le faire maintenant ?"
+      }
+    },
+    "no": {
+      "1": "Afin de lire des livres à l'aide de la bibliothèque {{- name}} via Google, vous devez être un membre enregistré de la bibliothèque {{- name}} et vous devez lier votre compte.",
+      "2": "Voulez-vous en savoir plus sur l'adhésion à {{- name}} ?"
+    },
+    "help": {
+      "1": "Pour découvrir la bibliothèque {{- name}} et profiter de vos livres préférés via Google, vous devez connecter votre compte {{- name}}. Pour ce faire, répondez \" oui \" lorsque vous y êtes invité et suivez les instructions. Je vous enverrai alors un lien de connexion, que vous retrouverez dans l'application Google Home. Vous devrez vous connecter à votre compte {{- name}}. Vous n'aurez à le faire qu'une seule fois, et vous pourrez profiter du monde merveilleux des livres de {{- name}} pendant des heures !",
+      "2": "Voulez-vous lier votre compte maintenant ?"
+    },
+    "maybeLater": {
+      "1": "Afin d'utiliser la bibliothèque {{- name}} via votre Google Home, vous devez être un membre enregistré de cette bibliothèque et lier votre compte. En attendant, vous pouvez en savoir plus sur la bibliothèque {{- name}} ou quitter l'application pour le moment.",
+      "2": "Que préférez-vous faire ?"
+    }
+  },
+  "home_new_user_maybe_later": {
+    "help": {
+      "1": "Vous pouvez me demander de lier votre compte, ou en apprendre plus sur la bibliothèque {{- name}}. Vous pouvez également quitter cette application en disant simplement \"Quitter\". Que décidez-vous ?"
+    }
+  },
+  "home_new_user_no": {
+    "help": {
+      "1": "Afin d'utiliser la bibliothèque {{- name}} via votre Google Home, vous devez être un membre enregistré de cette bibliothèque et lier votre compte. Voulez-vous en savoir plus sur la bibliothèque {{- name}} ?"
+    }
+  },
+  "info": {
+    "about": {
+      "1": "La bibliothèque {{- name}} est une organisation nationale à but non lucratif, acteur historique de l'aide aux personnes déficientes visuelles. L'association Valentin Haüy, créée en 1889 par Maurice de La Sizeranne et reconnue d'utilité publique en 1891, déploie depuis plus de 130 ans un grand nombre de services et d'actions à travers toute la France. Et maintenant aussi disponible via Alexa et Google Home ! Souhaitez-vous en savoir plus sur les possibilité d'inscription à la bibliothèque {{- name}} ?"
+    },
+    "help": {
+      "1": "Si vous voulez en savoir plus sur les possibilités d'adhésion à la bibliothèque {{- name}}, vous pouvez le me demander en disant simplement Oui, ou bien Quitter pour quitter cette application. Si vous avez d'autres questions, nous vous recommandons de vous adresser à l'association Valentin Haüy pour obtenir de l'aide."
+    },
+    "yesOrMembership": {
+      "1": "L'inscription est facile, vous devez simplement vous rendre sur la plateforme en ligne de la bibliothèque {{- name}} à l'adresse <sub alias=\"éole\">eole</sub> point <say-as interpret-as=\"characters\">avh</say-as> point asso point <say-as interpret-as=\"characters\">fr</say-as>. Allez sur la page d'inscription. Dès que votre adhésion est activée, vous pouvez revenir pour commencer à utiliser la bibliothèque {{- name}} via Google Assistant, en disant Hey Google, je veux parler à Valentin Lecture."
+    }
+  },
+  "home_user": {
+    "enter": {
+      "newlyUser": {
+        "1": "Félicitations ! Vous avez réussi à connecter votre compte et vous pouvez maintenant accéder à tous vos livres préférés ! Rappelez-vous, vous pouvez demander de l'aide à tout instant.",
+        "2": "Souhaitez-vous consulter votre liste personnelle, ou naviguer dans nos collections ? Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur."
+      },
+      "playing": {
+        "1": "Vous êtes en train d'écouter le chapitre {{- chapterNumber}} de {{- titleAndAuthor}}, que vous pouvez reprendre maintenant.",
+        "2": "Vous avez également {{- readingNumber}} autres livres récents, que je peux lister.",
+        "3": "Et bien entendu, "
+      },
+      "regular": {
+        "1": "Vous pouvez consulter votre liste personnelle, ou naviguer dans nos collections. Vous pouvez également rechercher un livre en prononçant cherche suivi d'un titre de livre ou d'un auteur.",
+        "2": "Reprendre la lecture. Livres récents. Liste personnelle. Collections. Chercher un livre : que désirez-vous faire ?"
+      }
+    },
+    "currentBook": {
+      "1": "Il n'y a rien à lire"
+    },
+    "help": {
+      "1": "A cette étape, Vous pouvez reprendre la lecture du livre en cours par la commande Reprendre la lecture, ou consulter les livres récemment écoutés par la commande Mes livres récents. Vous pouvez également consulter la liste des livres que vous avez sélectionnés avec l'aide d'un bibliothécaire par la commande Liste personnelle, naviguer dans nos collections prédéfinies par la commande collections. Vous pouvez enfin rechercher un livre en prononçant Cherche suivi d'un titre ou d'une partie du titre, d'un auteur, ou bien les deux.",
+      "2": "Que préférez-vous faire : Reprendre la lecture. Livres récents. Liste personnelle. Collections ou Chercher ?"
+    }
+  },
+  "search": {
+    "enter": {
+      "1": "Quel titre ou auteur recherchez-vous ?",
+      "2": "En attendant, y a-t-il un autre titre ou auteur que vous aimeriez rechercher ?"
+    },
+    "empty": {
+      "1": "Il semble que le livre que vous recherchez soit actuellement indisponible dans la bibliothèque {{- name}}.",
+      "2": "Vous pouvez nous suggérer des livres à ajouter à {{- website}}."
+    }
+  },
+  "selection": {
+    "enter": {
+      "bookshelf": {
+        "first": "Voici les {{- number}} premiers titres de votre liste personnelle :",
+        "second": "Ou peut-être souhaitez-vous explorer les autres titres de votre liste personnelle ?"
+      },
+      "search": "J'ai trouvé {{- number}} livres avec ce titre.",
+      "collection": {
+        "publication": "J'ai trouvé {{- number}} livres.",
+        "group": "J'ai trouvé {{- number}} groupes."
+      },
+      "lastPage": {
+        "publication": "Voici les derniers livres disponibles:",
+        "group": "Voici les derniers groupes disponibles:",
+        "notAvailable": "Aucun autre résultat disponible."
+      },
+      "common": {
+        "1": "Choisissez l'un de ces éléments en donnant son numéro.",
+        "2": "Numéro {{- symbol}} : {{- title}}.",
+        "3": "Quel numéro choisissez-vous ?"
+      },
+      "nextPage": {
+        "1": "Ou demandez la page suivante."
+      },
+      "empty": {
+        "1": "En fait, il n'y a rien à lire ici pour le moment. Mais ne vous inquiétez pas, nous pouvons arranger ça tout de suite !"
+      }
+    },
+    "help": {
+      "1": "A cette étape, vous devez choisir un titre parmi ceux proposés, en mentionnant son numéro, par exemple numéro 1. Vous pouvez aussi demander d'autres titres par les commandes Suivants ou Précédents."
+    }
+  },
+  "player_prequel": {
+    "summarize": "Voici le résumé: {{- summary}}.",
+    "noSummary": "Aucun résumé n'est disponible, j'en suis désolé.",
+    "help": {
+      "1": "A cette étape vous pouvez demander la lecture du résumé du livre, reprendre ou commencer la lecture."
+    },
+    "enter": {
+      "1": "Vous avez choisi {{- title}}{{- resume}}",
+      "1-continue": " que vous aviez déja commencé.",
+      "1-begin": ".",
+      "2": "{{- resumeOrStart}}, écouter le résumé, ou revenir à la liste précédente ?",
+      "2-continue": "Voulez-vous reprendre la lecture",
+      "2-begin": "Voulez-vous commencer la lecture"
+    },
+    "summary": {
+      "1": "Voulez-vous commencer la lecture ou revenir à la liste précédente ?"
+    }
+  },
+  "player": {
+    "explain": "Excellent choix ! Avant de commencer, laissez-moi vous rappeler comment fonctionne ce lecteur. Vous pouvez mettre votre lecture en attente à tout moment en disant 'Google, Pause'. 'Google, Lecture' vous permettra de reprendre votre lecture là où vous l'avez pausée. Vous pouvez également naviguer entre les chapitres en disant 'Hey Google, suivant' ou 'Hey Google, précédent' à tout moment.",
+    "start": "Voici donc {{- title}}.",
+    "start2": "Reprenons la lecture de {{- title}}."
+  },
+  "collections": {
+    "enter": {
+      "1": "Très bien. Préférez-vous obtenir une sélection de livres par thème ou par genre ?"
+    },
+    "help": {
+      "1": "Pour entendre un aperçu des thèmes disponibles, dites par thème. Pour un aperçu des genres disponibles, dites par genre."
+    }
+  },
+  "void": "au revoir!",
+  "bye": {
+    "1": "Très bien. Souvenez-vous : si vous avez besoin d'aide pour utiliser l'application Valentin Lecture, nos bibliothécaires sont à votre service. Nous espérons que vous reviendrez bientôt pour profiter de vos livres préférés."
+  },
+  "fallback": {
+    "1": "Je n'ai pas compris, que désirez-vous faire ?",
+    "2": "Désolé, je n'ai vraiment pas compris. Pouvez-vous tenter un dernière fois s'il vous plait ?"
+  },
+  "silence": {
+    "1": "Je n'ai pas entendu.",
+    "2": "Désolé, je n'entends vraiment pas bien."
+  },
+  "error": {
+    "1": "Oups, quelque chose s'est mal passé. Je vous renvoie au menu d'accueil.",
+    "noBearerTokenInLinkedScene": "Un problème est survenu lors de l'authentification, veuillez réessayer plus tard."
+  },
+  "noTitle": "Aucun titre disponible"
+}
