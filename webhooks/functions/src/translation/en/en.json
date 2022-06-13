@@ -148,7 +148,7 @@
   },
   "void": "Bye!",
   "bye": {
-    "1": "Good bye! Remember, if you need help using the Accessible Reading Canada application, {{-name}} staff are at your service. We hope you will come back soon to enjoy your favourite audio books."
+    "1": "Good bye! Remember, if you need help using the Accessible Reading Canada application, staff are at your service. We hope you will come back soon to enjoy your favourite audio books."
   },
   "fallback": {
     "1": "I did not understand, what would you like to do?",
