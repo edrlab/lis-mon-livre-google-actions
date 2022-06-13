@@ -97,7 +97,7 @@
       "lastPage": {
         "publication": "Here's the last available books.",
         "group": "Here's the last available groups.",
-        "notAvailable": "no another results available."
+        "notAvailable": "There is no other result."
       },
       "common": {
         "1": "Pick one of these by requesting the corresponding number.",
