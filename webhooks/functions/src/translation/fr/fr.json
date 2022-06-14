@@ -153,7 +153,7 @@
   },
   "fallback": {
     "1": "Je n'ai pas compris, que désirez-vous faire ?",
-    "2": "Désolé, je n'ai vraiment pas compris. Pouvez-vous tenter un dernière fois s'il vous plait ?"
+    "2": "Désolé, je n'ai vraiment pas compris. Pouvez-vous tenter une dernière fois s'il vous plait ?"
   },
   "silence": {
     "1": "Je n'ai pas entendu.",
