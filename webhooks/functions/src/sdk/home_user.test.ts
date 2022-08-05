@@ -269,6 +269,10 @@ describe('home_user handler', () => {
         2: {index: 0, time: 0, date: new Date()},
         3: {index: 0, time: 0, date: new Date()},
         4: {index: 0, time: 0, date: new Date()},
+        5: {index: 0, time: 0, date: new Date()},
+        6: {index: 0, time: 0, date: new Date()},
+        7: {index: 0, time: 0, date: new Date()},
+        8: {index: 0, time: 0, date: new Date()},
       };
       // pullData.player.history.set("1", {index: 0, time: 0, date: new Date()});
       // pullData.player.history.set("2", {index: 0, time: 0, date: new Date()});
@@ -287,7 +291,7 @@ describe('home_user handler', () => {
       const data = await expressMocked(body, headers, undefined, undefined, webpub, model.data);
 
       data.scene.next.name.should.to.be.eq('selection');
-      model.data.store.session.scene.selection.url.should.to.be.eq('data://["1","2","3"]');
+      model.data.store.session.scene.selection.url.should.to.be.eq('data://["1","2","3","4","5"]');
       model.data.store.session.scene.selection.kind.should.to.be.eq('PUBLICATION');
       model.data.store.session.scene.selection.state.should.to.be.eq('RUNNING');
     });
